@@ -34,6 +34,6 @@
   "backup": {
     "enabled": true,
     "location": ".files_organizer/backups",
-    "keep_days": 30
+    "keep_days": 60
   }
 }
