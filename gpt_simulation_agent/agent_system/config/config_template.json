@@ -33,6 +33,11 @@
       "guardrails": "string"
     }
   },
+  "model": {
+    "preference": "auto",
+    "options": ["auto", "gpt-4", "gpt-4-turbo", "gpt-4o", "gpt-3.5-turbo"],
+    "note": "In GPT Builder, go to 'Model' section to change from AUTO to specific model. If only AUTO is available, check your OpenAI subscription tier."
+  },
   "capabilities": {
     "web_browsing": false,
     "code_interpreter": false,

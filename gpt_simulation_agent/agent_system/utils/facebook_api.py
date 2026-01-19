@@ -205,7 +205,7 @@ class FacebookAPIClient:
                 "post_id": data.get("post_id", ""),
             },
             "engagement": {
-                "likes": data.get("like_count") if "like_count" in data else data.get("likes", {}).get("summary", {}).get("total_count", 0),
+                "likes": data.get("like_count") if data.get("like_count") is not None else data.get("likes", {}).get("summary", {}).get("total_count", 0),
                 "replies": data.get("comment_count", 0),
                 "shares": data.get("shares", {}).get("count", 0) if isinstance(data.get("shares"), dict) else 0,
             },
