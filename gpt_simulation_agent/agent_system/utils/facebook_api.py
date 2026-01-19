@@ -241,6 +241,10 @@ class FacebookAPIClient:
         """
         Get like count from data, handling both like_count and nested likes structure.
         
+        Note: This method treats like_count=0 as a valid count (zero likes).
+        The original implementation used 'or' which would fall back to nested structure
+        when like_count was 0, but that was incorrect behavior - 0 is a valid count.
+        
         Args:
             data: Raw Facebook API data
             
@@ -250,6 +254,7 @@ class FacebookAPIClient:
         like_count = data.get("like_count")
         if like_count is not None:
             # like_count exists and is not None (including 0 as valid count)
+            # This fixes the bug where 0 was treated as falsy by 'or' operator
             return int(like_count) if like_count != "" else 0
         
         # Fall back to nested structure
