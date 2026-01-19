@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "name": "string",
+    "role": "string",
+    "personality": {
+      "tone": "string",
+      "style": "string",
+      "personalization_rules": {}
+    },
+    "objective": "string"
+  },
+  "knowledge_base": {
+    "files": [],
+    "hierarchy": {
+      "nivel_1_master": [],
+      "nivel_2_validation": [],
+      "nivel_3_dynamic": [],
+      "nivel_4_support": []
+    },
+    "source_of_truth": "string",
+    "conflict_resolution": "string"
+  },
+  "system_instructions": {
+    "full_text": "string",
+    "sections": {
+      "identity": "string",
+      "personalization": "string",
+      "source_of_truth": "string",
+      "interaction_style": "string",
+      "quotation_process": "string",
+      "business_rules": "string",
+      "special_commands": "string",
+      "guardrails": "string"
+    }
+  },
+  "capabilities": {
+    "web_browsing": false,
+    "code_interpreter": false,
+    "image_generation": false,
+    "canvas": false
+  },
+  "actions": {
+    "enabled": false,
+    "schemas": [],
+    "authentication": {}
+  },
+  "business_rules": {
+    "currency": "string",
+    "tax_rate": 0.0,
+    "minimum_slope": 0.0,
+    "shipping_policy": "string"
+  },
+  "formulas": {
+    "quotation": {},
+    "calculations": {}
+  },
+  "products": {
+    "specifications": {},
+    "pricing": {},
+    "technical_rules": {}
+  },
+  "metadata": {
+    "version": "string",
+    "created_at": "string",
+    "last_updated": "string",
+    "extraction_confidence": 0.0,
+    "missing_fields": []
+  }
+}

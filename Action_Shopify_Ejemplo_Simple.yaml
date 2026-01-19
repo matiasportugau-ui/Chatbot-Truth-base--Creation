@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: BMC Shopify Product API
+  description: API para consultar productos y precios de BMC Uruguay desde Shopify
+  version: 1.0.0
+servers:
+  - url: https://bmcuruguay.com.uy
+    description: BMC Uruguay Shopify Store
+
+paths:
+  /admin/api/2024-01/products.json:
+    get:
+      summary: Obtener lista de productos
+      description: Consulta productos de Shopify con sus precios y variantes
+      operationId: getProducts
+      parameters:
+        - name: handle
+          in: query
+          description: Handle del producto (ej: isodec-eps-techo, isopanel-eps-paredes-y-fachadas)
+          required: false
+          schema:
+            type: string
+        - name: product_type
+          in: query
+          description: Tipo de producto
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Número máximo de productos a retornar (máximo 250)
+          required: false
+          schema:
+            type: integer
+            default: 50
+            maximum: 250
+      security:
+        - ShopifyAdminAuth: []
+      responses:
+        '200':
+          description: Lista de productos exitosamente obtenida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '401':
+          description: No autorizado - verificar credenciales
+        '404':
+          description: Producto no encontrado
+
+  /admin/api/2024-01/products/{product_id}.json:
+    get:
+      summary: Obtener producto específico por ID
+      description: Obtiene información detallada de un producto incluyendo todas sus variantes y stock
+      operationId: getProductById
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: ID numérico del producto en Shopify
+          schema:
+            type: integer
+      security:
+        - ShopifyAdminAuth: []
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único del producto en Shopify
+        title:
+          type: string
+          description: Nombre del producto
+          example: "ISODEC EPS (Techos y Cubiertas) / 100 - 150 - 200 - 250 mm."
+        handle:
+          type: string
+          description: Handle único del producto (usado en URLs)
+          example: "isopanel-isodec-eps-cubiertas-bmc-reloaded"
+        vendor:
+          type: string
+          description: Proveedor del producto
+        product_type:
+          type: string
+          description: Tipo de producto
+          example: "Panel Aislante"
+        variants:
+          type: array
+          description: Lista de variantes del producto (espesores, colores, etc.)
+          items:
+            $ref: '#/components/schemas/Variant'
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              src:
+                type: string
+                format: uri
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [active, archived, draft]
+
+    Variant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único de la variante
+        title:
+          type: string
+          description: Título de la variante
+          example: "100 mm / Gris"
+        price:
+          type: string
+          description: Precio en formato string (ej: "46.07")
+        compare_at_price:
+          type: string
+          nullable: true
+          description: Precio de comparación (precio anterior)
+        sku:
+          type: string
+          description: SKU del producto
+        inventory_quantity:
+          type: integer
+          description: Cantidad disponible en stock
+        available:
+          type: boolean
+          description: Si el producto está disponible para venta
+        option1:
+          type: string
+          description: Primera opción (ej: "100 mm")
+        option2:
+          type: string
+          nullable: true
+          description: Segunda opción (ej: "Gris")
+        option3:
+          type: string
+          nullable: true
+          description: Tercera opción
+
+  securitySchemes:
+    ShopifyAdminAuth:
+      type: http
+      scheme: basic
+      description: |
+        Autenticación HTTP Basic usando:
+        - Username: Tu Shopify API Key
+        - Password: Tu Shopify API Secret Key
+        
+        O alternativamente, usar header:
+        X-Shopify-Access-Token: tu_access_token

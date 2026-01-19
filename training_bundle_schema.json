@@ -1,0 +1,439 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bmcuruguay.com.uy/schemas/training-bundle-v1.0.0.json",
+  "title": "Panelin Training Bundle Schema",
+  "description": "Schema para validar bundles de entrenamiento de Panelin (BMC Assistant Pro) - Formato bundle único con instructions + conversations",
+  "type": "object",
+  "required": ["meta", "instructions", "conversations"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "created_at", "training_type", "locale"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Versión semántica del bundle (ej: 1.0.0)"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO-8601 timestamp de creación"
+        },
+        "training_type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["classification", "generation", "both"]
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Tipos de entrenamiento: clasificación (intención/sentimiento), generación (respuestas), o ambos"
+        },
+        "locale": {
+          "type": "string",
+          "pattern": "^[a-z]{2}-[A-Z]{2}$",
+          "description": "Locale ISO (ej: es-UY)"
+        },
+        "source": {
+          "type": "string",
+          "description": "Origen de los datos (ej: 'chatgpt_export', 'manual_curation', 'ledger_consolidation')"
+        },
+        "total_conversations": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Número total de conversaciones en el bundle"
+        },
+        "total_messages": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Número total de mensajes (user + assistant)"
+        },
+        "date_range": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "instructions": {
+      "type": "object",
+      "required": ["system_prompt", "personality"],
+      "properties": {
+        "system_prompt": {
+          "type": "string",
+          "minLength": 100,
+          "description": "Prompt del sistema completo (instrucciones base de Panelin)"
+        },
+        "personality": {
+          "type": "object",
+          "required": ["name", "role", "tone"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "Panelin"
+            },
+            "role": {
+              "type": "string",
+              "description": "Rol del asistente (ej: 'Experto técnico en cotizaciones y sistemas constructivos BMC')"
+            },
+            "tone": {
+              "type": "string",
+              "description": "Tono de comunicación (ej: 'Profesional, técnico pero accesible')"
+            },
+            "customization_rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["user_name", "concept"],
+                "properties": {
+                  "user_name": {
+                    "type": "string"
+                  },
+                  "concept": {
+                    "type": "string",
+                    "description": "Concepto guía para personalización (nunca prearmado)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "source_of_truth": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "description": "Archivo fuente de verdad principal"
+            },
+            "hierarchy": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "business_rules": {
+          "type": "object",
+          "properties": {
+            "currency": {
+              "type": "string",
+              "default": "USD"
+            },
+            "iva_rate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": 0.22
+            },
+            "minimum_slope": {
+              "type": "string",
+              "default": "7%"
+            }
+          }
+        },
+        "quotation_process": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "conversations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "messages"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_-]+$",
+            "description": "ID único de la conversación"
+          },
+          "messages": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["role", "content"],
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": ["user", "assistant", "system"],
+                  "description": "Rol del mensaje: user (cliente), assistant (Panelin), system (instrucciones)"
+                },
+                "content": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Contenido del mensaje"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "ISO-8601 timestamp del mensaje"
+                },
+                "metadata": {
+                  "type": "object",
+                  "properties": {
+                    "message_ref": {
+                      "type": "string",
+                      "pattern": "^msg_\\d+_(user|panelin|system)$",
+                      "description": "Referencia del mensaje (ej: msg_001_user)"
+                    },
+                    "source": {
+                      "type": "string",
+                      "description": "Fuente del mensaje (ej: 'chatgpt', 'whatsapp', 'manual')"
+                    },
+                    "user_name": {
+                      "type": "string",
+                      "description": "Nombre del usuario (si aplica)"
+                    }
+                  }
+                },
+                "annotations": {
+                  "type": "object",
+                  "properties": {
+                    "intent": {
+                      "type": "string",
+                      "enum": [
+                        "quotation_request",
+                        "technical_consultation",
+                        "product_inquiry",
+                        "price_check",
+                        "greeting",
+                        "personalization",
+                        "sop_command",
+                        "correction",
+                        "other"
+                      ],
+                      "description": "Intención del mensaje (para clasificación)"
+                    },
+                    "sentiment": {
+                      "type": "string",
+                      "enum": ["positive", "neutral", "negative"],
+                      "description": "Sentimiento del mensaje (para clasificación)"
+                    },
+                    "entities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": ["product", "dimension", "price", "location", "date", "person"]
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "confidence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          }
+                        }
+                      }
+                    },
+                    "requires_knowledge_base": {
+                      "type": "boolean",
+                      "description": "Si el mensaje requiere consultar la knowledge base"
+                    },
+                    "knowledge_base_files_used": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Archivos de KB consultados para generar esta respuesta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "conversation_type": {
+                "type": "string",
+                "enum": ["quotation", "consultation", "support", "training", "correction"],
+                "description": "Tipo de conversación"
+              },
+              "user_name": {
+                "type": "string",
+                "description": "Nombre del usuario en esta conversación"
+              },
+              "outcome": {
+                "type": "string",
+                "enum": ["completed", "incomplete", "abandoned", "error"],
+                "description": "Resultado de la conversación"
+              },
+              "quotation_generated": {
+                "type": "boolean",
+                "description": "Si se generó una cotización en esta conversación"
+              },
+              "pdf_generated": {
+                "type": "boolean",
+                "description": "Si se generó un PDF en esta conversación"
+              },
+              "corrections_made": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Número de correcciones realizadas"
+              },
+              "sop_commands_used": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["/estado", "/checkpoint", "/consolidar"]
+                }
+              },
+              "date_range": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "end": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "ledger_updates": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Número de actualizaciones al Ledger"
+              }
+            }
+          },
+          "quality_scores": {
+            "type": "object",
+            "properties": {
+              "completeness": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Score de completitud (0-1)"
+              },
+              "accuracy": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Score de precisión (0-1)"
+              },
+              "relevance": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Score de relevancia (0-1)"
+              },
+              "annotated": {
+                "type": "boolean",
+                "description": "Si la conversación tiene anotaciones completas"
+              }
+            }
+          }
+        }
+      }
+    },
+    "validation_report": {
+      "type": "object",
+      "properties": {
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "role_mapping_valid": {
+          "type": "boolean"
+        },
+        "kpis": {
+          "type": "object",
+          "properties": {
+            "total_conversations": {
+              "type": "integer"
+            },
+            "total_messages": {
+              "type": "integer"
+            },
+            "user_messages": {
+              "type": "integer"
+            },
+            "assistant_messages": {
+              "type": "integer"
+            },
+            "annotated_conversations": {
+              "type": "integer"
+            },
+            "annotation_coverage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["error", "warning", "info"]
+              }
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
