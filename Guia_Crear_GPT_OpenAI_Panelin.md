@@ -210,6 +210,89 @@ En la sección **"Knowledge"**, haz clic en **"Upload files"** y sube:
 
 ---
 
+## 🤖 Paso 4.5: Configurar Modelo (IMPORTANTE - Solución al problema de AUTO)
+
+### ⚠️ Problema Común: Solo puedes seleccionar "AUTO"
+
+Si en el GPT Builder solo ves la opción "AUTO" y no puedes seleccionar modelos específicos (GPT-4, GPT-4 Turbo, etc.), sigue estos pasos:
+
+### Solución 1: Cambiar Modelo en la Interfaz
+
+1. En el GPT Builder, ve a la pestaña **"Configure"**
+2. Busca la sección **"Model"** o **"Modelo recomendado"** (puede estar en la parte superior o inferior)
+3. Haz clic en el dropdown que dice **"AUTO"**
+4. Deberías ver opciones como:
+   - **GPT-4** (recomendado para tareas complejas)
+   - **GPT-4 Turbo** (más rápido, buena calidad)
+   - **GPT-4o** (última versión, mejor rendimiento)
+   - **GPT-3.5 Turbo** (más económico, menos potente)
+   - **AUTO** (deja que OpenAI elija)
+
+### Solución 2: Si no aparece el dropdown de modelos
+
+**Causa posible**: Tu plan de OpenAI puede no incluir acceso a modelos específicos.
+
+**Verifica tu plan**:
+- **ChatGPT Plus**: Debería tener acceso a GPT-4
+- **ChatGPT Team/Enterprise**: Acceso completo a todos los modelos
+- **ChatGPT Free**: Solo AUTO disponible
+
+**Cómo verificar**:
+1. Ve a [chatgpt.com](https://chatgpt.com)
+2. Haz clic en tu nombre → **"Settings"** → **"Plan"**
+3. Verifica qué plan tienes activo
+
+### Solución 3: Usar la API directamente (Alternativa)
+
+Si el GPT Builder no te permite cambiar el modelo, puedes usar la API de OpenAI directamente:
+
+```python
+# Ejemplo usando OpenAI API
+import openai
+
+client = openai.OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4",  # Puedes especificar el modelo aquí
+    messages=[
+        {"role": "system", "content": "Eres Panelin..."},
+        {"role": "user", "content": "Hola"}
+    ]
+)
+```
+
+### Solución 4: Forzar modelo en las Instrucciones del Sistema
+
+Aunque no puedas cambiar el modelo en la UI, puedes agregar esta instrucción al inicio de tus "Instructions":
+
+```
+# CONFIGURACIÓN DE MODELO
+Este GPT debe usar preferentemente GPT-4 o GPT-4 Turbo para garantizar:
+- Precisión en cálculos técnicos
+- Comprensión de contexto complejo
+- Generación de cotizaciones detalladas
+- Análisis de especificaciones técnicas
+
+Si el usuario solicita un modelo específico, informa que la selección de modelo se gestiona desde la configuración del GPT Builder.
+```
+
+### Recomendación para Panelin
+
+**Modelo recomendado**: **GPT-4** o **GPT-4 Turbo**
+
+**Razones**:
+- ✅ Mejor comprensión de instrucciones complejas
+- ✅ Mayor precisión en cálculos técnicos (autoportancia, fórmulas)
+- ✅ Mejor manejo de contexto largo (knowledge base grande)
+- ✅ Respuestas más consistentes con la fuente de verdad
+
+**Cuándo usar AUTO**:
+- Si quieres que OpenAI optimice automáticamente
+- Si tienes límites de costo y quieres balance automático
+- Si no necesitas máxima precisión técnica
+
+---
+
 ## 🛠️ Paso 5: Habilitar Capacidades (Capabilities)
 
 En la sección **"Capabilities"**, habilita:

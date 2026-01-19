@@ -205,7 +205,7 @@ class FacebookAPIClient:
                 "post_id": data.get("post_id", ""),
             },
             "engagement": {
-                "likes": data.get("like_count") if data.get("like_count") is not None else data.get("likes", {}).get("summary", {}).get("total_count", 0),
+                "likes": self._get_like_count(data),
                 "replies": data.get("comment_count", 0),
                 "shares": data.get("shares", {}).get("count", 0) if isinstance(data.get("shares"), dict) else 0,
             },
@@ -236,6 +236,32 @@ class FacebookAPIClient:
                     raise
 
         return {}
+
+    def _get_like_count(self, data: Dict) -> int:
+        """
+        Get like count from data, handling both like_count and nested likes structure.
+        
+        Args:
+            data: Raw Facebook API data
+            
+        Returns:
+            Like count as integer (never None)
+        """
+        like_count = data.get("like_count")
+        if like_count is not None:
+            # like_count exists and is not None (including 0 as valid count)
+            return int(like_count) if like_count != "" else 0
+        
+        # Fall back to nested structure
+        likes_data = data.get("likes", {})
+        if isinstance(likes_data, dict):
+            summary = likes_data.get("summary", {})
+            if isinstance(summary, dict):
+                total_count = summary.get("total_count")
+                if total_count is not None:
+                    return int(total_count) if total_count != "" else 0
+        
+        return 0
 
     def _parse_timestamp(self, timestamp_str: Optional[str]) -> str:
         """Parse Facebook timestamp to ISO-8601"""

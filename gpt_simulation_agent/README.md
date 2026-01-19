@@ -24,6 +24,7 @@ python example_usage.py
 
 - **[QUICKSTART.md](QUICKSTART.md)** - 3-step setup guide
 - **[USAGE.md](USAGE.md)** - Complete usage documentation
+- **[../TROUBLESHOOTING_MODEL_SELECTION.md](../TROUBLESHOOTING_MODEL_SELECTION.md)** - Troubleshooting model selection issues in GPT Builder
 
 ## Project Structure
 

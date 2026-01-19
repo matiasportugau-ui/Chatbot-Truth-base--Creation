@@ -1,0 +1,55 @@
+{
+  "rules": [
+    {
+      "category": "documentation",
+      "extensions": [".md", ".txt", ".rtf", ".rst"],
+      "patterns": ["README", "CHANGELOG", "LICENSE", "CONTRIBUTING", "GUIDE", "MANUAL"],
+      "target_folder": "docs",
+      "subfolders": {
+        "architecture": ["ARCHITECTURE", "DESIGN", "SYSTEM"],
+        "guides": ["GUIDE", "MANUAL", "TUTORIAL", "HOWTO"],
+        "configuration": ["CONFIG", "SETUP", "INSTALL"],
+        "knowledge_base": ["KNOWLEDGE", "BASE", "TRUTH"]
+      }
+    },
+    {
+      "category": "configuration",
+      "extensions": [".yaml", ".yml", ".json", ".toml", ".ini", ".cfg"],
+      "patterns": ["config", "settings", "setup"],
+      "target_folder": "config",
+      "subfolders": {}
+    },
+    {
+      "category": "code",
+      "extensions": [".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rs"],
+      "patterns": [],
+      "target_folder": "src",
+      "subfolders": {
+        "agents": ["agent", "bot"],
+        "validators": ["validator", "validate", "check"],
+        "utils": ["util", "helper", "tool"]
+      }
+    },
+    {
+      "category": "data",
+      "extensions": [".json", ".csv", ".xml", ".parquet"],
+      "patterns": ["data", "dataset", "training", "bundle"],
+      "target_folder": "data",
+      "subfolders": {
+        "training": ["training", "train"],
+        "bundles": ["bundle"],
+        "knowledge": ["knowledge", "truth", "base"]
+      }
+    },
+    {
+      "category": "output",
+      "extensions": [".log", ".out", ".report"],
+      "patterns": ["output", "log", "report", "analytics"],
+      "target_folder": "output",
+      "subfolders": {}
+    }
+  ],
+  "default_folder": "misc",
+  "archive_folder": "archived",
+  "archive_by_month": true
+}

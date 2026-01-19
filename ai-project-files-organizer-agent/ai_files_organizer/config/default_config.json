@@ -1,0 +1,39 @@
+{
+  "monitoring": {
+    "realtime": true,
+    "periodic_interval_hours": 24,
+    "scan_on_startup": true
+  },
+  "versioning": {
+    "format": "ddmm_vN",
+    "auto_increment": true,
+    "add_to_existing": true
+  },
+  "outdated_detection": {
+    "days_threshold": 90,
+    "check_content": true,
+    "check_references": true
+  },
+  "folder_structure": {
+    "rules_file": "folder_rules.json",
+    "auto_create_folders": true
+  },
+  "approval": {
+    "require_approval": true,
+    "batch_mode": true,
+    "timeout_seconds": 3600
+  },
+  "git": {
+    "enabled": true,
+    "require_approval": true,
+    "conventional_commits": true,
+    "auto_stage": false,
+    "auto_commit": false,
+    "auto_push": false
+  },
+  "backup": {
+    "enabled": true,
+    "location": ".files_organizer/backups",
+    "keep_days": 30
+  }
+}
