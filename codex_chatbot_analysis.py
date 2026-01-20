@@ -583,7 +583,7 @@ class ChatbotCodexAnalyzer:
         return ""
     
     def _find_knowledge_base_files(self) -> List[str]:
-        """Find all knowledge base files recursively in workspace and subdirectories"""
+        """Find all knowledge base files"""
         kb_patterns = [
             "*Base_Conocimiento*.json",
             "*Unificada*.json",
@@ -595,9 +595,7 @@ class ChatbotCodexAnalyzer:
         
         files = []
         for pattern in kb_patterns:
-            # Use rglob for recursive search to find files in subdirectories
-            # rglob automatically searches recursively through all subdirectories
-            files.extend([str(f.relative_to(self.workspace_path)) for f in self.workspace_path.rglob(pattern)])
+            files.extend([str(f.name) for f in self.workspace_path.glob(pattern)])
         
         return list(set(files))
     

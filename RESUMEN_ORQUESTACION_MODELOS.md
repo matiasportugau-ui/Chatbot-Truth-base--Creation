@@ -1,135 +1,179 @@
 # ✅ Resumen: Orquestación Multi-Modelo
 
-## 🎯 Sistema Implementado
+## 🎯 Análisis Completado
 
-He creado un **sistema de orquestación** que asigna el mejor modelo de IA para cada procedimiento:
-
-### 📊 Asignación de Modelos por Rol
-
-| Rol | Modelo | Tarea | Razón |
-|-----|--------|-------|-------|
-| **InputProcessor** | 🥇 Gemini | Revisar inputs CSV | Procesamiento de datos estructurados, gratis |
-| **QuotationCalculator** | 🥇 OpenAI GPT-4 | Generar presupuestos | Precisión en cálculos matemáticos |
-| **PDFFinder** | 🥇 Gemini | Buscar PDFs reales | Búsqueda y correlación eficiente, gratis |
-| **PDFExtractor** | 🥇 Gemini | Extraer datos de PDFs | Procesamiento de documentos, multimodal |
-| **ResultComparator** | 🥇 OpenAI GPT-4 | Comparar resultados | Precisión numérica |
-| **DifferenceAnalyzer** | 🥇 Claude | Analizar diferencias | Razonamiento complejo, análisis cualitativo |
-| **LearningEngine** | 🥇 Claude | Aprender de diferencias | Razonamiento abstracto, generación de insights |
-| **KnowledgeInterpreter** | 🥇 Claude | Interpretar variables | Comprensión de contexto, correlación |
+He analizado todos los procedimientos y asignado el modelo óptimo para cada uno:
 
 ---
 
-## 🏗️ Arquitectura
+## 📊 Asignaciones por Procedimiento
 
+| Procedimiento | Modelo Principal | Modelo Alternativo | Prioridad | Razón |
+|---------------|------------------|-------------------|-----------|-------|
+| **Revisión Inputs** | OpenAI GPT-4 | Gemini | Alta | Code Interpreter excelente para parsing |
+| **Generación Presupuestos** | OpenAI GPT-4 | Motor Python | Crítica | Cálculos precisos, Function Calling |
+| **Búsqueda PDFs** | Claude | OpenAI | Media | Razonamiento para matching inteligente |
+| **Extracción Datos** | OpenAI GPT-4 | Gemini | Alta | Code Interpreter, multimodal |
+| **Comparación** | OpenAI GPT-4 | Motor Python | Alta | Cálculos precisos |
+| **Análisis Diferencias** | Claude | OpenAI | Media | Razonamiento profundo |
+| **Aprendizaje** | Claude | OpenAI | Baja | Síntesis, insights |
+| **Cotización Real-time** | OpenAI GPT-4 | Claude | Crítica | Function Calling nativo |
+| **Validación Técnica** | OpenAI GPT-4 | Motor Python | Crítica | Validación matemática |
+| **Presentación** | Claude | OpenAI | Media | Comunicación natural |
+
+---
+
+## 🏗️ Arquitectura Implementada
+
+### Orquestador Multi-Modelo (`orquestador_multi_modelo.py`)
+
+**Características:**
+- ✅ Asignación automática según procedimiento
+- ✅ Fallback inteligente si modelo principal no disponible
+- ✅ Verificación de disponibilidad de APIs
+- ✅ Handlers específicos por modelo y procedimiento
+
+**Flujo:**
 ```
-┌─────────────────────────────────────────┐
-│   ORQUESTADOR MULTI-MODELO               │
-│   (Coordina modelos por tarea)          │
-└─────────────────────────────────────────┘
-           │
-           ├─── Gemini (Gratis)
-           │    ├─── InputProcessor
-           │    ├─── PDFFinder
-           │    └─── PDFExtractor
-           │
-           ├─── OpenAI GPT-4 ($$)
-           │    ├─── QuotationCalculator
-           │    └─── ResultComparator
-           │
-           └─── Claude ($$)
-                ├─── DifferenceAnalyzer
-                ├─── LearningEngine
-                └─── KnowledgeInterpreter
+Procedimiento → Orquestador → Modelo Óptimo → Ejecución → Resultado
+                    ↓ (si falla)
+                Modelo Alternativo → Ejecución → Resultado
+                    ↓ (si falla)
+                Motor Python → Ejecución → Resultado
 ```
 
 ---
 
-## 💰 Optimización de Costos
+## 🎯 Roles Asignados
 
-**Estrategia:**
-- **Gemini (Gratis)**: 3 de 8 tareas = 37.5% de tareas gratis
-- **OpenAI GPT-4 ($$)**: 2 de 8 tareas = 25% de tareas críticas
-- **Claude ($$)**: 3 de 8 tareas = 37.5% de análisis complejos
+### OpenAI GPT-4 (Especialista en Cálculos y Estructura)
+**Tareas:**
+- ✅ Parsing de datos (CSV, Excel)
+- ✅ Cálculos matemáticos
+- ✅ Extracción de datos
+- ✅ Validación técnica
+- ✅ Cotización en tiempo real
 
-**Ahorro estimado:** ~40-50% usando Gemini para tareas batch
+**Fortalezas:**
+- Code Interpreter nativo
+- Function Calling robusto
+- Integración perfecta
+
+### Claude (Especialista en Análisis y Comunicación)
+**Tareas:**
+- ✅ Búsqueda inteligente de PDFs
+- ✅ Análisis de diferencias
+- ✅ Aprendizaje y lecciones
+- ✅ Presentación profesional
+- ✅ Síntesis y mejora continua
+
+**Fortalezas:**
+- Razonamiento profundo
+- Comunicación natural
+- Análisis contextual
+
+### Gemini (Especialista en Procesamiento)
+**Tareas:**
+- ✅ Backup para tareas básicas
+- ✅ PDFs con imágenes (multimodal)
+- ✅ Desarrollo/testing (gratis)
+
+**Fortalezas:**
+- Gratis para desarrollo
+- Multimodal
+- Rápido para tareas simples
+
+### Motor Python (Especialista en Precisión)
+**Tareas:**
+- ✅ Cálculos críticos
+- ✅ Validación matemática
+- ✅ Fallback cuando APIs no disponibles
+
+**Fortalezas:**
+- Precisión máxima
+- Sin dependencias de API
+- Siempre disponible
 
 ---
 
-## ✅ Ventajas
+## 💡 Ventajas del Sistema
 
-1. ✅ **Optimización de Costos**: Gemini gratis para tareas batch
-2. ✅ **Mejor Precisión**: Cada modelo en su fortaleza
-3. ✅ **Redundancia**: Si un modelo falla, puede usar otro
-4. ✅ **Escalabilidad**: Distribuir carga entre modelos
-5. ✅ **Especialización**: Cada modelo hace lo que mejor sabe
+### 1. Optimización de Costos
+- Usar Gemini cuando sea suficiente
+- Usar Claude solo para análisis profundo
+- OpenAI para tareas críticas
 
----
+### 2. Mejor Calidad
+- Cada modelo en su especialidad
+- Mejor resultado por tarea
+- Redundancia automática
 
-## 📁 Archivos Creados
+### 3. Flexibilidad
+- Fácil cambiar asignaciones
+- Fallback automático
+- Configuración dinámica
 
-1. **`analisis_modelos_ia.md`**
-   - Análisis detallado de fortalezas por modelo
-   - Justificación de asignaciones
-   - Comparación de modelos
-
-2. **`agente_orquestador_multi_modelo.py`**
-   - Sistema de orquestación completo
-   - 8 roles especializados
-   - Integración con todos los modelos
-
-3. **`RESUMEN_ORQUESTACION_MODELOS.md`**
-   - Resumen ejecutivo
-   - Guía de uso
+### 4. Escalabilidad
+- Agregar nuevos modelos fácilmente
+- Extender procedimientos
+- Modular y mantenible
 
 ---
 
 ## 🚀 Uso
 
+### Básico
 ```python
-from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo
+from orquestador_multi_modelo import OrquestadorMultiModelo, TipoProcedimiento
 
-agente = AgenteOrquestadorMultiModelo()
-resultado = agente.proceso_completo_orquestado(limite=10)
+orquestador = OrquestadorMultiModelo()
+
+# Ejecutar procedimiento (automáticamente usa mejor modelo)
+resultado = orquestador.ejecutar_procedimiento(
+    TipoProcedimiento.COTIZACION_REALTIME,
+    mensaje="Cotiza ISODEC 100mm, 10m x 5m, luz 4.5m"
+)
 ```
 
-El sistema automáticamente:
-1. Detecta qué modelos están disponibles
-2. Asigna cada tarea al mejor modelo
-3. Optimiza costos usando Gemini cuando es posible
-4. Usa OpenAI para cálculos críticos
-5. Usa Claude para análisis complejos
+### Proceso Completo
+```python
+resultado = orquestador.proceso_completo_inteligente(
+    cliente="Agustín",
+    producto="ISODEC",
+    limite=10
+)
+```
+
+### Ver Asignaciones
+```python
+orquestador = OrquestadorMultiModelo()
+
+for proc, asignacion in orquestador.ASIGNACIONES.items():
+    modelo_optimo = orquestador.obtener_modelo_optimo(proc)
+    print(f"{proc.value} → {modelo_optimo.value}")
+```
 
 ---
 
-## 🎯 Flujo de Trabajo
+## 📋 Matriz de Decisión
 
-```
-1. InputProcessor (Gemini) → Revisar inputs
-   ↓
-2. KnowledgeInterpreter (Claude) → Interpretar variables
-   ↓
-3. QuotationCalculator (OpenAI) → Generar presupuesto
-   ↓
-4. PDFFinder (Gemini) → Buscar PDF real
-   ↓
-5. PDFExtractor (Gemini) → Extraer datos
-   ↓
-6. ResultComparator (OpenAI) → Comparar
-   ↓
-7. DifferenceAnalyzer (Claude) → Analizar diferencias
-   ↓
-8. LearningEngine (Claude) → Aprender
-```
+El orquestador decide automáticamente:
+
+1. **Verificar disponibilidad** del modelo principal
+2. **Si disponible** → usar modelo principal
+3. **Si no disponible** → usar modelo alternativo
+4. **Si ninguno disponible** → usar motor Python
+5. **Registrar** qué modelo se usó
 
 ---
 
 ## ✅ Estado Final
 
-- ✅ Análisis completo de modelos por tarea
-- ✅ Sistema de orquestación implementado
-- ✅ 8 roles especializados asignados
-- ✅ Optimización de costos
-- ✅ Redundancia y escalabilidad
+- ✅ Análisis completo de procedimientos
+- ✅ Asignación óptima por modelo
+- ✅ Orquestador implementado
+- ✅ Fallback automático
+- ✅ Handlers específicos por modelo
 - ✅ Documentación completa
 
-**El sistema está listo para usar el mejor modelo en cada tarea automáticamente.**
+**El sistema está listo para usar múltiples modelos de IA de forma inteligente y optimizada.**

@@ -1,0 +1,507 @@
+{
+  "resumen": {
+    "total_tareas": 18,
+    "distribucion": {
+      "openai": 7,
+      "claude": 9,
+      "gemini": 2
+    }
+  },
+  "asignaciones": {
+    "revisar_inputs": {
+      "tarea": "revisar_inputs",
+      "modelo_recomendado": "gemini",
+      "modelo_alternativo": "openai",
+      "razon": "Tarea simple de procesamiento, Gemini es suficiente y más económico",
+      "requisitos": [
+        "Procesamiento de CSV",
+        "Parsing de datos"
+      ],
+      "fortalezas_principal": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si gemini no está disponible o hay problemas de costo"
+    },
+    "extraer_datos_pdf": {
+      "tarea": "extraer_datos_pdf",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "claude",
+      "razon": "OpenAI tiene Code Interpreter para procesar PDFs, Claude para análisis de texto complejo",
+      "requisitos": [
+        "Procesamiento de PDF",
+        "Extracción de texto",
+        "Parsing de números"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "cuando_usar_alternativo": "Usar claude si openai no está disponible o hay problemas de costo"
+    },
+    "buscar_pdf": {
+      "tarea": "buscar_pdf",
+      "modelo_recomendado": "gemini",
+      "modelo_alternativo": "openai",
+      "razon": "Búsqueda de archivos es tarea simple, Gemini es eficiente",
+      "requisitos": [
+        "Búsqueda de archivos",
+        "Correlación de nombres"
+      ],
+      "fortalezas_principal": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si gemini no está disponible o hay problemas de costo"
+    },
+    "generar_presupuesto": {
+      "tarea": "generar_presupuesto",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "gemini",
+      "razon": "OpenAI tiene Function Calling nativo y Code Interpreter para cálculos precisos",
+      "requisitos": [
+        "Cálculos matemáticos",
+        "Function Calling",
+        "Precisión"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "cuando_usar_alternativo": "Usar gemini si openai no está disponible o hay problemas de costo"
+    },
+    "validar_autoportancia": {
+      "tarea": "validar_autoportancia",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "gemini",
+      "razon": "Validación técnica requiere precisión, OpenAI es mejor",
+      "requisitos": [
+        "Validación técnica",
+        "Comparación numérica",
+        "Precisión"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "cuando_usar_alternativo": "Usar gemini si openai no está disponible o hay problemas de costo"
+    },
+    "calcular_materiales": {
+      "tarea": "calcular_materiales",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "gemini",
+      "razon": "Cálculos de materiales requieren precisión matemática, OpenAI es superior",
+      "requisitos": [
+        "Cálculos matemáticos",
+        "Fórmulas",
+        "Precisión"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "cuando_usar_alternativo": "Usar gemini si openai no está disponible o hay problemas de costo"
+    },
+    "comparar_resultados": {
+      "tarea": "comparar_resultados",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es excelente para análisis comparativo y razonamiento",
+      "requisitos": [
+        "Análisis comparativo",
+        "Razonamiento",
+        "Interpretación"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "analizar_diferencias": {
+      "tarea": "analizar_diferencias",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude sobresale en análisis profundo y comprensión de causas",
+      "requisitos": [
+        "Análisis profundo",
+        "Comprensión de contexto",
+        "Razonamiento causal"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "identificar_causas": {
+      "tarea": "identificar_causas",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es mejor para razonamiento causal y análisis de causas raíz",
+      "requisitos": [
+        "Razonamiento causal",
+        "Análisis de causas raíz",
+        "Comprensión profunda"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "aprender_diferencias": {
+      "tarea": "aprender_diferencias",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es superior para aprendizaje y extracción de patrones",
+      "requisitos": [
+        "Aprendizaje",
+        "Extracción de patrones",
+        "Síntesis"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "generar_lecciones": {
+      "tarea": "generar_lecciones",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude genera lecciones más profundas y útiles",
+      "requisitos": [
+        "Síntesis",
+        "Generación de conocimiento",
+        "Comprensión profunda"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "sugerir_mejoras": {
+      "tarea": "sugerir_mejoras",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es mejor para sugerencias creativas y mejoras",
+      "requisitos": [
+        "Creatividad",
+        "Sugerencias",
+        "Mejora continua"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "cotizacion_interactiva": {
+      "tarea": "cotizacion_interactiva",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "claude",
+      "razon": "OpenAI tiene mejor Function Calling para interacción dinámica",
+      "requisitos": [
+        "Function Calling",
+        "Interacción dinámica",
+        "Respuestas rápidas"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "cuando_usar_alternativo": "Usar claude si openai no está disponible o hay problemas de costo"
+    },
+    "presentacion_profesional": {
+      "tarea": "presentacion_profesional",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude genera presentaciones más profesionales y bien estructuradas",
+      "requisitos": [
+        "Generación de texto",
+        "Estructura",
+        "Profesionalismo"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "recomendaciones_tecnicas": {
+      "tarea": "recomendaciones_tecnicas",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es mejor para recomendaciones técnicas bien fundamentadas",
+      "requisitos": [
+        "Razonamiento técnico",
+        "Recomendaciones",
+        "Fundamentación"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "procesar_base_conocimiento": {
+      "tarea": "procesar_base_conocimiento",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "gemini",
+      "razon": "OpenAI tiene mejor acceso a archivos y Code Interpreter",
+      "requisitos": [
+        "Procesamiento de archivos",
+        "Code Interpreter",
+        "Acceso a KB"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "cuando_usar_alternativo": "Usar gemini si openai no está disponible o hay problemas de costo"
+    },
+    "actualizar_conocimiento": {
+      "tarea": "actualizar_conocimiento",
+      "modelo_recomendado": "claude",
+      "modelo_alternativo": "openai",
+      "razon": "Claude es mejor para síntesis y actualización de conocimiento",
+      "requisitos": [
+        "Síntesis",
+        "Actualización",
+        "Comprensión de cambios"
+      ],
+      "fortalezas_principal": [
+        "Análisis profundo y razonamiento",
+        "Contexto muy largo (200k tokens)",
+        "Excelente comprensión de texto",
+        "Mejor para análisis cualitativos",
+        "Muy bueno para interpretación",
+        "Excelente para aprendizaje"
+      ],
+      "fortalezas_secundario": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "cuando_usar_alternativo": "Usar openai si claude no está disponible o hay problemas de costo"
+    },
+    "validar_formulas": {
+      "tarea": "validar_formulas",
+      "modelo_recomendado": "openai",
+      "modelo_alternativo": "gemini",
+      "razon": "OpenAI tiene Code Interpreter para validar fórmulas matemáticas",
+      "requisitos": [
+        "Validación matemática",
+        "Code Interpreter",
+        "Precisión"
+      ],
+      "fortalezas_principal": [
+        "Function Calling nativo y robusto",
+        "Code Interpreter integrado",
+        "Acceso directo a archivos",
+        "Excelente para cálculos precisos",
+        "Buen razonamiento estructurado",
+        "Mejor integración con APIs"
+      ],
+      "fortalezas_secundario": [
+        "Gratis para desarrollo",
+        "Multimodal (texto, imágenes)",
+        "Buen rendimiento general",
+        "Function Calling disponible",
+        "Bajo costo"
+      ],
+      "cuando_usar_alternativo": "Usar gemini si openai no está disponible o hay problemas de costo"
+    }
+  }
+}

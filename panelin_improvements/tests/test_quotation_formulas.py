@@ -19,6 +19,8 @@ def calculate_paneles(ancho_total: float, ancho_util: float) -> int:
     Formula: ROUNDUP(Ancho Total / Ancho Útil)
     """
     import math
+    if ancho_total <= 0:
+        raise ValueError("Ancho total must be greater than 0")
     if ancho_util <= 0:
         raise ValueError("Ancho útil must be greater than 0")
     return math.ceil(ancho_total / ancho_util)
