@@ -253,9 +253,15 @@ MAPEO_FUNCIONES = {
 # INTERFAZ SIMPLIFICADA
 # ============================================================================
 
+# Instancia singleton para preservar estadísticas entre llamadas
+_orquestador_instance = None
+
 def ejecutar_procedimiento(tarea: TipoTarea, *args, **kwargs) -> Any:
     """Ejecuta un procedimiento usando el modelo óptimo"""
-    orquestador = OrquestadorModelos()
+    global _orquestador_instance
+    if _orquestador_instance is None:
+        _orquestador_instance = OrquestadorModelos()
+    orquestador = _orquestador_instance
     funcion = MAPEO_FUNCIONES.get(tarea)
     
     if not funcion:

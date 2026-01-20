@@ -384,9 +384,100 @@ Sugiere estrategias de búsqueda y correlación inteligente."""
             print(f"   ⚠️  Error: {e}")
             resultados['inputs'] = []
         
-        # 2. Generación de presupuestos (OpenAI)
+        # 2. Generación de presupuestos para cada input
         print("\n🔧 Paso 2: Generación de presupuestos...")
-        # ... (continuar con otros pasos)
+        resultados['presupuestos'] = []
+        for input_data in resultados.get('inputs', []):
+            try:
+                presupuesto = self.ejecutar_procedimiento(
+                    TipoProcedimiento.GENERACION_PRESUPUESTO,
+                    input_data=input_data
+                )
+                resultados['presupuestos'].append(presupuesto)
+            except Exception as e:
+                print(f"   ⚠️  Error generando presupuesto: {e}")
+                resultados['presupuestos'].append({'error': str(e), 'input': input_data})
+        
+        # 3. Búsqueda de PDFs reales
+        print("\n🔍 Paso 3: Búsqueda de PDFs reales...")
+        resultados['pdfs_encontrados'] = []
+        for input_data in resultados.get('inputs', []):
+            try:
+                pdf_match = self.ejecutar_procedimiento(
+                    TipoProcedimiento.BUSQUEDA_PDF,
+                    input_data=input_data
+                )
+                if pdf_match:
+                    resultados['pdfs_encontrados'].append(pdf_match)
+            except Exception as e:
+                print(f"   ⚠️  Error buscando PDF: {e}")
+        
+        # 4. Extracción de datos de PDFs
+        print("\n📄 Paso 4: Extracción de datos de PDFs...")
+        resultados['datos_pdfs'] = []
+        for pdf_match in resultados.get('pdfs_encontrados', []):
+            try:
+                pdf_path = pdf_match.get('path') or pdf_match.get('nombre')
+                if pdf_path:
+                    datos = self.ejecutar_procedimiento(
+                        TipoProcedimiento.EXTRACCION_DATOS,
+                        pdf_path=pdf_path
+                    )
+                    resultados['datos_pdfs'].append(datos)
+            except Exception as e:
+                print(f"   ⚠️  Error extrayendo datos: {e}")
+        
+        # 5. Comparación de resultados
+        print("\n⚖️  Paso 5: Comparación de resultados...")
+        resultados['comparaciones'] = []
+        for i, presupuesto in enumerate(resultados.get('presupuestos', [])):
+            if i < len(resultados.get('datos_pdfs', [])):
+                try:
+                    comparacion = self.ejecutar_procedimiento(
+                        TipoProcedimiento.COMPARACION,
+                        presupuesto=presupuesto,
+                        pdf_real=resultados['datos_pdfs'][i]
+                    )
+                    resultados['comparaciones'].append(comparacion)
+                except Exception as e:
+                    print(f"   ⚠️  Error comparando: {e}")
+        
+        # 6. Análisis de diferencias
+        print("\n🧠 Paso 6: Análisis de diferencias...")
+        resultados['analisis'] = []
+        for comparacion in resultados.get('comparaciones', []):
+            try:
+                analisis = self.ejecutar_procedimiento(
+                    TipoProcedimiento.ANALISIS_DIFERENCIAS,
+                    comparacion=comparacion
+                )
+                resultados['analisis'].append(analisis)
+            except Exception as e:
+                print(f"   ⚠️  Error analizando: {e}")
+        
+        # 7. Aprendizaje
+        print("\n📚 Paso 7: Aprendizaje de diferencias...")
+        resultados['lecciones'] = []
+        for comparacion in resultados.get('comparaciones', []):
+            try:
+                leccion = self.ejecutar_procedimiento(
+                    TipoProcedimiento.APRENDIZAJE,
+                    comparacion=comparacion
+                )
+                resultados['lecciones'].append(leccion)
+            except Exception as e:
+                print(f"   ⚠️  Error aprendiendo: {e}")
+        
+        # Resumen final
+        print("\n" + "=" * 70)
+        print("📊 RESUMEN FINAL")
+        print("=" * 70)
+        print(f"   📋 Inputs procesados: {len(resultados.get('inputs', []))}")
+        print(f"   🔧 Presupuestos generados: {len(resultados.get('presupuestos', []))}")
+        print(f"   📄 PDFs encontrados: {len(resultados.get('pdfs_encontrados', []))}")
+        print(f"   ⚖️  Comparaciones realizadas: {len(resultados.get('comparaciones', []))}")
+        print(f"   🧠 Análisis completados: {len(resultados.get('analisis', []))}")
+        print(f"   📚 Lecciones aprendidas: {len(resultados.get('lecciones', []))}")
         
         return resultados
 

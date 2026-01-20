@@ -124,7 +124,13 @@ class AgenteAnalisisInteligente:
             largo = None
             ancho = None
             if dimensiones:
-                dim_match = re.search(r'(\d+(?:\.\d+)?)\s*[xX×]\s*(\d+(?:\.\d+)?)', dimensiones)
+                # Intentar múltiples formatos: "10 x 5", "10x5", "10m x 5m", "10metros x 5metros", etc.
+                # Regex unificado que soporta unidades opcionales (m, metros)
+                dim_match = re.search(
+                    r'(\d+(?:\.\d+)?)\s*(?:m|metros?)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metros?)?',
+                    dimensiones,
+                    re.IGNORECASE
+                )
                 if dim_match:
                     largo = float(dim_match.group(1))
                     ancho = float(dim_match.group(2))
