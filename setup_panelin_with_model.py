@@ -232,8 +232,9 @@ def create_panelin_assistant(
     tools = []
     if enable_code_interpreter:
         tools.append({"type": "code_interpreter"})
-    if enable_web_search:
-        tools.append({"type": "web_search"})
+    # Note: web_search is not available in Assistants API, only in Chat Completions
+    # if enable_web_search:
+    #     tools.append({"type": "web_search"})
     
     # Upload knowledge base files if provided
     file_ids = []
@@ -243,22 +244,15 @@ def create_panelin_assistant(
         file_ids = upload_knowledge_base_files(client, knowledge_base_files)
         print(f"\n✅ Uploaded {len(file_ids)} files")
         
-        # Use file_search tool with uploaded files
+        # Attach files to code_interpreter (simpler approach)
         if file_ids:
-            tools.append({"type": "file_search"})
+            # Files will be accessible via code_interpreter
             tool_resources = {
-                "file_search": {
-                    "vector_store_ids": []
+                "code_interpreter": {
+                    "file_ids": file_ids
                 }
             }
-            # Create vector store and add files
-            print("\n📦 Creating vector store for file search...")
-            vector_store = client.beta.vector_stores.create(
-                name="Panelin Knowledge Base",
-                file_ids=file_ids
-            )
-            tool_resources["file_search"]["vector_store_ids"] = [vector_store.id]
-            print(f"   ✅ Vector store created: {vector_store.id}")
+            print(f"   ✅ Files attached to code interpreter")
     
     # Create assistant
     try:
