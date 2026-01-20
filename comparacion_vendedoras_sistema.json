@@ -1,0 +1,1392 @@
+{
+  "fecha_analisis": "2026-01-20T01:38:33.988590",
+  "total_pdfs": 6406,
+  "procesados": 20,
+  "comparaciones": [
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 20122025 Evelyn - Isopanel 100 mm -Maldonado- WA.pdf",
+        "nombre": "Cotización 20122025 Evelyn - Isopanel 100 mm -Maldonado- WA.pdf",
+        "fecha_modificacion": "2025-12-20 12:24:15",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 20122025 Evelyn - Isopanel 100 mm -Maldonado- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "20-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 20122025 Evelyn - Isopanel 100 mm -Maldonado- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2530.0,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3084.58,
+          "iva": 678.61,
+          "total": 3763.19
+        },
+        "precio_referencia": {
+          "precio_m2": 46.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 19122025 Belén - Isoroof 80 mm - Desc - EM.pdf",
+        "nombre": "Cotización 19122025 Belén - Isoroof 80 mm - Desc - EM.pdf",
+        "fecha_modificacion": "2025-12-19 17:06:50",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 19122025 Belén - Isoroof 80 mm - Desc - EM.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "19-12-2025",
+        "error": null,
+        "producto_detectado": "ISOROOF 3G",
+        "espesor_detectado": "80",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 19122025 Belén - Isoroof 80 mm - Desc - EM.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOROOF 3G (Techos)",
+        "espesor": "80mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 4.0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 4.0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 4,
+          "puntos_fijacion": 0,
+          "varillas": 0,
+          "tuercas": 0,
+          "tacos": 0,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 3100.0,
+          "varillas": 0.0,
+          "tuercas": 0.0,
+          "tacos": 0.0,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3362.48,
+          "iva": 739.75,
+          "total": 4102.23
+        },
+        "precio_referencia": {
+          "precio_m2": 62.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 17122025 Belén Isodec PIR 80mm -Desc- EM.pdf",
+        "nombre": "Cotización 17122025 Belén Isodec PIR 80mm -Desc- EM.pdf",
+        "fecha_modificacion": "2025-12-19 17:06:20",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 17122025 Belén Isodec PIR 80mm -Desc- EM.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "17-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC PIR",
+        "espesor_detectado": "80",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 17122025 Belén Isodec PIR 80mm -Desc- EM.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC PIR (Techos y Cubiertas)",
+        "espesor": "80mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 3080.0,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3948.08,
+          "iva": 868.58,
+          "total": 4816.66
+        },
+        "precio_referencia": {
+          "precio_m2": 55.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 19122025 Alberto Caballero - Isodec EPS 100 mm -Solymar- WA.pdf",
+        "nombre": "Cotización 19122025 Alberto Caballero - Isodec EPS 100 mm -Solymar- WA.pdf",
+        "fecha_modificacion": "2025-12-19 15:52:52",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 19122025 Alberto Caballero - Isodec EPS 100 mm -Solymar- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "19-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 19122025 Alberto Caballero - Isodec EPS 100 mm -Solymar- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 18122025 Brian - Isodec EPS 100 mm -La Esmeralda- WA.pdf",
+        "nombre": "Cotización 18122025 Brian - Isodec EPS 100 mm -La Esmeralda- WA.pdf",
+        "fecha_modificacion": "2025-12-18 16:34:51",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 18122025 Brian - Isodec EPS 100 mm -La Esmeralda- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "18-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 18122025 Brian - Isodec EPS 100 mm -La Esmeralda- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 18122025 Erika - Isopanel 100 mm -Progreso, Canelones- WA.pdf",
+        "nombre": "Cotización 18122025 Erika - Isopanel 100 mm -Progreso, Canelones- WA.pdf",
+        "fecha_modificacion": "2025-12-18 15:31:40",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 18122025 Erika - Isopanel 100 mm -Progreso, Canelones- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "18-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 18122025 Erika - Isopanel 100 mm -Progreso, Canelones- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2530.0,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3084.58,
+          "iva": 678.61,
+          "total": 3763.19
+        },
+        "precio_referencia": {
+          "precio_m2": 46.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 17122025 Ricardo Vanzella - Isodec EPS 150 mm - Playa Fomento, Colonia CL.pdf",
+        "nombre": "Cotización 17122025 Ricardo Vanzella - Isodec EPS 150 mm - Playa Fomento, Colonia CL.pdf",
+        "fecha_modificacion": "2025-12-17 17:09:50",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 17122025 Ricardo Vanzella - Isodec EPS 150 mm - Playa Fomento, Colonia CL.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "17-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "150",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 17122025 Ricardo Vanzella - Isodec EPS 150 mm - Playa Fomento, Colonia CL.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "150mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 7.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 7.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2884.0,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3752.08,
+          "iva": 825.46,
+          "total": 4577.54
+        },
+        "precio_referencia": {
+          "precio_m2": 51.5,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 17122025 Alicia Gimenez - Isodec EPS 100 mm -Treinta Tres WA.pdf",
+        "nombre": "Cotización 17122025 Alicia Gimenez - Isodec EPS 100 mm -Treinta Tres WA.pdf",
+        "fecha_modificacion": "2025-12-17 15:43:55",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 17122025 Alicia Gimenez - Isodec EPS 100 mm -Treinta Tres WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "17-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 17122025 Alicia Gimenez - Isodec EPS 100 mm -Treinta Tres WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 17122025 Caudio - Isopanel 100 mm - Isodec 100 mm -Canelon Chico- WA.pdf",
+        "nombre": "Cotización 17122025 Caudio - Isopanel 100 mm - Isodec 100 mm -Canelon Chico- WA.pdf",
+        "fecha_modificacion": "2025-12-17 12:38:29",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 17122025 Caudio - Isopanel 100 mm - Isodec 100 mm -Canelon Chico- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "17-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 17122025 Caudio - Isopanel 100 mm - Isodec 100 mm -Canelon Chico- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 17122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf",
+        "nombre": "Cotización 17122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf",
+        "fecha_modificacion": "2025-12-17 11:50:37",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 17122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "17-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 17122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2530.0,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3084.58,
+          "iva": 678.61,
+          "total": 3763.19
+        },
+        "precio_referencia": {
+          "precio_m2": 46.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 16122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf",
+        "nombre": "Cotización 16122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf",
+        "fecha_modificacion": "2025-12-16 16:29:30",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 16122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "16-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 16122025 Fernando - Isopanel 100 mm - Isoroof 80 mm -Mvdeo- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2530.0,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3084.58,
+          "iva": 678.61,
+          "total": 3763.19
+        },
+        "precio_referencia": {
+          "precio_m2": 46.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 16122025 Roberto Arellano - Isoroof 50 mm -Costa de Oro- WA.pdf",
+        "nombre": "Cotización 16122025 Roberto Arellano - Isoroof 50 mm -Costa de Oro- WA.pdf",
+        "fecha_modificacion": "2025-12-16 15:42:53",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 16122025 Roberto Arellano - Isoroof 50 mm -Costa de Oro- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "16-12-2025",
+        "error": null,
+        "producto_detectado": "ISOROOF 3G",
+        "espesor_detectado": "50",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 16122025 Roberto Arellano - Isoroof 50 mm -Costa de Oro- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOROOF 3G (Techos)",
+        "espesor": "50mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 3.3,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 3.3m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 5,
+          "puntos_fijacion": 0,
+          "varillas": 0,
+          "tuercas": 0,
+          "tacos": 0,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2650.0,
+          "varillas": 0.0,
+          "tuercas": 0.0,
+          "tacos": 0.0,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 2912.48,
+          "iva": 640.75,
+          "total": 3553.23
+        },
+        "precio_referencia": {
+          "precio_m2": 53.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 16122025 Laura - Isopanel 50 mm -Mvdeo- WA.pdf",
+        "nombre": "Cotización 16122025 Laura - Isopanel 50 mm -Mvdeo- WA.pdf",
+        "fecha_modificacion": "2025-12-16 14:32:41",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 16122025 Laura - Isopanel 50 mm -Mvdeo- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "16-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "50",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 16122025 Laura - Isopanel 50 mm -Mvdeo- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "50mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2303.4,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 2857.98,
+          "iva": 628.76,
+          "total": 3486.74
+        },
+        "precio_referencia": {
+          "precio_m2": 41.88,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 16122025 Lorena Olivera - Isoroof 30 mm -Neptunia- WA.pdf",
+        "nombre": "Cotización 16122025 Lorena Olivera - Isoroof 30 mm -Neptunia- WA.pdf",
+        "fecha_modificacion": "2025-12-16 14:31:01",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 16122025 Lorena Olivera - Isoroof 30 mm -Neptunia- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "16-12-2025",
+        "error": null,
+        "producto_detectado": "ISOROOF 3G",
+        "espesor_detectado": "30",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 16122025 Lorena Olivera - Isoroof 30 mm -Neptunia- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOROOF 3G (Techos)",
+        "espesor": "30mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 2.8,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 2.8m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 5,
+          "puntos_fijacion": 0,
+          "varillas": 0,
+          "tuercas": 0,
+          "tacos": 0,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2437.0,
+          "varillas": 0.0,
+          "tuercas": 0.0,
+          "tacos": 0.0,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 2699.48,
+          "iva": 593.89,
+          "total": 3293.37
+        },
+        "precio_referencia": {
+          "precio_m2": 48.74,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Melanie Centurión Kit Comercial - CONAPROLE planta 8 - Isopanel 100 y 150 mm -Rodríguez, San José- EM.pdf",
+        "nombre": "Cotización 15122025 Melanie Centurión Kit Comercial - CONAPROLE planta 8 - Isopanel 100 y 150 mm -Rodríguez, San José- EM.pdf",
+        "fecha_modificacion": "2025-12-16 13:31:28",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Melanie Centurión Kit Comercial - CONAPROLE planta 8 - Isopanel 100 y 150 mm -Rodríguez, San José- EM.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "150",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Melanie Centurión Kit Comercial - CONAPROLE planta 8 - Isopanel 100 y 150 mm -Rodríguez, San José- EM.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "150mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2832.5,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3387.08,
+          "iva": 745.16,
+          "total": 4132.24
+        },
+        "precio_referencia": {
+          "precio_m2": 51.5,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Nacho Isoroof FOIL 30mm -Paysandú- WA.pdf",
+        "nombre": "Cotización 15122025 Nacho Isoroof FOIL 30mm -Paysandú- WA.pdf",
+        "fecha_modificacion": "2025-12-15 16:43:55",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Nacho Isoroof FOIL 30mm -Paysandú- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISOROOF FOIL",
+        "espesor_detectado": "30",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Nacho Isoroof FOIL 30mm -Paysandú- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOROOF FOIL 3G",
+        "espesor": "30mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 2.8,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 2.8m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 5,
+          "puntos_fijacion": 0,
+          "varillas": 0,
+          "tuercas": 0,
+          "tacos": 0,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 1977.0,
+          "varillas": 0.0,
+          "tuercas": 0.0,
+          "tacos": 0.0,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 2239.48,
+          "iva": 492.69,
+          "total": 2732.17
+        },
+        "precio_referencia": {
+          "precio_m2": 39.54,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Melanie Centurión Kit Comercial - (CONAPROLE Planta 8) - Isopanel 150 mm -Rodríguez, San José- EM.pdf",
+        "nombre": "Cotización 15122025 Melanie Centurión Kit Comercial - (CONAPROLE Planta 8) - Isopanel 150 mm -Rodríguez, San José- EM.pdf",
+        "fecha_modificacion": "2025-12-15 15:32:10",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Melanie Centurión Kit Comercial - (CONAPROLE Planta 8) - Isopanel 150 mm -Rodríguez, San José- EM.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISOPANEL EPS",
+        "espesor_detectado": "150",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Melanie Centurión Kit Comercial - (CONAPROLE Planta 8) - Isopanel 150 mm -Rodríguez, San José- EM.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISOPANEL EPS (Paredes y Fachadas)",
+        "espesor": "150mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 0,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": null,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 0m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 1,
+          "puntos_fijacion": 18,
+          "varillas": 5,
+          "tuercas": 18,
+          "tacos": 18,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2832.5,
+          "varillas": 99.5,
+          "tuercas": 36.0,
+          "tacos": 156.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3387.08,
+          "iva": 745.16,
+          "total": 4132.24
+        },
+        "precio_referencia": {
+          "precio_m2": 51.5,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Fernando Aguero - Isopanel 100 mm - Isodec 100 mm -Durazno- WA.pdf",
+        "nombre": "Cotización 15122025 Fernando Aguero - Isopanel 100 mm - Isodec 100 mm -Durazno- WA.pdf",
+        "fecha_modificacion": "2025-12-15 15:23:48",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Fernando Aguero - Isopanel 100 mm - Isodec 100 mm -Durazno- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Fernando Aguero - Isopanel 100 mm - Isodec 100 mm -Durazno- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Tonga - Isodec EPS 100 mm -Toledo- WA.pdf",
+        "nombre": "Cotización 15122025 Tonga - Isodec EPS 100 mm -Toledo- WA.pdf",
+        "fecha_modificacion": "2025-12-15 14:55:55",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Tonga - Isodec EPS 100 mm -Toledo- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "100",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Tonga - Isodec EPS 100 mm -Toledo- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "100mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 5.5,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 5.5m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 2579.92,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 3448.0,
+          "iva": 758.56,
+          "total": 4206.56
+        },
+        "precio_referencia": {
+          "precio_m2": 46.07,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    },
+    {
+      "pdf": {
+        "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/12 - Diciembre/Cotización 15122025 Damián Wegbrait - Isodec EPS 200 mm -Maldonado- WA.pdf",
+        "nombre": "Cotización 15122025 Damián Wegbrait - Isodec EPS 200 mm -Maldonado- WA.pdf",
+        "fecha_modificacion": "2025-12-15 14:53:35",
+        "año": 2025,
+        "mes": 12,
+        "carpeta": "12 - Diciembre",
+        "ruta_completa": "2025 Bromyros/12 - Diciembre/Cotización 15122025 Damián Wegbrait - Isodec EPS 200 mm -Maldonado- WA.pdf"
+      },
+      "datos_pdf": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "cliente": null,
+        "fecha": "15-12-2025",
+        "error": null,
+        "producto_detectado": "ISODEC EPS",
+        "espesor_detectado": "200",
+        "dimensiones_detectadas": null,
+        "nombre_archivo": "Cotización 15122025 Damián Wegbrait - Isodec EPS 200 mm -Maldonado- WA.pdf"
+      },
+      "presupuesto_sistema": {
+        "producto": "ISODEC EPS (Techos y Cubiertas)",
+        "espesor": "200mm",
+        "dimensiones": {
+          "largo": 10.0,
+          "ancho": 5.0,
+          "area": 50.0,
+          "luz_efectiva": 10.0,
+          "alero_1": 0,
+          "alero_2": 0
+        },
+        "validacion": {
+          "autoportancia": 9.1,
+          "luz_efectiva": 10.0,
+          "cumple_autoportancia": false,
+          "advertencia": "⚠️ Luz efectiva 10.0m excede autoportancia 9.1m"
+        },
+        "materiales": {
+          "paneles": 5,
+          "apoyos": 3,
+          "puntos_fijacion": 38,
+          "varillas": 10,
+          "tuercas": 38,
+          "tacos": 38,
+          "goteros_frontal": 2,
+          "goteros_lateral": 7,
+          "goteros_total": 9,
+          "silicona": 4
+        },
+        "costos": {
+          "paneles": 3192.0,
+          "varillas": 199.0,
+          "tuercas": 76.0,
+          "tacos": 330.6,
+          "goteros": 214.92,
+          "silicona": 47.56,
+          "subtotal": 4060.08,
+          "iva": 893.22,
+          "total": 4953.3
+        },
+        "precio_referencia": {
+          "precio_m2": 57.0,
+          "fuente": "BMC_Base_Unificada_v4.json (validado con 31 presupuestos)"
+        }
+      },
+      "comparacion": null
+    }
+  ],
+  "resumen": {
+    "totales": 20,
+    "con_comparacion": 0,
+    "coinciden": 0
+  }
+}

@@ -97,22 +97,7 @@ class AgenteAnalisisInteligente:
             # Extraer parámetros del input
             consulta = input_data.get('consulta', '').upper()
             dimensiones = input_data.get('dimensiones', '')
-            # Si no hay dimensiones en el campo específico, intentar extraer de la consulta
-            if not dimensiones:
-                # Buscar patrones de dimensiones en la consulta: "10m x 5m", "10 x 5", etc.
-                dim_match_consulta = re.search(
-                    r'(\d+(?:\.\d+)?)\s*(?:m|metros?)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metros?)?',
-                    input_data.get('consulta', ''),
-                    re.IGNORECASE
-                )
-                if dim_match_consulta:
-                    dimensiones = f"{dim_match_consulta.group(1)} x {dim_match_consulta.group(2)}"
             luz_str = input_data.get('luz', '')
-            # Si no hay luz en el campo específico, intentar extraer de la consulta
-            if not luz_str:
-                luz_match = re.search(r'luz[:\s]*(\d+(?:\.\d+)?)', input_data.get('consulta', ''), re.IGNORECASE)
-                if luz_match:
-                    luz_str = luz_match.group(1)
             
             # Identificar producto
             producto = None
@@ -140,9 +125,10 @@ class AgenteAnalisisInteligente:
             ancho = None
             if dimensiones:
                 # Intentar múltiples formatos: "10 x 5", "10x5", "10m x 5m", "10metros x 5metros", etc.
-                # Regex unificado que soporta unidades opcionales (m, metros)
+                # Regex unificado que soporta unidades opcionales (m, metro, metros)
+                # Patrón corregido: (?:m|metro|metros)? hace opcional el grupo completo
                 dim_match = re.search(
-                    r'(\d+(?:\.\d+)?)\s*(?:m|metros?)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metros?)?',
+                    r'(\d+(?:\.\d+)?)\s*(?:m|metro|metros)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metro|metros)?',
                     dimensiones,
                     re.IGNORECASE
                 )

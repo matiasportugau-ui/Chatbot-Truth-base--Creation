@@ -416,6 +416,10 @@ Sugiere estrategias de búsqueda y correlación inteligente."""
         print("\n📄 Paso 4: Extracción de datos de PDFs...")
         resultados['datos_pdfs'] = []
         for pdf_match in resultados.get('pdfs_encontrados', []):
+            # Validar que pdf_match es un diccionario antes de usar .get()
+            if not isinstance(pdf_match, dict):
+                print(f"   ⚠️  Error: pdf_match no es un diccionario: {type(pdf_match)}")
+                continue
             try:
                 pdf_path = pdf_match.get('path') or pdf_match.get('nombre')
                 if pdf_path:
@@ -431,6 +435,10 @@ Sugiere estrategias de búsqueda y correlación inteligente."""
         print("\n⚖️  Paso 5: Comparación de resultados...")
         resultados['comparaciones'] = []
         for i, presupuesto in enumerate(resultados.get('presupuestos', [])):
+            # Filtrar presupuestos con errores antes de comparar
+            if not isinstance(presupuesto, dict) or 'error' in presupuesto:
+                print(f"   ⚠️  Saltando presupuesto {i+1}: contiene error")
+                continue
             if i < len(resultados.get('datos_pdfs', [])):
                 try:
                     comparacion = self.ejecutar_procedimiento(

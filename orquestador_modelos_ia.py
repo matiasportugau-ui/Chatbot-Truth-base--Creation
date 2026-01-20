@@ -255,8 +255,10 @@ MAPEO_FUNCIONES = {
 
 # Instancia singleton opcional para preservar estadísticas entre llamadas
 # NOTA: Por defecto se crea una nueva instancia en cada llamada para asegurar aislamiento
+# IMPORTANTE: El singleton puede causar acumulación de estado. Usar solo cuando sea necesario.
 _orquestador_instance = None
 _usar_singleton = False  # Flag para controlar si se usa singleton o instancia fresca
+# Por defecto False para asegurar aislamiento completo entre llamadas
 
 
 def resetear_orquestador():

@@ -1,0 +1,515 @@
+{
+  "opal_version": "1.0",
+  "asset_type": "gpt_simulation_agent_configuration",
+  "metadata": {
+    "created": "2026-01-20T02:17:48.732877",
+    "source": "codex_analysis",
+    "agent_type": "GPT Simulation Agent",
+    "version": "1.0.0",
+    "description": "Complete configuration for GPT Simulation Agent with all functions and workflows for Google Labs"
+  },
+  "system_instructions": {
+    "main_agent": "You are a GPT Simulation Agent orchestrator that manages self-configuration, extraction, gap analysis, social media ingestion, training data processing, and Gem generation. You coordinate multiple specialized engines to analyze GPT configurations and generate Google Labs Gems automatically.",
+    "capabilities": [
+      "Self-diagnosis: Automatically scan workspace and identify configuration needs",
+      "Intelligent extraction: Extract from JSON, Markdown, YAML files",
+      "Gap analysis: Identify missing information and generate extraction guides",
+      "Social media ingestion: Connect to Facebook & Instagram APIs",
+      "Analytics: Process training data and generate insights",
+      "Gem generation: Automatically generate Google Labs Gems from extracted configurations"
+    ],
+    "function_definitions": {
+      "configure": {
+        "description": "Perform complete self-configuration. Scans workspace, extracts configuration, performs gap analysis, and generates user guides.",
+        "parameters": {
+          "workspace_path": {
+            "type": "string",
+            "description": "Path to workspace with GPT configuration files",
+            "required": true
+          },
+          "output_dir": {
+            "type": "string",
+            "description": "Directory for outputs (optional)",
+            "required": false
+          }
+        },
+        "returns": {
+          "diagnosis": "File scan results",
+          "extracted": "Extracted configuration",
+          "gap_analysis": "Missing information analysis",
+          "completion": "Percentage complete (0-100)"
+        }
+      },
+      "ingest_social_media": {
+        "description": "Ingest social media interactions from Facebook and Instagram APIs",
+        "parameters": {
+          "platforms": {
+            "type": "array",
+            "description": "Platforms to ingest from (facebook, instagram)",
+            "default": [
+              "facebook",
+              "instagram"
+            ]
+          },
+          "days_back": {
+            "type": "integer",
+            "description": "Days to look back",
+            "default": 30
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max interactions per platform",
+            "default": 1000
+          }
+        },
+        "returns": {
+          "facebook": "Facebook interaction data",
+          "instagram": "Instagram interaction data",
+          "total_count": "Total interactions ingested"
+        }
+      },
+      "process_training_data": {
+        "description": "Process all training data and generate analytics",
+        "parameters": {},
+        "returns": {
+          "total_interactions": "Total interactions processed",
+          "sources": "Data sources processed",
+          "analysis": "Analytics results"
+        }
+      },
+      "generate_gems": {
+        "description": "Generate Google Labs Gems from extracted configuration",
+        "parameters": {
+          "generate_multiple": {
+            "type": "boolean",
+            "description": "If true, generates multiple Gems for different use cases",
+            "default": false
+          }
+        },
+        "returns": {
+          "gems": "Generated Gems array",
+          "count": "Number of Gems generated",
+          "source": "Source of generation"
+        }
+      },
+      "generate_gem_from_training": {
+        "description": "Generate a Gem based on training data patterns",
+        "parameters": {},
+        "returns": {
+          "gem": "Generated Gem based on training data",
+          "common_queries": "Common queries identified",
+          "patterns": "Patterns detected"
+        }
+      }
+    }
+  },
+  "workflows": [
+    {
+      "workflow_id": "gpt_simulation_main",
+      "name": "GPT Simulation Agent - Main Workflow",
+      "description": "Complete GPT Simulation Agent workflow that orchestrates self-configuration, extraction, analysis, and Gem generation",
+      "type": "automation",
+      "nodes": [
+        {
+          "id": "node_1",
+          "type": "input",
+          "name": "Receive Workspace Path",
+          "description": "Receives workspace path or configuration files as input",
+          "configuration": {
+            "fields": [
+              "workspace_path",
+              "output_dir"
+            ],
+            "input_type": "text",
+            "required": [
+              "workspace_path"
+            ]
+          },
+          "connections": [
+            {
+              "target": "node_2",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "node_2",
+          "type": "process",
+          "name": "Self-Diagnosis",
+          "description": "Automatically scans workspace and identifies configuration needs",
+          "configuration": {
+            "engine": "SelfDiagnosisEngine",
+            "action": "diagnose",
+            "output": "diagnosis.json"
+          },
+          "connections": [
+            {
+              "target": "node_3",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "node_3",
+          "type": "process",
+          "name": "Intelligent Extraction",
+          "description": "Extracts configuration from JSON, Markdown, YAML files",
+          "configuration": {
+            "engine": "ExtractionEngine",
+            "action": "extract_all",
+            "output": "extracted_configs/extracted_config.json"
+          },
+          "connections": [
+            {
+              "target": "node_4",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "node_4",
+          "type": "analyze",
+          "name": "Gap Analysis",
+          "description": "Identifies missing information and generates extraction guides",
+          "configuration": {
+            "engine": "GapAnalysisEngine",
+            "action": "analyze",
+            "output": "gap_analysis_report.json"
+          },
+          "connections": [
+            {
+              "target": "node_5",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "node_5",
+          "type": "process",
+          "name": "Generate Gems",
+          "description": "Automatically generates Google Labs Gems from extracted configuration",
+          "configuration": {
+            "engine": "GemGeneratorEngine",
+            "action": "generate_multiple_gems",
+            "output": "generated_gems/"
+          },
+          "connections": [
+            {
+              "target": "node_6",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "node_6",
+          "type": "output",
+          "name": "Present Results",
+          "description": "Presents all generated Gems with descriptions ready for Google Labs",
+          "configuration": {
+            "format": "structured",
+            "include": [
+              "gems",
+              "descriptions",
+              "validation_status",
+              "instructions"
+            ]
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "total_nodes": 6
+      }
+    },
+    {
+      "workflow_id": "intelligence-based",
+      "name": "Main Assistant Gem",
+      "description": "Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica.",
+      "type": "research",
+      "nodes": [
+        {
+          "id": "node_input",
+          "type": "input",
+          "name": "Receive input",
+          "description": "Receives as input: input",
+          "configuration": {
+            "fields": [
+              "input"
+            ],
+            "input_type": "text"
+          },
+          "connections": [
+            {
+              "target": "nodo_2",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "nodo_2",
+          "type": "output",
+          "name": "Resultado final",
+          "description": "Presenta el resultado del workflow",
+          "configuration": {
+            "formato": "texto"
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valido": false,
+        "errores": [
+          "El workflow debe tener al menos un nodo de entrada"
+        ],
+        "advertencias": [],
+        "total_nodos": 1,
+        "complejidad": "baja"
+      },
+      "gem_description": "Crea un app que Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada."
+    },
+    {
+      "workflow_id": "functionality-based",
+      "name": "Quotation System Gem",
+      "description": "Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización.",
+      "type": "data_processing",
+      "nodes": [
+        {
+          "id": "node_input",
+          "type": "input",
+          "name": "Receive data",
+          "description": "Receives as input: data",
+          "configuration": {
+            "fields": [
+              "data"
+            ],
+            "input_type": "text"
+          },
+          "connections": [
+            {
+              "target": "nodo_2",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "nodo_2",
+          "type": "output",
+          "name": "Resultado final",
+          "description": "Presenta el resultado del workflow",
+          "configuration": {
+            "formato": "texto"
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valido": false,
+        "errores": [
+          "El workflow debe tener al menos un nodo de entrada"
+        ],
+        "advertencias": [],
+        "total_nodos": 1,
+        "complejidad": "baja"
+      },
+      "gem_description": "Crea un app que Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada."
+    },
+    {
+      "workflow_id": "training-based",
+      "name": "Training & Analytics Gem",
+      "description": "Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios.",
+      "type": "analysis",
+      "nodes": [
+        {
+          "id": "node_input",
+          "type": "input",
+          "name": "Receive query, data",
+          "description": "Receives as input: query, data",
+          "configuration": {
+            "fields": [
+              "query",
+              "data"
+            ],
+            "input_type": "structured"
+          },
+          "connections": [
+            {
+              "target": "nodo_2",
+              "type": "sequential"
+            }
+          ]
+        },
+        {
+          "id": "nodo_2",
+          "type": "output",
+          "name": "Generar reporte",
+          "description": "Presenta el resultado final: reporte",
+          "configuration": {
+            "formato": "reporte",
+            "presentacion": "estructurada"
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valido": false,
+        "errores": [
+          "El workflow debe tener al menos un nodo de entrada"
+        ],
+        "advertencias": [],
+        "total_nodos": 1,
+        "complejidad": "baja"
+      },
+      "gem_description": "Crea un app que Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios..\n\nEl workflow debe:\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada."
+    },
+    {
+      "workflow_id": "architecture-based",
+      "name": "Architecture Analysis Gem",
+      "description": "Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora.",
+      "type": "analysis",
+      "nodes": [
+        {
+          "id": "nodo_1",
+          "type": "input",
+          "name": "Recibir tema",
+          "description": "Recibe como entrada: tema",
+          "configuration": {
+            "campos": [
+              "tema"
+            ]
+          },
+          "connections": [
+            {
+              "target": "nodo_2",
+              "type": "secuencial"
+            }
+          ]
+        },
+        {
+          "id": "nodo_2",
+          "type": "output",
+          "name": "Resultado final",
+          "description": "Presenta el resultado del workflow",
+          "configuration": {
+            "formato": "texto"
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valido": true,
+        "errores": [],
+        "advertencias": [],
+        "total_nodos": 2,
+        "complejidad": "baja"
+      },
+      "gem_description": "Crea un app que Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada."
+    },
+    {
+      "workflow_id": "capacity-based",
+      "name": "Capacity Assessment Gem",
+      "description": "Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento.",
+      "type": "analysis",
+      "nodes": [
+        {
+          "id": "nodo_1",
+          "type": "input",
+          "name": "Recibir tema",
+          "description": "Recibe como entrada: tema",
+          "configuration": {
+            "campos": [
+              "tema"
+            ]
+          },
+          "connections": [
+            {
+              "target": "nodo_2",
+              "type": "secuencial"
+            }
+          ]
+        },
+        {
+          "id": "nodo_2",
+          "type": "output",
+          "name": "Generar reporte",
+          "description": "Presenta el resultado final: reporte",
+          "configuration": {
+            "formato": "reporte",
+            "presentacion": "estructurada"
+          },
+          "connections": []
+        }
+      ],
+      "validation": {
+        "valido": true,
+        "errores": [],
+        "advertencias": [],
+        "total_nodos": 2,
+        "complejidad": "baja"
+      },
+      "gem_description": "Crea un app que Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada."
+    }
+  ],
+  "knowledge_base": {
+    "hierarchy": {
+      "level_1_master": [
+        "BMC_Base_Conocimiento_GPT-2.json"
+      ],
+      "level_2_validation": [],
+      "level_3_dynamic": [
+        "panelin_truth_bmcuruguay_web_only_v2.json"
+      ],
+      "level_4_support": [
+        "panelin_context_consolidacion_sin_backend.md"
+      ]
+    },
+    "source_of_truth": "level_1_master",
+    "conflict_resolution": "hierarchical"
+  },
+  "tools": {
+    "available_tools": [
+      "google_search",
+      "code_interpreter",
+      "file_upload",
+      "knowledge_base_access"
+    ],
+    "configurations": {
+      "google_search": {
+        "enabled": true,
+        "max_results": 5
+      },
+      "code_interpreter": {
+        "enabled": true,
+        "languages": [
+          "python",
+          "javascript"
+        ]
+      },
+      "file_upload": {
+        "enabled": true,
+        "formats": [
+          "json",
+          "markdown",
+          "yaml",
+          "txt",
+          "csv"
+        ]
+      }
+    }
+  },
+  "usage_instructions": {
+    "upload_method": "Import this JSON file into Google Labs Gems editor or use workflow descriptions",
+    "steps": [
+      "1. Go to gemini.google.com",
+      "2. Click 'Gems' in the left sidebar",
+      "3. Click 'New Gem' in 'My Gems from Labs'",
+      "4. Use the 'Import' or 'Upload' feature (if available) to upload this file",
+      "5. Alternatively, copy the workflow definitions and paste into the editor",
+      "6. Configure system instructions using the provided instructions",
+      "7. Test each workflow",
+      "8. Save and deploy"
+    ]
+  }
+}

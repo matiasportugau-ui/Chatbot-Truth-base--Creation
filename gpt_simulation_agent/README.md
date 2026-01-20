@@ -19,11 +19,13 @@ python example_usage.py
 - 🔎 **Gap Analysis**: Identifies missing information and generates extraction guides
 - 📱 **Social Media Ingestion**: Connects to Facebook & Instagram APIs
 - 📊 **Analytics**: Processes training data and generates insights
+- 🚀 **Gem Generation**: Automatically generates Google Labs Gems from extracted configurations
 
 ## Documentation
 
 - **[QUICKSTART.md](QUICKSTART.md)** - 3-step setup guide
 - **[USAGE.md](USAGE.md)** - Complete usage documentation
+- **[GEM_GENERATION.md](GEM_GENERATION.md)** - Generate Google Labs Gems from configurations
 - **[../TROUBLESHOOTING_MODEL_SELECTION.md](../TROUBLESHOOTING_MODEL_SELECTION.md)** - Troubleshooting model selection issues in GPT Builder
 
 ## Project Structure
@@ -57,8 +59,11 @@ config = agent.configure()
 agent.ingest_social_media(platforms=['facebook', 'instagram'])
 
 # Process training data
-results = agent.procesate analytics
+results = agent.process_training_data()
 analytics = agent.generate_analytics()
+
+# Generate Google Labs Gems
+gems = agent.generate_gems(generate_multiple=True)
 ```
 
 ## Requirements
