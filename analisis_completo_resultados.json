@@ -1,0 +1,14 @@
+{
+  "total_inputs": 22,
+  "inputs_validos": 1,
+  "procesados": 1,
+  "exitosos": 0,
+  "resultados": [
+    {
+      "cliente": "Agustín Arbiza",
+      "consulta": "Isodec EPs 100mm / Ver plano / Completo (babetas) + Flete",
+      "presupuesto": null,
+      "error": "Faltan parámetros para generar presupuesto"
+    }
+  ]
+}
