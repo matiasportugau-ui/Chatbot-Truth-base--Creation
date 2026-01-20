@@ -1,0 +1,437 @@
+{
+  "timestamp": "2026-01-19T22:15:19.136462",
+  "workspace": "/Users/matias/Chatbot Truth base  Creation ",
+  "analysis": {
+    "intelligence": {
+      "natural_language_understanding": {
+        "language": "Spanish (Rioplatense - Uruguay)",
+        "domain": "Technical-commercial (construction materials)",
+        "query_types_supported": [
+          "Product identification",
+          "Technical specifications",
+          "Price quotations",
+          "Technical validation",
+          "Product recommendations",
+          "Business rules queries"
+        ],
+        "complexity_handling": "Multi-phase quotation process (5 phases)",
+        "intent_recognition": "Product queries, quotations, technical questions"
+      },
+      "reasoning_capabilities": {
+        "multi_step_reasoning": true,
+        "technical_validation": true,
+        "optimization_suggestions": true,
+        "conflict_detection": true,
+        "formula_application": true,
+        "reasoning_steps": [
+          "Product identification",
+          "Parameter extraction",
+          "Technical validation (autoportancia)",
+          "Data retrieval from knowledge base",
+          "Formula-based calculations",
+          "Business rule application",
+          "Response generation"
+        ]
+      },
+      "knowledge_retrieval": {
+        "source_hierarchy": {
+          "level_1_master": [
+            "BMC_Base_Conocimiento_GPT-2.json"
+          ],
+          "level_2_validation": [],
+          "level_3_dynamic": [
+            "panelin_truth_bmcuruguay_web_only_v2.json"
+          ],
+          "level_4_support": [
+            "panelin_context_consolidacion_sin_backend.md"
+          ]
+        },
+        "retrieval_strategy": "Hierarchical source of truth with conflict resolution",
+        "files_count": 4,
+        "conflict_resolution": "Level 1 always wins, conflicts reported"
+      },
+      "context_management": {
+        "context_awareness": true,
+        "conversation_memory": "User-specific personalization",
+        "special_commands": [
+          "/estado",
+          "/checkpoint",
+          "/consolidar"
+        ],
+        "context_risk_monitoring": true,
+        "ledger_system": "Incremental ledger for context tracking"
+      },
+      "personalization": {
+        "user_specific": true,
+        "personalized_users": [
+          "Mauro",
+          "Martin",
+          "Rami"
+        ],
+        "personalization_type": "Dynamic, concept-guided, non-scripted",
+        "tone_adaptation": "Rioplatense, professional, technical but accessible"
+      },
+      "guardrails": {
+        "source_of_truth_enforcement": true,
+        "price_validation": "Must read Level 1 before giving prices",
+        "formula_validation": "Only use formulas from knowledge base",
+        "conflict_detection": true,
+        "business_rule_validation": true,
+        "guardrail_checks": [
+          "✓ ¿La información está en KB? → Si NO, decir \"No tengo esa información\"",
+          "✓ ¿Es de fuente autorizada (Nivel 1)? → Si NO, usar Nivel 1 y reportar diferencia",
+          "✓ ¿Hay conflictos detectados? → Reportar y usar Nivel 1",
+          "✓ ¿Cumple reglas de negocio? → Validar IVA, pendiente, etc.",
+          "✓ ¿Fórmulas correctas? → Usar solo fórmulas del JSON"
+        ]
+      }
+    },
+    "functionalities": {
+      "core_functions": {
+        "product_identification": true,
+        "price_quotation": true,
+        "technical_specification_lookup": true,
+        "autoportancia_validation": true,
+        "material_calculation": true,
+        "business_rule_application": true,
+        "pdf_generation": true,
+        "code_interpreter": true
+      },
+      "quotation_system": {
+        "phases": 5,
+        "phase_1_identification": {
+          "product_types": [
+            "Techo Liviano",
+            "Techo Pesado",
+            "Pared",
+            "Impermeabilización"
+          ],
+          "parameters_extracted": [
+            "espesor",
+            "luz",
+            "cantidad",
+            "tipo_fijacion"
+          ]
+        },
+        "phase_2_validation": {
+          "autoportancia_check": true,
+          "light_validation": true,
+          "recommendation_engine": true
+        },
+        "phase_3_data_retrieval": {
+          "price_lookup": true,
+          "specification_lookup": true,
+          "dynamic_price_check": true
+        },
+        "phase_4_calculations": {
+          "formulas_used": [
+            "Paneles calculation",
+            "Apoyos calculation",
+            "Puntos fijación",
+            "Varilla cantidad",
+            "Tuercas (metal/hormigón)",
+            "Tacos hormigón",
+            "Gotero (frontal/lateral)",
+            "Remaches",
+            "Silicona"
+          ],
+          "rounding_rules": "ROUNDUP for all calculations"
+        },
+        "phase_5_presentation": {
+          "detailed_breakdown": true,
+          "iva_calculation": true,
+          "technical_recommendations": true,
+          "fixation_notes": true
+        }
+      },
+      "product_consultation": {
+        "product_lines": [
+          "ISODEC",
+          "ISOPANEL",
+          "ISOROOF",
+          "ISOWALL"
+        ],
+        "specifications_available": [
+          "Espesores",
+          "Autoportancia",
+          "Ancho útil",
+          "Sistemas de fijación",
+          "Precios",
+          "Aplicaciones"
+        ],
+        "consultative_selling": true,
+        "optimization_suggestions": true
+      },
+      "technical_validation": {
+        "autoportancia_validation": true,
+        "light_distance_validation": true,
+        "safety_recommendations": true,
+        "material_optimization": true,
+        "structural_advice": true
+      },
+      "document_generation": {
+        "pdf_generation": true,
+        "pdf_tool": "Code Interpreter with reportlab",
+        "quote_formatting": true,
+        "structured_output": true
+      },
+      "integration_capabilities": {
+        "openai_assistants_api": true,
+        "knowledge_base_files": true,
+        "code_interpreter": true,
+        "social_media_ingestion": "Facebook, Instagram (via training system)",
+        "shopify_integration": "Via knowledge base JSON files"
+      }
+    },
+    "training_system": {
+      "architecture": {
+        "system_type": "GPT Simulation Agent",
+        "components": [
+          "SelfDiagnosisEngine",
+          "ExtractionEngine",
+          "GapAnalysisEngine",
+          "SocialIngestionEngine",
+          "TrainingProcessor",
+          "AnalyticsEngine"
+        ],
+        "workflow_phases": [
+          "Phase 1: Self-Configuration",
+          "Phase 2: Social Media Ingestion",
+          "Phase 3: Training Data Processing",
+          "Phase 4: Analytics Generation"
+        ]
+      },
+      "data_sources": {
+        "social_media": {
+          "platforms": [
+            "Facebook",
+            "Instagram"
+          ],
+          "data_types": [
+            "posts",
+            "comments",
+            "messages",
+            "DMs"
+          ],
+          "ingestion_method": "API-based",
+          "available": true
+        },
+        "quotes": {
+          "source": "Historical quotations",
+          "format": "JSON",
+          "available": true
+        },
+        "interactions": {
+          "source": "General user interactions",
+          "format": "JSON",
+          "available": true
+        }
+      },
+      "processing_pipeline": {
+        "steps": [
+          "1. Data Ingestion (Social Media APIs)",
+          "2. Normalization (Platform-specific → Standard format)",
+          "3. Aggregation (All sources combined)",
+          "4. Analytics (Pattern detection, metrics)",
+          "5. Report Generation (Markdown reports)"
+        ],
+        "normalization": "Platform-specific data normalized to standard interaction format",
+        "analytics_capabilities": [
+          "Question rate analysis",
+          "Common queries identification",
+          "Engagement metrics",
+          "Interaction patterns",
+          "Training data quality assessment"
+        ]
+      },
+      "analytics": {
+        "metrics_tracked": [
+          "Total interactions",
+          "Question rate",
+          "Common queries",
+          "Engagement metrics",
+          "Source distribution",
+          "Interaction patterns"
+        ],
+        "report_generation": true,
+        "report_format": "Markdown"
+      },
+      "social_media_integration": {
+        "facebook": {
+          "api_client": "FacebookAPIClient",
+          "endpoints": [
+            "posts",
+            "comments",
+            "messages"
+          ],
+          "config_required": [
+            "APP_ID",
+            "APP_SECRET",
+            "PAGE_ACCESS_TOKEN",
+            "PAGE_ID"
+          ]
+        },
+        "instagram": {
+          "api_client": "InstagramAPIClient",
+          "endpoints": [
+            "media",
+            "comments",
+            "DMs"
+          ],
+          "config_required": [
+            "APP_ID",
+            "ACCESS_TOKEN",
+            "BUSINESS_ACCOUNT_ID"
+          ]
+        },
+        "ingestion_parameters": {
+          "days_back": "Configurable (default: 30)",
+          "limit_per_platform": "Configurable (default: 1000)"
+        }
+      }
+    },
+    "architecture": {
+      "layered_architecture": {
+        "layer_1_identity": {
+          "purpose": "Fixed identity and personality",
+          "components": [
+            "Name (Panelin)",
+            "Role",
+            "User personalization"
+          ],
+          "immutable": true
+        },
+        "layer_2_knowledge_base": {
+          "purpose": "Structured information storage",
+          "hierarchy_levels": 4,
+          "files_count": 4
+        },
+        "layer_3_retrieval": {
+          "purpose": "Efficient information finding",
+          "strategy": "Hybrid search (semantic + keyword + structured)",
+          "reranking": true
+        },
+        "layer_4_generation": {
+          "purpose": "Response generation",
+          "pipeline": "Context + Instructions + Guardrails → LLM → Post-processing"
+        },
+        "layer_5_memory": {
+          "purpose": "User memory and personalization",
+          "features": [
+            "User history",
+            "Preferences",
+            "Conversation context"
+          ]
+        },
+        "layer_6_orchestration": {
+          "purpose": "Coordinate all layers",
+          "decision_flow": "Query type identification → Retrieval → Generation → Delivery"
+        }
+      },
+      "knowledge_base_structure": {
+        "total_files": 4,
+        "file_types": {
+          "json": 3,
+          "markdown": 1,
+          "rtf": 0,
+          "csv": 0
+        },
+        "hierarchy": {
+          "level_1_master": "BMC_Base_Conocimiento_GPT.json",
+          "level_2_validation": "BMC_Base_Unificada_v4.json",
+          "level_3_dynamic": "panelin_truth_bmcuruguay_web_only_v2.json",
+          "level_4_support": "Aleros.rtf, panelin_context_consolidacion_sin_backend.md, CSV"
+        }
+      },
+      "retrieval_strategy": {
+        "hybrid_search": {
+          "semantic_search": "Vector embeddings for intent capture",
+          "keyword_search": "Exact terms, product codes, numbers",
+          "structured_search": "JSON path queries, filters"
+        },
+        "reranking": {
+          "factors": [
+            "Semantic relevance",
+            "Source priority (Level 1 > 2 > 3)",
+            "Data freshness",
+            "Technical confidence"
+          ]
+        },
+        "chunking_strategy": "Logical structure-based (not just size), with overlapping"
+      },
+      "generation_pipeline": {
+        "input": "Retrieved context + System instructions + User personality",
+        "guardrails": "Source validation, formula validation, conflict detection",
+        "model": "GPT-4 / GPT-4 Turbo / GPT-4o (configurable)",
+        "post_processing": "Formula validation, price verification, output formatting",
+        "output": "Structured response (text or PDF)"
+      },
+      "orchestration": {
+        "query_classification": "Identifies query type (quotation, consultation, etc.)",
+        "flow_control": "Coordinates retrieval → validation → generation → delivery",
+        "error_handling": "Conflict detection, missing data handling, fallback strategies"
+      }
+    },
+    "capacities": {
+      "processing_capacity": {
+        "concurrent_users": "Limited by OpenAI API rate limits",
+        "quotation_complexity": "Multi-phase, formula-based calculations",
+        "context_window": "Model-dependent (GPT-4: 128k tokens)",
+        "response_time": "API-dependent, typically 2-10 seconds"
+      },
+      "knowledge_capacity": {
+        "knowledge_base_files": 4,
+        "product_coverage": "ISODEC, ISOPANEL, ISOROOF, ISOWALL lines",
+        "formula_coverage": "Complete quotation formulas",
+        "business_rules": "IVA, shipping, technical rules",
+        "update_mechanism": "Manual file updates + dynamic web snapshot"
+      },
+      "scalability": {
+        "horizontal_scaling": "Limited by OpenAI API",
+        "knowledge_expansion": "Add files to knowledge base",
+        "training_data_growth": "Social media ingestion supports growth",
+        "user_personalization": "Currently 3 users, extensible"
+      },
+      "performance_metrics": {
+        "accuracy": "High (source of truth enforcement)",
+        "precision": "High (formula validation)",
+        "recall": "High (hybrid search strategy)",
+        "consistency": "High (hierarchical source resolution)"
+      },
+      "limitations": {
+        "api_dependency": "Requires OpenAI API access",
+        "knowledge_boundaries": "Limited to knowledge base content",
+        "real_time_updates": "Manual or scheduled (not real-time)",
+        "multilingual": "Currently Spanish only",
+        "custom_model_training": "Uses pre-trained models, no fine-tuning yet"
+      }
+    },
+    "recommendations": {
+      "immediate_improvements": [
+        "Enhance source of truth enforcement in guardrails",
+        "Improve conflict detection and reporting",
+        "Add more detailed logging for debugging",
+        "Create comprehensive test cases for quotation formulas"
+      ],
+      "architectural_enhancements": [
+        "Implement vector database for semantic search",
+        "Add caching layer for frequently accessed data",
+        "Implement automatic knowledge base refresh",
+        "Add monitoring and alerting system",
+        "Create feedback loop for continuous improvement"
+      ],
+      "training_system_improvements": [
+        "Expand social media platform support",
+        "Implement automated training data quality checks",
+        "Add fine-tuning pipeline for custom model",
+        "Create training data validation framework"
+      ],
+      "performance_optimizations": [
+        "Implement query caching",
+        "Optimize knowledge base chunking",
+        "Add parallel processing for multi-source queries",
+        "Implement lazy loading for knowledge base files"
+      ]
+    }
+  }
+}
