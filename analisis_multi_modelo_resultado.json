@@ -1,0 +1,115 @@
+{
+  "resultados": [
+    {
+      "input": {
+        "fila": 3,
+        "fecha": "",
+        "cliente": "NOTAS",
+        "consulta": "",
+        "producto": "",
+        "dimensiones": "",
+        "luz": "",
+        "fijacion": "",
+        "notas": ""
+      },
+      "interpretacion": null,
+      "presupuesto": null,
+      "pdf_real": null,
+      "comparacion": null,
+      "analisis": null,
+      "leccion": null
+    },
+    {
+      "input": {
+        "fila": 4,
+        "fecha": "",
+        "cliente": "Nombre / precio de traslado",
+        "consulta": "",
+        "producto": "",
+        "dimensiones": "",
+        "luz": "",
+        "fijacion": "",
+        "notas": ""
+      },
+      "interpretacion": null,
+      "presupuesto": null,
+      "pdf_real": null,
+      "comparacion": null,
+      "analisis": null,
+      "leccion": null
+    },
+    {
+      "input": {
+        "fila": 5,
+        "fecha": "",
+        "cliente": "DENIS - Martes viene a buscar 2 Salchicas de silicona",
+        "consulta": "",
+        "producto": "",
+        "dimensiones": "",
+        "luz": "",
+        "fijacion": "",
+        "notas": ""
+      },
+      "interpretacion": null,
+      "presupuesto": null,
+      "pdf_real": null,
+      "comparacion": null,
+      "analisis": null,
+      "leccion": null
+    },
+    {
+      "input": {
+        "fila": 6,
+        "fecha": "",
+        "cliente": "",
+        "consulta": "",
+        "producto": "",
+        "dimensiones": "",
+        "luz": "",
+        "fijacion": "",
+        "notas": ""
+      },
+      "interpretacion": null,
+      "presupuesto": null,
+      "pdf_real": null,
+      "comparacion": null,
+      "analisis": null,
+      "leccion": null
+    },
+    {
+      "input": {
+        "fila": 7,
+        "fecha": "19-01",
+        "cliente": "",
+        "consulta": "",
+        "producto": "",
+        "dimensiones": "",
+        "luz": "",
+        "fijacion": "",
+        "notas": ""
+      },
+      "interpretacion": null,
+      "presupuesto": null,
+      "pdf_real": null,
+      "comparacion": null,
+      "analisis": null,
+      "leccion": null
+    }
+  ],
+  "resumen": {
+    "totales": 5,
+    "con_pdf": 0,
+    "comparados": 0,
+    "coinciden": 0
+  },
+  "modelos_usados": {
+    "input_processor": "gemini",
+    "quotation_calculator": "openai",
+    "pdf_finder": "gemini",
+    "pdf_extractor": "gemini",
+    "result_comparator": "openai",
+    "difference_analyzer": "claude",
+    "learning_engine": "claude",
+    "knowledge_interpreter": "claude"
+  }
+}

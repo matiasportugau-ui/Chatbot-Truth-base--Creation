@@ -19,6 +19,17 @@ from motor_cotizacion_panelin import MotorCotizacionPanelin
 
 motor = MotorCotizacionPanelin()
 
+# Importar agente de análisis (lazy import para evitar dependencias circulares)
+def get_analisis_function_schema():
+    """Importa y retorna schema de análisis"""
+    from agente_analisis_inteligente import get_analisis_function_schema as _get_schema
+    return _get_schema()
+
+def analizar_cotizacion_completa(*args, **kwargs):
+    """Importa y ejecuta análisis completo"""
+    from agente_analisis_inteligente import analizar_cotizacion_completa as _analizar
+    return _analizar(*args, **kwargs)
+
 
 # ============================================================================
 # FUNCIONES PARA AGENTES (Function Calling)
@@ -157,18 +168,29 @@ INSTRUCCIONES CRÍTICAS:
 3. Valida autoportancia ANTES de cotizar
 4. Indaga: pregunta dimensiones, luz, tipo de fijación
 5. Presenta resultados de forma profesional y consultiva
+6. Usa analizar_cotizacion_completa() para revisar inputs, generar presupuestos, encontrar PDFs reales, comparar y aprender
 
-PROCESO:
+PROCESO DE COTIZACIÓN:
 1. Indagar: dimensiones, luz, tipo de fijación
 2. Llamar calcular_cotizacion() con los datos
 3. Validar resultado (especialmente autoportancia)
 4. Presentar cotización completa con todos los detalles
-5. Ofrecer recomendaciones técnicas si aplica""",
+5. Ofrecer recomendaciones técnicas si aplica
+
+PROCESO DE ANÁLISIS Y APRENDIZAJE:
+1. Usa analizar_cotizacion_completa() para revisar inputs históricos
+2. El sistema generará presupuestos, buscará PDFs reales, comparará y aprenderá
+3. Analiza las diferencias y lecciones aprendidas
+4. Incorpora el conocimiento para mejorar futuras cotizaciones""",
         "model": "gpt-4",
         "tools": [
             {
                 "type": "function",
                 "function": get_cotizacion_function_schema()
+            },
+            {
+                "type": "function",
+                "function": get_analisis_function_schema()
             },
             {
                 "type": "code_interpreter"
@@ -243,7 +265,8 @@ class AgentePanelinOpenAI:
         self.client = OpenAI(api_key=api_key)
         self.assistant_id = assistant_id
         self.functions = {
-            "calcular_cotizacion": calcular_cotizacion_agente
+            "calcular_cotizacion": calcular_cotizacion_agente,
+            "analizar_cotizacion_completa": analizar_cotizacion_completa
         }
     
     def crear_asistente(self):
@@ -370,10 +393,9 @@ class AgentePanelinGemini:
         try:
             import google.generativeai as genai
             genai.configure(api_key=api_key)
-            # crear_config_gemini()["tools"] ya retorna una lista, no necesita wrapping adicional
             self.model = genai.GenerativeModel(
                 model_name="gemini-1.5-pro",
-                tools=crear_config_gemini()["tools"]
+                tools=[crear_config_gemini()["tools"]]
             )
         except ImportError:
             raise ImportError("Instala google-generativeai: pip install google-generativeai")
