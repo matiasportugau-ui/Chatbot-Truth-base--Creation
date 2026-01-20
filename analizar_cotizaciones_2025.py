@@ -40,26 +40,42 @@ class AnalizadorCotizaciones:
             return {}
     
     def _parsear_fecha(self, fecha_str: str) -> Optional[datetime]:
-        """Parsea fecha del formato DD-MM o similar"""
+        """Parsea fecha del formato DD-MM, YYYY-MM-DD o similar"""
         if not fecha_str or fecha_str.strip() == '':
             return None
         
         fecha_str = fecha_str.strip()
         
-        # Formato: "19-01" (día-mes, año 2025)
         try:
             # Remover espacios y caracteres extra
             fecha_str = fecha_str.replace(' ', '')
             
-            # Buscar patrón DD-MM
-            match = re.match(r'(\d{1,2})-(\d{1,2})', fecha_str)
-            if match:
-                dia = int(match.group(1))
-                mes = int(match.group(2))
+            # Primero intentar formato YYYY-MM-DD (4 dígitos, 1-2 dígitos, 1-2 dígitos)
+            match_yyyy_mm_dd = re.match(r'(\d{4})-(\d{1,2})-(\d{1,2})', fecha_str)
+            if match_yyyy_mm_dd:
+                año = int(match_yyyy_mm_dd.group(1))
+                mes = int(match_yyyy_mm_dd.group(2))
+                dia = int(match_yyyy_mm_dd.group(3))
+                
+                # Validar rango
+                if 1 <= mes <= 12 and 1 <= dia <= 31 and año >= 2000:
+                    try:
+                        return datetime(año, mes, dia)
+                    except ValueError:
+                        # Fecha inválida (ej: 31 de febrero)
+                        return None
+            
+            # Si no es YYYY-MM-DD, intentar formato DD-MM (día-mes)
+            # Usar año actual en lugar de hardcodear 2025
+            match_dd_mm = re.match(r'(\d{1,2})-(\d{1,2})', fecha_str)
+            if match_dd_mm:
+                dia = int(match_dd_mm.group(1))
+                mes = int(match_dd_mm.group(2))
                 
                 # Validar rango
                 if 1 <= mes <= 12 and 1 <= dia <= 31:
-                    año = 2025  # Asumimos 2025
+                    # Usar año actual en lugar de hardcodear 2025
+                    año = datetime.now().year
                     try:
                         return datetime(año, mes, dia)
                     except ValueError:

@@ -370,9 +370,10 @@ class AgentePanelinGemini:
         try:
             import google.generativeai as genai
             genai.configure(api_key=api_key)
+            # crear_config_gemini()["tools"] ya retorna una lista, no necesita wrapping adicional
             self.model = genai.GenerativeModel(
                 model_name="gemini-1.5-pro",
-                tools=[crear_config_gemini()["tools"]]
+                tools=crear_config_gemini()["tools"]
             )
         except ImportError:
             raise ImportError("Instala google-generativeai: pip install google-generativeai")
