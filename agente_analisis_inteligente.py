@@ -124,10 +124,18 @@ class AgenteAnalisisInteligente:
             largo = None
             ancho = None
             if dimensiones:
-                dim_match = re.search(r'(\d+(?:\.\d+)?)\s*[xX×]\s*(\d+(?:\.\d+)?)', dimensiones)
-                if dim_match:
-                    largo = float(dim_match.group(1))
-                    ancho = float(dim_match.group(2))
+                # Intentar múltiples formatos: "10 x 5", "10x5", "10m x 5m", etc.
+                dim_patterns = [
+                    r'(\d+(?:\.\d+)?)\s*[xX×]\s*(\d+(?:\.\d+)?)',  # "10 x 5"
+                    r'(\d+(?:\.\d+)?)\s*[xX×]\s*(\d+(?:\.\d+)?)\s*[mM]',  # "10 x 5m"
+                    r'(\d+(?:\.\d+)?)\s*[mM]?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*[mM]?',  # "10m x 5m"
+                ]
+                for pattern in dim_patterns:
+                    dim_match = re.search(pattern, dimensiones)
+                    if dim_match:
+                        largo = float(dim_match.group(1))
+                        ancho = float(dim_match.group(2))
+                        break
             
             # Extraer luz
             luz = None
