@@ -1,0 +1,160 @@
+{
+  "fecha": "2026-01-20T03:16:21.370908",
+  "resumen": {
+    "total": 10,
+    "exitosos": 0,
+    "con_total": 0
+  },
+  "resultados": [
+    {
+      "pdf": "Cotización 07062023 Accesorios ISOPANEL 250 mm - Javier Mezzina.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2023/2023 Montfrío/06 - Junio/Cotización 07062023 Accesorios ISOPANEL 250 mm - Javier Mezzina.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error leyendo PDF: Cannot read an empty file"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 30012024 German Sainz Isopanel EPS 100 mm -Ocean Park- LL.2.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2024/2024 Bromyros/01- Enero/Cotización 30012024 German Sainz Isopanel EPS 100 mm -Ocean Park- LL.2.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 19072025 Ramon Ferreiro  - Isodec EPS 150 mm -El Tesoro- WA.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/07 - Julio/Cotización 19072025 Ramon Ferreiro  - Isodec EPS 150 mm -El Tesoro- WA.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 25072022 MONTFRIO Pared 50mm y techo ISOROOF30.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2022/2022 Montfrío/06 - Junio/Cotización 25072022 MONTFRIO Pared 50mm y techo ISOROOF30.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 22062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2022/2022 Bromyros/06-Junio/Cotización 22062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 10062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2022/2022 Bromyros/06-Junio/Cotización 10062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 21062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2022/2022 Bromyros/06-Junio/Cotización 21062022 Alejandro Ibarra Isoroof 30 mm Maldonado LO.3.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 16062023 ISOPANEL 150mm Cubierta Luis - Las Piedras FB.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2023/2023 Montfrío/06 - Junio/Cotización 16062023 ISOPANEL 150mm Cubierta Luis - Las Piedras FB.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 19042022 Maria Fleurquin Tornillos y arandelas p. Isoroof Florida CL.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2022/2022 Becam/04 - Abril/Cotización 19042022 Maria Fleurquin Tornillos y arandelas p. Isoroof Florida CL.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    },
+    {
+      "pdf": "Cotización 12112025 Arq. Maria José Escamez - Accesorios Isoroof 30 mm Blanco - El Quijote, Maldonado - WA.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/2025 Bromyros/10 - Octubre/Cotización 12112025 Arq. Maria José Escamez - Accesorios Isoroof 30 mm Blanco - El Quijote, Maldonado - WA.pdf",
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Timeout leyendo PDF (archivo muy grande o corrupto)"
+      },
+      "exitoso": false,
+      "tiene_total": false
+    }
+  ]
+}

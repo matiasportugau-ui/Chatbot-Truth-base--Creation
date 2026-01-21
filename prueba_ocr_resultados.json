@@ -1,0 +1,181 @@
+{
+  "fecha": "2026-01-20T03:19:40.313502",
+  "resumen": {
+    "total": 10,
+    "exitosos": 0,
+    "con_total": 0,
+    "con_ocr": 0
+  },
+  "resultados": [
+    {
+      "pdf": "Cotización 20112020 Isopanel.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/11 - Noviembre/Cotización 20112020 Isopanel.pdf",
+      "size_kb": 193.7353515625,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 03112020 Alvaro Isopanel 100mm.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/11 - Noviembre/Cotización 03112020 Alvaro Isopanel 100mm.pdf",
+      "size_kb": 193.76953125,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 04112020 Isopanel.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/11 - Noviembre/Cotización 04112020 Isopanel.pdf",
+      "size_kb": 193.76953125,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 13022020 Claudio Isopanel.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/02 - Febrero/Cotización 13022020 Claudio Isopanel.pdf",
+      "size_kb": 194.060546875,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 21042020 Isopanel 100mm.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/04 - Abril/Cotización 21042020 Isopanel 100mm.pdf",
+      "size_kb": 193.751953125,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 09092020 CORUJO CONSTRUCTORA Isoroof.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/09 - Septiembre/Cotización 09092020 CORUJO CONSTRUCTORA Isoroof.pdf",
+      "size_kb": 192.5478515625,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 09092020 LEONARDO ISOPANEL 100mm.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/09 - Septiembre/Cotización 09092020 LEONARDO ISOPANEL 100mm.pdf",
+      "size_kb": 193.8486328125,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 10032020 Isopanel 100mm.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/03 - Marzo/Cotización 10032020 Isopanel 100mm.pdf",
+      "size_kb": 193.775390625,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 09062020 Isopanel 150mm.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/06- Junio/Cotización 09062020 Isopanel 150mm.pdf",
+      "size_kb": 189.5771484375,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    },
+    {
+      "pdf": "Cotización 09102020 - Isopanel.pdf",
+      "path": "/Users/matias/Library/CloudStorage/Dropbox/BMC - Uruguay/Cotizaciones/17-18-19-20-21-22-23-24/2020/2020 Montfrío/10 - Octubre/Cotización 09102020 - Isopanel.pdf",
+      "size_kb": 189.3232421875,
+      "datos": {
+        "total": null,
+        "subtotal": null,
+        "iva": null,
+        "productos": [],
+        "fecha": null,
+        "cliente": null,
+        "error": "Error en OCR: Unable to get page count.\nSyntax Warning: May not be a PDF file (continuing anyway)\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't find trailer dictionary\nSyntax Error: Couldn't read xref table\n"
+      },
+      "exitoso": false,
+      "tiene_total": false,
+      "metodo": "PyPDF2"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+2026-01-20 01:11:36,464 - FileOrganizerAgent - INFO - [agent.py:109] - Git repository detected, GitManager initialized
+2026-01-20 01:11:36,464 - FileOrganizerAgent - INFO - [agent.py:113] - Initialized FileOrganizerAgent for /Users/matias/Chatbot Truth base  Creation 

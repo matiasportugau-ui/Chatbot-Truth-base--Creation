@@ -15,6 +15,7 @@ from .agent_extraction import ExtractionEngine
 from .agent_gap_analysis import GapAnalysisEngine
 from .agent_social_ingestion import SocialIngestionEngine
 from .agent_training_processor import TrainingProcessor
+from .agent_gem_generator import GemGeneratorEngine
 
 
 class GPTSimulationAgent:
@@ -46,6 +47,10 @@ class GPTSimulationAgent:
         self.training_processor = TrainingProcessor(
             data_dir=str(self.output_dir.parent / "training_data")
         )
+        self.gem_generator = GemGeneratorEngine(
+            workspace_path=str(self.workspace_path),
+            output_dir=str(self.output_dir)
+        )
 
     def configure(self) -> Dict:
         """
@@ -63,6 +68,7 @@ class GPTSimulationAgent:
         # Phase 2: Extraction
         extracted = self.extraction_engine.extract_all()
         self._save_output("extracted_configs/extracted_config.json", extracted)
+        self._last_extracted_config = extracted  # Store for Gem generation
 
         # Phase 3: Gap analysis
         gap_analysis = self.gap_analysis_engine.analyze()
@@ -128,6 +134,66 @@ class GPTSimulationAgent:
         """Generate analytics from processed data"""
         results = self.process_training_data()
         return results.get("analysis", {})
+
+    def generate_gems(self, generate_multiple: bool = False) -> Dict:
+        """
+        Generate Google Labs Gems from extracted configuration
+
+        Args:
+            generate_multiple: If True, generates multiple Gems for different use cases
+
+        Returns:
+            Generated Gems data
+        """
+        logger.info("Generating Google Labs Gems...")
+
+        # First, ensure we have extracted configuration
+        if not hasattr(self, '_last_extracted_config'):
+            logger.info("Running configuration extraction first...")
+            config_result = self.configure()
+            extracted = config_result.get("extracted", {})
+        else:
+            extracted = self._last_extracted_config
+
+        if not extracted:
+            logger.warning("No extracted configuration available. Run configure() first.")
+            return {"error": "No extracted configuration available"}
+
+        # Generate Gem(s)
+        if generate_multiple:
+            gems = self.gem_generator.generate_multiple_gems(extracted)
+            result = {
+                "gems": gems,
+                "count": len(gems),
+                "source": "extracted_config"
+            }
+        else:
+            gem = self.gem_generator.generate_gem_from_config(extracted)
+            result = {
+                "gem": gem,
+                "source": "extracted_config"
+            }
+
+        self._save_output("generated_gems_summary.json", result)
+        return result
+
+    def generate_gem_from_training(self) -> Dict:
+        """
+        Generate a Gem based on training data patterns
+
+        Returns:
+            Generated Gem based on training data
+        """
+        logger.info("Generating Gem from training data...")
+
+        # Process training data if not already done
+        training_results = self.process_training_data()
+
+        # Generate Gem from training patterns
+        gem = self.gem_generator.generate_gem_from_training_data(training_results)
+
+        self._save_output("training_based_gem_summary.json", gem)
+        return gem
 
     def _save_output(self, filename: str, data: Dict):
         """Save output to file"""

@@ -1,0 +1,438 @@
+{
+  "source": "codex_analysis",
+  "codex_timestamp": "2026-01-20T01:37:08.239987",
+  "gems": [
+    {
+      "name": "Main Assistant Gem",
+      "type": "intelligence_based",
+      "gem": {
+        "workflow": {
+          "nombre": "Un App Que",
+          "descripcion": "Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica.",
+          "tipo": "research",
+          "analisis": {
+            "acciones": [],
+            "entradas": [],
+            "salidas": [],
+            "nombre": "Un App Que",
+            "complejidad": "baja"
+          },
+          "pasos": [
+            {
+              "orden": 2,
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              }
+            }
+          ],
+          "nodos": [
+            {
+              "id": "nodo_2",
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              },
+              "conexiones": []
+            }
+          ],
+          "validacion": {
+            "valido": false,
+            "errores": [
+              "El workflow debe tener al menos un nodo de entrada"
+            ],
+            "advertencias": [],
+            "total_nodos": 1,
+            "complejidad": "baja"
+          },
+          "timestamp": "2026-01-20T01:37:08.242623",
+          "version": "1.0",
+          "optimizaciones": [],
+          "optimizado": true
+        },
+        "descripcion_gem": "Crea un app que Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+        "instrucciones": [
+          "1. Accede a gemini.google.com y haz clic en 'Gems' en la barra lateral",
+          "2. Haz clic en 'New Gem' en la sección 'My Gems from Labs'",
+          "3. Si es tu primera vez, acepta unirte al experimento Opal",
+          "4. En el cuadro de texto, pega la siguiente descripción:",
+          "",
+          "Crea un app que Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+          "",
+          "5. Espera a que Gemini genere el workflow (puede tomar unos minutos)",
+          "6. Revisa los pasos generados en el editor visual",
+          "7. Haz clic en 'Start app' para probar el workflow",
+          "8. Si necesitas ajustes, usa comandos conversacionales o edita los nodos manualmente",
+          "9. Guarda el Gem cuando esté listo"
+        ],
+        "exportado": "{\n  \"nombre\": \"Un App Que\",\n  \"descripcion\": \"Un app que actúa como asistente inteligente especializado en Technical-commercial (construction materials), con capacidades de razonamiento multi-paso, validación técnica, y acceso a base de conocimiento jerárquica. El app puede realizar razonamiento complejo en múltiples pasos, accediendo a 4 archivos de conocimiento, resolviendo conflictos jerárquicamente, y generando respuestas personalizadas con validación técnica.\",\n  \"tipo\": \"research\",\n  \"analisis\": {\n    \"acciones\": [],\n    \"entradas\": [],\n    \"salidas\": [],\n    \"nombre\": \"Un App Que\",\n    \"complejidad\": \"baja\"\n  },\n  \"pasos\": [\n    {\n      \"orden\": 2,\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      }\n    }\n  ],\n  \"nodos\": [\n    {\n      \"id\": \"nodo_2\",\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      },\n      \"conexiones\": []\n    }\n  ],\n  \"validacion\": {\n    \"valido\": false,\n    \"errores\": [\n      \"El workflow debe tener al menos un nodo de entrada\"\n    ],\n    \"advertencias\": [],\n    \"total_nodos\": 1,\n    \"complejidad\": \"baja\"\n  },\n  \"timestamp\": \"2026-01-20T01:37:08.242623\",\n  \"version\": \"1.0\",\n  \"optimizaciones\": [],\n  \"optimizado\": true\n}",
+        "formato_exportado": "json",
+        "valido": false
+      }
+    },
+    {
+      "name": "Quotation System Gem",
+      "type": "functionality_based",
+      "gem": {
+        "workflow": {
+          "nombre": "Un App Que",
+          "descripcion": "Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización.",
+          "tipo": "data_processing",
+          "analisis": {
+            "acciones": [],
+            "entradas": [],
+            "salidas": [],
+            "nombre": "Un App Que",
+            "complejidad": "baja"
+          },
+          "pasos": [
+            {
+              "orden": 2,
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              }
+            }
+          ],
+          "nodos": [
+            {
+              "id": "nodo_2",
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              },
+              "conexiones": []
+            }
+          ],
+          "validacion": {
+            "valido": false,
+            "errores": [
+              "El workflow debe tener al menos un nodo de entrada"
+            ],
+            "advertencias": [],
+            "total_nodos": 1,
+            "complejidad": "baja"
+          },
+          "timestamp": "2026-01-20T01:37:08.242692",
+          "version": "1.0",
+          "optimizaciones": [],
+          "optimizado": true
+        },
+        "descripcion_gem": "Crea un app que Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+        "instrucciones": [
+          "1. Accede a gemini.google.com y haz clic en 'Gems' en la barra lateral",
+          "2. Haz clic en 'New Gem' en la sección 'My Gems from Labs'",
+          "3. Si es tu primera vez, acepta unirte al experimento Opal",
+          "4. En el cuadro de texto, pega la siguiente descripción:",
+          "",
+          "Crea un app que Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización..\n\nEl workflow debe:\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+          "",
+          "5. Espera a que Gemini genere el workflow (puede tomar unos minutos)",
+          "6. Revisa los pasos generados en el editor visual",
+          "7. Haz clic en 'Start app' para probar el workflow",
+          "8. Si necesitas ajustes, usa comandos conversacionales o edita los nodos manualmente",
+          "9. Guarda el Gem cuando esté listo"
+        ],
+        "exportado": "{\n  \"nombre\": \"Un App Que\",\n  \"descripcion\": \"Un app que genera cotizaciones completas en 5 fases: identificación de productos, validación técnica (autoportancia), búsqueda de datos en base de conocimiento, cálculos con fórmulas validadas, y presentación detallada con desglose de materiales, costos e IVA. Incluye validación de parámetros técnicos y recomendaciones de optimización.\",\n  \"tipo\": \"data_processing\",\n  \"analisis\": {\n    \"acciones\": [],\n    \"entradas\": [],\n    \"salidas\": [],\n    \"nombre\": \"Un App Que\",\n    \"complejidad\": \"baja\"\n  },\n  \"pasos\": [\n    {\n      \"orden\": 2,\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      }\n    }\n  ],\n  \"nodos\": [\n    {\n      \"id\": \"nodo_2\",\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      },\n      \"conexiones\": []\n    }\n  ],\n  \"validacion\": {\n    \"valido\": false,\n    \"errores\": [\n      \"El workflow debe tener al menos un nodo de entrada\"\n    ],\n    \"advertencias\": [],\n    \"total_nodos\": 1,\n    \"complejidad\": \"baja\"\n  },\n  \"timestamp\": \"2026-01-20T01:37:08.242692\",\n  \"version\": \"1.0\",\n  \"optimizaciones\": [],\n  \"optimizado\": true\n}",
+        "formato_exportado": "json",
+        "valido": false
+      }
+    },
+    {
+      "name": "Training & Analytics Gem",
+      "type": "training_based",
+      "gem": {
+        "workflow": {
+          "nombre": "Un App Que",
+          "descripcion": "Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios.",
+          "tipo": "analysis",
+          "analisis": {
+            "acciones": [],
+            "entradas": [],
+            "salidas": [
+              "reporte"
+            ],
+            "nombre": "Un App Que",
+            "complejidad": "baja"
+          },
+          "pasos": [
+            {
+              "orden": 2,
+              "tipo": "output",
+              "nombre": "Generar reporte",
+              "descripcion": "Presenta el resultado final: reporte",
+              "configuracion": {
+                "formato": "reporte",
+                "presentacion": "estructurada"
+              }
+            }
+          ],
+          "nodos": [
+            {
+              "id": "nodo_2",
+              "tipo": "output",
+              "nombre": "Generar reporte",
+              "descripcion": "Presenta el resultado final: reporte",
+              "configuracion": {
+                "formato": "reporte",
+                "presentacion": "estructurada"
+              },
+              "conexiones": []
+            }
+          ],
+          "validacion": {
+            "valido": false,
+            "errores": [
+              "El workflow debe tener al menos un nodo de entrada"
+            ],
+            "advertencias": [],
+            "total_nodos": 1,
+            "complejidad": "baja"
+          },
+          "timestamp": "2026-01-20T01:37:08.242732",
+          "version": "1.0",
+          "optimizaciones": [],
+          "optimizado": true
+        },
+        "descripcion_gem": "Crea un app que Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios..\n\nEl workflow debe:\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+        "instrucciones": [
+          "1. Accede a gemini.google.com y haz clic en 'Gems' en la barra lateral",
+          "2. Haz clic en 'New Gem' en la sección 'My Gems from Labs'",
+          "3. Si es tu primera vez, acepta unirte al experimento Opal",
+          "4. En el cuadro de texto, pega la siguiente descripción:",
+          "",
+          "Crea un app que Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios..\n\nEl workflow debe:\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+          "",
+          "5. Espera a que Gemini genere el workflow (puede tomar unos minutos)",
+          "6. Revisa los pasos generados en el editor visual",
+          "7. Haz clic en 'Start app' para probar el workflow",
+          "8. Si necesitas ajustes, usa comandos conversacionales o edita los nodos manualmente",
+          "9. Guarda el Gem cuando esté listo"
+        ],
+        "exportado": "{\n  \"nombre\": \"Un App Que\",\n  \"descripcion\": \"Un app que procesa datos de entrenamiento de múltiples fuentes (Facebook, Instagram), normaliza interacciones, identifica patrones comunes, analiza métricas de engagement, y genera reportes de analytics con insights sobre consultas frecuentes y comportamiento de usuarios.\",\n  \"tipo\": \"analysis\",\n  \"analisis\": {\n    \"acciones\": [],\n    \"entradas\": [],\n    \"salidas\": [\n      \"reporte\"\n    ],\n    \"nombre\": \"Un App Que\",\n    \"complejidad\": \"baja\"\n  },\n  \"pasos\": [\n    {\n      \"orden\": 2,\n      \"tipo\": \"output\",\n      \"nombre\": \"Generar reporte\",\n      \"descripcion\": \"Presenta el resultado final: reporte\",\n      \"configuracion\": {\n        \"formato\": \"reporte\",\n        \"presentacion\": \"estructurada\"\n      }\n    }\n  ],\n  \"nodos\": [\n    {\n      \"id\": \"nodo_2\",\n      \"tipo\": \"output\",\n      \"nombre\": \"Generar reporte\",\n      \"descripcion\": \"Presenta el resultado final: reporte\",\n      \"configuracion\": {\n        \"formato\": \"reporte\",\n        \"presentacion\": \"estructurada\"\n      },\n      \"conexiones\": []\n    }\n  ],\n  \"validacion\": {\n    \"valido\": false,\n    \"errores\": [\n      \"El workflow debe tener al menos un nodo de entrada\"\n    ],\n    \"advertencias\": [],\n    \"total_nodos\": 1,\n    \"complejidad\": \"baja\"\n  },\n  \"timestamp\": \"2026-01-20T01:37:08.242732\",\n  \"version\": \"1.0\",\n  \"optimizaciones\": [],\n  \"optimizado\": true\n}",
+        "formato_exportado": "json",
+        "valido": false
+      }
+    },
+    {
+      "name": "Architecture Analysis Gem",
+      "type": "architecture_based",
+      "gem": {
+        "workflow": {
+          "nombre": "Un App Que",
+          "descripcion": "Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora.",
+          "tipo": "analysis",
+          "analisis": {
+            "acciones": [],
+            "entradas": [
+              "tema"
+            ],
+            "salidas": [],
+            "nombre": "Un App Que",
+            "complejidad": "baja"
+          },
+          "pasos": [
+            {
+              "orden": 1,
+              "tipo": "input",
+              "nombre": "Recibir tema",
+              "descripcion": "Recibe como entrada: tema",
+              "configuracion": {
+                "campos": [
+                  "tema"
+                ]
+              }
+            },
+            {
+              "orden": 2,
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              }
+            }
+          ],
+          "nodos": [
+            {
+              "id": "nodo_1",
+              "tipo": "input",
+              "nombre": "Recibir tema",
+              "descripcion": "Recibe como entrada: tema",
+              "configuracion": {
+                "campos": [
+                  "tema"
+                ]
+              },
+              "conexiones": [
+                {
+                  "target": "nodo_2",
+                  "tipo": "secuencial"
+                }
+              ]
+            },
+            {
+              "id": "nodo_2",
+              "tipo": "output",
+              "nombre": "Resultado final",
+              "descripcion": "Presenta el resultado del workflow",
+              "configuracion": {
+                "formato": "texto"
+              },
+              "conexiones": []
+            }
+          ],
+          "validacion": {
+            "valido": true,
+            "errores": [],
+            "advertencias": [],
+            "total_nodos": 2,
+            "complejidad": "baja"
+          },
+          "timestamp": "2026-01-20T01:37:08.242766",
+          "version": "1.0",
+          "optimizaciones": [],
+          "optimizado": true
+        },
+        "descripcion_gem": "Crea un app que Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+        "instrucciones": [
+          "1. Accede a gemini.google.com y haz clic en 'Gems' en la barra lateral",
+          "2. Haz clic en 'New Gem' en la sección 'My Gems from Labs'",
+          "3. Si es tu primera vez, acepta unirte al experimento Opal",
+          "4. En el cuadro de texto, pega la siguiente descripción:",
+          "",
+          "Crea un app que Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado del workflow\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+          "",
+          "5. Espera a que Gemini genere el workflow (puede tomar unos minutos)",
+          "6. Revisa los pasos generados en el editor visual",
+          "7. Haz clic en 'Start app' para probar el workflow",
+          "8. Si necesitas ajustes, usa comandos conversacionales o edita los nodos manualmente",
+          "9. Guarda el Gem cuando esté listo"
+        ],
+        "exportado": "{\n  \"nombre\": \"Un App Que\",\n  \"descripcion\": \"Un app que analiza arquitectura de sistemas de IA, identificando 0 componentes principales, mapeando flujos de trabajo, analizando integraciones, y generando documentación técnica con recomendaciones de mejora.\",\n  \"tipo\": \"analysis\",\n  \"analisis\": {\n    \"acciones\": [],\n    \"entradas\": [\n      \"tema\"\n    ],\n    \"salidas\": [],\n    \"nombre\": \"Un App Que\",\n    \"complejidad\": \"baja\"\n  },\n  \"pasos\": [\n    {\n      \"orden\": 1,\n      \"tipo\": \"input\",\n      \"nombre\": \"Recibir tema\",\n      \"descripcion\": \"Recibe como entrada: tema\",\n      \"configuracion\": {\n        \"campos\": [\n          \"tema\"\n        ]\n      }\n    },\n    {\n      \"orden\": 2,\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      }\n    }\n  ],\n  \"nodos\": [\n    {\n      \"id\": \"nodo_1\",\n      \"tipo\": \"input\",\n      \"nombre\": \"Recibir tema\",\n      \"descripcion\": \"Recibe como entrada: tema\",\n      \"configuracion\": {\n        \"campos\": [\n          \"tema\"\n        ]\n      },\n      \"conexiones\": [\n        {\n          \"target\": \"nodo_2\",\n          \"tipo\": \"secuencial\"\n        }\n      ]\n    },\n    {\n      \"id\": \"nodo_2\",\n      \"tipo\": \"output\",\n      \"nombre\": \"Resultado final\",\n      \"descripcion\": \"Presenta el resultado del workflow\",\n      \"configuracion\": {\n        \"formato\": \"texto\"\n      },\n      \"conexiones\": []\n    }\n  ],\n  \"validacion\": {\n    \"valido\": true,\n    \"errores\": [],\n    \"advertencias\": [],\n    \"total_nodos\": 2,\n    \"complejidad\": \"baja\"\n  },\n  \"timestamp\": \"2026-01-20T01:37:08.242766\",\n  \"version\": \"1.0\",\n  \"optimizaciones\": [],\n  \"optimizado\": true\n}",
+        "formato_exportado": "json",
+        "valido": true
+      }
+    },
+    {
+      "name": "Capacity Assessment Gem",
+      "type": "capacity_based",
+      "gem": {
+        "workflow": {
+          "nombre": "Un App Que",
+          "descripcion": "Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento.",
+          "tipo": "analysis",
+          "analisis": {
+            "acciones": [],
+            "entradas": [
+              "tema"
+            ],
+            "salidas": [
+              "reporte"
+            ],
+            "nombre": "Un App Que",
+            "complejidad": "baja"
+          },
+          "pasos": [
+            {
+              "orden": 1,
+              "tipo": "input",
+              "nombre": "Recibir tema",
+              "descripcion": "Recibe como entrada: tema",
+              "configuracion": {
+                "campos": [
+                  "tema"
+                ]
+              }
+            },
+            {
+              "orden": 2,
+              "tipo": "output",
+              "nombre": "Generar reporte",
+              "descripcion": "Presenta el resultado final: reporte",
+              "configuracion": {
+                "formato": "reporte",
+                "presentacion": "estructurada"
+              }
+            }
+          ],
+          "nodos": [
+            {
+              "id": "nodo_1",
+              "tipo": "input",
+              "nombre": "Recibir tema",
+              "descripcion": "Recibe como entrada: tema",
+              "configuracion": {
+                "campos": [
+                  "tema"
+                ]
+              },
+              "conexiones": [
+                {
+                  "target": "nodo_2",
+                  "tipo": "secuencial"
+                }
+              ]
+            },
+            {
+              "id": "nodo_2",
+              "tipo": "output",
+              "nombre": "Generar reporte",
+              "descripcion": "Presenta el resultado final: reporte",
+              "configuracion": {
+                "formato": "reporte",
+                "presentacion": "estructurada"
+              },
+              "conexiones": []
+            }
+          ],
+          "validacion": {
+            "valido": true,
+            "errores": [],
+            "advertencias": [],
+            "total_nodos": 2,
+            "complejidad": "baja"
+          },
+          "timestamp": "2026-01-20T01:37:08.242799",
+          "version": "1.0",
+          "optimizaciones": [],
+          "optimizado": true
+        },
+        "descripcion_gem": "Crea un app que Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+        "instrucciones": [
+          "1. Accede a gemini.google.com y haz clic en 'Gems' en la barra lateral",
+          "2. Haz clic en 'New Gem' en la sección 'My Gems from Labs'",
+          "3. Si es tu primera vez, acepta unirte al experimento Opal",
+          "4. En el cuadro de texto, pega la siguiente descripción:",
+          "",
+          "Crea un app que Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento..\n\nEl workflow debe:\n- Recibe como entrada: tema\n- Presenta el resultado final: reporte\n\nEl app debe presentar el resultado final de forma clara y estructurada.",
+          "",
+          "5. Espera a que Gemini genere el workflow (puede tomar unos minutos)",
+          "6. Revisa los pasos generados en el editor visual",
+          "7. Haz clic en 'Start app' para probar el workflow",
+          "8. Si necesitas ajustes, usa comandos conversacionales o edita los nodos manualmente",
+          "9. Guarda el Gem cuando esté listo"
+        ],
+        "exportado": "{\n  \"nombre\": \"Un App Que\",\n  \"descripcion\": \"Un app que evalúa capacidades de sistemas de IA, analizando capacidad actual vs potencial, identificando cuellos de botella, sugiriendo optimizaciones, y generando reportes de capacidad con métricas de rendimiento y recomendaciones de escalamiento.\",\n  \"tipo\": \"analysis\",\n  \"analisis\": {\n    \"acciones\": [],\n    \"entradas\": [\n      \"tema\"\n    ],\n    \"salidas\": [\n      \"reporte\"\n    ],\n    \"nombre\": \"Un App Que\",\n    \"complejidad\": \"baja\"\n  },\n  \"pasos\": [\n    {\n      \"orden\": 1,\n      \"tipo\": \"input\",\n      \"nombre\": \"Recibir tema\",\n      \"descripcion\": \"Recibe como entrada: tema\",\n      \"configuracion\": {\n        \"campos\": [\n          \"tema\"\n        ]\n      }\n    },\n    {\n      \"orden\": 2,\n      \"tipo\": \"output\",\n      \"nombre\": \"Generar reporte\",\n      \"descripcion\": \"Presenta el resultado final: reporte\",\n      \"configuracion\": {\n        \"formato\": \"reporte\",\n        \"presentacion\": \"estructurada\"\n      }\n    }\n  ],\n  \"nodos\": [\n    {\n      \"id\": \"nodo_1\",\n      \"tipo\": \"input\",\n      \"nombre\": \"Recibir tema\",\n      \"descripcion\": \"Recibe como entrada: tema\",\n      \"configuracion\": {\n        \"campos\": [\n          \"tema\"\n        ]\n      },\n      \"conexiones\": [\n        {\n          \"target\": \"nodo_2\",\n          \"tipo\": \"secuencial\"\n        }\n      ]\n    },\n    {\n      \"id\": \"nodo_2\",\n      \"tipo\": \"output\",\n      \"nombre\": \"Generar reporte\",\n      \"descripcion\": \"Presenta el resultado final: reporte\",\n      \"configuracion\": {\n        \"formato\": \"reporte\",\n        \"presentacion\": \"estructurada\"\n      },\n      \"conexiones\": []\n    }\n  ],\n  \"validacion\": {\n    \"valido\": true,\n    \"errores\": [],\n    \"advertencias\": [],\n    \"total_nodos\": 2,\n    \"complejidad\": \"baja\"\n  },\n  \"timestamp\": \"2026-01-20T01:37:08.242799\",\n  \"version\": \"1.0\",\n  \"optimizaciones\": [],\n  \"optimizado\": true\n}",
+        "formato_exportado": "json",
+        "valido": true
+      }
+    }
+  ],
+  "total_gems": 5,
+  "codex_insights_used": {
+    "intelligence": true,
+    "functionalities": true,
+    "training_system": true,
+    "architecture": true,
+    "capacities": true
+  }
+}

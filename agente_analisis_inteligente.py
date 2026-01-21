@@ -97,22 +97,7 @@ class AgenteAnalisisInteligente:
             # Extraer parámetros del input
             consulta = input_data.get('consulta', '').upper()
             dimensiones = input_data.get('dimensiones', '')
-            # Si no hay dimensiones en el campo específico, intentar extraer de la consulta
-            if not dimensiones:
-                # Buscar patrones de dimensiones en la consulta: "10m x 5m", "10 x 5", etc.
-                dim_match_consulta = re.search(
-                    r'(\d+(?:\.\d+)?)\s*(?:m|metros?)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metros?)?',
-                    input_data.get('consulta', ''),
-                    re.IGNORECASE
-                )
-                if dim_match_consulta:
-                    dimensiones = f"{dim_match_consulta.group(1)} x {dim_match_consulta.group(2)}"
             luz_str = input_data.get('luz', '')
-            # Si no hay luz en el campo específico, intentar extraer de la consulta
-            if not luz_str:
-                luz_match = re.search(r'luz[:\s]*(\d+(?:\.\d+)?)', input_data.get('consulta', ''), re.IGNORECASE)
-                if luz_match:
-                    luz_str = luz_match.group(1)
             
             # Identificar producto
             producto = None
@@ -140,9 +125,10 @@ class AgenteAnalisisInteligente:
             ancho = None
             if dimensiones:
                 # Intentar múltiples formatos: "10 x 5", "10x5", "10m x 5m", "10metros x 5metros", etc.
-                # Regex unificado que soporta unidades opcionales (m, metros)
+                # Regex unificado que soporta unidades opcionales (m, metro, metros)
+                # Patrón corregido: (?:m|metro|metros)? hace opcional el grupo completo
                 dim_match = re.search(
-                    r'(\d+(?:\.\d+)?)\s*(?:m|metros?)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metros?)?',
+                    r'(\d+(?:\.\d+)?)\s*(?:m|metro|metros)?\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(?:m|metro|metros)?',
                     dimensiones,
                     re.IGNORECASE
                 )
@@ -296,21 +282,84 @@ class AgenteAnalisisInteligente:
             import PyPDF2
             import signal
             
-            def timeout_handler(signum, frame):
-                raise TimeoutError("Timeout leyendo PDF")
+            texto = ''
+            usar_ocr = False
             
-            signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(30)  # 30 segundos timeout
-            
+            # Intentar lectura normal con timeout corto
             try:
-                with open(pdf_path, 'rb') as f:
-                    pdf_reader = PyPDF2.PdfReader(f)
-                    texto = ''
-                    
-                    for page in pdf_reader.pages[:5]:  # Primeras 5 páginas
-                        texto += page.extract_text() + '\n'
+                def timeout_handler(signum, frame):
+                    raise TimeoutError("Timeout leyendo PDF")
                 
-                signal.alarm(0)  # Cancelar timeout
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(5)  # 5 segundos timeout (muy corto)
+                
+                try:
+                    try:
+                        with open(pdf_path, 'rb') as f:
+                            pdf_reader = PyPDF2.PdfReader(f)
+                            
+                            # Intentar solo primera página primero (más rápido)
+                            try:
+                                if len(pdf_reader.pages) > 0:
+                                    texto = pdf_reader.pages[0].extract_text() + '\n'
+                            except:
+                                pass
+                            
+                            # Si no hay texto suficiente, intentar última página
+                            if len(texto.strip()) < 50 and len(pdf_reader.pages) > 1:
+                                try:
+                                    texto += pdf_reader.pages[-1].extract_text() + '\n'
+                                except:
+                                    pass
+                        
+                    except (TimeoutError, Exception):
+                        # Si falla la lectura normal, usar OCR
+                        usar_ocr = True
+                        datos['error'] = "Timeout leyendo PDF, intentando OCR"
+                    finally:
+                        # Siempre cancelar el alarm, incluso si hay excepciones
+                        signal.alarm(0)
+                    
+                except Exception as e:
+                    # Si falla la configuración del signal o algo más, cancelar alarm y usar OCR
+                    signal.alarm(0)  # Asegurar que el alarm se cancele
+                    usar_ocr = True
+                    datos['error'] = f"Error leyendo PDF: {str(e)}, intentando OCR"
+            except Exception as e:
+                # Si falla completamente (incluyendo signal.signal o signal.alarm), intentar OCR
+                # Intentar cancelar alarm por si acaso fue configurado
+                try:
+                    signal.alarm(0)
+                except:
+                    pass  # Si falla, no hay nada que hacer
+                usar_ocr = True
+                datos['error'] = f"Error leyendo PDF: {str(e)}, intentando OCR"
+            
+            # Si el texto está vacío o es muy corto, o si hubo timeout, intentar OCR
+            if usar_ocr or len(texto.strip()) < 50:
+                try:
+                    # Intentar OCR con pdf2image y pytesseract
+                    from pdf2image import convert_from_path
+                    import pytesseract
+                    
+                    # Convertir primera página a imagen (solo si no hay texto)
+                    images = convert_from_path(pdf_path, first_page=1, last_page=1, dpi=200)
+                    if images:
+                        texto_ocr = pytesseract.image_to_string(images[0], lang='spa')
+                        if len(texto_ocr.strip()) > len(texto.strip()):
+                            texto = texto_ocr
+                            datos['metodo_extraccion'] = 'OCR'
+                            # Limpiar error si OCR funcionó
+                            if datos.get('error') and 'OCR' in datos['error']:
+                                datos['error'] = None
+                except ImportError:
+                    # OCR no disponible
+                    if not texto:
+                        datos['error'] = "OCR no disponible y texto no encontrado"
+                except Exception as e:
+                    # Error en OCR
+                    if not texto:
+                        datos['error'] = f"Error en OCR: {str(e)}"
                 
                 # Buscar totales
                 # Patrones comunes: "TOTAL", "Total USD", "$ XXXX", etc.
@@ -318,17 +367,25 @@ class AgenteAnalisisInteligente:
                     r'TOTAL[:\s]*USD[:\s]*\$?\s*([\d,]+\.?\d*)',
                     r'Total[:\s]*\$?\s*([\d,]+\.?\d*)',
                     r'\$\s*([\d,]+\.?\d*)\s*\(?TOTAL\)?',
+                    r'IMPORTE[:\s]*TOTAL[:\s]*\$?\s*([\d,]+\.?\d*)',
+                    r'TOTAL[:\s]*\$?\s*([\d,]+\.?\d*)',
                 ]
                 
+                # Buscar todos los totales posibles y usar el más grande
+                totales_encontrados = []
                 for pattern in total_patterns:
-                    match = re.search(pattern, texto, re.IGNORECASE)
-                    if match:
-                        total_str = match.group(1).replace(',', '')
+                    matches = re.finditer(pattern, texto, re.IGNORECASE)
+                    for match in matches:
+                        total_str = match.group(1).replace(',', '').replace('.', '')
                         try:
-                            datos['total'] = float(total_str)
-                            break
+                            total_val = float(total_str)
+                            if total_val > 100:  # Filtrar valores muy pequeños
+                                totales_encontrados.append(total_val)
                         except:
                             pass
+                
+                if totales_encontrados:
+                    datos['total'] = max(totales_encontrados)  # Usar el más grande
                 
                 # Buscar subtotal
                 subtotal_patterns = [
@@ -389,13 +446,6 @@ class AgenteAnalisisInteligente:
                             break
                         except:
                             pass
-                
-            except TimeoutError:
-                datos['error'] = "Timeout leyendo PDF (archivo muy grande o corrupto)"
-            except Exception as e:
-                datos['error'] = f"Error leyendo PDF: {str(e)}"
-            finally:
-                signal.alarm(0)
                 
         except ImportError:
             datos['error'] = "PyPDF2 no instalado. Ejecuta: pip install PyPDF2"

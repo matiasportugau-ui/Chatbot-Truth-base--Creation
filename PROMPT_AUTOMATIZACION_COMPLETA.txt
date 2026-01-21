@@ -1,0 +1,11 @@
+================================================================================
+🚀 PROMPT ÚNICO - AUTOMATIZACIÓN COMPLETA DEL SISTEMA
+================================================================================
+
+Copia y pega este prompt completo en Google Labs para automatizar todo el proceso:
+
+================================================================================
+
+An app or workflow that automates the complete AI system analysis and Gem generation pipeline. The app receives a workspace path or configuration files, runs comprehensive Codex analysis to extract intelligence capabilities, functionalities, training system architecture, and capacity assessments. It then automatically generates multiple specialized Google Labs Gems based on the analysis: (1) Main Assistant Gem with multi-step reasoning and hierarchical knowledge base access for technical-commercial construction materials, (2) Quotation System Gem with 5-phase quotation process including product identification, technical validation (autoportancia), knowledge base retrieval, formula-based calculations, and detailed cost breakdown with VAT, (3) Training & Analytics Gem that processes data from Facebook and Instagram, normalizes interactions, identifies patterns, analyzes engagement metrics, and generates analytics reports, (4) Architecture Analysis Gem that analyzes AI system architectures, maps workflows, analyzes integrations, and generates technical documentation, (5) Capacity Assessment Gem that evaluates AI capabilities, identifies bottlenecks, suggests optimizations, and generates capacity reports. The app automatically extracts configuration from JSON, Markdown, and YAML files, performs gap analysis, generates workflow structures, validates each Gem, optimizes workflows, and outputs ready-to-use Gem descriptions with step-by-step instructions. All Gems are generated with complete workflow structures, input/output nodes, validation status, and export formats (JSON, Markdown, Gem descriptions). The app presents all generated Gems in a structured format with their descriptions ready to copy into Google Labs, along with validation results and optimization recommendations.
+
+================================================================================

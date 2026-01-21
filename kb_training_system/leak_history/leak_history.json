@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-01-21T01:39:38.210254",
+  "leaks": [
+    {
+      "leak_id": "LEAK-20260121-013938-0",
+      "leak_type": "missing_info",
+      "query": "¿Qué espesor necesito para 6 metros de luz?",
+      "response": "Para 6 metros de luz necesitas mínimo 150mm (autoportancia 7.5m), el de 100mm solo aguanta 5.5m",
+      "detected_at": "2026-01-21T01:39:38.210050",
+      "severity": "high",
+      "category": "espesor",
+      "missing_information": "Specific espesor data not provided",
+      "expected_source": null,
+      "actual_sources": [
+        "BMC_Base_Conocimiento_GPT.json"
+      ],
+      "recommendations": [
+        "Ensure espesor information is available in KB",
+        "Add espesor to Level 1 source if missing"
+      ]
+    }
+  ]
+}

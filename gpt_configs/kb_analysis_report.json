@@ -1,0 +1,187 @@
+{
+  "timestamp": "2026-01-20T02:54:35.380379",
+  "knowledge_base_analysis": {
+    "timestamp": "2026-01-20T02:54:35.378276",
+    "knowledge_base_path": "Files ",
+    "files_found": [
+      {
+        "name": "BMC_Base_Conocimiento_GPT.json",
+        "path": "Files /BMC_Base_Conocimiento_GPT.json",
+        "exists": false,
+        "level": 1,
+        "role": "master"
+      },
+      {
+        "name": "BMC_Base_Conocimiento_GPT-2.json",
+        "path": "Files /BMC_Base_Conocimiento_GPT-2.json",
+        "exists": false,
+        "level": 1,
+        "role": "master"
+      },
+      {
+        "name": "BMC_Base_Unificada_v4.json",
+        "path": "Files /BMC_Base_Unificada_v4.json",
+        "size": 9080,
+        "exists": true,
+        "level": 2,
+        "role": "validation"
+      },
+      {
+        "name": "panelin_truth_bmcuruguay_web_only_v2.json",
+        "path": "Files /panelin_truth_bmcuruguay_web_only_v2.json",
+        "size": 6528,
+        "exists": true,
+        "level": 3,
+        "role": "dynamic"
+      },
+      {
+        "name": "Aleros -2.rtf",
+        "path": "Files /Aleros -2.rtf",
+        "size": 2250,
+        "exists": true,
+        "level": 4,
+        "role": "support"
+      },
+      {
+        "name": "panelin_truth_bmcuruguay_catalog_v2_index.csv",
+        "path": "Files /panelin_truth_bmcuruguay_catalog_v2_index.csv",
+        "size": 1231,
+        "exists": true,
+        "level": 4,
+        "role": "support"
+      }
+    ],
+    "hierarchy_analysis": {
+      "level_1_master": {
+        "expected": [
+          "BMC_Base_Conocimiento_GPT.json",
+          "BMC_Base_Conocimiento_GPT-2.json"
+        ],
+        "found": [],
+        "complete": false
+      },
+      "level_2_validation": {
+        "expected": [
+          "BMC_Base_Unificada_v4.json"
+        ],
+        "found": [
+          "BMC_Base_Unificada_v4.json"
+        ],
+        "complete": true
+      },
+      "level_3_dynamic": {
+        "expected": [
+          "panelin_truth_bmcuruguay_web_only_v2.json"
+        ],
+        "found": [
+          "panelin_truth_bmcuruguay_web_only_v2.json"
+        ],
+        "complete": true
+      },
+      "level_4_support": {
+        "expected": [
+          "Aleros -2.rtf",
+          "panelin_truth_bmcuruguay_catalog_v2_index.csv"
+        ],
+        "found": [
+          "Aleros -2.rtf",
+          "panelin_truth_bmcuruguay_catalog_v2_index.csv"
+        ],
+        "complete": true
+      }
+    },
+    "content_analysis": {
+      "products": 2,
+      "formulas": 1,
+      "prices": 43,
+      "specifications": 45,
+      "file_types": {
+        "BMC_Base_Unificada_v4.json": {
+          "products": 1,
+          "formulas": 1,
+          "prices": 34,
+          "specifications": 29
+        },
+        "panelin_truth_bmcuruguay_web_only_v2.json": {
+          "products": 1,
+          "formulas": 0,
+          "prices": 9,
+          "specifications": 16
+        }
+      }
+    },
+    "structure_analysis": {
+      "hierarchy_defined": true,
+      "source_of_truth_clear": false,
+      "conflict_resolution": "hierarchical",
+      "file_organization": "good"
+    },
+    "quality_metrics": {
+      "completeness": 0.6666666666666666,
+      "level_1_present": false,
+      "level_2_present": true,
+      "level_3_present": true,
+      "total_files": 4,
+      "total_size": 19089
+    },
+    "evolution_opportunities": [
+      "Add Level 1 (Master) knowledge base file",
+      "Expand product catalog for better coverage",
+      "Clarify source of truth hierarchy"
+    ],
+    "gpt_readiness": {
+      "ready": false,
+      "score": 30,
+      "requirements_met": [
+        "Product data present",
+        "Formulas present"
+      ],
+      "requirements_missing": [
+        "Level 1 (Master) file required",
+        "Define source of truth hierarchy"
+      ],
+      "recommendations": [
+        "Knowledge base needs improvement. Current score: 30/100. Address missing requirements to reach 70+ score."
+      ]
+    }
+  },
+  "validation_results": {
+    "level_1_files": [],
+    "level_2_files": [
+      "Files /BMC_Base_Unificada_v4.json"
+    ],
+    "level_3_files": [
+      "Files /panelin_truth_bmcuruguay_web_only_v2.json"
+    ],
+    "validation_errors": [
+      "CRITICAL: Level 1 file missing: BMC_Base_Conocimiento_GPT.json",
+      "CRITICAL: Level 1 file missing: BMC_Base_Conocimiento_GPT-2.json"
+    ],
+    "validation_warnings": []
+  },
+  "conflicts": {
+    "timestamp": "2026-01-20T02:54:35.380368",
+    "total_conflicts": 0,
+    "critical": 0,
+    "warnings": 0,
+    "info": 0,
+    "conflicts": []
+  },
+  "gpt_patterns": {
+    "knowledge_base_hierarchy": true,
+    "source_of_truth_enforcement": true,
+    "conflict_resolution": "hierarchical",
+    "validation_required": true,
+    "recommended_structure": {
+      "level_1_master": "Primary source for prices, formulas, specifications",
+      "level_2_validation": "Cross-reference only",
+      "level_3_dynamic": "Price updates and stock status",
+      "level_4_support": "Contextual support files"
+    }
+  },
+  "recommendations": [
+    "CRITICAL: Fix missing Level 1 files - these are required for GPT operation",
+    "Knowledge base can be evolved for better GPT performance"
+  ],
+  "health_score": 60.0
+}
