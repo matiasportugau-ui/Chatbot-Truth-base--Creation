@@ -1249,10 +1249,10 @@ class AgenteIngestionAnalisis:
         
         # Guardar reporte
         report_file = self.output_dir / f"reporte_completo_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(reporte_file, 'w', encoding='utf-8') as f:
+        with open(report_file, 'w', encoding='utf-8') as f:
             json.dump(reporte, f, indent=2, ensure_ascii=False, default=str)
         
-        print(f"\n✅ Reporte guardado en: {reporte_file}")
+        print(f"\n✅ Reporte guardado en: {report_file}")
         
         return reporte
     

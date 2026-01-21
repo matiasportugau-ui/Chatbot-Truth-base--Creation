@@ -1,0 +1,451 @@
+{
+  "timestamp": "2026-01-21T03:42:00.983683",
+  "ingestion_summary": {
+    "total_records": 7,
+    "by_source": {
+      "quote": 5,
+      "instagram": 1,
+      "facebook": 1
+    },
+    "by_platform": {
+      "csv": 5,
+      "instagram": 1,
+      "facebook": 1
+    },
+    "date_range": {
+      "min": "2026-01-21T01:39:34.606004",
+      "max": "2026-01-21T01:39:34.606008"
+    },
+    "database_path": "ingestion_database.db"
+  },
+  "quote_analysis": {
+    "total_quotes": 10,
+    "analyses": [
+      {
+        "id": "quote_15_20260121034146",
+        "query": "Isodec EPs 100mm / Ver plano / Completo (babetas) + Flete",
+        "analysis": {
+          "query": "Isodec EPs 100mm / Ver plano / Completo (babetas) + Flete",
+          "product_detected": true,
+          "product_code": "ISODEC EPS",
+          "product_name": "ISODEC EPS",
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.2333333333333333,
+          "issues": [
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_17_20260121034146",
+        "query": "Enviar presupuesto con fecha de hoy, con FLETE INCLUIDO a Chihuahua.",
+        "analysis": {
+          "query": "Enviar presupuesto con fecha de hoy, con FLETE INCLUIDO a Chihuahua.",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_19_20260121034146",
+        "query": "Reclamo / envio de HM por ML / cliente devuelve producto por agencia y enviar nuevo producto HM 3 en uno",
+        "analysis": {
+          "query": "Reclamo / envio de HM por ML / cliente devuelve producto por agencia y enviar nuevo producto HM 3 en uno",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_21_20260121034146",
+        "query": "2025",
+        "analysis": {
+          "query": "2025",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_24_20260121034146",
+        "query": "Poca informacion para una cámara de calor bajo te // se le pidió mas detalles, esperando respuesta",
+        "analysis": {
+          "query": "Poca informacion para una cámara de calor bajo te // se le pidió mas detalles, esperando respuesta",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_15_20260121034200",
+        "query": "Isodec EPs 100mm / Ver plano / Completo (babetas) + Flete",
+        "analysis": {
+          "query": "Isodec EPs 100mm / Ver plano / Completo (babetas) + Flete",
+          "product_detected": true,
+          "product_code": "ISODEC EPS",
+          "product_name": "ISODEC EPS",
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.2333333333333333,
+          "issues": [
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_17_20260121034200",
+        "query": "Enviar presupuesto con fecha de hoy, con FLETE INCLUIDO a Chihuahua.",
+        "analysis": {
+          "query": "Enviar presupuesto con fecha de hoy, con FLETE INCLUIDO a Chihuahua.",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_19_20260121034200",
+        "query": "Reclamo / envio de HM por ML / cliente devuelve producto por agencia y enviar nuevo producto HM 3 en uno",
+        "analysis": {
+          "query": "Reclamo / envio de HM por ML / cliente devuelve producto por agencia y enviar nuevo producto HM 3 en uno",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_21_20260121034200",
+        "query": "2025",
+        "analysis": {
+          "query": "2025",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      },
+      {
+        "id": "quote_24_20260121034200",
+        "query": "Poca informacion para una cámara de calor bajo te // se le pidió mas detalles, esperando respuesta",
+        "analysis": {
+          "query": "Poca informacion para una cámara de calor bajo te // se le pidió mas detalles, esperando respuesta",
+          "product_detected": false,
+          "product_code": null,
+          "product_name": null,
+          "espesor_detected": false,
+          "espesor": null,
+          "dimensiones_detected": false,
+          "dimensiones": null,
+          "luz_detected": false,
+          "luz": null,
+          "fijacion_detected": false,
+          "fijacion": null,
+          "completeness_score": 0.0,
+          "issues": [
+            "Producto no detectado",
+            "Espesor no detectado",
+            "Dimensiones no detectadas"
+          ],
+          "recommendations": [
+            "Input incompleto - requiere más información"
+          ],
+          "can_generate_quote": false,
+          "missing_params": [
+            "producto",
+            "espesor"
+          ]
+        }
+      }
+    ],
+    "summary": {
+      "total": 10,
+      "avg_completeness": 0.04666666666666666,
+      "product_distribution": {
+        "ISODEC EPS": 2,
+        "null": 8
+      },
+      "total_issues": 28,
+      "avg_issues_per_quote": 2.8
+    }
+  },
+  "social_media_analysis": {
+    "total_queries": 4,
+    "analyses": [
+      {
+        "id": "fb_20260121034146",
+        "platform": "facebook",
+        "query": "Consulta sobre precio de paneles ISODEC 100mm",
+        "analysis": {
+          "query": "Consulta sobre precio de paneles ISODEC 100mm",
+          "is_question": true,
+          "requires_response": true,
+          "sentiment": "neutral",
+          "topics": [
+            "product_inquiry",
+            "pricing"
+          ],
+          "engagement_score": 1.0,
+          "product_mentioned": true,
+          "price_mentioned": true,
+          "urgency": "medium"
+        }
+      },
+      {
+        "id": "fb_20260121034200",
+        "platform": "facebook",
+        "query": "Consulta sobre precio de paneles ISODEC 100mm",
+        "analysis": {
+          "query": "Consulta sobre precio de paneles ISODEC 100mm",
+          "is_question": true,
+          "requires_response": true,
+          "sentiment": "neutral",
+          "topics": [
+            "product_inquiry",
+            "pricing"
+          ],
+          "engagement_score": 1.0,
+          "product_mentioned": true,
+          "price_mentioned": true,
+          "urgency": "medium"
+        }
+      },
+      {
+        "id": "ig_20260121034146",
+        "platform": "instagram",
+        "query": "¿Qué espesor necesito para mi techo?",
+        "analysis": {
+          "query": "¿Qué espesor necesito para mi techo?",
+          "is_question": true,
+          "requires_response": true,
+          "sentiment": "neutral",
+          "topics": [],
+          "engagement_score": 0.65,
+          "product_mentioned": false,
+          "price_mentioned": false,
+          "urgency": "medium"
+        }
+      },
+      {
+        "id": "ig_20260121034200",
+        "platform": "instagram",
+        "query": "¿Qué espesor necesito para mi techo?",
+        "analysis": {
+          "query": "¿Qué espesor necesito para mi techo?",
+          "is_question": true,
+          "requires_response": true,
+          "sentiment": "neutral",
+          "topics": [],
+          "engagement_score": 0.65,
+          "product_mentioned": false,
+          "price_mentioned": false,
+          "urgency": "medium"
+        }
+      }
+    ],
+    "summary": {
+      "total": 4,
+      "by_platform": {
+        "facebook": 2,
+        "instagram": 2
+      },
+      "questions": 4,
+      "question_rate": 1.0,
+      "requires_response": 4,
+      "response_rate": 1.0,
+      "sentiment_distribution": {
+        "neutral": 4
+      },
+      "avg_engagement_score": 0.825
+    }
+  },
+  "response_analysis": {
+    "total_responses": 0,
+    "analyses": [],
+    "summary": {}
+  },
+  "recommendations": [
+    "📊 Mejorar completitud de inputs de cotizaciones - muchos inputs están incompletos",
+    "📱 Alta tasa de consultas que requieren respuesta en redes sociales - priorizar atención"
+  ]
+}
