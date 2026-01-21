@@ -1,299 +1,265 @@
 #!/usr/bin/env python3
 """
-Script para parsear el CSV de costos y ventas y generar una base de conocimiento JSON
+Script para parsear la matriz de costos y ventas y crear una knowledge base estructurada.
 """
 
 import csv
 import json
 import re
+from datetime import datetime
 from typing import Dict, List, Optional, Any
-from pathlib import Path
 
 def clean_value(value: str) -> Optional[float]:
-    """Limpia y convierte un valor a float, manejando casos especiales"""
+    """Limpia y convierte un valor a float."""
     if not value or value.strip() == '':
         return None
-    
-    # Remover espacios y caracteres especiales
-    value = value.strip()
-    
-    # Manejar valores como "#VALUE!", "x", etc.
-    if value in ['#VALUE!', 'x', 'X', '-', '']:
-        return None
-    
-    # Reemplazar comas por puntos para decimales
-    value = value.replace(',', '.')
-    
-    # Remover caracteres no numéricos excepto punto y signo negativo
-    value = re.sub(r'[^\d\.\-]', '', value)
-    
+    # Remover espacios y convertir comas a puntos
+    cleaned = value.strip().replace(',', '.')
     try:
-        return float(value)
-    except (ValueError, TypeError):
+        return float(cleaned)
+    except (ValueError, AttributeError):
         return None
 
 def extract_espesor(product_name: str) -> Optional[str]:
-    """Extrae el espesor del nombre del producto"""
-    # Buscar patrones como "30 mm", "50mm", "100 mm", etc.
-    patterns = [
-        r'(\d+)\s*mm',
-        r'(\d+)\s*MM',
-        r'espesor\s*(\d+)',
-    ]
-    
-    for pattern in patterns:
-        match = re.search(pattern, product_name, re.IGNORECASE)
-        if match:
-            return match.group(1)
-    
+    """Extrae el espesor del nombre del producto."""
+    # Buscar patrones como "30 mm", "100mm", "50mm", etc.
+    match = re.search(r'(\d+)\s*mm', product_name, re.IGNORECASE)
+    if match:
+        return match.group(1)
     return None
 
-def categorize_product(sku: str, product_name: str) -> Dict[str, Any]:
-    """Categoriza el producto según su SKU y nombre"""
-    product_name_upper = product_name.upper()
-    sku_upper = sku.upper()
+def categorize_product(product_name: str, code: str) -> Dict[str, Any]:
+    """Categoriza el producto según su nombre y código."""
+    name_lower = product_name.lower()
+    code_upper = code.upper() if code else ""
     
-    category = "accesorios"
-    subcategory = "otros"
+    category = {
+        "tipo": "otro",
+        "familia": "accesorio",
+        "unidad": "m2"
+    }
     
     # ISOROOF
-    if "ISOROOF" in product_name_upper or "IROOF" in sku_upper or "IAGRO" in sku_upper:
-        category = "isoroof"
-        if "FOIL" in product_name_upper:
-            subcategory = "foil"
-        elif "PLUS" in product_name_upper or "PLS" in sku_upper:
-            subcategory = "plus"
-        elif "COLONIAL" in product_name_upper:
-            subcategory = "colonial"
+    if "isoroof" in name_lower or code_upper.startswith("IROOF") or code_upper.startswith("IAGRO"):
+        category["tipo"] = "cubierta_liviana"
+        category["familia"] = "isoroof"
+        if "foil" in name_lower:
+            category["variante"] = "foil"
+        elif "plus" in name_lower:
+            category["variante"] = "plus"
+        elif "colonial" in name_lower:
+            category["variante"] = "colonial"
         else:
-            subcategory = "standard"
+            category["variante"] = "standard"
     
-    # ISODEC
-    elif "ISODEC" in product_name_upper or "ISD" in sku_upper:
-        category = "isodec"
-        if "PIR" in product_name_upper or "PIR" in sku_upper:
-            subcategory = "pir"
+    # ISODEC / ISOPANEL EPS
+    elif "isodec" in name_lower or "isopanel" in name_lower or code_upper.startswith("ISD"):
+        if "pir" in name_lower:
+            category["tipo"] = "cubierta_pesada"
+            category["familia"] = "isodec_pir"
         else:
-            subcategory = "eps"
-    
-    # ISOPANEL
-    elif "ISOPANEL" in product_name_upper or "ISD" in sku_upper and "EPS" in product_name_upper:
-        category = "isopanel"
-        subcategory = "eps"
+            category["tipo"] = "cubierta_pesada"
+            category["familia"] = "isodec_eps"
     
     # ISOWALL
-    elif "ISOWALL" in product_name_upper or "IW" in sku_upper:
-        category = "isowall"
-        if "PIR" in product_name_upper:
-            subcategory = "pir"
-        else:
-            subcategory = "standard"
+    elif "isowall" in name_lower or code_upper.startswith("IW"):
+        category["tipo"] = "fachada"
+        category["familia"] = "isowall"
     
     # ISOFRIG
-    elif "ISOFRIG" in product_name_upper or "IF" in sku_upper:
-        category = "isofrig"
-        subcategory = "sala_limpia"
+    elif "isofrig" in name_lower or code_upper.startswith("IF"):
+        category["tipo"] = "sala_limpia"
+        category["familia"] = "isofrig"
     
-    # GOTEROS
-    elif "GOTERO" in product_name_upper or "GF" in sku_upper or "GL" in sku_upper:
-        category = "accesorios"
-        if "FRONTAL" in product_name_upper:
-            subcategory = "gotero_frontal"
-        elif "LATERAL" in product_name_upper:
-            subcategory = "gotero_lateral"
-        else:
-            subcategory = "gotero"
+    # Goteros
+    elif "gotero" in name_lower or code_upper.startswith("GF") or code_upper.startswith("GL"):
+        category["tipo"] = "accesorio"
+        category["familia"] = "gotero"
+        category["unidad"] = "metro_lineal"
     
-    # CANALONES
-    elif "CANAL" in product_name_upper or "CD" in sku_upper or "CAN" in sku_upper:
-        category = "accesorios"
-        subcategory = "canalon"
+    # Canalones
+    elif "canal" in name_lower or code_upper.startswith("CD") or code_upper.startswith("CAN"):
+        category["tipo"] = "accesorio"
+        category["familia"] = "canalon"
+        category["unidad"] = "metro_lineal"
     
-    # CUMBRERAS
-    elif "CUMBRERA" in product_name_upper or "CUM" in sku_upper:
-        category = "accesorios"
-        subcategory = "cumbrera"
+    # Cumbreras
+    elif "cumbrera" in name_lower or code_upper.startswith("CUM"):
+        category["tipo"] = "accesorio"
+        category["familia"] = "cumbrera"
+        category["unidad"] = "metro_lineal"
     
-    # BABETAS
-    elif "BABETA" in product_name_upper or "BB" in sku_upper:
-        category = "accesorios"
-        subcategory = "babeta"
+    # Babetas
+    elif "babeta" in name_lower or code_upper.startswith("BB"):
+        category["tipo"] = "accesorio"
+        category["familia"] = "babeta"
+        category["unidad"] = "metro_lineal"
     
-    # PERFILES
-    elif "PERFIL" in product_name_upper or "PU" in sku_upper:
-        category = "accesorios"
-        subcategory = "perfil"
+    # Perfiles
+    elif "perfil" in name_lower or code_upper.startswith("PU") or code_upper.startswith("PL"):
+        category["tipo"] = "accesorio"
+        category["familia"] = "perfil"
+        category["unidad"] = "metro_lineal"
     
-    # ANCLAJES
-    elif any(x in product_name_upper for x in ["VARILLA", "TUERCA", "ARANDELA", "TACO"]):
-        category = "accesorios"
-        subcategory = "anclaje"
+    # Anclajes
+    elif any(word in name_lower for word in ["varilla", "tuerca", "arandela", "taco", "caballete"]):
+        category["tipo"] = "accesorio"
+        category["familia"] = "anclaje"
+        category["unidad"] = "unidad"
     
-    # FLETE
-    elif "FLETE" in product_name_upper:
-        category = "servicios"
-        subcategory = "flete"
+    # Otros accesorios
+    elif any(word in name_lower for word in ["cinta", "silicona", "flete", "pistola"]):
+        category["tipo"] = "accesorio"
+        category["familia"] = "otro"
+        category["unidad"] = "unidad" if "pistola" in name_lower or "cinta" in name_lower else "metro_lineal"
     
-    # OTROS
-    elif any(x in product_name_upper for x in ["CINTA", "SILICONA", "BROMPLAST", "CABALLETE"]):
-        category = "accesorios"
-        subcategory = "sellado_fijacion"
-    
-    return {
-        "category": category,
-        "subcategory": subcategory
-    }
+    return category
 
 def parse_csv_to_knowledge_base(csv_path: str) -> Dict[str, Any]:
-    """Parsea el CSV y genera la estructura de conocimiento base"""
+    """Parsea el CSV y crea una knowledge base estructurada."""
     
-    products = {}
-    accesorios = []
-    servicios = []
+    kb = {
+        "meta": {
+            "nombre": "BMC Uruguay - Matriz de Costos y Ventas 2026",
+            "version": "1.0.0",
+            "fecha_creacion": datetime.now().strftime("%Y-%m-%d"),
+            "fuente": "MATRIZ de COSTOS y VENTAS 2026.xlsx - BROMYROS.csv",
+            "descripcion": "Base de conocimiento de costos y precios de venta para compras directas a fábrica y compras web/stock"
+        },
+        "precios": {
+            "fabrica_directo": {},
+            "web_stock": {}
+        },
+        "productos": []
+    }
     
     with open(csv_path, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         rows = list(reader)
-        
-        # Saltar las primeras 2 filas de encabezados
-        for i, row in enumerate(rows[2:], start=3):
-            if len(row) < 20:  # Asegurar que hay suficientes columnas
-                continue
-            
-            sku = row[3].strip() if len(row) > 3 else ""  # Columna D (índice 3)
-            product_name = row[4].strip() if len(row) > 4 else ""  # Columna E (índice 4)
-            costo = clean_value(row[6]) if len(row) > 6 else None  # Columna G (índice 6)
-            precio_fabrica_iva = clean_value(row[11]) if len(row) > 11 else None  # Columna L (índice 11)
-            precio_fabrica_iva_inc = clean_value(row[12]) if len(row) > 12 else None  # Columna M (índice 12)
-            precio_web_iva = clean_value(row[18]) if len(row) > 18 else None  # Columna S (índice 18)
-            precio_web_iva_inc = clean_value(row[19]) if len(row) > 19 else None  # Columna T (índice 19)
-            
-            # Saltar filas vacías o sin información relevante
-            if not sku and not product_name:
-                continue
-            
-            # Saltar filas que son solo encabezados de sección
-            if product_name and any(x in product_name.upper() for x in [
-                "PRODUCTO", "ISOROOF", "ISODEC", "ISOPANEL", "GOTERO", 
-                "CANAL", "CUMBRERA", "BABETA", "PERFIL", "ANCLAJE"
-            ]):
-                # Verificar si es realmente un encabezado (sin números en nombre ni SKU)
-                if not any(char.isdigit() for char in product_name) and not any(char.isdigit() for char in sku):
-                    continue
-            
-            # Categorizar producto
-            cat_info = categorize_product(sku, product_name)
-            category = cat_info["category"]
-            subcategory = cat_info["subcategory"]
-            
-            # Extraer espesor si existe
-            espesor = extract_espesor(product_name)
-            
-            # Estructura del producto
-            product_data = {
-                "sku": sku,
-                "nombre": product_name,
-                "categoria": category,
-                "subcategoria": subcategory,
-                "costos": {
-                    "costo_proveedor_actualizado": costo
-                },
-                "precios": {
-                    "fabrica_directo": {
-                        "precio_iva": precio_fabrica_iva,
-                        "precio_iva_incluido": precio_fabrica_iva_inc
-                    },
-                    "web_stock": {
-                        "precio_iva": precio_web_iva,
-                        "precio_iva_incluido": precio_web_iva_inc
-                    }
-                }
-            }
-            
-            # Agregar espesor si existe
-            if espesor:
-                product_data["espesor_mm"] = int(espesor)
-            
-            # Organizar por categoría
-            if category in ["isoroof", "isodec", "isopanel", "isowall", "isofrig"]:
-                # Productos principales - organizar por categoría y espesor
-                key = f"{category}_{subcategory}"
-                if key not in products:
-                    products[key] = {
-                        "categoria": category,
-                        "subcategoria": subcategory,
-                        "productos": []
-                    }
-                products[key]["productos"].append(product_data)
-            elif category == "servicios":
-                servicios.append(product_data)
-            else:
-                accesorios.append(product_data)
     
-    # Estructura final de conocimiento base
-    kb_structure = {
-        "meta": {
-            "nombre": "BMC Bromyros - Base de Conocimiento de Costos y Precios 2026",
-            "version": "1.0",
-            "fecha": "2026-01-21",
-            "fuente": "MATRIZ de COSTOS y VENTAS 2026.xlsx - BROMYROS.csv",
-            "descripcion": "Base de conocimiento con costos de proveedor y precios de venta (fábrica directo y web/stock)"
-        },
-        "productos_principales": products,
-        "accesorios": accesorios,
-        "servicios": servicios,
-        "estructura_precios": {
-            "fabrica_directo": {
-                "descripcion": "Precios para compras directas a fábrica o en local",
-                "campos": {
-                    "precio_iva": "Precio de venta + IVA (IVA se suma al precio)",
-                    "precio_iva_incluido": "Precio de venta con IVA incluido (precio final al consumidor)"
-                }
+    # Saltar las primeras 3 filas de encabezados
+    data_rows = rows[3:]
+    
+    productos_por_familia = {}
+    
+    for row in data_rows:
+        # Verificar que la fila tenga datos suficientes
+        if len(row) < 20:
+            continue
+        
+        # Extraer datos de la fila
+        notas = row[0].strip() if len(row) > 0 else ""
+        descripcion_notas = row[1].strip() if len(row) > 1 else ""
+        estado = row[2].strip() if len(row) > 2 else ""
+        codigo = row[3].strip() if len(row) > 3 else ""
+        producto_nombre = row[4].strip() if len(row) > 4 else ""
+        
+        # Saltar filas vacías o sin producto
+        if not producto_nombre or producto_nombre == "":
+            continue
+        
+        # Saltar productos marcados como "NO SUBIR" o "DESCONTINUADO"
+        if "NO SUBIR" in notas.upper() or "DESCONTINUADO" in descripcion_notas.upper():
+            continue
+        
+        # Extraer costos y precios
+        costo_m2_iva = clean_value(row[5]) if len(row) > 5 else None  # Costo m2 U$S + IVA
+        costo_con_aumento = clean_value(row[6]) if len(row) > 6 else None  # Con AUMENTO
+        costo_proximo_aumento = clean_value(row[7]) if len(row) > 7 else None  # Proximo AUMENTO
+        margen_pct = row[8].strip() if len(row) > 8 else None  # Margen %
+        ganancia = clean_value(row[10]) if len(row) > 10 else None  # Ganancia
+        venta_iva = clean_value(row[11]) if len(row) > 11 else None  # Venta + IVA
+        consumidor_iva_inc = clean_value(row[12]) if len(row) > 12 else None  # CONSUMIDOR IVA INC.
+        web_venta_iva = clean_value(row[18]) if len(row) > 18 else None  # WEB Venta + IVA
+        web_venta_iva_inc = clean_value(row[19]) if len(row) > 19 else None  # WEB Venta IVA inc.
+        
+        # Precio metro lineal (si existe)
+        precio_ml = clean_value(row[20]) if len(row) > 20 else None
+        
+        # Categorizar producto
+        categoria = categorize_product(producto_nombre, codigo)
+        espesor = extract_espesor(producto_nombre)
+        
+        # Crear estructura del producto
+        producto = {
+            "codigo": codigo if codigo else None,
+            "nombre": producto_nombre,
+            "estado": estado if estado else "ACT.",
+            "notas": notas if notas else None,
+            "descripcion_notas": descripcion_notas if descripcion_notas else None,
+            "categoria": categoria,
+            "espesor_mm": espesor,
+            "costos": {
+                "fabrica_directo": {
+                    "costo_m2_usd_iva": costo_m2_iva,
+                    "costo_con_aumento": costo_con_aumento,
+                    "costo_proximo_aumento": costo_proximo_aumento
+                },
+                "margen_porcentaje": margen_pct,
+                "ganancia_usd": ganancia
             },
-            "web_stock": {
-                "descripcion": "Precios para compras web o desde stock",
-                "campos": {
-                    "precio_iva": "Precio de venta + IVA (IVA se suma al precio)",
-                    "precio_iva_incluido": "Precio de venta con IVA incluido (precio final al consumidor)"
-                }
-            }
-        },
-        "notas": {
-            "moneda": "USD",
-            "iva": "22%",
-            "costo_proveedor": "Incluye IVA",
-            "actualizacion": "Datos actualizados según matriz 2026"
+            "precios": {
+                "venta_iva": venta_iva,
+                "consumidor_iva_inc": consumidor_iva_inc,
+                "web_venta_iva": web_venta_iva,
+                "web_venta_iva_inc": web_venta_iva_inc
+            },
+            "precio_metro_lineal": precio_ml
         }
+        
+        # Agregar a la lista de productos
+        kb["productos"].append(producto)
+        
+        # Organizar por familia para búsqueda rápida
+        familia = categoria["familia"]
+        if familia not in productos_por_familia:
+            productos_por_familia[familia] = []
+        productos_por_familia[familia].append(producto)
+    
+    # Agregar índice por familia
+    kb["indice_familias"] = {
+        familia: [p["codigo"] for p in productos if p["codigo"]]
+        for familia, productos in productos_por_familia.items()
     }
     
-    return kb_structure
+    # Estadísticas
+    kb["meta"]["estadisticas"] = {
+        "total_productos": len(kb["productos"]),
+        "productos_activos": len([p for p in kb["productos"] if p["estado"] == "ACT."]),
+        "familias": len(productos_por_familia),
+        "productos_con_costo_fabrica": len([p for p in kb["productos"] if p["costos"]["fabrica_directo"]["costo_m2_usd_iva"]]),
+        "productos_con_precio_web": len([p for p in kb["productos"] if p["precios"]["web_venta_iva"]])
+    }
+    
+    return kb
 
 def main():
     csv_path = "MATRIZ de COSTOS y VENTAS 2026.xlsx - BROMYROS.csv"
-    output_path = "BMC_Costos_Precios_2026.json"
+    output_path = "BMC_Matriz_Costos_Ventas_2026.json"
     
     print(f"📊 Parseando CSV: {csv_path}")
-    kb_data = parse_csv_to_knowledge_base(csv_path)
+    kb = parse_csv_to_knowledge_base(csv_path)
     
-    print(f"✅ Productos principales encontrados: {len(kb_data['productos_principales'])} categorías")
-    print(f"✅ Accesorios encontrados: {len(kb_data['accesorios'])}")
-    print(f"✅ Servicios encontrados: {len(kb_data['servicios'])}")
-    
-    # Contar productos totales
-    total_products = sum(len(cat["productos"]) for cat in kb_data['productos_principales'].values())
-    total_products += len(kb_data['accesorios']) + len(kb_data['servicios'])
-    print(f"📦 Total de productos: {total_products}")
+    print(f"✅ Productos procesados: {kb['meta']['estadisticas']['total_productos']}")
+    print(f"✅ Productos activos: {kb['meta']['estadisticas']['productos_activos']}")
+    print(f"✅ Familias de productos: {kb['meta']['estadisticas']['familias']}")
     
     # Guardar JSON
     with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(kb_data, f, indent=2, ensure_ascii=False)
+        json.dump(kb, f, indent=2, ensure_ascii=False)
     
-    print(f"💾 Base de conocimiento guardada en: {output_path}")
+    print(f"💾 Knowledge base guardada en: {output_path}")
     
-    # Mostrar resumen por categoría
-    print("\n📋 Resumen por categoría:")
-    for key, cat_data in kb_data['productos_principales'].items():
-        print(f"  - {key}: {len(cat_data['productos'])} productos")
+    # Mostrar muestra de productos
+    print("\n📋 Muestra de productos (primeros 5):")
+    for i, producto in enumerate(kb["productos"][:5]):
+        print(f"\n{i+1}. {producto['nombre']}")
+        print(f"   Código: {producto['codigo']}")
+        print(f"   Familia: {producto['categoria']['familia']}")
+        if producto['costos']['fabrica_directo']['costo_m2_usd_iva']:
+            print(f"   Costo fábrica: ${producto['costos']['fabrica_directo']['costo_m2_usd_iva']:.2f} USD/m²")
+        if producto['precios']['web_venta_iva']:
+            print(f"   Precio web: ${producto['precios']['web_venta_iva']:.2f} USD/m²")
 
 if __name__ == "__main__":
     main()

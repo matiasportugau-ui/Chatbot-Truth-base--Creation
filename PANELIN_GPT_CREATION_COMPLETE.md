@@ -1,25 +1,27 @@
-# Panelin - Configuración Completa del GPT
-**Versión:** 1.1 Complete  
+# Panelin - Guía Completa de Creación del GPT
+**Versión:** 1.0 Final  
 **Fecha:** 2026-01-21  
-**Para:** Configuración completa desde cero
+**Para:** Crear Panelin como GPT en ChatGPT Builder
 
 ---
 
 ## 📋 TABLA DE CONTENIDOS
 
-1. [Configuración Básica](#1-configuración-básica)
-2. [Instrucciones del Sistema](#2-instrucciones-del-sistema)
-3. [Knowledge Base - Archivos Obligatorios](#3-knowledge-base---archivos-obligatorios)
-4. [Knowledge Base - Archivos Recomendados](#4-knowledge-base---archivos-recomendados)
-5. [Configuración de Modelo y Capacidades](#5-configuración-de-modelo-y-capacidades)
-6. [Tests de Verificación](#6-tests-de-verificación)
-7. [Troubleshooting](#7-troubleshooting)
+1. [Acceso al GPT Builder](#1-acceso-al-gpt-builder)
+2. [Configuración Básica](#2-configuración-básica)
+3. [Instrucciones del Sistema](#3-instrucciones-del-sistema)
+4. [Knowledge Base - Archivos Obligatorios](#4-knowledge-base---archivos-obligatorios)
+5. [Knowledge Base - Archivos Recomendados](#5-knowledge-base---archivos-recomendados)
+6. [Configuración de Modelo y Capacidades](#6-configuración-de-modelo-y-capacidades)
+7. [Tests de Verificación](#7-tests-de-verificación)
+8. [Troubleshooting](#8-troubleshooting)
+9. [Checklist Final](#9-checklist-final)
 
 ---
 
-## 1. CONFIGURACIÓN BÁSICA
+## 1. ACCESO AL GPT BUILDER
 
-### Acceder al GPT Builder
+### Pasos para Acceder
 
 1. Ve a [chatgpt.com](https://chatgpt.com) e inicia sesión
 2. Haz clic en tu nombre (esquina superior derecha)
@@ -27,6 +29,8 @@
 4. Haz clic en **"+ Create"** o ve directamente a [chatgpt.com/gpts/editor](https://chatgpt.com/gpts/editor)
 
 ---
+
+## 2. CONFIGURACIÓN BÁSICA
 
 ### Pestaña "Create" - Configuración Básica
 
@@ -50,7 +54,7 @@ Experto técnico en cotizaciones y sistemas constructivos BMC. Especializado en 
 
 ---
 
-## 2. INSTRUCCIONES DEL SISTEMA
+## 3. INSTRUCCIONES DEL SISTEMA
 
 ### ⚠️ CRÍTICO: Campo "Instructions"
 
@@ -59,7 +63,7 @@ Experto técnico en cotizaciones y sistemas constructivos BMC. Especializado en 
 
 **Archivo**: `PANELIN_INSTRUCTIONS_FINAL.txt`
 
-**Contenido completo** (5,394 caracteres - dentro del límite de 8,000):
+**Contenido completo** (5,523 caracteres - dentro del límite de 8,000):
 
 ```text
 # IDENTIDAD Y ROL
@@ -179,12 +183,12 @@ Reconoce literalmente: `/estado` (resumen Ledger + riesgo contexto) | `/checkpoi
 
 **⚠️ IMPORTANTE**: 
 - Copia TODO el contenido desde `# IDENTIDAD Y ROL` hasta `# FIN DE INSTRUCCIONES`
-- Verifica que no exceda 8,000 caracteres (tiene 5,394, está bien)
+- Verifica que no exceda 8,000 caracteres (tiene 5,523, está bien)
 - No dejes espacios en blanco al inicio o final
 
 ---
 
-## 3. KNOWLEDGE BASE - ARCHIVOS OBLIGATORIOS
+## 4. KNOWLEDGE BASE - ARCHIVOS OBLIGATORIOS
 
 ### ⭐ NIVEL 1 - MASTER (Subir PRIMERO)
 
@@ -236,7 +240,7 @@ Reconoce literalmente: `/estado` (resumen Ledger + riesgo contexto) | `/checkpoi
 
 ---
 
-## 4. KNOWLEDGE BASE - ARCHIVOS RECOMENDADOS
+## 5. KNOWLEDGE BASE - ARCHIVOS RECOMENDADOS
 
 ### NIVEL 2 - VALIDACIÓN
 
@@ -275,35 +279,7 @@ Reconoce literalmente: `/estado` (resumen Ledger + riesgo contexto) | `/checkpoi
 
 ---
 
-### 🔒 KNOWLEDGE BASE - ARCHIVOS INTERNOS (NO para GPT público)
-
-**⚠️ IMPORTANTE**: Los siguientes archivos contienen información sensible de costos y márgenes. **NO deben ser subidos al GPT público**. Solo para uso interno de agentes programáticos.
-
-#### 10. `BROMYROS_Base_Costos_Precios_2026.json` 🔒 INTERNO
-**Ubicación**: Raíz del proyecto (generado por script)  
-**Prioridad**: Solo para agentes internos  
-**Propósito**: Base de conocimiento de costos y precios BROMYROS 2026  
-**Contenido**: 
-- 138 productos en 22 categorías
-- Costos de fábrica directa
-- Precios para empresas, particulares y web/stock
-- Márgenes y ganancias
-
-**⚠️ ADVERTENCIA**: 
-- Contiene información financiera sensible
-- NO debe ser compartido con clientes externos
-- Solo para agentes internos que necesiten consultar costos o calcular márgenes
-
-**Generación**: 
-```bash
-python3 create_bromyros_kb.py
-```
-
-**Documentación**: Ver `BROMYROS_KB_README.md` y `GUIA_BASE_CONOCIMIENTO_COSTOS.md`
-
----
-
-## 5. CONFIGURACIÓN DE MODELO Y CAPACIDADES
+## 6. CONFIGURACIÓN DE MODELO Y CAPACIDADES
 
 ### Modelo
 
@@ -341,7 +317,7 @@ Habilita las siguientes capacidades:
 
 ---
 
-## 6. TESTS DE VERIFICACIÓN
+## 7. TESTS DE VERIFICACIÓN
 
 ### Test 1: Personalización ⭐
 
@@ -446,7 +422,7 @@ Necesito cotizar un techo de 10m x 6m con ISODEC 150mm
 
 ---
 
-## 7. TROUBLESHOOTING
+## 8. TROUBLESHOOTING
 
 ### Problema: Panelin inventa precios
 
@@ -505,7 +481,7 @@ Necesito cotizar un techo de 10m x 6m con ISODEC 150mm
 
 ---
 
-## ✅ CHECKLIST FINAL
+## 9. CHECKLIST FINAL
 
 Antes de considerar Panelin "listo para producción":
 
@@ -558,29 +534,16 @@ Antes de considerar Panelin "listo para producción":
 
 ---
 
-## 📚 DOCUMENTACIÓN ADICIONAL
+## 📚 ARCHIVOS RELACIONADOS
 
-Para más detalles, consulta:
-- `PANELIN_SETUP_COMPLETE.md` - Guía completa paso a paso
-- `PANELIN_QUICK_IMPLEMENTATION.md` - Implementación rápida (5 min)
-- `PANELIN_QUICK_REFERENCE.md` - Referencia rápida diaria
-- `PANELIN_ALL_FILES_GUIDE.md` - Guía de todos los archivos
-- `PANELIN_KNOWLEDGE_BASE_GUIDE.md` - Guía de Knowledge Base
+- `PANELIN_INSTRUCTIONS_FINAL.txt` - Instrucciones del sistema (copiar aquí)
+- `BMC_Base_Conocimiento_GPT-2.json` - KB Master (subir primero)
+- `PANELIN_KNOWLEDGE_BASE_GUIDE.md` - Guía de KB
+- `PANELIN_QUOTATION_PROCESS.md` - Proceso de cotización
+- `PANELIN_TRAINING_GUIDE.md` - Guía de entrenamiento
+- `panelin_context_consolidacion_sin_backend.md` - Comandos SOP
 
 ---
 
 **Última actualización**: 2026-01-21  
-**Versión**: 1.1 Complete
-
----
-
-## 📝 NOTA SOBRE ARCHIVOS INTERNOS
-
-Los archivos relacionados con **BROMYROS** (costos y precios) son para uso interno exclusivo:
-
-- **NO subir al GPT público** - Contienen información sensible
-- **Solo para agentes programáticos** - Usar con OpenAI Agents SDK
-- **Documentación**: `BROMYROS_KB_README.md`, `GUIA_BASE_CONOCIMIENTO_COSTOS.md`
-- **Scripts**: `create_bromyros_kb.py`, `analizar_matriz_costos.py`, `procesar_multiples_proveedores.py`
-
-Para más información sobre el Agents SDK, ver `PANELIN_AGENTS_SDK_README.md` y `PANELIN_AGENTS_SDK_QUICKSTART.md`.
+**Versión**: 1.0 Final
