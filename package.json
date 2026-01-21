@@ -1,0 +1,35 @@
+{
+  "name": "panelin-agents-sdk",
+  "version": "1.0.0",
+  "description": "Panelin - OpenAI Agents SDK Implementation for BMC Construction Materials Quotations",
+  "main": "panelin_agents_sdk.ts",
+  "scripts": {
+    "build": "tsc panelin_agents_sdk.ts",
+    "test": "ts-node test.ts",
+    "dev": "ts-node --watch panelin_agents_sdk.ts"
+  },
+  "keywords": [
+    "openai",
+    "agents",
+    "panelin",
+    "cotizaciones",
+    "bmc",
+    "construction"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@openai/agents": "^0.1.0",
+    "@openai/guardrails": "^0.1.0",
+    "openai": "^4.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
