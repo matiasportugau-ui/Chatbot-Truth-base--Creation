@@ -1,88 +1,191 @@
-# Setup Instructions - Panelin with Specific Model
+# KB Update System - Setup Instructions
 
-## ⚠️ Current Status
+## Quick Setup (Recommended)
 
-The script is ready to run, but you need a valid OpenAI API key.
-
-## 🔑 Step 1: Get Your API Key
-
-1. Go to [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-2. Sign in to your OpenAI account
-3. Click "Create new secret key"
-4. Copy the key (it starts with `sk-`)
-
-## 🔧 Step 2: Set Your API Key
-
-### Option A: Environment Variable (Recommended)
-```bash
-export OPENAI_API_KEY=sk-your-actual-api-key-here
-```
-
-### Option B: Create .env File
-Create a file named `.env` in this directory:
-```
-OPENAI_API_KEY=sk-your-actual-api-key-here
-```
-
-## 🚀 Step 3: Run the Setup
-
-### Basic Setup (No Knowledge Base Files)
-```bash
-python3 setup_panelin_with_model.py --model gpt-4
-```
-
-### With Knowledge Base Files
-```bash
-python3 setup_panelin_with_model.py \
-  --model gpt-4 \
-  --knowledge-base \
-    "BMC_Base_Conocimiento_GPT-2.json" \
-    "BMC_Catalogo_Completo_Shopify (1).json" \
-    "panelin_context_consolidacion_sin_backend.md" \
-  --enable-web-search
-```
-
-### Available Models
-- `gpt-4` - Best accuracy (recommended)
-- `gpt-4-turbo` - Faster
-- `gpt-4o` - Latest, best performance
-- `gpt-4o-mini` - Smaller, cheaper
-- `gpt-3.5-turbo` - Cheapest option
-
-## ✅ What the Script Does
-
-1. ✅ Creates a Panelin assistant with your chosen model (NOT AUTO!)
-2. ✅ Uploads knowledge base files (if provided)
-3. ✅ Configures code interpreter and web search
-4. ✅ Saves assistant ID to `.panelin_assistant_id`
-
-## 💬 After Setup: Chat with Panelin
+Run the automated setup script:
 
 ```bash
-python3 chat_with_panelin.py
+./setup_kb_update_system.sh
 ```
 
-## 🆘 Troubleshooting
+This script will:
+1. ✅ Check if API key is set
+2. ✅ Verify dependencies are installed
+3. ✅ Test both optimizers
+4. ✅ Optionally run first update
 
-### "Incorrect API key" error
-- Verify your API key is correct
-- Make sure it starts with `sk-`
-- Check you have credits in your OpenAI account
-- Try creating a new API key
+---
 
-### "Model not found" error
-- Try a different model (e.g., `gpt-4-turbo`)
-- Check your account has access to that model
-- Some models require specific subscription tiers
+## Manual Setup
 
-### Files not uploading
-- Check file paths are correct
-- Ensure files aren't too large
-- Verify API key has proper permissions
+### Step 1: Set API Key
 
-## 📝 Notes
+#### Option A: For Current Session
+```bash
+export OPENAI_API_KEY="your-api-key-here"
+```
 
-- The assistant will be created with the exact model you specify
-- Files are uploaded to OpenAI's servers
-- Each API call incurs costs (check OpenAI pricing)
-- The assistant ID is saved for reuse
+#### Option B: Permanent (Recommended)
+Add to your shell config file:
+
+**For zsh (macOS default):**
+```bash
+echo 'export OPENAI_API_KEY="your-api-key-here"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**For bash:**
+```bash
+echo 'export OPENAI_API_KEY="your-api-key-here"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+#### Option C: Using .env file
+Create a `.env` file in the project root:
+```
+OPENAI_API_KEY=your-api-key-here
+```
+
+Then load it:
+```bash
+export $(cat .env | xargs)
+```
+
+---
+
+### Step 2: Verify Dependencies
+
+```bash
+pip install openai loguru schedule
+```
+
+Or verify they're installed:
+```bash
+pip list | grep -E "(openai|loguru|schedule)"
+```
+
+---
+
+### Step 3: Test the System
+
+#### Check KB Update Status
+```bash
+python3 kb_update_optimizer.py --stats
+```
+
+Expected output:
+```
+📊 Update Statistics:
+   Hash cache files: 0
+   Cached queries: 0
+   Changed files: 2
+```
+
+#### Check Training Data Status
+```bash
+python3 training_data_optimizer.py --stats
+```
+
+---
+
+### Step 4: Run First Update
+
+```bash
+# Update all tiers (only if changed)
+python3 kb_update_optimizer.py --tier all
+
+# Or update specific tier
+python3 kb_update_optimizer.py --tier level_3
+```
+
+---
+
+### Step 5: Set Up Automated Scheduling
+
+#### Option A: Daemon Mode (Simple)
+```bash
+# Run in background
+nohup python3 kb_auto_scheduler.py --daemon > scheduler.log 2>&1 &
+
+# Or use screen/tmux
+screen -S kb_scheduler
+python3 kb_auto_scheduler.py --daemon
+# Press Ctrl+A then D to detach
+```
+
+#### Option B: System Cron (Recommended for Production)
+
+Edit crontab:
+```bash
+crontab -e
+```
+
+Add these lines (adjust path as needed):
+```cron
+# Level 3: Daily at 2 AM
+0 2 * * * cd "/Users/matias/Chatbot Truth base  Creation" && python3 kb_update_optimizer.py --tier level_3
+
+# Training: Daily at 4 AM
+0 4 * * * cd "/Users/matias/Chatbot Truth base  Creation" && python3 training_data_optimizer.py --process
+
+# Level 2: Weekly on Sunday at 3 AM
+0 3 * * 0 cd "/Users/matias/Chatbot Truth base  Creation" && python3 kb_update_optimizer.py --tier level_2
+
+# Patterns: Weekly on Sunday at 5 AM
+0 5 * * 0 cd "/Users/matias/Chatbot Truth base  Creation" && python3 training_data_optimizer.py --extract-patterns
+
+# Level 1: Monthly on 1st at 4 AM
+0 4 1 * * cd "/Users/matias/Chatbot Truth base  Creation" && python3 kb_update_optimizer.py --tier level_1
+```
+
+---
+
+## Verification
+
+After setup, verify everything works:
+
+```bash
+# 1. Check system status
+python3 kb_update_optimizer.py --stats
+python3 training_data_optimizer.py --stats
+
+# 2. Test update (dry run)
+python3 kb_update_optimizer.py --tier all
+
+# 3. Test scheduler (one-time run)
+python3 kb_auto_scheduler.py --once
+```
+
+---
+
+## Troubleshooting
+
+### "OPENAI_API_KEY not set"
+- Make sure you've exported the variable
+- Check with: `echo $OPENAI_API_KEY`
+- If empty, set it using one of the methods above
+
+### "Module not found"
+- Install dependencies: `pip install openai loguru schedule`
+- Or use: `pip install -r requirements.txt` (if available)
+
+### "File not found" errors
+- Check that "Files " directory exists
+- Verify KB files are in the correct location
+- Run `python3 kb_update_optimizer.py --stats` to see what's detected
+
+### Scheduler not running
+- Check logs: `tail -f logs/kb_scheduler_*.log`
+- Verify API key is set in the environment where scheduler runs
+- Test with `--once` flag first
+
+---
+
+## Next Steps
+
+1. ✅ Run first update
+2. ✅ Monitor for a few days
+3. ✅ Adjust schedule as needed
+4. ✅ Review cost savings
+
+See `KB_UPDATE_QUICKSTART.md` for detailed usage instructions.
