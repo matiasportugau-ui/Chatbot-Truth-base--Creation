@@ -294,32 +294,44 @@ class AgenteAnalisisInteligente:
                 signal.alarm(5)  # 5 segundos timeout (muy corto)
                 
                 try:
-                    with open(pdf_path, 'rb') as f:
-                        pdf_reader = PyPDF2.PdfReader(f)
-                        
-                        # Intentar solo primera página primero (más rápido)
-                        try:
-                            if len(pdf_reader.pages) > 0:
-                                texto = pdf_reader.pages[0].extract_text() + '\n'
-                        except:
-                            pass
-                        
-                        # Si no hay texto suficiente, intentar última página
-                        if len(texto.strip()) < 50 and len(pdf_reader.pages) > 1:
+                    try:
+                        with open(pdf_path, 'rb') as f:
+                            pdf_reader = PyPDF2.PdfReader(f)
+                            
+                            # Intentar solo primera página primero (más rápido)
                             try:
-                                texto += pdf_reader.pages[-1].extract_text() + '\n'
+                                if len(pdf_reader.pages) > 0:
+                                    texto = pdf_reader.pages[0].extract_text() + '\n'
                             except:
                                 pass
+                            
+                            # Si no hay texto suficiente, intentar última página
+                            if len(texto.strip()) < 50 and len(pdf_reader.pages) > 1:
+                                try:
+                                    texto += pdf_reader.pages[-1].extract_text() + '\n'
+                                except:
+                                    pass
+                        
+                    except (TimeoutError, Exception):
+                        # Si falla la lectura normal, usar OCR
+                        usar_ocr = True
+                        datos['error'] = "Timeout leyendo PDF, intentando OCR"
+                    finally:
+                        # Siempre cancelar el alarm, incluso si hay excepciones
+                        signal.alarm(0)
                     
-                    signal.alarm(0)  # Cancelar timeout
-                    
-                except (TimeoutError, Exception) as e:
-                    signal.alarm(0)
-                    # Si falla la lectura normal, usar OCR
+                except Exception as e:
+                    # Si falla la configuración del signal o algo más, cancelar alarm y usar OCR
+                    signal.alarm(0)  # Asegurar que el alarm se cancele
                     usar_ocr = True
-                    datos['error'] = f"Timeout leyendo PDF, intentando OCR"
+                    datos['error'] = f"Error leyendo PDF: {str(e)}, intentando OCR"
             except Exception as e:
-                # Si falla completamente, intentar OCR
+                # Si falla completamente (incluyendo signal.signal o signal.alarm), intentar OCR
+                # Intentar cancelar alarm por si acaso fue configurado
+                try:
+                    signal.alarm(0)
+                except:
+                    pass  # Si falla, no hay nada que hacer
                 usar_ocr = True
                 datos['error'] = f"Error leyendo PDF: {str(e)}, intentando OCR"
             

@@ -16,9 +16,8 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 
 **Propósito**: Única fuente autorizada para precios, fórmulas y especificaciones técnicas.
 
-#### Archivos:
-1. **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ (PRIMARIO - DEBE ESTAR)
-2. **`BMC_Base_Conocimiento_GPT.json`** (si existe)
+#### Archivo:
+- **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ (PRIMARIO - OBLIGATORIO)
 
 **Contenido:**
 - Productos completos (ISODEC, ISOPANEL, ISOROOF, ISOWALL, HM_RUBBER)
@@ -112,8 +111,7 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 ## 📋 Lista Completa de Archivos Necesarios
 
 ### Archivos Obligatorios (Nivel 1):
-- [ ] `BMC_Base_Conocimiento_GPT-2.json` ⭐ (PRIMARIO - DEBE ESTAR)
-- [ ] `BMC_Base_Conocimiento_GPT.json` (si existe)
+- [ ] `BMC_Base_Conocimiento_GPT-2.json` ⭐ (PRIMARIO - OBLIGATORIO)
 
 ### Archivos Recomendados (Nivel 2):
 - [ ] `BMC_Base_Unificada_v4.json`
@@ -134,7 +132,7 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 ## 🔍 Cómo Usar Cada Archivo
 
 ### Para Precios:
-1. **PRIMERO**: Consultar `BMC_Base_Conocimiento_GPT-2.json` o `BMC_Base_Conocimiento_GPT.json`
+1. **PRIMERO**: Consultar `BMC_Base_Conocimiento_GPT-2.json`
 2. **SEGUNDO**: Verificar en `panelin_truth_bmcuruguay_web_only_v2.json` si hay actualización
 3. **NUNCA**: Usar `BMC_Base_Unificada_v4.json` como fuente primaria
 

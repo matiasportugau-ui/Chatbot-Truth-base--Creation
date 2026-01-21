@@ -130,8 +130,7 @@
 ## 📁 Archivos de Knowledge Base
 
 ### Nivel 1 - Master (Obligatorios) ⭐
-- **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ PRIMARIO
-- `BMC_Base_Conocimiento_GPT.json` (si existe)
+- **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ PRIMARIO - OBLIGATORIO
 
 ### Nivel 2 - Validación (Recomendados)
 - `BMC_Base_Unificada_v4.json`

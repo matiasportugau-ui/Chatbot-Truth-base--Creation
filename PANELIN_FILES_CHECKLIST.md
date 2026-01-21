@@ -11,16 +11,11 @@ Checklist completo de todos los archivos necesarios para configurar Panelin.
 ### ✅ NIVEL 1 - MASTER (Fuente de Verdad Absoluta) ⭐
 
 #### Obligatorios:
-- [ ] **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ **PRIMARIO - DEBE ESTAR**
+- [ ] **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ **PRIMARIO - OBLIGATORIO**
   - Ubicación: Raíz del proyecto
   - Propósito: Fuente de verdad para precios, fórmulas y especificaciones
   - Prioridad: **MÁXIMA** - Subir PRIMERO
   - Contenido: Productos, precios, fórmulas, autoportancia, coeficientes térmicos
-
-- [ ] **`BMC_Base_Conocimiento_GPT.json`** (si existe)
-  - Ubicación: Raíz del proyecto
-  - Propósito: Archivo alternativo de Nivel 1
-  - Prioridad: Alta (si existe)
 
 ---
 

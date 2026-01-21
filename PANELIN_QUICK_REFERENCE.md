@@ -20,8 +20,7 @@ Referencia rápida para uso diario de Panelin.
 ## 📋 Jerarquía de Archivos (Prioridad)
 
 1. **NIVEL 1 - MASTER** ⭐
-   - `BMC_Base_Conocimiento_GPT-2.json`
-   - `BMC_Base_Conocimiento_GPT.json` (si existe)
+   - `BMC_Base_Conocimiento_GPT-2.json` ⭐ (PRIMARIO - OBLIGATORIO)
    - **SIEMPRE usar primero**
 
 2. **NIVEL 2 - VALIDACIÓN**

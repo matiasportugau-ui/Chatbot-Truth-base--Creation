@@ -67,12 +67,9 @@ En la sección **"Knowledge"**, haz clic en **"Upload files"** y sube en este or
 
 #### PRIORIDAD 1 - Nivel 1 (MASTER) ⭐
 1. **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ (PRIMERO - OBLIGATORIO)
-   - Este es el archivo principal
+   - Este es el archivo principal y único de Nivel 1
    - Fuente de verdad para precios y fórmulas
    - **DEBE estar primero**
-
-2. **`BMC_Base_Conocimiento_GPT.json`** (si existe)
-   - Archivo alternativo de Nivel 1
 
 #### PRIORIDAD 2 - Nivel 2 (Validación)
 3. **`BMC_Base_Unificada_v4.json`**
