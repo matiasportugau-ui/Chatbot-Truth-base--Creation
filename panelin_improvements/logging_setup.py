@@ -9,7 +9,7 @@ Part of P0.3: Detailed Logging for Debugging
 import sys
 import json
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from contextvars import ContextVar
 from datetime import datetime
 from loguru import logger
