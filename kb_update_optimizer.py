@@ -27,7 +27,8 @@ API_KEY = os.getenv("OPENAI_API_KEY")
 ASSISTANT_ID = os.getenv("OPENAI_ASSISTANT_ID", "asst_7LdhJMasW5HHGZh0cgchTGkX")
 
 # Paths
-KB_PATH = Path("Files")
+# Directory name is "Files " (with trailing space)
+KB_PATH = Path("Files ")
 HASH_CACHE_DIR = Path(".kb_update_cache")
 HASH_CACHE_DIR.mkdir(exist_ok=True)
 
