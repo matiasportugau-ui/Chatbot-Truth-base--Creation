@@ -14,8 +14,19 @@ import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime
-import requests
-from loguru import logger
+# Optional imports
+try:
+    from loguru import logger
+except ImportError:
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
 
 # Try to import Instagram API client if available
 try:
