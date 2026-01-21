@@ -1,0 +1,41 @@
+[
+  {
+    "query": "¿Cuál es el precio de ISODEC EPS 100mm?",
+    "response": "El precio de ISODEC EPS 100mm es $46.07 según BMC_Base_Conocimiento_GPT.json",
+    "sources": [
+      "BMC_Base_Conocimiento_GPT.json"
+    ],
+    "timestamp": "2026-01-21T01:39:34.605453",
+    "metadata": {
+      "is_question": true,
+      "platform": "chat",
+      "category": "pricing"
+    }
+  },
+  {
+    "query": "¿Qué espesor necesito para 6 metros de luz?",
+    "response": "Para 6 metros de luz necesitas mínimo 150mm (autoportancia 7.5m), el de 100mm solo aguanta 5.5m",
+    "sources": [
+      "BMC_Base_Conocimiento_GPT.json"
+    ],
+    "timestamp": "2026-01-21T01:39:34.605458",
+    "metadata": {
+      "is_question": true,
+      "platform": "chat",
+      "category": "specifications"
+    }
+  },
+  {
+    "query": "¿Cuál es la diferencia entre ISODEC e ISOROOF?",
+    "response": "ISODEC es para techos pesados (hormigón), ISOROOF es para techos livianos (madera). ISODEC tiene mayor autoportancia.",
+    "sources": [
+      "BMC_Base_Conocimiento_GPT.json"
+    ],
+    "timestamp": "2026-01-21T01:39:34.605460",
+    "metadata": {
+      "is_question": true,
+      "platform": "chat",
+      "category": "product_comparison"
+    }
+  }
+]
