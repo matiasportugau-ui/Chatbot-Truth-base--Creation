@@ -1,6 +1,6 @@
 # Panelin - Lista Completa de Todos los Archivos
-**Versión:** 1.0 Complete  
-**Fecha:** 2026-01-20
+**Versión:** 1.1 Complete  
+**Fecha:** 2026-01-21
 
 ---
 
@@ -112,9 +112,46 @@
 
 ---
 
+#### NIVEL 5 - INTERNO (Uso Interno - NO para GPT público) 🔒
+
+11. **`BROMYROS_Base_Costos_Precios_2026.json`** 🔒 INTERNO
+    - **Ubicación**: Raíz del proyecto (generado por script)
+    - **Prioridad**: Solo para agentes internos
+    - **Propósito**: Base de conocimiento de costos y precios BROMYROS 2026
+    - **Contenido**: 138 productos en 22 categorías, costos de fábrica, precios para empresas/particulares/web
+    - **⚠️ IMPORTANTE**: Contiene información sensible de costos y márgenes. NO debe ser compartido con clientes externos
+    - **Uso**: Solo para agentes internos que necesiten consultar costos, calcular márgenes, obtener precios diferenciados
+    - **Generación**: Ejecutar `python3 create_bromyros_kb.py` desde CSV: `MATRIZ de COSTOS y VENTAS 2026.xlsx - BROMYROS.csv`
+
+12. **`BROMYROS_KB_README.md`** 🔒 INTERNO
+    - **Ubicación**: Raíz del proyecto
+    - **Prioridad**: Solo para agentes internos
+    - **Propósito**: Documentación completa de la base de conocimiento BROMYROS
+    - **Contenido**: Estructura de datos, reglas de precios, categorías, uso para agentes internos
+
+13. **`GUIA_BASE_CONOCIMIENTO_COSTOS.md`** 🔒 INTERNO
+    - **Ubicación**: Raíz del proyecto
+    - **Prioridad**: Solo para agentes internos
+    - **Propósito**: Guía para analizar matrices de costos y ventas por proveedor
+    - **Contenido**: Scripts disponibles, estructura de datos, procesamiento de múltiples proveedores
+
+---
+
 ### 📖 GUÍAS Y DOCUMENTACIÓN
 
-11. **`PANELIN_FULL_CONFIGURATION.md`** ⭐ RECOMENDADO
+11. **`PANELIN_GPT_CREATION_COMPLETE.md`** ⭐⭐ NUEVO - CONSOLIDADO FINAL
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Guía completa consolidada para crear Panelin como GPT en ChatGPT Builder
+    - **Contenido**: Todo lo necesario en un solo archivo (instrucciones, KB, configuración, tests, troubleshooting)
+    - **Uso**: Usar este archivo para crear el GPT desde cero
+
+12. **`PANELIN_AGENTS_SDK_COMPLETE.md`** ⭐⭐ NUEVO - CONSOLIDADO FINAL
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Guía completa consolidada para usar OpenAI Agents SDK
+    - **Contenido**: Todo lo necesario en un solo archivo (instalación, configuración, tools, integración, testing)
+    - **Uso**: Usar este archivo para desarrollo programático con Agents SDK
+
+13. **`PANELIN_FULL_CONFIGURATION.md`** ⭐ RECOMENDADO
     - **Ubicación**: Raíz del proyecto
     - **Propósito**: Configuración completa paso a paso desde cero
     - **Contenido**: Todo lo necesario para configurar Panelin
@@ -232,6 +269,29 @@
     - **Ubicación**: Raíz del proyecto
     - **Propósito**: Guía de setup via API
 
+37. **`create_bromyros_kb.py`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Script para generar base de conocimiento BROMYROS desde CSV
+    - **Uso**: `python3 create_bromyros_kb.py`
+    - **Entrada**: `MATRIZ de COSTOS y VENTAS 2026.xlsx - BROMYROS.csv`
+    - **Salida**: `BROMYROS_Base_Costos_Precios_2026.json`
+
+38. **`analizar_matriz_costos.py`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Analiza un archivo CSV individual (un proveedor)
+    - **Uso**: `python3 analizar_matriz_costos.py`
+    - **Salida**: `BMC_Base_Costos_Precios_BROMYROS.json`, `resumen_analisis_costos_BROMYROS.json`
+
+39. **`procesar_multiples_proveedores.py`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Procesa automáticamente todos los archivos CSV de proveedores
+    - **Uso**: `python3 procesar_multiples_proveedores.py`
+    - **Salida**: `BMC_Base_Costos_Precios_UNIFICADA.json`, `resumen_analisis_costos_UNIFICADO.json`
+
+40. **`parse_costos_ventas.py`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Parser para archivos de costos y ventas
+
 ---
 
 ### 📊 ARCHIVOS DE DATOS
@@ -256,6 +316,44 @@
 40. **`RESUMEN_EJERCICIO_COTIZACION_COMPLETA.md`**
     - **Ubicación**: Raíz del proyecto
     - **Propósito**: Resumen de ejercicio de cotización completa
+
+---
+
+### 🤖 OPENAI AGENTS SDK (TypeScript)
+
+41. **`panelin_agents_sdk.ts`** ⭐
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Implementación de Panelin usando OpenAI Agents SDK
+    - **Contenido**: Sistema multi-agente (Classification, Cotización, Evaluación, Información), Tools, Guardrails
+    - **Uso**: Para desarrollo de agentes programáticos (no para GPT Builder)
+
+42. **`panelin_agents_sdk_example.ts`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Ejemplos de uso del Agents SDK
+    - **Contenido**: Ejemplos de cotización, información, evaluación
+
+43. **`PANELIN_AGENTS_SDK_README.md`** ⭐
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Documentación completa del Agents SDK
+    - **Contenido**: Instalación, estructura, uso básico, implementación de tools, integración con backend
+
+44. **`PANELIN_AGENTS_SDK_QUICKSTART.md`** ⭐
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Guía rápida de inicio (5 minutos)
+    - **Contenido**: Setup rápido, uso básico, próximos pasos
+
+45. **`PANELIN_AGENTS_SDK_SUMMARY.md`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Resumen ejecutivo del Agents SDK
+
+46. **`package.json`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Configuración npm para Agents SDK
+    - **Dependencias**: @openai/agents, zod, openai, @openai/guardrails
+
+47. **`tsconfig.json`**
+    - **Ubicación**: Raíz del proyecto
+    - **Propósito**: Configuración TypeScript para Agents SDK
 
 ---
 
@@ -383,7 +481,7 @@ Chatbot Truth base  Creation /
 - `PANELIN_INSTRUCTIONS_REFERENCE_BASED.md`
 - `PANELIN_ULTIMATE_INSTRUCTIONS.md`
 
-### Knowledge Base: 10 archivos
+### Knowledge Base: 13 archivos
 - `BMC_Base_Conocimiento_GPT-2.json` ⭐ (obligatorio)
 - `BMC_Base_Conocimiento_GPT.json` (opcional)
 - `PANELIN_KNOWLEDGE_BASE_GUIDE.md` ⭐
@@ -394,6 +492,9 @@ Chatbot Truth base  Creation /
 - `panelin_truth_bmcuruguay_web_only_v2.json`
 - `Aleros.rtf` o `Aleros -2.rtf`
 - `panelin_truth_bmcuruguay_catalog_v2_index.csv`
+- `BROMYROS_Base_Costos_Precios_2026.json` 🔒 (interno)
+- `BROMYROS_KB_README.md` 🔒 (interno)
+- `GUIA_BASE_CONOCIMIENTO_COSTOS.md` 🔒 (interno)
 
 ### Guías y Documentación: 8 archivos
 - `PANELIN_FULL_CONFIGURATION.md` ⭐
@@ -405,7 +506,7 @@ Chatbot Truth base  Creation /
 - `PANELIN_FILES_CHECKLIST.md`
 - `PANELIN_REFERENCE_STRATEGY.md`
 
-### Scripts y Utilidades: 9 archivos
+### Scripts y Utilidades: 13 archivos
 - `setup_panelin_with_model.py`
 - `verify_gpt_configuration.py`
 - `actualizar_panelin_con_base_conocimiento.py`
@@ -415,12 +516,25 @@ Chatbot Truth base  Creation /
 - `ejercicio_cotizacion_panelin.py`
 - `chat_with_panelin.py`
 - `SETUP_PANELIN_API.md`
+- `create_bromyros_kb.py` 🔒 (interno)
+- `analizar_matriz_costos.py` 🔒 (interno)
+- `procesar_multiples_proveedores.py` 🔒 (interno)
+- `parse_costos_ventas.py` 🔒 (interno)
 
 ### Configuraciones: 4 archivos
 - `gpt_configs/Panelin Knowledge Base Assistant_config.json`
 - `gpt_configs/Panelin_Asistente_Integral_BMC_config.json`
 - `gpt_configs/INSTRUCCIONES_PANELIN.txt`
 - `gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt`
+
+### OpenAI Agents SDK: 7 archivos
+- `panelin_agents_sdk.ts` ⭐
+- `panelin_agents_sdk_example.ts`
+- `PANELIN_AGENTS_SDK_README.md` ⭐
+- `PANELIN_AGENTS_SDK_QUICKSTART.md` ⭐
+- `PANELIN_AGENTS_SDK_SUMMARY.md`
+- `package.json`
+- `tsconfig.json`
 
 ---
 
@@ -455,6 +569,19 @@ Chatbot Truth base  Creation /
 
 ---
 
-**Última actualización**: 2026-01-20  
-**Versión**: 1.0 Complete  
-**Total de archivos listados**: 40+ archivos
+**Última actualización**: 2026-01-21  
+**Versión**: 1.1 Complete  
+**Total de archivos listados**: 50+ archivos
+
+---
+
+## 🔒 ARCHIVOS INTERNOS (NO para GPT público)
+
+Los siguientes archivos contienen información sensible de costos y márgenes. **NO deben ser subidos al GPT público**:
+
+- `BROMYROS_Base_Costos_Precios_2026.json` - Costos de fábrica y precios internos
+- `BROMYROS_KB_README.md` - Documentación de costos
+- `GUIA_BASE_CONOCIMIENTO_COSTOS.md` - Guía de análisis de costos
+- Scripts relacionados (`create_bromyros_kb.py`, `analizar_matriz_costos.py`, etc.)
+
+**Uso**: Solo para agentes internos que necesiten consultar costos, calcular márgenes o acceder a información financiera sensible.
