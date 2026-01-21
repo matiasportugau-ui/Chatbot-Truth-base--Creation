@@ -22,7 +22,22 @@ except ImportError:
     import logging
 
     logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
+    _base_logger = logging.getLogger(__name__)
+
+    # Create wrapper to add success() method for compatibility with loguru
+    class LoggerWrapper:
+        def __init__(self, base_logger):
+            self._logger = base_logger
+
+        def success(self, message):
+            """Log success message (compatible with loguru)"""
+            self._logger.info(message)
+
+        def __getattr__(self, name):
+            # Forward all other methods to the base logger
+            return getattr(self._logger, name)
+
+    logger = LoggerWrapper(_base_logger)
 
 try:
     import requests

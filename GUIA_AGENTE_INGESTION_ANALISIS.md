@@ -141,6 +141,17 @@ El agente usa el `SocialIngestionEngine` existente para ingestion automática.
 
 El agente usa el `SocialIngestionEngine` existente para ingestion automática.
 
+### 5. MongoDB
+
+**Configuración**: Variables de entorno `MONGODB_CONNECTION_STRING` y `MONGODB_DATABASE_NAME`
+
+El agente extrae datos directamente desde MongoDB. Ver `CONFIGURACION_MONGODB.md` para más detalles.
+
+**Colecciones soportadas**:
+- Cotizaciones: `quotes`, `cotizaciones`, `quotations`, `presupuestos`
+- Conversaciones: `conversations`, `conversaciones`, `chats`, `messages`
+- Redes sociales: `facebook_interactions`, `instagram_interactions`, `mercadolibre_interactions`
+
 ## 🔍 Análisis Realizados
 
 ### Análisis de Cotizaciones

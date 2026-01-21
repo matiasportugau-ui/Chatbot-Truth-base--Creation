@@ -253,67 +253,30 @@ MAPEO_FUNCIONES = {
 # INTERFAZ SIMPLIFICADA
 # ============================================================================
 
-# Instancia singleton opcional para preservar estadísticas entre llamadas
-# NOTA: Por defecto se crea una nueva instancia en cada llamada para asegurar aislamiento
-# IMPORTANTE: El singleton puede causar acumulación de estado. Usar solo cuando sea necesario.
-_orquestador_instance = None
-_usar_singleton = False  # Flag para controlar si se usa singleton o instancia fresca
-# Por defecto False para asegurar aislamiento completo entre llamadas
-
-
-def resetear_orquestador():
-    """Resetea la instancia singleton del orquestador"""
-    global _orquestador_instance
-    _orquestador_instance = None
-
-
-def usar_singleton(usar: bool = True):
-    """
-    Configura si se debe usar una instancia singleton o crear una nueva en cada llamada.
-    
-    Args:
-        usar: Si True, usa singleton (preserva estadísticas). Si False, crea instancia fresca (aislamiento).
-    """
-    global _usar_singleton, _orquestador_instance
-    _usar_singleton = usar
-    if not usar:
-        # Si se desactiva el singleton, resetear la instancia existente
-        _orquestador_instance = None
-
-
-def ejecutar_procedimiento(tarea: TipoTarea, *args, usar_singleton_instancia: Optional[bool] = None, **kwargs) -> Any:
+def ejecutar_procedimiento(tarea: TipoTarea, *args, **kwargs) -> Any:
     """
     Ejecuta un procedimiento usando el modelo óptimo.
+    
+    Cada llamada crea una nueva instancia del orquestador para asegurar
+    aislamiento completo entre invocaciones. Esto previene contaminación
+    de estado y estadísticas compartidas en entornos multi-usuario o concurrentes.
     
     Args:
         tarea: Tipo de tarea a ejecutar
         *args: Argumentos posicionales para la función de tarea
-        usar_singleton_instancia: Si se proporciona, sobrescribe la configuración global para esta llamada.
-                                 Si None, usa la configuración global (por defecto: False = instancia fresca).
         **kwargs: Argumentos con nombre para la función de tarea
     
     Returns:
         Resultado de la ejecución de la tarea
     
     Note:
-        Por defecto, cada llamada crea una nueva instancia del orquestador para asegurar
-        aislamiento completo. Si necesitas preservar estadísticas entre llamadas, usa
-        usar_singleton(True) o pasar usar_singleton_instancia=True.
+        Cada llamada crea una instancia fresca del orquestador para mantener
+        aislamiento completo. Las estadísticas se resetean en cada llamada.
+        Si necesitas preservar estadísticas, gestiona una instancia de
+        OrquestadorModelos directamente en tu código.
     """
-    global _orquestador_instance, _usar_singleton
-    
-    # Determinar si usar singleton para esta llamada
-    usar_singleton_esta_llamada = _usar_singleton if usar_singleton_instancia is None else usar_singleton_instancia
-    
-    if usar_singleton_esta_llamada:
-        # Usar singleton (preserva estadísticas entre llamadas)
-        if _orquestador_instance is None:
-            _orquestador_instance = OrquestadorModelos()
-        orquestador = _orquestador_instance
-    else:
-        # Crear instancia fresca (aislamiento completo entre llamadas)
-        orquestador = OrquestadorModelos()
-    
+    # Crear instancia fresca para cada llamada (aislamiento completo)
+    orquestador = OrquestadorModelos()
     funcion = MAPEO_FUNCIONES.get(tarea)
     
     if not funcion:
