@@ -282,21 +282,72 @@ class AgenteAnalisisInteligente:
             import PyPDF2
             import signal
             
-            def timeout_handler(signum, frame):
-                raise TimeoutError("Timeout leyendo PDF")
+            texto = ''
+            usar_ocr = False
             
-            signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(30)  # 30 segundos timeout
-            
+            # Intentar lectura normal con timeout corto
             try:
-                with open(pdf_path, 'rb') as f:
-                    pdf_reader = PyPDF2.PdfReader(f)
-                    texto = ''
-                    
-                    for page in pdf_reader.pages[:5]:  # Primeras 5 páginas
-                        texto += page.extract_text() + '\n'
+                def timeout_handler(signum, frame):
+                    raise TimeoutError("Timeout leyendo PDF")
                 
-                signal.alarm(0)  # Cancelar timeout
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(5)  # 5 segundos timeout (muy corto)
+                
+                try:
+                    with open(pdf_path, 'rb') as f:
+                        pdf_reader = PyPDF2.PdfReader(f)
+                        
+                        # Intentar solo primera página primero (más rápido)
+                        try:
+                            if len(pdf_reader.pages) > 0:
+                                texto = pdf_reader.pages[0].extract_text() + '\n'
+                        except:
+                            pass
+                        
+                        # Si no hay texto suficiente, intentar última página
+                        if len(texto.strip()) < 50 and len(pdf_reader.pages) > 1:
+                            try:
+                                texto += pdf_reader.pages[-1].extract_text() + '\n'
+                            except:
+                                pass
+                    
+                    signal.alarm(0)  # Cancelar timeout
+                    
+                except (TimeoutError, Exception) as e:
+                    signal.alarm(0)
+                    # Si falla la lectura normal, usar OCR
+                    usar_ocr = True
+                    datos['error'] = f"Timeout leyendo PDF, intentando OCR"
+            except Exception as e:
+                # Si falla completamente, intentar OCR
+                usar_ocr = True
+                datos['error'] = f"Error leyendo PDF: {str(e)}, intentando OCR"
+            
+            # Si el texto está vacío o es muy corto, o si hubo timeout, intentar OCR
+            if usar_ocr or len(texto.strip()) < 50:
+                try:
+                    # Intentar OCR con pdf2image y pytesseract
+                    from pdf2image import convert_from_path
+                    import pytesseract
+                    
+                    # Convertir primera página a imagen (solo si no hay texto)
+                    images = convert_from_path(pdf_path, first_page=1, last_page=1, dpi=200)
+                    if images:
+                        texto_ocr = pytesseract.image_to_string(images[0], lang='spa')
+                        if len(texto_ocr.strip()) > len(texto.strip()):
+                            texto = texto_ocr
+                            datos['metodo_extraccion'] = 'OCR'
+                            # Limpiar error si OCR funcionó
+                            if datos.get('error') and 'OCR' in datos['error']:
+                                datos['error'] = None
+                except ImportError:
+                    # OCR no disponible
+                    if not texto:
+                        datos['error'] = "OCR no disponible y texto no encontrado"
+                except Exception as e:
+                    # Error en OCR
+                    if not texto:
+                        datos['error'] = f"Error en OCR: {str(e)}"
                 
                 # Buscar totales
                 # Patrones comunes: "TOTAL", "Total USD", "$ XXXX", etc.
@@ -304,17 +355,25 @@ class AgenteAnalisisInteligente:
                     r'TOTAL[:\s]*USD[:\s]*\$?\s*([\d,]+\.?\d*)',
                     r'Total[:\s]*\$?\s*([\d,]+\.?\d*)',
                     r'\$\s*([\d,]+\.?\d*)\s*\(?TOTAL\)?',
+                    r'IMPORTE[:\s]*TOTAL[:\s]*\$?\s*([\d,]+\.?\d*)',
+                    r'TOTAL[:\s]*\$?\s*([\d,]+\.?\d*)',
                 ]
                 
+                # Buscar todos los totales posibles y usar el más grande
+                totales_encontrados = []
                 for pattern in total_patterns:
-                    match = re.search(pattern, texto, re.IGNORECASE)
-                    if match:
-                        total_str = match.group(1).replace(',', '')
+                    matches = re.finditer(pattern, texto, re.IGNORECASE)
+                    for match in matches:
+                        total_str = match.group(1).replace(',', '').replace('.', '')
                         try:
-                            datos['total'] = float(total_str)
-                            break
+                            total_val = float(total_str)
+                            if total_val > 100:  # Filtrar valores muy pequeños
+                                totales_encontrados.append(total_val)
                         except:
                             pass
+                
+                if totales_encontrados:
+                    datos['total'] = max(totales_encontrados)  # Usar el más grande
                 
                 # Buscar subtotal
                 subtotal_patterns = [
@@ -375,13 +434,6 @@ class AgenteAnalisisInteligente:
                             break
                         except:
                             pass
-                
-            except TimeoutError:
-                datos['error'] = "Timeout leyendo PDF (archivo muy grande o corrupto)"
-            except Exception as e:
-                datos['error'] = f"Error leyendo PDF: {str(e)}"
-            finally:
-                signal.alarm(0)
                 
         except ImportError:
             datos['error'] = "PyPDF2 no instalado. Ejecuta: pip install PyPDF2"

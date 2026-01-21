@@ -1,0 +1,396 @@
+{
+    "title": "GPT Simulation Agent - Complete System",
+    "description": "Complete GPT Simulation Agent orchestrator with self-configuration, extraction, gap analysis, social media ingestion, training data processing, and automatic Gem generation. Includes 5 specialized Gems: Main Assistant, Quotation System, Training & Analytics, Architecture Analysis, and Capacity Assessment.",
+    "version": "1.0.0",
+    "nodes": [
+        {
+            "id": "node_1",
+            "type": "input",
+            "label": "Receive Workspace Path",
+            "config": {
+                "fields": [
+                    "workspace_path",
+                    "output_dir"
+                ],
+                "input_type": "text",
+                "required": [
+                    "workspace_path"
+                ],
+                "description": "Receives workspace path or configuration files as input"
+            },
+            "position": {
+                "x": 100,
+                "y": 100
+            }
+        },
+        {
+            "id": "node_2",
+            "type": "process",
+            "label": "Self-Diagnosis",
+            "config": {
+                "engine": "SelfDiagnosisEngine",
+                "action": "diagnose",
+                "output": "diagnosis.json",
+                "description": "Automatically scans workspace and identifies configuration needs"
+            },
+            "position": {
+                "x": 300,
+                "y": 100
+            }
+        },
+        {
+            "id": "node_3",
+            "type": "process",
+            "label": "Intelligent Extraction",
+            "config": {
+                "engine": "ExtractionEngine",
+                "action": "extract_all",
+                "output": "extracted_configs/extracted_config.json",
+                "description": "Extracts configuration from JSON, Markdown, YAML files"
+            },
+            "position": {
+                "x": 500,
+                "y": 100
+            }
+        },
+        {
+            "id": "node_4",
+            "type": "analyze",
+            "label": "Gap Analysis",
+            "config": {
+                "engine": "GapAnalysisEngine",
+                "action": "analyze",
+                "output": "gap_analysis_report.json",
+                "description": "Identifies missing information and generates extraction guides"
+            },
+            "position": {
+                "x": 700,
+                "y": 100
+            }
+        },
+        {
+            "id": "node_5",
+            "type": "process",
+            "label": "Generate Gems",
+            "config": {
+                "engine": "GemGeneratorEngine",
+                "action": "generate_multiple_gems",
+                "output": "generated_gems/",
+                "description": "Automatically generates Google Labs Gems from extracted configuration"
+            },
+            "position": {
+                "x": 900,
+                "y": 100
+            }
+        },
+        {
+            "id": "node_6",
+            "type": "output",
+            "label": "Present Results",
+            "config": {
+                "format": "structured",
+                "include": [
+                    "gems",
+                    "descriptions",
+                    "validation_status",
+                    "instructions"
+                ],
+                "description": "Presents all generated Gems with descriptions ready for Google Labs"
+            },
+            "position": {
+                "x": 1100,
+                "y": 100
+            }
+        },
+        {
+            "id": "intelligence_based_input",
+            "type": "input",
+            "label": "Receive Input - Main Assistant Gem",
+            "config": {
+                "fields": [
+                    "input"
+                ],
+                "description": "Receives input for Main Assistant Gem"
+            },
+            "position": {
+                "x": 100,
+                "y": 300
+            }
+        },
+        {
+            "id": "intelligence_based_process",
+            "type": "process",
+            "label": "Process - Main Assistant Gem",
+            "config": {
+                "workflow_type": "intelligence_based",
+                "description": "Intelligent assistant specialized in technical-commercial construction materials with multi-step reasoning and hierarchical knowledge base access"
+            },
+            "position": {
+                "x": 300,
+                "y": 300
+            }
+        },
+        {
+            "id": "intelligence_based_output",
+            "type": "output",
+            "label": "Present Result - Main Assistant Gem",
+            "config": {
+                "format": "structured",
+                "description": "Presents result for Main Assistant Gem"
+            },
+            "position": {
+                "x": 500,
+                "y": 300
+            }
+        },
+        {
+            "id": "functionality_based_input",
+            "type": "input",
+            "label": "Receive Input - Quotation System Gem",
+            "config": {
+                "fields": [
+                    "input"
+                ],
+                "description": "Receives input for Quotation System Gem"
+            },
+            "position": {
+                "x": 100,
+                "y": 500
+            }
+        },
+        {
+            "id": "functionality_based_process",
+            "type": "process",
+            "label": "Process - Quotation System Gem",
+            "config": {
+                "workflow_type": "functionality_based",
+                "description": "5-phase quotation system with product identification, technical validation (autoportancia), knowledge base retrieval, formula-based calculations, and detailed cost breakdown"
+            },
+            "position": {
+                "x": 300,
+                "y": 500
+            }
+        },
+        {
+            "id": "functionality_based_output",
+            "type": "output",
+            "label": "Present Result - Quotation System Gem",
+            "config": {
+                "format": "structured",
+                "description": "Presents result for Quotation System Gem"
+            },
+            "position": {
+                "x": 500,
+                "y": 500
+            }
+        },
+        {
+            "id": "training_based_input",
+            "type": "input",
+            "label": "Receive Input - Training & Analytics Gem",
+            "config": {
+                "fields": [
+                    "input"
+                ],
+                "description": "Receives input for Training & Analytics Gem"
+            },
+            "position": {
+                "x": 100,
+                "y": 700
+            }
+        },
+        {
+            "id": "training_based_process",
+            "type": "process",
+            "label": "Process - Training & Analytics Gem",
+            "config": {
+                "workflow_type": "training_based",
+                "description": "Processes training data from multiple sources (Facebook, Instagram), normalizes interactions, identifies patterns, analyzes engagement metrics, and generates analytics reports"
+            },
+            "position": {
+                "x": 300,
+                "y": 700
+            }
+        },
+        {
+            "id": "training_based_output",
+            "type": "output",
+            "label": "Present Result - Training & Analytics Gem",
+            "config": {
+                "format": "structured",
+                "description": "Presents result for Training & Analytics Gem"
+            },
+            "position": {
+                "x": 500,
+                "y": 700
+            }
+        },
+        {
+            "id": "architecture_based_input",
+            "type": "input",
+            "label": "Receive Input - Architecture Analysis Gem",
+            "config": {
+                "fields": [
+                    "input"
+                ],
+                "description": "Receives input for Architecture Analysis Gem"
+            },
+            "position": {
+                "x": 100,
+                "y": 900
+            }
+        },
+        {
+            "id": "architecture_based_process",
+            "type": "process",
+            "label": "Process - Architecture Analysis Gem",
+            "config": {
+                "workflow_type": "architecture_based",
+                "description": "Analyzes AI system architectures, identifies components, maps workflows, analyzes integrations, and generates technical documentation"
+            },
+            "position": {
+                "x": 300,
+                "y": 900
+            }
+        },
+        {
+            "id": "architecture_based_output",
+            "type": "output",
+            "label": "Present Result - Architecture Analysis Gem",
+            "config": {
+                "format": "structured",
+                "description": "Presents result for Architecture Analysis Gem"
+            },
+            "position": {
+                "x": 500,
+                "y": 900
+            }
+        },
+        {
+            "id": "capacity_based_input",
+            "type": "input",
+            "label": "Receive Input - Capacity Assessment Gem",
+            "config": {
+                "fields": [
+                    "input"
+                ],
+                "description": "Receives input for Capacity Assessment Gem"
+            },
+            "position": {
+                "x": 100,
+                "y": 1100
+            }
+        },
+        {
+            "id": "capacity_based_process",
+            "type": "process",
+            "label": "Process - Capacity Assessment Gem",
+            "config": {
+                "workflow_type": "capacity_based",
+                "description": "Evaluates AI system capabilities, analyzes current vs potential capacity, identifies bottlenecks, suggests optimizations, and generates capacity reports"
+            },
+            "position": {
+                "x": 300,
+                "y": 1100
+            }
+        },
+        {
+            "id": "capacity_based_output",
+            "type": "output",
+            "label": "Present Result - Capacity Assessment Gem",
+            "config": {
+                "format": "structured",
+                "description": "Presents result for Capacity Assessment Gem"
+            },
+            "position": {
+                "x": 500,
+                "y": 1100
+            }
+        }
+    ],
+    "edges": [
+        {
+            "from": "node_1",
+            "to": "node_2"
+        },
+        {
+            "from": "node_2",
+            "to": "node_3"
+        },
+        {
+            "from": "node_3",
+            "to": "node_4"
+        },
+        {
+            "from": "node_4",
+            "to": "node_5"
+        },
+        {
+            "from": "node_5",
+            "to": "node_6"
+        },
+        {
+            "from": "intelligence_based_input",
+            "to": "intelligence_based_process"
+        },
+        {
+            "from": "intelligence_based_process",
+            "to": "intelligence_based_output"
+        },
+        {
+            "from": "functionality_based_input",
+            "to": "functionality_based_process"
+        },
+        {
+            "from": "functionality_based_process",
+            "to": "functionality_based_output"
+        },
+        {
+            "from": "training_based_input",
+            "to": "training_based_process"
+        },
+        {
+            "from": "training_based_process",
+            "to": "training_based_output"
+        },
+        {
+            "from": "architecture_based_input",
+            "to": "architecture_based_process"
+        },
+        {
+            "from": "architecture_based_process",
+            "to": "architecture_based_output"
+        },
+        {
+            "from": "capacity_based_input",
+            "to": "capacity_based_process"
+        },
+        {
+            "from": "capacity_based_process",
+            "to": "capacity_based_output"
+        }
+    ],
+    "url": "",
+    "metadata": {
+        "source": "codex_analysis",
+        "agent_type": "GPT Simulation Agent",
+        "version": "1.0.0",
+        "created": "2026-01-20T02:29:50.704096",
+        "functions": [
+            "configure",
+            "ingest_social_media",
+            "process_training_data",
+            "generate_gems",
+            "generate_gem_from_training"
+        ],
+        "workflows": [
+            "gpt_simulation_main",
+            "main_assistant_gem",
+            "quotation_system_gem",
+            "training_analytics_gem",
+            "architecture_analysis_gem",
+            "capacity_assessment_gem"
+        ],
+        "system_instructions": "You are a GPT Simulation Agent orchestrator that manages self-configuration, extraction, gap analysis, social media ingestion, training data processing, and Gem generation. You coordinate multiple specialized engines to analyze GPT configurations and generate Google Labs Gems automatically."
+    }
+}

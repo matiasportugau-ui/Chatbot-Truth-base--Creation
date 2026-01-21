@@ -132,51 +132,16 @@ def extraer_info_pdf(pdf_path: str) -> Dict:
         except:
             pass
     
-    # Intentar extraer total del PDF (método rápido: solo primera y última página)
+    # Intentar extraer total del PDF usando el método del agente (que incluye OCR si es necesario)
     try:
-        import PyPDF2
-        
-        with open(pdf_path, 'rb') as f:
-            pdf_reader = PyPDF2.PdfReader(f)
-            num_pages = len(pdf_reader.pages)
-            
-            if num_pages > 0:
-                # Leer solo primera página (header) y última página (donde suele estar el total)
-                texto = ""
-                try:
-                    texto += pdf_reader.pages[0].extract_text() + "\n"
-                except:
-                    pass
-                
-                if num_pages > 1:
-                    try:
-                        texto += pdf_reader.pages[-1].extract_text() + "\n"
-                    except:
-                        pass
-                
-                # Buscar totales
-                total_patterns = [
-                    r'TOTAL[:\s]*USD[:\s]*\$?\s*([\d,]+\.?\d*)',
-                    r'Total[:\s]*\$?\s*([\d,]+\.?\d*)',
-                    r'\$\s*([\d,]+\.?\d*)\s*\(?TOTAL\)?',
-                    r'IMPORTE[:\s]*TOTAL[:\s]*\$?\s*([\d,]+\.?\d*)',
-                ]
-                
-                totales_encontrados = []
-                for pattern in total_patterns:
-                    matches = re.finditer(pattern, texto, re.IGNORECASE)
-                    for match in matches:
-                        total_str = match.group(1).replace(',', '').replace('.', '')
-                        try:
-                            total_val = float(total_str)
-                            if total_val > 100:  # Filtrar valores muy pequeños
-                                totales_encontrados.append(total_val)
-                        except:
-                            pass
-                
-                # Usar el total más grande encontrado
-                if totales_encontrados:
-                    datos['total'] = max(totales_encontrados)
+        datos_pdf_extraidos = agente.extraer_datos_pdf(pdf_path)
+        if datos_pdf_extraidos.get('total'):
+            datos['total'] = datos_pdf_extraidos['total']
+            datos['subtotal'] = datos_pdf_extraidos.get('subtotal')
+            datos['iva'] = datos_pdf_extraidos.get('iva')
+            datos['cliente'] = datos_pdf_extraidos.get('cliente')
+            datos['fecha'] = datos_pdf_extraidos.get('fecha')
+            datos['metodo_extraccion'] = datos_pdf_extraidos.get('metodo_extraccion', 'PyPDF2')
     except Exception as e:
         # Si falla, usar solo datos del nombre
         pass
@@ -257,12 +222,29 @@ def comparar_cotizaciones():
         print("   ⚠️  No se encontraron PDFs")
         return
     
-    # 2. Procesar PDFs
-    print("\n2️⃣  Procesando PDFs...")
+    # 2. Ordenar PDFs por tamaño (más pequeños primero para validar extracción)
+    print("\n2️⃣  Ordenando PDFs por tamaño (pequeños primero)...")
+    pdfs_con_tamano = []
+    for pdf_info in pdfs:
+        try:
+            size = Path(pdf_info['path']).stat().st_size
+            pdf_info['size_kb'] = size / 1024
+            pdfs_con_tamano.append(pdf_info)
+        except:
+            pdfs_con_tamano.append(pdf_info)
+    
+    # Ordenar por tamaño (más pequeños primero)
+    pdfs_con_tamano.sort(key=lambda x: x.get('size_kb', float('inf')))
+    
+    # 3. Procesar PDFs
+    print("\n3️⃣  Procesando PDFs...")
+    num_procesar = min(500, len(pdfs_con_tamano))  # Procesar hasta 500
+    print(f"   Procesando {num_procesar} PDFs (priorizando los más pequeños)...")
     comparaciones = []
     
-    for idx, pdf_info in enumerate(pdfs[:20], 1):  # Procesar primeros 20
-        print(f"\n   📄 {idx}/{min(20, len(pdfs))}: {pdf_info['nombre']}")
+    for idx, pdf_info in enumerate(pdfs_con_tamano[:num_procesar], 1):
+        size_info = f" ({pdf_info.get('size_kb', 0):.1f} KB)" if pdf_info.get('size_kb') else ""
+        print(f"\n   📄 {idx}/{num_procesar}: {pdf_info['nombre']}{size_info}")
         
         # Extraer datos del PDF
         datos_pdf = extraer_info_pdf(pdf_info['path'])
@@ -347,7 +329,7 @@ def comparar_cotizaciones():
             'comparacion': comparacion
         })
     
-    # 3. Resumen
+    # 4. Resumen
     print("\n" + "=" * 70)
     print("📊 RESUMEN DE COMPARACIONES")
     print("=" * 70)
@@ -369,7 +351,7 @@ def comparar_cotizaciones():
             print(f"      Mínima: {min(diferencias):+.2f}%")
             print(f"      Máxima: {max(diferencias):+.2f}%")
     
-    # 4. Guardar resultados
+    # 5. Guardar resultados
     output_file = "comparacion_vendedoras_sistema.json"
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump({
@@ -386,7 +368,7 @@ def comparar_cotizaciones():
     
     print(f"\n💾 Resultados guardados en: {output_file}")
     
-    # 5. Mostrar casos destacados
+    # 6. Mostrar casos destacados
     print("\n" + "=" * 70)
     print("🔍 CASOS DESTACADOS")
     print("=" * 70)
