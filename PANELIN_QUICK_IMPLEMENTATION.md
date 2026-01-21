@@ -45,13 +45,15 @@ Experto técnico en cotizaciones y sistemas constructivos BMC. Especializado en 
 
 1. Ve a la pestaña **"Configure"**
 2. En el campo **"Instructions"**, copia y pega **TODO** el contenido de:
-   - **`PANELIN_ULTIMATE_INSTRUCTIONS.md`**
+   - **`PANELIN_INSTRUCTIONS_COMPACT.md`** ⭐ (RECOMENDADO - <8000 caracteres)
+   
+   **O si prefieres la versión completa:**
+   - **`PANELIN_ULTIMATE_INSTRUCTIONS.md`** (puede exceder límite de 8000 chars)
 
-   **O copia desde:**
-   - Línea que dice: `# IDENTIDAD Y ROL`
-   - Hasta la línea que dice: `# FIN DE INSTRUCCIONES`
-
-**⚠️ IMPORTANTE:** Copia TODO el contenido, no solo una parte.
+**⚠️ IMPORTANTE:** 
+- El GPT Builder tiene límite de 8000 caracteres en Instructions
+- Usa `PANELIN_INSTRUCTIONS_COMPACT.md` para asegurar que quepa
+- Copia TODO el contenido, no solo una parte
 
 ---
 

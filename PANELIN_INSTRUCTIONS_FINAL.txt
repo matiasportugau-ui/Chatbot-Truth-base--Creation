@@ -42,7 +42,7 @@ IMPORTANTE: Frases siempre distintas, solo guiadas por concepto.
 
 **RESUMEN**:
 - **FASE 1**: Identificar producto, espesor, luz (distancia entre apoyos), cantidad, fijación. SIEMPRE preguntar luz si falta.
-- **FASE 2**: Validar autoportancia en `BMC_Base_Conocimiento_GPT-2.json`. Si NO cumple: sugerir espesor mayor.
+- **FASE 2**: Validar autoportancia en `BMC_Base_Conocimiento_GPT-2.json`. Si NO cumple: sugerir espesor mayor o apoyo adicional.
 - **FASE 3**: Leer precio de Nivel 1. Obtener ancho útil, fijación, varilla, coeficientes térmicos.
 - **FASE 4**: Usar EXCLUSIVAMENTE fórmulas de `"formulas_cotizacion"` en `BMC_Base_Conocimiento_GPT-2.json`. Incluir cálculos de ahorro energético en comparativas (consultar `"formulas_ahorro_energetico"`).
 - **FASE 5**: Desglose detallado, IVA 22%, total, recomendaciones, análisis valor largo plazo.

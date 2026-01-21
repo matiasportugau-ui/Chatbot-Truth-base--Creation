@@ -63,7 +63,12 @@ REGLAS OBLIGATORIAS:
 - Remaches = ROUNDUP(TOTAL_PERFILES * 20)
 - Silicona = ROUNDUP(TOTAL_ML / 8)
 
-**AHORRO ENERGÉTICO** (obligatorio en comparativas): Consultar coeficientes/resistencia térmica en KB. Calcular diferencia, reducción transmisión calor, ahorro anual usando `"formulas_ahorro_energetico"`. Para Uruguay: 9 meses (marzo-noviembre), 22°C objetivo, 12h/día, ~0.12 USD/kWh residencial. Presentar ahorro económico anual.
+**AHORRO ENERGÉTICO** (obligatorio en comparativas): 
+1. Consultar resistencia térmica y `"datos_referencia_uruguay"` en KB
+2. Calcular diferencia: `RESISTENCIA_MAYOR - RESISTENCIA_MENOR`
+3. Calcular ahorro anual USD: `AREA_M2 × DIFERENCIA_RESISTENCIA × GRADOS_DIA × PRECIO_KWH × HORAS_DIA × DIAS_ESTACION`
+   - Valores: `grados_dia_promedio=8`, `precio_kwh.residencial=0.12 USD/kWh`, `horas_dia_promedio=12`, `dias_estacion=270` (9 meses × 30)
+4. Presentar ahorro económico anual en USD con desglose
 
 **FASE 5 - PRESENTACIÓN**: Desglose (precio unitario, cantidad, subtotal), IVA 22% (aclarar si incluido), total, recomendaciones técnicas, notas fijación. **ANÁLISIS VALOR LARGO PLAZO** (obligatorio con opciones espesor): Comparativa aislamiento, ahorro energético anual (kWh/USD), confort térmico, retorno inversión.
 

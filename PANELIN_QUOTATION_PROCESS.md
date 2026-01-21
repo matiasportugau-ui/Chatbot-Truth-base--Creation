@@ -87,14 +87,24 @@
 
 **CÁLCULOS DE AHORRO ENERGÉTICO** (Obligatorio en comparativas):
 
-1. Consultar coeficientes térmicos y resistencia térmica de cada espesor en la KB
-2. Calcular diferencia de resistencia térmica entre opciones: `RESISTENCIA_MAYOR - RESISTENCIA_MENOR`
-3. Calcular reducción de transmisión de calor: `(DIFERENCIA_RESISTENCIA / RESISTENCIA_MENOR) * 100`
-4. Calcular ahorro energético anual usando fórmulas de `"formulas_ahorro_energetico"`:
-   - Área en m² × Diferencia de resistencia térmica × Grados-día de calefacción × Precio kWh × Horas/día × Días de estación
-   - Para Uruguay: 9 meses (marzo-noviembre), temperatura objetivo 22°C, 12 horas/día promedio
-   - Precio kWh: consultar `"datos_referencia_uruguay"` en KB (residencial ~0.12 USD/kWh)
-5. Presentar ahorro económico anual estimado en climatización
+1. **Consultar datos en KB**: Coeficientes térmicos, resistencia térmica de cada espesor, y valores de referencia en `"datos_referencia_uruguay"` de `BMC_Base_Conocimiento_GPT-2.json`
+
+2. **Calcular diferencia de resistencia térmica**: `RESISTENCIA_MAYOR - RESISTENCIA_MENOR` (en m²K/W)
+
+3. **Calcular reducción porcentual** (informativo): `(DIFERENCIA_RESISTENCIA / RESISTENCIA_MENOR) * 100` - Este porcentaje es solo informativo, NO se usa en el cálculo monetario
+
+4. **Calcular ahorro energético anual en USD** usando la fórmula completa de `"formulas_ahorro_energetico.ahorro_energetico_anual"`:
+   ```
+   AHORRO_ANUAL_USD = AREA_M2 × DIFERENCIA_RESISTENCIA × GRADOS_DIA_CALEFACCION × PRECIO_KWH × HORAS_DIA × DIAS_ESTACION
+   ```
+
+   **Valores a consultar en `"datos_referencia_uruguay"`**:
+   - `GRADOS_DIA_CALEFACCION`: `estacion_calefaccion.grados_dia_promedio` = 8
+   - `PRECIO_KWH`: `precio_kwh_uruguay.residencial` = 0.12 USD/kWh (o comercial = 0.15 USD/kWh)
+   - `HORAS_DIA`: `estacion_calefaccion.horas_dia_promedio` = 12
+   - `DIAS_ESTACION`: `estacion_calefaccion.meses` × 30 = 9 × 30 = 270 días
+
+5. **Presentar resultado**: Ahorro económico anual estimado en climatización en USD, con desglose de valores utilizados
 
 **Ejemplo de cálculo energético**:
 - Panel 100mm: Resistencia térmica 2.86 m²K/W
