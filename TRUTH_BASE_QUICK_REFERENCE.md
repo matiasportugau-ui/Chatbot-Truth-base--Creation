@@ -1,6 +1,8 @@
 # Truth Base Analysis - Quick Reference
 **Quick overview of structure, improvements, and roadmap**
 
+**Canonical merged doc:** `KNOWLEDGE_ANALYSIS_PLAN_MERGED.md` (knowledge + analysis + plan)
+
 ---
 
 ## 📊 Current Structure Summary
