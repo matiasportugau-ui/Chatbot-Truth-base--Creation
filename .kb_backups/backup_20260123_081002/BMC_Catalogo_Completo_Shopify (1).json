@@ -1,0 +1,1522 @@
+{
+  "meta": {
+    "name": "BMC Uruguay - Catálogo Completo Shopify",
+    "version": "3.1.0",
+    "generated_at": "2026-01-15",
+    "currency": "USD",
+    "total_productos": 73,
+    "total_variantes": 73,
+    "source": "Shopify Export CSV",
+    "notes": [
+      "Precios de venta directo de variantes Shopify",
+      "NUNCA calcular precio desde costo × margen",
+      "Accesorios siempre ROUNDUP para cantidades enteras"
+    ],
+    "notas_precios": [
+      "El CSV de Shopify solo exporta la variante por defecto de cada producto",
+      "Para precios exactos de otras variantes (espesores/colores), consultar web en tiempo real",
+      "Los precios_por_variante son ESTIMADOS basados en análisis de cotizaciones previas",
+      "SIEMPRE verificar precio final en checkout de Shopify antes de cotizar"
+    ]
+  },
+  "categorias": {
+    "paneles": {
+      "ISOROOF_3G": {
+        "nombre": "ISOROOF. 3G.",
+        "handle": "isoroof-3g-gris-rojo-blanco-bromyros",
+        "url": "https://bmcuruguay.com.uy/products/isoroof-3g-gris-rojo-blanco-bromyros",
+        "vendor": "Bromyros by KINGSPAN",
+        "tipo": "Panel Aislante",
+        "tags": [
+          "Bromyros",
+          "Panel"
+        ],
+        "opciones": {
+          "Espesor": [
+            "30 mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 48.74,
+            "precio_costo": 0,
+            "sku": "Subido con Éxito",
+            "Espesor": "30 mm",
+            "Color": "Gris"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.0,
+          "largo_max_m": 8.5,
+          "autoportancia": {
+            "30mm": 2.8,
+            "50mm": 3.3,
+            "80mm": 4.0
+          },
+          "varilla": "5/16\"",
+          "varilla_ratio": 6
+        },
+        "precios_por_variante": {
+          "30mm": {
+            "Gris": 48.74,
+            "Terracota": 48.74,
+            "Blanco": 49.5
+          },
+          "50mm": {
+            "Gris": 53.0,
+            "Terracota": 53.0,
+            "Blanco": 54.0
+          },
+          "80mm": {
+            "Gris": 62.0,
+            "Terracota": 62.0,
+            "Blanco": 63.0
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISOROOF_PLUS": {
+        "nombre": "ISOROOF PLUS. 3G.",
+        "handle": "iroof80-pls",
+        "url": "https://bmcuruguay.com.uy/products/iroof80-pls",
+        "vendor": "KINGSPAN",
+        "tipo": "Panel",
+        "tags": [
+          "Panel"
+        ],
+        "opciones": {
+          "Espesor": [
+            "80 mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 71.76,
+            "precio_costo": 0,
+            "sku": "Subido con Éxito",
+            "Espesor": "80 mm",
+            "Color": "Gris"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.0,
+          "largo_max_m": 8.5,
+          "autoportancia": {
+            "80mm": 4.0
+          },
+          "varilla": "5/16\"",
+          "varilla_ratio": 6
+        },
+        "precios_por_variante": {
+          "80mm": {
+            "Gris": 71.76,
+            "Rojo": 71.76
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISOROOF_FOIL": {
+        "nombre": "ISOROOF FOIL. 3G.",
+        "handle": "iagro30",
+        "url": "https://bmcuruguay.com.uy/products/iagro30",
+        "vendor": "KINGSPAN",
+        "tipo": "Panel Aislante",
+        "tags": [
+          "Bromyros",
+          "Panel"
+        ],
+        "opciones": {
+          "Espesor": [
+            "30 mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 39.54,
+            "precio_costo": 0,
+            "sku": "Subido con Éxito",
+            "Espesor": "30 mm",
+            "Color": "Gris"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.0,
+          "largo_max_m": 8.5,
+          "autoportancia": {
+            "30mm": 2.8,
+            "50mm": 3.3
+          },
+          "varilla": "5/16\"",
+          "varilla_ratio": 6
+        },
+        "precios_por_variante": {
+          "30mm": {
+            "Gris": 39.54,
+            "Terracota": 39.54
+          },
+          "50mm": {
+            "Gris": 44.0,
+            "Terracota": 44.0
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISODEC_EPS": {
+        "nombre": "ISODEC EPS (Techos y Cubiertas) / 100 - 150 - 200 - 250 mm.",
+        "handle": "isopanel-isodec-eps-cubiertas-bmc-reloaded",
+        "url": "https://bmcuruguay.com.uy/products/isopanel-isodec-eps-cubiertas-bmc-reloaded",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [
+          "Sample Product"
+        ],
+        "opciones": {
+          "Espesor": [
+            "100 mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 46.07,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "100 mm",
+            "Color": "Blanco"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.12,
+          "largo_min_m": 2.3,
+          "largo_max_m": 14.0,
+          "pendiente_recomendada": 0.07,
+          "autoportancia": {
+            "100mm": 5.5,
+            "150mm": 7.5,
+            "200mm": 9.1,
+            "250mm": 10.4
+          },
+          "varilla": "3/8\"",
+          "varilla_ratio": 4
+        },
+        "precios_por_variante": {
+          "100mm": {
+            "Blanco": 46.07,
+            "Gris": 47.5,
+            "Rojo": 48.0
+          },
+          "150mm": {
+            "Blanco": 51.5,
+            "Gris": 53.0,
+            "Rojo": 53.5
+          },
+          "200mm": {
+            "Blanco": 57.0,
+            "Gris": 58.5,
+            "Rojo": 59.0
+          },
+          "250mm": {
+            "Blanco": 62.5,
+            "Gris": 64.0,
+            "Rojo": 64.5
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISOPANEL_EPS": {
+        "nombre": "ISOPANEL EPS (Paredes y Fachadas) / 50 - 100 - 150 - 200 - 250 mm.",
+        "handle": "isopanel-eps-paredes-y-fachadas",
+        "url": "https://bmcuruguay.com.uy/products/isopanel-eps-paredes-y-fachadas",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "50mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 41.88,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "50mm",
+            "Color": "Blanco"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.1,
+          "largo_min_m": 2.3,
+          "largo_max_m": 12.0,
+          "varilla": "3/8\"",
+          "varilla_ratio": 4
+        },
+        "precios_por_variante": {
+          "50mm": {
+            "Blanco": 41.88,
+            "Gris": 43.0
+          },
+          "100mm": {
+            "Blanco": 46.0,
+            "Gris": 47.5
+          },
+          "150mm": {
+            "Blanco": 51.5,
+            "Gris": 53.0
+          },
+          "200mm": {
+            "Blanco": 57.0,
+            "Gris": 58.5
+          },
+          "250mm": {
+            "Blanco": 62.5,
+            "Gris": 64.0
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISOWALL_PIR": {
+        "nombre": "ISOWALL® PIR- Fachadas - (50 mm - 80 mm)",
+        "handle": "isowall-®-pir",
+        "url": "https://bmcuruguay.com.uy/products/isowall-®-pir",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "50 mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 54.65,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "50 mm",
+            "Color": "Blanco"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.1,
+          "largo_min_m": 3.5,
+          "largo_max_m": 12.0,
+          "varilla": "3/8\"",
+          "varilla_ratio": 4
+        },
+        "precios_por_variante": {
+          "50mm": {
+            "Blanco": 54.65,
+            "Gris": 56.0
+          },
+          "80mm": {
+            "Blanco": 64.0,
+            "Gris": 65.5
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "ISODEC_PIR": {
+        "nombre": "ISODEC® PIR (Techos y Cubiertas) / 50 - 80 - 120 mm.",
+        "handle": "isodec®-pir",
+        "url": "https://bmcuruguay.com.uy/products/isodec®-pir",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "50 mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 51.02,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "50 mm",
+            "Color": "Blanco"
+          }
+        ],
+        "tecnico": {
+          "unidad": "m2",
+          "ancho_util_m": 1.12,
+          "largo_min_m": 3.5,
+          "largo_max_m": 14.0,
+          "pendiente_recomendada": 0.07,
+          "autoportancia": {
+            "50mm": 3.5,
+            "80mm": 5.5,
+            "120mm": 7.6
+          },
+          "varilla": "3/8\"",
+          "varilla_ratio": 4
+        },
+        "precios_por_variante": {
+          "50mm": {
+            "Blanco": 51.02,
+            "Gris": 52.5,
+            "Rojo": 53.0
+          },
+          "80mm": {
+            "Blanco": 55.0,
+            "Gris": 56.5,
+            "Rojo": 57.0
+          },
+          "120mm": {
+            "Blanco": 62.0,
+            "Gris": 63.5,
+            "Rojo": 64.0
+          }
+        },
+        "nota_precios": "Precios base de variante Shopify. Otros espesores/colores pueden variar - consultar web en tiempo real."
+      },
+      "HIANSA_PANEL": {
+        "nombre": "Hiansa-Panel (Trapezoidal 5G) - BECAM",
+        "handle": "hiansa-panel-trapezoidal-5g-becam",
+        "url": "https://bmcuruguay.com.uy/products/hiansa-panel-trapezoidal-5g-becam",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 46.73,
+        "precio_costo": 0
+      }
+    },
+    "accesorios_isodec": {
+      "babeta_adosar": {
+        "nombre": "BABETA ISODEC - Adosar",
+        "handle": "babeta-isodec-adosar",
+        "url": "https://bmcuruguay.com.uy/products/babeta-isodec-adosar",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 17.35,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "gotero_lateral_superior": {
+        "nombre": "Gotero Lateral y Superior para ISODEC (EPS & PIR)",
+        "handle": "gotero-lateral-para-isodec-copia",
+        "url": "https://bmcuruguay.com.uy/products/gotero-lateral-para-isodec-copia",
+        "vendor": "My Store",
+        "tipo": "Accesorio",
+        "tags": [
+          "100mm",
+          "accesorio",
+          "frontal",
+          "gotero",
+          "isodec"
+        ],
+        "opciones": {
+          "para Panel Isodec:": [
+            "50mm (PIR)"
+          ],
+          "Color": [
+            "blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 31.7,
+            "precio_costo": 0,
+            "sku": "",
+            "para Panel Isodec:": "50mm (PIR)",
+            "Color": "blanco"
+          }
+        ]
+      },
+      "gotero_frontal": {
+        "nombre": "Gotero Frontal para ISODEC (EPS & PIR)",
+        "handle": "gotero-frontal-isodec",
+        "url": "https://bmcuruguay.com.uy/products/gotero-frontal-isodec",
+        "vendor": "My Store",
+        "tipo": "Accesorio",
+        "tags": [
+          "100mm",
+          "accesorio",
+          "frontal",
+          "gotero",
+          "isodec"
+        ],
+        "opciones": {
+          "para Panel Isodec:": [
+            "50mm (PIR)"
+          ],
+          "Color": [
+            "blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 23.88,
+            "precio_costo": 0,
+            "sku": "",
+            "para Panel Isodec:": "50mm (PIR)",
+            "Color": "blanco"
+          }
+        ]
+      },
+      "gotero_lateral_camara": {
+        "nombre": "GOTERO LATERAL de CÁMARA - ISODEC (EPS & PIR)",
+        "handle": "gotero-lateral-de-camara-isodec",
+        "url": "https://bmcuruguay.com.uy/products/gotero-lateral-de-camara-isodec",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Variedad": [
+            "100mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 33.26,
+            "precio_costo": 0,
+            "sku": "",
+            "Variedad": "100mm",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "babeta_empotrar": {
+        "nombre": "BABETA ISODEC - Empotrar",
+        "handle": "babeta-de-empotrar-isodec",
+        "url": "https://bmcuruguay.com.uy/products/babeta-de-empotrar-isodec",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 17.35,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "cumbrera": {
+        "nombre": "CUMBRERA para ISODEC",
+        "handle": "cumbrera-isodec",
+        "url": "https://bmcuruguay.com.uy/products/cumbrera-isodec",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 33.54,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "canalon_kit": {
+        "nombre": "CANALÓN ISODEC (EPS & PIR) - KIT COMPLETO",
+        "handle": "canalon-isodec-kit-completo",
+        "url": "https://bmcuruguay.com.uy/products/canalon-isodec-kit-completo",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Variedad": [
+            "50mm (PIR)"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 111.54,
+            "precio_costo": 0,
+            "sku": "",
+            "Variedad": "50mm (PIR)",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "soporte_canalon": {
+        "nombre": "SOPORTE de CANALÓN - ISODEC (EPS & PIR)",
+        "handle": "soporte-de-canalon-isodec",
+        "url": "https://bmcuruguay.com.uy/products/soporte-de-canalon-isodec",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 22.68,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Blanco"
+          }
+        ]
+      }
+    },
+    "accesorios_isoroof": {
+      "babeta_empotrar_lateral": {
+        "nombre": "Babeta de Empotrar Lateral - ISOROOF",
+        "handle": "babeta-de-empotrar-lateral-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/babeta-de-empotrar-lateral-isoroof",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 37.81,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "babeta_empotrar_superior": {
+        "nombre": "Babeta de Empotrar Superior 3G - ISOROOF",
+        "handle": "babeta-de-empotrar-superior-3g-isoroof-bmc-reloaded",
+        "url": "https://bmcuruguay.com.uy/products/babeta-de-empotrar-superior-3g-isoroof-bmc-reloaded",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [
+          "Sample Product"
+        ],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 20.92,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "gotero_frontal_simple": {
+        "nombre": "Gotero Frontal Simple- ISOROOF",
+        "handle": "gotero-frontal-simple-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-frontal-simple-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "Rojo"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 26.18,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "Rojo"
+          }
+        ]
+      },
+      "gotero_superior_3g": {
+        "nombre": "GOTERO SUPERIOR 3G - ISOROOF",
+        "handle": "gotero-superior-3g-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-superior-3g-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 46.65,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "gotero_frontal_greca": {
+        "nombre": "Gotero Frontal con Greca - ISOROOF",
+        "handle": "gotero-frontal-con-greca-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-frontal-con-greca-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 27.45,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "gotero_superior_camara": {
+        "nombre": "Gotero Superior de Cámara - ISOROOF",
+        "handle": "gotero-superior-de-camara-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-superior-de-camara-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 37.86,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "gotero_lateral": {
+        "nombre": "Gotero Lateral - ISOROOF",
+        "handle": "gotero-lateral-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-lateral-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 36.08,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "gris"
+          }
+        ]
+      },
+      "gotero_lateral_camara": {
+        "nombre": "Gotero Lateral de Cámara - Isoroof",
+        "handle": "gotero-lateral-de-camara-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/gotero-lateral-de-camara-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "50mm"
+          ],
+          "Color": [
+            "gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 36.89,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "50mm",
+            "Color": "gris"
+          }
+        ]
+      },
+      "babeta_atornillar_superior": {
+        "nombre": "Babeta de Atornillar Superior 3G - ISOROOF",
+        "handle": "babeta-de-atornillar-superior-3g-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/babeta-de-atornillar-superior-3g-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 39.24,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "babeta_atornillar_lateral": {
+        "nombre": "Babeta de Atornillar Lateral - ISOROOF",
+        "handle": "babeta-de-atornillar-lateral-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/babeta-de-atornillar-lateral-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 37.81,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "canalon_doble": {
+        "nombre": "Canalón Doble - ISOROOF (Perfil + Bandeja + tapas + agujero + bajada)",
+        "handle": "canalon-doble-isoroof-bandeja-tapas-agujero-bajada",
+        "url": "https://bmcuruguay.com.uy/products/canalon-doble-isoroof-bandeja-tapas-agujero-bajada",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Espesor": [
+            "30mm"
+          ],
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 118.76,
+            "precio_costo": 0,
+            "sku": "",
+            "Espesor": "30mm",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "caballete_arandela": {
+        "nombre": "Caballete - Arandela trapezoidal - ISOROOF",
+        "handle": "arandela-trapezoidal-caballete-roof",
+        "url": "https://bmcuruguay.com.uy/products/arandela-trapezoidal-caballete-roof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 9.2,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "soporte_canalon": {
+        "nombre": "Soporte para Canalón - Isoroof",
+        "handle": "soporte-para-canalon-isoroof",
+        "url": "https://bmcuruguay.com.uy/products/soporte-para-canalon-isoroof",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 18.66,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "cumbrera": {
+        "nombre": "CUMBRERA - ISOROOF 3G",
+        "handle": "cumbrera-isoroof-3g",
+        "url": "https://bmcuruguay.com.uy/products/cumbrera-isoroof-3g",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 58.23,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      }
+    },
+    "fijaciones": {
+      "tuerca_5_16": {
+        "nombre": "TUERCA HEXAGONAL BSW 5/16\"",
+        "handle": "tuerca-hexagonal-bsw-5-16",
+        "url": "https://bmcuruguay.com.uy/products/tuerca-hexagonal-bsw-5-16",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 2.0,
+        "precio_costo": 0
+      },
+      "varilla_5_16": {
+        "nombre": "VARILLA ROSCADA BSW 5/16\"",
+        "handle": "varilla-roscada-bsw-5_16",
+        "url": "https://bmcuruguay.com.uy/products/varilla-roscada-bsw-5_16",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 16.2,
+        "precio_costo": 0
+      },
+      "varilla_3_8": {
+        "nombre": "VARILLA ROSCADA BSW 3/8\"",
+        "handle": "varilla-roscada-bsw-3_8",
+        "url": "https://bmcuruguay.com.uy/products/varilla-roscada-bsw-3_8",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 19.9,
+        "precio_costo": 0
+      },
+      "tornillo_mecha_4": {
+        "nombre": "Tornillos Punta  Mecha 4 pulgadas 14x4 (10 unidades)",
+        "handle": "tornillos-punta-mecha-4-pulgadas",
+        "url": "https://bmcuruguay.com.uy/products/tornillos-punta-mecha-4-pulgadas",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 14.4,
+        "precio_costo": 0
+      },
+      "tornillo_aguja_5": {
+        "nombre": "Tornillos  Punta Aguja 5 pulgadas",
+        "handle": "tornillos-punta-aguja-5-pulgadas",
+        "url": "https://bmcuruguay.com.uy/products/tornillos-punta-aguja-5-pulgadas",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 17.0,
+        "precio_costo": 0
+      },
+      "taco_5_16": {
+        "nombre": "Taco Expansivo 5/16\" - para Hormigón - Drop In",
+        "handle": "taco-expansivo-5-16-para-hormigon-drop-in",
+        "url": "https://bmcuruguay.com.uy/products/taco-expansivo-5-16-para-hormigon-drop-in",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 6.7,
+        "precio_costo": 0
+      },
+      "tornillo_t1": {
+        "nombre": "Tornillo T1 P. Mecha",
+        "handle": "tornillo-t1-p-mecha-01",
+        "url": "https://bmcuruguay.com.uy/products/tornillo-t1-p-mecha-01",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 5.0,
+        "precio_costo": 0
+      },
+      "remache_pop": {
+        "nombre": "Remache POP 5/32 x 1/2 Zinc Blanco",
+        "handle": "remache-pop-5-32-x-1-2-zinc-blanco",
+        "url": "https://bmcuruguay.com.uy/products/remache-pop-5-32-x-1-2-zinc-blanco",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 5.0,
+        "precio_costo": 0
+      },
+      "membrana": {
+        "nombre": "Membrana Auto-adhesiva",
+        "handle": "membrana-auto-adhesiva",
+        "url": "https://bmcuruguay.com.uy/products/membrana-auto-adhesiva",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 40.26,
+        "precio_costo": 0
+      },
+      "kit_anclaje_hormigon": {
+        "nombre": "Kit Anclaje a H° - Tornillo N.º 10 + arandela + taco",
+        "handle": "kit-anclaje-a-h-tornillo-n-º-10-arandela-taco",
+        "url": "https://bmcuruguay.com.uy/products/kit-anclaje-a-h-tornillo-n-º-10-arandela-taco",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 11.8,
+        "precio_costo": 0
+      },
+      "arandela_plana_5_16": {
+        "nombre": "Arandela plana Galvanizada 5/16",
+        "handle": "arandela-plana-galvanizada-5-16",
+        "url": "https://bmcuruguay.com.uy/products/arandela-plana-galvanizada-5-16",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 2.9,
+        "precio_costo": 0
+      },
+      "arandela_plana_3_8": {
+        "nombre": "Arandela Plana Galvanizada 3/8\"",
+        "handle": "arandela-plana-galv-3-8",
+        "url": "https://bmcuruguay.com.uy/products/arandela-plana-galv-3-8",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 4.0,
+        "precio_costo": 0
+      },
+      "tuerca_3_8": {
+        "nombre": "TUERCA HEXAGONAL BSW 3/8",
+        "handle": "tuerca-bsw-3-8-galvanizada",
+        "url": "https://bmcuruguay.com.uy/products/tuerca-bsw-3-8-galvanizada",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 2.0,
+        "precio_costo": 0
+      },
+      "taco_3_8": {
+        "nombre": "Taco Expansivo 3/8 - para Hormigón - Drop In",
+        "handle": "taco-expansivo-3-8-para-hormigon",
+        "url": "https://bmcuruguay.com.uy/products/taco-expansivo-3-8-para-hormigon",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 8.7,
+        "precio_costo": 0
+      },
+      "arandela_carrocero_3_8": {
+        "nombre": "ARANDELA CARROCERO 3/8\" - Galvanizada",
+        "handle": "arandela-carrocero-3-8-galvanizada",
+        "url": "https://bmcuruguay.com.uy/products/arandela-carrocero-3-8-galvanizada",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 32.7,
+        "precio_costo": 0
+      },
+      "tortuga": {
+        "nombre": "ARANDELA DE POLIPROPILENO - \"Tortuga\"",
+        "handle": "arandela-polipropileno-tortuga",
+        "url": "https://bmcuruguay.com.uy/products/arandela-polipropileno-tortuga",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 26.2,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "remache_pop_caja": {
+        "nombre": "Remache POP Blanco (Caja 1000 un.) - Isopanel",
+        "handle": "caja-remaches-pop-blancos-para-isopanel-1000-u",
+        "url": "https://bmcuruguay.com.uy/products/caja-remaches-pop-blancos-para-isopanel-1000-u",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 122.79,
+        "precio_costo": 0
+      },
+      "cinta_butilo": {
+        "nombre": "Cinta Butilo 2mm x 15mm x 22.5m lineales - ISOROOF - ISODEC - ISOPANEL.",
+        "handle": "cinta-butilo",
+        "url": "https://bmcuruguay.com.uy/products/cinta-butilo",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 22.48,
+        "precio_costo": 0
+      }
+    },
+    "selladores": {
+      "hm_solvente": {
+        "nombre": "HM-rubber - HM Solv. (Solvente para caucho líquido)",
+        "handle": "hm-rubber-hm-solv-solvencte-para-caucho-liquido",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-hm-solv-solvencte-para-caucho-liquido",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Presentación": [
+            "Lata 1 Litro"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 12.88,
+            "precio_costo": 0,
+            "sku": "",
+            "Presentación": "Lata 1 Litro"
+          }
+        ]
+      },
+      "hm_grafeno": {
+        "nombre": "HM-rubber Sellador de Grafeno - Balde (18 kg) - Línea Industrial",
+        "handle": "hm-sellador-de-grafeno-balde-18-kg-linea-industrial",
+        "url": "https://bmcuruguay.com.uy/products/hm-sellador-de-grafeno-balde-18-kg-linea-industrial",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "precio_venta": 417.0,
+        "precio_costo": 0
+      },
+      "hm_doble_funcion": {
+        "nombre": "HM-rubber Caucho líquido Doble Función Premium - Balde (18 kg) - Línea Industrial",
+        "handle": "hm-doble-funcion-balde-18-kg-linea-industrial",
+        "url": "https://bmcuruguay.com.uy/products/hm-doble-funcion-balde-18-kg-linea-industrial",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "precio_venta": 438.73,
+        "precio_costo": 0
+      },
+      "hm_malla": {
+        "nombre": "HM-rubber - Malla Estructurante (10 cm x 50 m)",
+        "handle": "hm-rubber-malla-estructurante",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-malla-estructurante",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "precio_venta": 59.18,
+        "precio_costo": 0
+      },
+      "hm_impertech": {
+        "nombre": "HM-rubber - Impertech 3 en 1 - Balde (14 kg.)",
+        "handle": "hm-rubber-impertech-3-en-1-balde-14-kg",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-impertech-3-en-1-balde-14-kg",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 205.05,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "blanco"
+          }
+        ]
+      },
+      "hm_base_industrial": {
+        "nombre": "HM-rubber Caucho Líquido Base - Balde (18 kg) - Línea Industrial",
+        "handle": "hm-rubber-sellador-flex-pro-lata-900-ml",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-sellador-flex-pro-lata-900-ml",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "precio_venta": 403.61,
+        "precio_costo": 0
+      },
+      "hm_lata_3_6kg": {
+        "nombre": "HM-rubber - Caucho Líquido 7 en 1 - Lata (3,6 kg)",
+        "handle": "hm-rubber-caucho-liquido-7-en-1-lata-3-6-kg",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-caucho-liquido-7-en-1-lata-3-6-kg",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "negro"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 123.17,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "negro"
+          }
+        ]
+      },
+      "hm_lata_900ml": {
+        "nombre": "HM-rubber - Caucho Líquido 7 en 1  - Lata (900 ml)",
+        "handle": "hm-rubber-caucho-liquido-7-en-1-lata-900-ml",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-caucho-liquido-7-en-1-lata-900-ml",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "negro"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 29.92,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "negro"
+          }
+        ]
+      },
+      "hm_aerosol": {
+        "nombre": "HM-rubber - Caucho Líquido 7 en 1 - Spray Aerosol (240g / 400ml)",
+        "handle": "hm-rubber-aerosol-caucho-liquido-7-en-1-goma-liquida",
+        "url": "https://bmcuruguay.com.uy/products/hm-rubber-aerosol-caucho-liquido-7-en-1-goma-liquida",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Color": [
+            "negro"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 15.45,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "negro"
+          }
+        ]
+      },
+      "pistola_silicona": {
+        "nombre": "Aplicador para Silicona Bromplast",
+        "handle": "pistola-para-silicona-bromplast",
+        "url": "https://bmcuruguay.com.uy/products/pistola-para-silicona-bromplast",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 40.26,
+        "precio_costo": 0
+      },
+      "silicona_premium": {
+        "nombre": "Silicona Neutra (Pomo) PREMIUM",
+        "handle": "silicona-neutra-pomo-premium",
+        "url": "https://bmcuruguay.com.uy/products/silicona-neutra-pomo-premium",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 11.89,
+        "precio_costo": 0
+      },
+      "espuma_pu": {
+        "nombre": "Espuma Poliuretano Expansiva",
+        "handle": "espuma-poliuretano-expansiva",
+        "url": "https://bmcuruguay.com.uy/products/espuma-poliuretano-expansiva",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 17.11,
+        "precio_costo": 0
+      },
+      "silicona_bromplast": {
+        "nombre": "Bromplast 8 - Silicona Neutra",
+        "handle": "bromplast-8-silicona-neutra",
+        "url": "https://bmcuruguay.com.uy/products/bromplast-8-silicona-neutra",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 13.07,
+        "precio_costo": 0
+      }
+    },
+    "otros": {
+      "embudo_pvc": {
+        "nombre": "Embudo Conector de Bajada PVC para Canaleta (100mm)",
+        "handle": "embudo-conector-de-bajada-pvc-para-canaleta-100mm",
+        "url": "https://bmcuruguay.com.uy/products/embudo-conector-de-bajada-pvc-para-canaleta-100mm",
+        "vendor": "BMC URUGUAY",
+        "tipo": "Accesorio",
+        "tags": [],
+        "precio_venta": 18.73,
+        "precio_costo": 0,
+        "sku": "CONBPVC"
+      },
+      "perfil_alu_5852": {
+        "nombre": "ÁNGULO DE ALUMINIO ANODIZADO 5852 - (Estructural de 6,8 mts)",
+        "handle": "perfil-aluminizado-5852-anodizado-estructural-de-6-8-mts",
+        "url": "https://bmcuruguay.com.uy/products/perfil-aluminizado-5852-anodizado-estructural-de-6-8-mts",
+        "vendor": "BMC URUGUAY",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 90.01,
+        "precio_costo": 0
+      },
+      "perfil_lateral_izq_hiansa": {
+        "nombre": "Perfil Lateral Izquierdo Hiansa-Panel",
+        "handle": "perfil-lateral-hiansa-panel-becam-bmc-reloaded",
+        "url": "https://bmcuruguay.com.uy/products/perfil-lateral-hiansa-panel-becam-bmc-reloaded",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [
+          "Sample Product"
+        ],
+        "opciones": {
+          "Color": [
+            "Gris"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 31.12,
+            "precio_costo": 0,
+            "sku": "",
+            "Color": "Gris"
+          }
+        ]
+      },
+      "perfil_u": {
+        "nombre": "PERFIL U - (ISOPANEL - ISOWALL - ISOFRIG)",
+        "handle": "perfiles-u",
+        "url": "https://bmcuruguay.com.uy/products/perfiles-u",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "opciones": {
+          "Tipo de Perfil U": [
+            "Isopanel (EPS)"
+          ],
+          "Variedad": [
+            "50mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 14.23,
+            "precio_costo": 0,
+            "sku": "",
+            "Tipo de Perfil U": "Isopanel (EPS)",
+            "Variedad": "50mm",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "galpon_zorzal": {
+        "nombre": "Galpón de Jardín Modelo Zorzal",
+        "handle": "galpon-de-jardin-modelo-zorzal",
+        "url": "https://bmcuruguay.com.uy/products/galpon-de-jardin-modelo-zorzal",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 880.0,
+        "precio_costo": 0
+      },
+      "galpon_cardelino": {
+        "nombre": "Galpón de Jardín Modelo Cardelino",
+        "handle": "galpon-de-jardin-modelo-cardelino",
+        "url": "https://bmcuruguay.com.uy/products/galpon-de-jardin-modelo-cardelino",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 670.0,
+        "precio_costo": 0
+      },
+      "angulo_g4": {
+        "nombre": "Ángulo G4 - (40x40)",
+        "handle": "angulo-plegado-g4-40x40",
+        "url": "https://bmcuruguay.com.uy/products/angulo-plegado-g4-40x40",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 18.85,
+        "precio_costo": 0
+      },
+      "angulo_k2": {
+        "nombre": "ÁNGULO INTERIOR (Perfil K2)",
+        "handle": "angulo-interior-perfil-k2",
+        "url": "https://bmcuruguay.com.uy/products/angulo-interior-perfil-k2",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 14.92,
+        "precio_costo": 0
+      },
+      "angulo_g2": {
+        "nombre": "ÁNGULO EXTERIOR (Perfil G2)",
+        "handle": "angulo-plegado-g2-l-exterior",
+        "url": "https://bmcuruguay.com.uy/products/angulo-plegado-g2-l-exterior",
+        "vendor": "My Store",
+        "tipo": "Accesorio",
+        "tags": [],
+        "opciones": {
+          "Variante": [
+            "50mm"
+          ],
+          "Color": [
+            "Blanco"
+          ]
+        },
+        "variantes": [
+          {
+            "precio_venta": 19.17,
+            "precio_costo": 0,
+            "sku": "",
+            "Variante": "50mm",
+            "Color": "Blanco"
+          }
+        ]
+      },
+      "frontalin_hiansa": {
+        "nombre": "Frontalín Hiansa-Panel",
+        "handle": "frontalin-hiansa-panel",
+        "url": "https://bmcuruguay.com.uy/products/frontalin-hiansa-panel",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 21.47,
+        "precio_costo": 0
+      },
+      "perfil_lateral_der_hiansa": {
+        "nombre": "Perfil Lateral Derecho Hiansa-Panel",
+        "handle": "perfil-lateral-hiansa-panel-becam",
+        "url": "https://bmcuruguay.com.uy/products/perfil-lateral-hiansa-panel-becam",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 31.12,
+        "precio_costo": 0
+      },
+      "cumbrera_hiansa": {
+        "nombre": "Cumbrera Hiansa-panel 5G (BECAM)",
+        "handle": "cumbrera-hiansa-panel-5g-becam",
+        "url": "https://bmcuruguay.com.uy/products/cumbrera-hiansa-panel-5g-becam",
+        "vendor": "My Store",
+        "tipo": "",
+        "tags": [],
+        "precio_venta": 22.85,
+        "precio_costo": 0
+      }
+    }
+  },
+  "formulas": {
+    "costo_panel": {
+      "formula": "PRECIO_VENTA_M2 × LARGO × CANTIDAD × ANCHO_UTIL",
+      "nota": "PRECIO_VENTA se extrae de variante Shopify"
+    },
+    "apoyos": {
+      "formula": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)"
+    },
+    "puntos_fijacion": {
+      "formula": "Σ ROUNDUP(((CANTIDAD × APOYOS) × 2) + (LARGO × 2 / 2.5))",
+      "parte_1": "Fijaciones en apoyos estructurales",
+      "parte_2": "Fijaciones laterales cada 2.5m"
+    },
+    "varilla_pesados": "ROUNDUP(PUNTOS_FIJACION / 4)",
+    "varilla_livianos": "PUNTOS_FIJACION / 6",
+    "tuercas_pasante": "PUNTOS_FIJACION × 2",
+    "tuercas_hormigon": "PUNTOS_FIJACION",
+    "silicona": "ROUNDUP(TOTAL_METROS / 8)",
+    "remaches": "ROUNDUP(SUMA_PERFILES × 20)",
+    "membrana": "ROUNDUP((ML_BABETAS + ML_CUMBRERA) / 10)",
+    "espuma": "ROUNDUP(CANTIDAD_MEMBRANA × 2)"
+  },
+  "configuracion": {
+    "iva": 0.22,
+    "pais": "Uruguay",
+    "tipos_fijacion": {
+      "pasante": {
+        "descripcion": "Fijación pasante en estructura metálica",
+        "tuercas_por_punto": 2,
+        "requiere_taco": false
+      },
+      "hormigon": {
+        "descripcion": "Anclaje en losa o viga de hormigón",
+        "tuercas_por_punto": 1,
+        "requiere_taco": true
+      }
+    }
+  }
+}

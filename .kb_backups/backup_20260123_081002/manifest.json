@@ -1,0 +1,13 @@
+{
+  "timestamp": "20260123_081002",
+  "files_backed_up": [
+    "BMC_Base_Conocimiento_GPT-2.json",
+    "BMC_Catalogo_Completo_Shopify (1).json",
+    "Panelin Knowledge Base Assistant_config.json",
+    "Panelin_Asistente_Integral_BMC_config.json",
+    "kb_analysis_report.json",
+    "validation_fix_report.json",
+    "panelin_truth_bmcuruguay_web_only_v2.json"
+  ],
+  "total_files": 7
+}
