@@ -635,19 +635,26 @@ kb_versions/metadata.json:
 }
 ```
 
-**Scripts de gestión:**
+**Scripts de gestión (propuesta, aún no implementados en este repo):**
+
+> Nota: Actualmente este repositorio **no** contiene un directorio `scripts/` ni los
+> archivos `kb_snapshot.py`, `kb_diff.py`, `kb_rollback.py` o `kb_test.py`.  
+> Los siguientes comandos son un **diseño de referencia**. Para hacerlos accionables,
+> primero debes crear estos scripts (en la raíz del repo o en el directorio que
+> decidas) o adaptar las rutas a tu estructura real.
+
 ```bash
-# Crear snapshot antes de cambios
-python scripts/kb_snapshot.py --create --tag "antes_actualizacion_precios"
+# Crear snapshot antes de cambios (script a implementar)
+python kb_snapshot.py --create --tag "antes_actualizacion_precios"
 
-# Comparar versiones
-python scripts/kb_diff.py --v1 v4.0 --v2 v5.0
+# Comparar versiones (script a implementar)
+python kb_diff.py --v1 v4.0 --v2 v5.0
 
-# Rollback si hay problemas
-python scripts/kb_rollback.py --to v4.0 --reason "Error en cálculos v5.0"
+# Rollback si hay problemas (script a implementar)
+python kb_rollback.py --to v4.0 --reason "Error en cálculos v5.0"
 
-# Testing de nueva versión
-python scripts/kb_test.py --version v5.0 --full-suite
+# Testing de nueva versión (script a implementar)
+python kb_test.py --version v5.0 --full-suite
 ```
 
 ---
