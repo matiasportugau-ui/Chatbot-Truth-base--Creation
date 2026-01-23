@@ -4,6 +4,8 @@
 **Generated:** 2026-01-19  
 **Based on:** Codex Analysis of Panelin Chatbot System
 
+**Canonical merged doc:** `KNOWLEDGE_ANALYSIS_PLAN_MERGED.md` (knowledge + analysis + plan)
+
 ---
 
 ## Priority Overview
