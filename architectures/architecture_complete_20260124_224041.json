@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "name": "Panelin BMC Uruguay Chatbot Architecture",
+    "version": "1.0.0",
+    "created_at": "2026-01-24T22:40:41.439084",
+    "tier": "complete"
+  },
+  "config": {
+    "company": "Panelin BMC Uruguay",
+    "country": "Uruguay",
+    "monthly_conversations": 1500,
+    "budget_range": "$25.0-$75.0"
+  },
+  "channels": [
+    {
+      "name": "WhatsApp Business",
+      "enabled": true,
+      "priority": 1,
+      "traffic_share": "70%"
+    },
+    {
+      "name": "Facebook Messenger",
+      "enabled": true,
+      "priority": 2,
+      "traffic_share": "15%"
+    },
+    {
+      "name": "Instagram DMs",
+      "enabled": true,
+      "priority": 3,
+      "traffic_share": "10%"
+    },
+    {
+      "name": "Mercado Libre",
+      "enabled": true,
+      "priority": 2,
+      "traffic_share": "5%"
+    }
+  ],
+  "infrastructure": {
+    "hosting": {
+      "provider": "Oracle Cloud (Always Free)",
+      "region": "Sao Paulo",
+      "monthly_cost": 0.0,
+      "specs": "4 CPU, 24GB RAM"
+    },
+    "llm": {
+      "primary": "GPT-4o Mini",
+      "fallback": "Gemini 2.5 Flash"
+    },
+    "orchestration": "n8n (self-hosted, free)",
+    "database": "SQLite",
+    "total_base_cost": 0.0,
+    "complexity": 9
+  },
+  "costs": {
+    "monthly_estimate": 13.75,
+    "annual_estimate": 165.0,
+    "botmaker_monthly": 190,
+    "annual_savings": 2115.0,
+    "breakdown": [
+      {
+        "component": "Cloud Hosting",
+        "cost": 0.0
+      },
+      {
+        "component": "WhatsApp Business API",
+        "cost": 12.13
+      },
+      {
+        "component": "LLM API (OpenAI)",
+        "cost": 0.37
+      },
+      {
+        "component": "Contingency (10%)",
+        "cost": 1.25
+      }
+    ]
+  },
+  "implementation": {
+    "total_hours": 144,
+    "weeks": 6,
+    "phases": [
+      {
+        "name": "Phase 1: Core Infrastructure + WhatsApp",
+        "duration_weeks": 2,
+        "hours": 40,
+        "channels": [
+          "whatsapp"
+        ]
+      },
+      {
+        "name": "Phase 2: Messenger + Instagram",
+        "duration_weeks": 1,
+        "hours": 24,
+        "channels": [
+          "messenger",
+          "instagram"
+        ]
+      },
+      {
+        "name": "Phase 3: Mercado Libre",
+        "duration_weeks": 2,
+        "hours": 60,
+        "channels": [
+          "mercadolibre"
+        ]
+      },
+      {
+        "name": "Phase 4: Optimization",
+        "duration_weeks": 1,
+        "hours": 20,
+        "channels": []
+      }
+    ]
+  },
+  "recommendations": [
+    "Start with WhatsApp alone; it handles 70%+ of traffic",
+    "Use GPT-4o-mini for 90%+ of queries; reserve GPT-4o for edge cases",
+    "Enable OpenAI prompt caching for 50% savings on repeated prompts",
+    "Maximize customer-initiated WhatsApp messages (free) vs business-initiated (paid)",
+    "Consider Chatwoot (free, self-hosted) for unified human agent inbox",
+    "Focus Mercado Libre automation on Questions API (pre-sale) for max conversion impact",
+    "Switched to Oracle Cloud Free tier (saves $5.00/mo)",
+    "Messenger and Instagram share single Facebook App (no extra setup)"
+  ],
+  "risks": [
+    "Oracle Cloud Free: ARM instance availability may delay initial setup. Have Vultr Buenos Aires as backup ($5/mo).",
+    "WhatsApp verification can take 1-3 weeks. Start process early.",
+    "Mercado Libre may moderate AUTOMATIC_MESSAGE responses. Design contextual, non-templated replies.",
+    "Budget 4-8 hours/month for ongoing maintenance and improvements."
+  ]
+}

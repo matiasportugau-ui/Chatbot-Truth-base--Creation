@@ -1,0 +1,53 @@
+# Panelin BMC Uruguay Chatbot Architecture
+Version: 1.0.0 | Tier: Complete
+
+## Cost Summary
+- Monthly estimate: $13.75
+- Annual cost: $165.00
+- vs Botmaker ($190/mo): Save $2115.00/year
+
+## Channels
+- WhatsApp Business: Enabled (Priority 1)
+- Facebook Messenger: Enabled (Priority 2)
+- Instagram DMs: Enabled (Priority 3)
+- Mercado Libre: Enabled (Priority 2)
+
+## Infrastructure
+- Hosting: Oracle Cloud (Always Free)
+- Primary LLM: GPT-4o Mini
+- Orchestration: n8n (self-hosted, free)
+
+## Implementation
+- Total hours: 144
+- Timeline: 6 weeks
+
+## Architecture Diagram
+
++------------------+     +-------------------+     +------------------+
+|    CUSTOMERS     | --> |   CHANNEL APIs    | --> |  WEBHOOK SERVER  |
++------------------+     +-------------------+     +------------------+
+                         | WhatsApp Business / Facebook Messenger / |          |
+                         +-------------------+     v
+                                               +------------------+
+                                               |    n8n (free)    |
+                                               |   Orchestrator   |
+                                               +------------------+
+                                                        |
+                              +-------------------------+-------------------------+
+                              |                         |                         |
+                              v                         v                         v
+                    +------------------+      +------------------+      +------------------+
+                    |   GPT-4o Mini    |      |  Python Backend  |      |    Database      |
+                    |    (LLM API)     |      | Quotation Engine |      | (SQLite)  |
+                    +------------------+      +------------------+      +------------------+
+                              |                         |
+                              +-------------------------+
+                                        |
+                                        v
+                              +------------------+
+                              |    RESPONSE      |
+                              | --> Customer     |
+                              +------------------+
+
+HOSTING: Oracle Cloud (Always Free) (Sao Paulo)
+COST: ~$0.00/mo hosting + API fees
