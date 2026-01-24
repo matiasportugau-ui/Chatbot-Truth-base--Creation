@@ -1,0 +1,846 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "fecha_generacion": "2026-01-24T22:25:18.779060",
+    "proyecto": "Chatbot-Truth-base--Creation",
+    "proposito": "Base de conocimiento unificada para GPT OpenAI Panelin",
+    "ramas_analizadas": [
+      "claude/extract-chatbot-knowledge-Fn2cE",
+      "main"
+    ],
+    "total_commits_analizados": 60
+  },
+  "fuentes_conocimiento": {
+    "nivel_1_master": {
+      "archivo": "BMC_Base_Conocimiento_GPT-2.json",
+      "descripcion": "Fuente de verdad absoluta - productos, precios, fórmulas",
+      "contenido": {
+        "meta": {
+          "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
+          "version": "5.0-Unified",
+          "fecha": "2026-01-16",
+          "validado_con": "31 presupuestos reales + Technical Truth Corrections",
+          "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay."
+        },
+        "identidad": {
+          "nombre_bot": "BMC Assistant",
+          "rol": "Experto Técnico y Comercial en Isopaneles y Construcción Seca",
+          "tono": "Profesional, técnico pero accesible, orientado a la Venta Consultiva.",
+          "objetivo": "Guiar al cliente hacia la solución técnica más adecuada (priorizando seguridad y eficiencia) y generar una cotización precisa."
+        },
+        "products": {
+          "ISODEC_EPS": {
+            "nombre_comercial": "Isodec / Isowall (EPS)",
+            "tipo": "cubierta_pesada",
+            "ignifugo": "Estándar (EPS Tipo F - Autoextinguible)",
+            "ancho_util": 1.12,
+            "sistema_fijacion": "varilla_tuerca",
+            "varilla": "3/8",
+            "espesores": {
+              "100": {
+                "autoportancia": 5.5,
+                "precio": 46.07,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 2.86
+              },
+              "150": {
+                "autoportancia": 7.5,
+                "precio": 51.5,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 4.29
+              },
+              "200": {
+                "autoportancia": 9.1,
+                "precio": 57.0,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 5.71
+              },
+              "250": {
+                "autoportancia": 10.4,
+                "precio": 62.5,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 7.14
+              }
+            },
+            "correcciones_tecnicas": [
+              "El isopanel de 100mm es el recomendado para viviendas en Uruguay."
+            ]
+          },
+          "ISODEC_PIR": {
+            "nombre_comercial": "Isodec (PIR)",
+            "tipo": "cubierta_pesada",
+            "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+            "ancho_util": 1.12,
+            "sistema_fijacion": "varilla_tuerca",
+            "varilla": "3/8",
+            "espesores": {
+              "50": {
+                "autoportancia": 3.5,
+                "precio": 51.02,
+                "coeficiente_termico": 0.022,
+                "resistencia_termica": 2.27
+              },
+              "80": {
+                "autoportancia": 5.5,
+                "precio": 55.0,
+                "coeficiente_termico": 0.022,
+                "resistencia_termica": 3.64
+              },
+              "120": {
+                "autoportancia": 7.6,
+                "precio": 62.0,
+                "coeficiente_termico": 0.022,
+                "resistencia_termica": 5.45
+              }
+            },
+            "ventajas": [
+              "Mayor resistencia al fuego",
+              "Mejor aislación térmica por mm"
+            ]
+          },
+          "ISOROOF_3G": {
+            "nombre_comercial": "Isoroof Plus (3G)",
+            "tipo": "cubierta_liviana",
+            "ignifugo": "Estándar (EPS)",
+            "ancho_util": 1.0,
+            "sistema_fijacion": "caballete_tornillo",
+            "nota": "A madera NO usa varilla ni tuercas",
+            "espesores": {
+              "30": {
+                "autoportancia": 2.8,
+                "precio": 48.74,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 0.86
+              },
+              "50": {
+                "autoportancia": 3.3,
+                "precio": 53.0,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 1.43
+              },
+              "80": {
+                "autoportancia": 4.0,
+                "precio": 62.0,
+                "coeficiente_termico": 0.035,
+                "resistencia_termica": 2.29
+              }
+            }
+          },
+          "ISOPANEL_EPS": {
+            "nombre_comercial": "Isopanel Pared (EPS)",
+            "tipo": "pared",
+            "ignifugo": "Estándar (EPS Tipo F - Autoextinguible)",
+            "ancho_util": 1.14,
+            "sistema_fijacion": "varilla_tuerca",
+            "varilla": "3/8",
+            "espesores": {
+              "50": {
+                "precio": 41.88
+              },
+              "100": {
+                "precio": 46.0
+              },
+              "150": {
+                "precio": 51.5
+              },
+              "200": {
+                "precio": 57.0
+              }
+            }
+          },
+          "ISOWALL_PIR": {
+            "nombre_comercial": "Isowall Pared (PIR)",
+            "tipo": "pared",
+            "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+            "ancho_util": 1.1,
+            "sistema_fijacion": "varilla_tuerca",
+            "espesores": {
+              "50": {
+                "precio": 54.65
+              },
+              "80": {
+                "precio": 64.0
+              }
+            }
+          },
+          "HM_RUBBER": {
+            "nombre_comercial": "HM Rubber 7-en-1",
+            "tipo": "impermeabilizante",
+            "rendimiento": "1.5kg por m2 para impermeabilización total",
+            "aplicacion": "Directo sobre óxido firme, hormigón, chapa, etc.",
+            "correcciones_tecnicas": [
+              "No es pintura, es caucho líquido (membrana)."
+            ]
+          }
+        },
+        "formulas_cotizacion": {
+          "costo_panel": "PRECIO * LARGO * CANTIDAD * ANCHO_UTIL",
+          "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
+          "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
+          "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
+          "tuercas_metal": "PUNTOS * 2",
+          "tuercas_hormigon": "PUNTOS * 1",
+          "tacos_hormigon": "PUNTOS * 1",
+          "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
+          "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
+          "remaches": "ROUNDUP(TOTAL_PERFILES * 20)",
+          "silicona": "ROUNDUP(TOTAL_ML / 8)"
+        },
+        "formulas_ahorro_energetico": {
+          "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR",
+          "reduccion_transmision_calor": "(DIFERENCIA_RESISTENCIA / RESISTENCIA_MENOR) * 100",
+          "ahorro_energetico_anual": "AREA_M2 * DIFERENCIA_RESISTENCIA * GRADOS_DIA_CALEFACCION * PRECIO_KWH * HORAS_DIA * DIAS_ESTACION",
+          "nota": "Para Uruguay: marzo-noviembre (9 meses), temperatura objetivo 22°C, considerar grados-día de calefacción según zona"
+        },
+        "datos_referencia_uruguay": {
+          "precio_kwh_uruguay": {
+            "residencial": 0.12,
+            "comercial": 0.15,
+            "unidad": "USD/kWh",
+            "fuente": "Referencia UTE 2025"
+          },
+          "estacion_calefaccion": {
+            "meses": 9,
+            "periodo": "marzo a noviembre",
+            "horas_dia_promedio": 12,
+            "temperatura_objetivo": 22,
+            "grados_dia_promedio": 8
+          },
+          "costos_estructura_referencia": {
+            "viga_metalica_estimado": 15,
+            "unidad": "USD/metro_lineal",
+            "nota": "Estimado - consultar costos locales reales incluyendo mano de obra. Referencias: SUNCA, constructores locales."
+          }
+        },
+        "kits_fijacion": {
+          "metal": {
+            "tuercas_por_punto": 2,
+            "requiere_taco": false,
+            "componentes": [
+              "varilla",
+              "tuerca",
+              "arandela_carrocero",
+              "arandela_plana",
+              "arandela_pp"
+            ]
+          },
+          "hormigon": {
+            "tuercas_por_punto": 1,
+            "requiere_taco": true,
+            "componentes": [
+              "varilla",
+              "tuerca",
+              "taco_expansivo",
+              "arandela_carrocero",
+              "arandela_pp"
+            ]
+          },
+          "madera_isoroof": {
+            "usa_varilla": false,
+            "usa_tuercas": false,
+            "componentes": [
+              "caballete",
+              "tornillo_aguja_5",
+              "tornillo_t1"
+            ]
+          }
+        },
+        "precios_accesorios_referencia": {
+          "varilla_3_8": 19.9,
+          "tuerca_3_8": 2.0,
+          "taco_3_8": 8.7,
+          "silicona_pomo": 11.89,
+          "gotero_frontal_isodec": 23.88
+        },
+        "reglas_negocio": {
+          "iva": 0.22,
+          "moneda": "USD",
+          "pendiente_minima_techo": "7%",
+          "perfil_5852_obligatorio_en": [
+            "pretiles",
+            "sobre techos existentes",
+            "refuerzos perimetrales"
+          ],
+          "estrategia_venta": [
+            "Si el cliente quiere techar un área determinada, preguntar siempre la distancia entre apoyos (luz) existente o proyectada.",
+            "Sugerir el panel que permita mayor autoportancia para ahorrar en estructura de soporte.",
+            "Si es vivienda o industria con riesgo, sugerir PIR por seguridad.",
+            "Siempre ofrecer opciones: Económica vs Estructuralmente Eficiente.",
+            "En TODAS las comparativas de paneles, incluir SIEMPRE las ventajas de aislamiento térmico y ahorro energético, no solo al comparar 100mm vs 150mm, sino en todas las opciones disponibles.",
+            "Sugerir al cliente considerar el valor a largo plazo en términos de confort, ahorro en climatización y mejoras de aislamiento cuando se elige un panel más grueso.",
+            "Cuando falte un costo exacto (como el de una viga), explicar que es un estimado y sugerir que el cliente considere costos reales locales, incluyendo mano de obra. Consultar referencias como SUNCA u otras bases de precios de construcción en Uruguay.",
+            "Proporcionar un cálculo aproximado del ahorro energético y la mejora de aislamiento en una habitación estándar al pasar a un panel de mayor espesor.",
+            "Aplicar lógica que combine el costo inicial con el valor a largo plazo, ofreciendo al cliente no solo el precio, sino también el impacto en confort, eficiencia energética y ahorro económico."
+          ],
+          "servicios": {
+            "instalaciones": false,
+            "nota": "BMC vende materiales y brinda asesoramiento técnico; no realiza colocación."
+          },
+          "politica_precios": {
+            "precio_web_es_referencia": true,
+            "cotizacion_interna_puede_diferir": true,
+            "cotizacion_interna_suele_ser_neta_sin_iva": true,
+            "requiere_validacion_comercial": true,
+            "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización."
+          },
+          "guardrails_precision": [
+            "No afirmar precios de accesorios si no están en la KB maestra.",
+            "No confundir gotero frontal con gotero lateral; si falta precio, indicar que no está disponible en base."
+          ]
+        },
+        "contacto": {
+          "direccion_showroom": "Montevideo, Uruguay (Coordinar por WhatsApp)",
+          "horarios": "Lunes a Viernes 9-18, Sábados 9-13"
+        }
+      }
+    },
+    "nivel_2_validacion": {
+      "archivo": "BMC_Base_Unificada_v4.json",
+      "descripcion": "Cross-reference para validación",
+      "disponible": false
+    },
+    "nivel_3_dinamico": {
+      "archivo": "panelin_truth_bmcuruguay_web_only_v2.json",
+      "descripcion": "Datos actualizados de la tienda Shopify",
+      "contenido": {
+        "meta": {
+          "schema_version": "panelin_truth_catalog_v2_web_only",
+          "generated_at_utc": "2026-01-15T17:52:05Z",
+          "sources": {
+            "site": "https://bmcuruguay.com.uy/",
+            "platform": "Shopify"
+          },
+          "note": "Este archivo contiene SOLO snapshot público de la tienda (web). No incluye estimaciones internas ni stock exacto (puede requerir Admin API)."
+        },
+        "recrawl_policy": {
+          "scheduled_full_refresh": "daily",
+          "on_demand_refresh": {
+            "enabled": true,
+            "ttl_seconds": 3600,
+            "tracked_fields": [
+              "price",
+              "compare_at",
+              "availability",
+              "variants",
+              "images",
+              "description_html"
+            ]
+          },
+          "refresh_method_priority": [
+            "Shopify_Admin_API",
+            "Shopify_Storefront_API",
+            "HTML_fallback"
+          ]
+        },
+        "catalog_snapshots": {
+          "bmcuruguay_shopify_public": {
+            "isopanel_eps_paredes_fachadas": {
+              "title": "ISOPANEL EPS (Paredes y Fachadas) / 50 - 100 - 150 - 200 - 250 mm.",
+              "url": "https://bmcuruguay.com.uy/products/isopanel-eps-paredes-y-fachadas",
+              "price_display": "USD 41.88 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Espesor",
+                "Color"
+              ],
+              "option_values": {
+                "Espesor": [
+                  "50 mm",
+                  "100 mm",
+                  "150 mm",
+                  "200 mm",
+                  "250 mm"
+                ]
+              },
+              "ancho_util_m": 1.14,
+              "largo_min_m": 2.3,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: 12 a 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isodec_eps_techo": {
+              "title": "ISODEC EPS (Techos y Cubiertas) / 100 - 150 - 200 - 250 mm.",
+              "url": "https://bmcuruguay.com.uy/products/isopanel-isodec-eps-cubiertas-bmc-reloaded",
+              "price_display": "USD 46.07 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Espesor",
+                "Color"
+              ],
+              "option_values": {
+                "Espesor": [
+                  "100 mm",
+                  "150 mm",
+                  "200 mm",
+                  "250 mm"
+                ]
+              },
+              "ancho_util_m": 1.12,
+              "largo_min_m": 2.3,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isodec_pir_techo": {
+              "title": "ISODEC® PIR (Techos y Cubiertas) / 50 - 80 - 120 mm.",
+              "url": "https://bmcuruguay.com.uy/products/isodec%C2%AE-pir",
+              "price_display": "USD 51.02 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Espesor",
+                "Color"
+              ],
+              "option_values": {
+                "Espesor": [
+                  "50 mm",
+                  "80 mm",
+                  "120 mm"
+                ]
+              },
+              "ancho_util_m": 1.12,
+              "largo_min_m": 3.5,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isowall_pir_fachadas": {
+              "title": "ISOWALL® PIR- Fachadas - (50 mm - 80 mm)",
+              "url": "https://bmcuruguay.com.uy/products/isowall-%C2%AE-pir",
+              "price_display": "USD 54.65 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Espesor",
+                "Color"
+              ],
+              "option_values": {
+                "Espesor": [
+                  "50 mm",
+                  "80 mm"
+                ]
+              },
+              "ancho_util_m": 1.0,
+              "largo_min_m": 3.5,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: 12 a 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isoroof_3g": {
+              "title": "ISOROOF. 3G.",
+              "url": "https://bmcuruguay.com.uy/products/isoroof-3g-gris-rojo-blanco-bromyros",
+              "price_display": "USD 48.74 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Color"
+              ],
+              "option_values": {},
+              "ancho_util_m": 1.0,
+              "largo_min_m": 3.5,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isoroof_plus_3g": {
+              "title": "ISOROOF PLUS. 3G.",
+              "url": "https://bmcuruguay.com.uy/products/iroof80-pls",
+              "price_display": "USD 71.76 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Color"
+              ],
+              "option_values": {},
+              "ancho_util_m": 1.0,
+              "largo_min_m": 3.5,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+              "stock_status": "agotado_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "isoroof_foil_3g": {
+              "title": "ISOROOF FOIL. 3G.",
+              "url": "https://bmcuruguay.com.uy/products/iagro30",
+              "price_display": "USD 39.54 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Color"
+              ],
+              "option_values": {},
+              "ancho_util_m": 1.0,
+              "largo_min_m": 3.5,
+              "largo_max_m": 14,
+              "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            },
+            "hiansa_panel_5g_becam": {
+              "title": "Hiansa-Panel (Trapezoidal 5G) - BECAM",
+              "url": "https://bmcuruguay.com.uy/products/hiansa-panel-trapezoidal-5g-becam",
+              "price_display": "USD 46.73 / m²",
+              "currency": "USD",
+              "unit": "m²",
+              "options": [
+                "Color"
+              ],
+              "option_values": {},
+              "ancho_util_m": 1.0,
+              "largos_disponibles_m": [
+                2.95,
+                3.95,
+                4.95,
+                5.95,
+                6.95,
+                7.95
+              ],
+              "largo_min_m": 2.95,
+              "largo_max_m": 7.95,
+              "stock_status": "unknown_public",
+              "last_verified_utc": "2026-01-15T17:52:05Z"
+            }
+          }
+        },
+        "runtime_product_refresh_instruction": {
+          "when_user_asks_about_product": "Resolver producto por handle/url/título. Si (now_utc - last_verified_utc) > ttl_seconds, refrescar con prioridad Admin API > Storefront API > HTML. Comparar tracked_fields y actualizar snapshot + registrar change_event."
+        }
+      }
+    }
+  },
+  "instrucciones_gpt": {
+    "version_completa": {
+      "archivo": "PANELIN_ULTIMATE_INSTRUCTIONS.md",
+      "caracteres": 14478
+    },
+    "version_compacta": {
+      "archivo": "PANELIN_INSTRUCTIONS_OPTIMIZED.md",
+      "caracteres": 7314
+    }
+  },
+  "correcciones_por_rama": {
+    "claude/extract-chatbot-knowledge-Fn2cE": [
+      {
+        "hash": "0cd048f9",
+        "message": "Merge pull request #8 from matiasportugau-ui/claude/gpt-knowledge-analysis-SSJYE",
+        "date": "2026-01-23 06:47:55 -0300"
+      },
+      {
+        "hash": "150e6abb",
+        "message": "Merge pull request #7 from matiasportugau-ui/copilot/analyze-and-resolve-issues",
+        "date": "2026-01-23 06:44:19 -0300"
+      },
+      {
+        "hash": "e764e673",
+        "message": "Merge pull request #5 from matiasportugau-ui/claude/gpt-knowledge-analysis-SSJYE",
+        "date": "2026-01-23 06:43:56 -0300"
+      },
+      {
+        "hash": "2a0082bb",
+        "message": "Initial plan",
+        "date": "2026-01-23 09:41:39 +0000"
+      },
+      {
+        "hash": "88a98716",
+        "message": "Merge pull request #6 from matiasportugau-ui/copilot/checkout-pull-request-5",
+        "date": "2026-01-23 06:38:38 -0300"
+      },
+      {
+        "hash": "ccc5a4b6",
+        "message": "Update PROMPT_ANALISIS_CONOCIMIENTO_GPT.md",
+        "date": "2026-01-23 06:37:08 -0300"
+      },
+      {
+        "hash": "683b5db5",
+        "message": "Agregar análisis y configuración optimizada del GPT",
+        "date": "2026-01-23 09:23:06 +0000"
+      },
+      {
+        "hash": "3deec601",
+        "message": "Initial plan",
+        "date": "2026-01-23 09:05:55 +0000"
+      },
+      {
+        "hash": "6853f917",
+        "message": "Agregar documento de análisis de conocimiento GPT",
+        "date": "2026-01-23 08:51:30 +0000"
+      },
+      {
+        "hash": "334041a7",
+        "message": "ggg",
+        "date": "2026-01-22 03:50:58 -0300"
+      },
+      {
+        "hash": "a5b43cf7",
+        "message": "Merge branch 'main' of https://github.com/matiasportugau-ui/Chatbot-Truth-base--Creation",
+        "date": "2026-01-21 20:41:16 -0300"
+      },
+      {
+        "hash": "02c29a0f",
+        "message": "Add environment configuration and initial database/log files",
+        "date": "2026-01-21 20:39:56 -0300"
+      },
+      {
+        "hash": "0f1ab2b2",
+        "message": "Merge pull request #4 from matiasportugau-ui/changes",
+        "date": "2026-01-21 20:35:03 -0300"
+      },
+      {
+        "hash": "bbd8f717",
+        "message": "Enhance `agente_integrador_conocimiento.py` for improved data processing and report generation. Update documentation in `GUIA_AGENTE_INTEGRADOR_CONOCIMIENTO.md` and `PROMPT_AGENTE_INTEGRADOR_CONOCIMIENTO.md` for clarity on recent changes. Optimize `parse_costos_ventas.py` for better performance in data handling.",
+        "date": "2026-01-21 19:59:22 -0300"
+      },
+      {
+        "hash": "c2e114b3",
+        "message": "Refactor `agente_integrador_conocimiento.py` to enhance data processing efficiency and improve report generation capabilities. Update documentation in `GUIA_AGENTE_INTEGRADOR_CONOCIMIENTO.md` and `PROMPT_AGENTE_INTEGRADOR_CONOCIMIENTO.md` to reflect recent changes and provide clearer usage instructions. Optimize `parse_costos_ventas.py` for better performance in data parsing and output structure.",
+        "date": "2026-01-21 19:38:21 -0300"
+      },
+      {
+        "hash": "ab0943a6",
+        "message": "Add new agent for knowledge integration, capable of reviewing conversations from multiple sources, validating knowledge, and generating structured reports. Introduce `agente_integrador_conocimiento.py` for comprehensive data processing and integration into the knowledge base. Include detailed usage documentation in `GUIA_AGENTE_INTEGRADOR_CONOCIMIENTO.md` and `PROMPT_AGENTE_INTEGRADOR_CONOCIMIENTO.md`, along with a README for the cost and sales matrix knowledge base in `BMC_MATRIZ_COSTOS_VENTAS_README.md`. Update `parse_costos_ventas.py` for improved data parsing and output structure.",
+        "date": "2026-01-21 19:23:32 -0300"
+      },
+      {
+        "hash": "a6ab9f4e",
+        "message": "Merge pull request #3 from matiasportugau-ui/copilot/create-gemini-knowledge-base",
+        "date": "2026-01-21 18:30:24 -0300"
+      },
+      {
+        "hash": "4fd2d6f2",
+        "message": "Initial plan",
+        "date": "2026-01-21 20:46:43 +0000"
+      },
+      {
+        "hash": "4c1d41e4",
+        "message": "Merge pull request #2 from matiasportugau-ui/changes",
+        "date": "2026-01-21 17:32:32 -0300"
+      },
+      {
+        "hash": "e40d7c1a",
+        "message": "Add scripts for analyzing cost and sales matrices, generating structured knowledge bases, and processing multiple suppliers. Introduce `analizar_matriz_costos.py`, `create_bromyros_kb.py`, and `procesar_multiples_proveedores.py` for comprehensive data extraction and organization. Include README and usage guides for clarity on functionality and output structure.",
+        "date": "2026-01-21 16:27:47 -0300"
+      },
+      {
+        "hash": "20f9efe2",
+        "message": "Add new CSV file for cost and sales matrix for 2026, including detailed product pricing, margins, and updates for various items. This file serves as a comprehensive resource for product costs, sales strategies, and inventory management.",
+        "date": "2026-01-21 08:10:26 -0300"
+      },
+      {
+        "hash": "933e624c",
+        "message": "Add initial implementation of Panelin Agents SDK, including core functionality for handling quotations, evaluations, and information requests. Introduce example usage in `panelin_agents_sdk_example.ts`, and provide quick start and detailed documentation in `PANELIN_AGENTS_SDK_QUICKSTART.md` and `PANELIN_AGENTS_SDK_README.md`. Create `.gitignore` and `package.json` for project setup, and include TypeScript configuration in `tsconfig.json`. Update binary files in `.DS_Store` for consistency.",
+        "date": "2026-01-21 07:18:09 -0300"
+      },
+      {
+        "hash": "308923a2",
+        "message": "Update various instruction files to enhance clarity and detail in energy savings calculations. Revise `PANELIN_INSTRUCTIONS_COPY_PASTE.txt`, `PANELIN_INSTRUCTIONS_OPTIMIZED.md`, and `PANELIN_QUOTATION_PROCESS.md` to include step-by-step guidelines for calculating energy savings, referencing relevant data in the knowledge base. Change project name in `package-lock.json` from \"jep\" to \"vtc\" and update binary files in `.DS_Store` for consistency.",
+        "date": "2026-01-21 05:17:59 -0300"
+      },
+      {
+        "hash": "03363e27",
+        "message": "Enhance ingestion agent functionality by integrating MongoDB support. Add `MongoDBClient` for data extraction and update relevant documentation, including `CONFIGURACION_MONGODB.md` and `SETUP_COMPLETO_INGESTION.md`. Refactor `agente_ingestion_analisis.py` to include MongoDB as a data source and improve argument parsing. Introduce new SQL queries in `consultas_utiles.sql` for better data management. Update various instruction files to reflect changes and ensure clarity in setup and usage processes.",
+        "date": "2026-01-21 05:04:19 -0300"
+      },
+      {
+        "hash": "1eee664b",
+        "message": "Update PANELIN_ULTIMATE_INSTRUCTIONS.md to enhance clarity and structure. Standardize formatting, improve section organization, and refine instructions for user interactions and quoting processes. Ensure consistency in referencing knowledge base files and emphasize the importance of using primary sources for accurate information.",
+        "date": "2026-01-21 05:00:39 -0300"
+      },
+      {
+        "hash": "0248cf9e",
+        "message": "Refactor `export_instagram_chats.py` for improved readability and logging. Standardize formatting, enhance error handling, and streamline message parsing logic. Update documentation for clarity on export methods and parameters.",
+        "date": "2026-01-21 04:17:08 -0300"
+      },
+      {
+        "hash": "1c1ca3f5",
+        "message": "Merge pull request #1 from matiasportugau-ui:changes",
+        "date": "2026-01-21 03:43:30 -0300"
+      },
+      {
+        "hash": "891cb8ef",
+        "message": "Fix variable name in report saving logic in `agente_ingestion_analisis.py` to ensure correct file path is used for saving the report.",
+        "date": "2026-01-21 03:42:11 -0300"
+      },
+      {
+        "hash": "8d59eac4",
+        "message": "Add Agente de Ingestion y Análisis Completo",
+        "date": "2026-01-21 03:07:41 -0300"
+      },
+      {
+        "hash": "d89408c4",
+        "message": "Refactor PDF reading logic in `agente_analisis_inteligente.py` to improve error handling and streamline text extraction. Enhance fallback mechanism to use OCR on read failures. Add new script `export_instagram_chats.py` for exporting Instagram direct messages via API and file processing, including detailed logging and structured output. Update documentation across multiple files to clarify the importance of `BMC_Base_Conocimiento_GPT-2.json` as the primary source, ensuring consistency in knowledge base references.",
+        "date": "2026-01-21 02:44:56 -0300"
+      },
+      {
+        "hash": "5709f7a7",
+        "message": "Update GPT Simulation Agent configuration file to enhance clarity and structure. Refactor node definitions and descriptions for improved readability and maintainability. Ensure all components are well-documented, facilitating better understanding and onboarding for users.",
+        "date": "2026-01-21 02:38:21 -0300"
+      },
+      {
+        "hash": "d45431dc",
+        "message": "Refactor Knowledge Base Update System documentation to improve clarity and usability. Update command options and enhance quick reference guide with detailed usage examples, streamlining user onboarding and experience.",
+        "date": "2026-01-21 02:29:22 -0300"
+      },
+      {
+        "hash": "6579d0db",
+        "message": "Enhance Knowledge Base Update System with new command options and improved documentation. Add detailed usage examples for commands, clarifying functionality and improving user experience. Update quick reference guide to reflect recent changes and streamline user onboarding.",
+        "date": "2026-01-21 02:24:17 -0300"
+      },
+      {
+        "hash": "56a6827b",
+        "message": "Add quick reference guide for KB Update System commands",
+        "date": "2026-01-21 01:32:16 -0300"
+      },
+      {
+        "hash": "9268c4c6",
+        "message": "Update setup instructions for Knowledge Base Update System",
+        "date": "2026-01-21 01:31:31 -0300"
+      },
+      {
+        "hash": "8c8e0650",
+        "message": "Add Knowledge Base Training System Architecture and Summary Documentation",
+        "date": "2026-01-21 01:30:17 -0300"
+      },
+      {
+        "hash": "d2fc8066",
+        "message": "Add Knowledge Base Auto Scheduler, Update Optimizer, and Training Data Optimizer",
+        "date": "2026-01-21 01:25:49 -0300"
+      },
+      {
+        "hash": "5ac62391",
+        "message": "Refactor `agente_build_ai_apps.py` to optimize workflow management and enhance error handling for AI mini-apps. Update documentation for improved clarity and include additional examples to facilitate user onboarding.",
+        "date": "2026-01-21 01:20:54 -0300"
+      },
+      {
+        "hash": "392f8c78",
+        "message": "Refactor `agente_build_ai_apps.py` to enhance error handling and improve workflow management for AI mini-apps. Update documentation for clarity and include additional examples to support user onboarding and practical usage.",
+        "date": "2026-01-21 01:08:31 -0300"
+      },
+      {
+        "hash": "53804ebb",
+        "message": "Enhance logging_setup.py by adding List type to imports for improved type hinting. Update BMC_Base_Conocimiento_GPT-2.json to include thermal coefficients and resistance values for various thicknesses, enhancing the data structure for better energy efficiency calculations. Add new formulas for energy savings and reference data specific to Uruguay, improving the overall utility of the JSON configuration.",
+        "date": "2026-01-21 01:08:21 -0300"
+      },
+      {
+        "hash": "216ce817",
+        "message": "Add upload instructions for the Opal Asset in Google Labs. Include detailed steps for file upload, verification, and configuration of workflows and functions. Enhance user onboarding with a quick start guide and comprehensive asset overview.",
+        "date": "2026-01-20 02:21:16 -0300"
+      },
+      {
+        "hash": "88545052",
+        "message": "Refactor `agente_build_ai_apps.py` to improve workflow management for AI mini-apps. Enhance functionality for generating descriptions and validating processes. Update documentation for better clarity and user onboarding, and include additional example scripts for practical usage.",
+        "date": "2026-01-20 02:21:01 -0300"
+      },
+      {
+        "hash": "1a998124",
+        "message": "Implement new `agente_build_ai_apps.py` for creating and managing AI mini-apps using Google Labs Gems. Introduce comprehensive functionalities for designing workflows, generating descriptions, and validating processes. Add example scripts for practical usage and a detailed guide for setup and integration. Enhance documentation for clarity and user onboarding.",
+        "date": "2026-01-20 02:18:50 -0300"
+      },
+      {
+        "hash": "d9ee6542",
+        "message": "Implement enhancements in AgenteAnalisisInteligente for improved input parsing by extracting dimensions and light parameters from user queries when not explicitly provided. Introduce new JSON file `analisis_completo_resultados.json` to store analysis results, and add `analisis_completo.py` script for comprehensive system analysis and result reporting. Include a verification script `verify_gpt_configuration.py` to ensure proper configuration of the GPT system, along with a detailed checklist for validation. Update documentation for clarity and completeness.",
+        "date": "2026-01-20 01:09:30 -0300"
+      },
+      {
+        "hash": "8cbc33bf",
+        "message": "Enhance AgenteAnalisisInteligente to support various dimension formats in input parsing. Update AgentePanelinGemini to simplify tool configuration in GenerativeModel instantiation. Expand the multi-model orchestration process in orquestador_multi_modelo.py with detailed steps for budget generation, PDF searching, data extraction, result comparison, and learning from differences, ensuring comprehensive error handling and final summary reporting.",
+        "date": "2026-01-20 00:16:01 -0300"
+      },
+      {
+        "hash": "732ee321",
+        "message": "Refactor AgenteAnalisisInteligente to streamline dimension parsing by removing redundant patterns and simplifying the regex search. Update AgentePanelinGemini to correct tool configuration in GenerativeModel instantiation. Enhance test coverage for quotation formulas by adding validation for zero values in input parameters.",
+        "date": "2026-01-19 23:53:16 -0300"
+      },
+      {
+        "hash": "b180a715",
+        "message": "Update `analisis_multi_modelo_resultado.json` to include detailed error messages for API access issues. Add new test script `prueba_sistema.py` for comprehensive system validation, covering multiple models and input scenarios to ensure functionality and performance.",
+        "date": "2026-01-19 23:28:30 -0300"
+      },
+      {
+        "hash": "cdf56512",
+        "message": "Enhance AgenteAnalisisInteligente to support multiple dimension formats for improved input parsing. Update AgentePanelinGemini to simplify tool configuration in GenerativeModel instantiation. Add comprehensive tests for AgenteOrquestadorMultiModelo and complete system functionality validation. Introduce new test scripts for thorough system integration checks.",
+        "date": "2026-01-19 23:16:12 -0300"
+      },
+      {
+        "hash": "937f527a",
+        "message": "Add multi-model orchestration system for intelligent analysis and quotation processes. Implement `AgenteOrquestadorMultiModelo` to coordinate tasks across Gemini, OpenAI GPT-4, and Claude, optimizing for cost and performance. Introduce detailed logging, conflict detection, and source validation modules as part of the P0 implementation improvements. Update documentation and examples for seamless integration and usage.",
+        "date": "2026-01-19 22:58:08 -0300"
+      },
+      {
+        "hash": "7b74ca2c",
+        "message": "Refactor date parsing in AnalizadorCotizaciones to support multiple formats (DD-MM, YYYY-MM-DD) and use the current year instead of hardcoding 2025. Update AgentePanelinGemini to remove unnecessary wrapping of tools in the GenerativeModel instantiation. Add new implementation and summary documents for the prioritized implementation plan, detailing project phases, resource requirements, and risk assessments.",
+        "date": "2026-01-19 22:42:12 -0300"
+      },
+      {
+        "hash": "c55ef936",
+        "message": "Refactor and enhance the Agente de Análisis Inteligente with comprehensive documentation and setup scripts. Introduce a new guide for usage, detailing the agent's functionalities, processes, and integration with OpenAI Assistant. Update the main agent file to improve structure and readability, ensuring better onboarding for users.",
+        "date": "2026-01-19 22:41:46 -0300"
+      },
+      {
+        "hash": "debfca07",
+        "message": "Add new agents for intelligent analysis and quotation in multiple platforms. Implement `AgenteAnalisisInteligente` and `AgenteCotizacionPanelin` with comprehensive functionalities for processing client inputs, generating budgets, and comparing results. Include setup scripts for Claude and Gemini, along with detailed configuration guides and usage examples. Enhance documentation for improved user onboarding.",
+        "date": "2026-01-19 22:31:11 -0300"
+      },
+      {
+        "hash": "eac5485b",
+        "message": "Refactor panelin assistant setup to remove web search tool and simplify file handling. Attach uploaded files directly to the code interpreter for improved functionality.",
+        "date": "2026-01-19 22:08:38 -0300"
+      },
+      {
+        "hash": "b03c881c",
+        "message": "Enhance backup configuration to allow for a customizable retention period, enabling users to set their preferred duration for data management.",
+        "date": "2026-01-19 20:04:49 -0300"
+      },
+      {
+        "hash": "f716ae6f",
+        "message": "Update default configuration to extend backup retention period from 30 to 60 days for improved data management.",
+        "date": "2026-01-19 19:53:32 -0300"
+      },
+      {
+        "hash": "67ee62f4",
+        "message": "Fix Facebook API client to correctly handle zero likes as a valid count, updating the like count retrieval logic to avoid treating 0 as falsy.",
+        "date": "2026-01-19 19:02:03 -0300"
+      },
+      {
+        "hash": "6619bd56",
+        "message": "Add chat functionality with Panelin Assistant and setup scripts for specific model usage. Include troubleshooting guides and setup instructions for API integration. Update requirements and documentation for new features.",
+        "date": "2026-01-19 18:54:02 -0300"
+      },
+      {
+        "hash": "33132917",
+        "message": "Add initial implementation of AI Project Files Organizer Agent, including core components, utilities, and logging setup. Introduce Git management instructions for secure operations and best practices.",
+        "date": "2026-01-19 18:33:41 -0300"
+      },
+      {
+        "hash": "6798f0ad",
+        "message": "Add Quick Start Guide, README, and USAGE documentation; update Facebook API client for better handling of like counts",
+        "date": "2026-01-19 18:33:23 -0300"
+      },
+      {
+        "hash": "5064c6ad",
+        "message": "first commit",
+        "date": "2026-01-19 18:12:48 -0300"
+      }
+    ]
+  },
+  "archivos_para_gpt_openai": {
+    "instructions": "PANELIN_INSTRUCTIONS_OPTIMIZED.md",
+    "knowledge_files": [
+      "BMC_Base_Conocimiento_GPT-2.json",
+      "panelin_truth_bmcuruguay_web_only_v2.json",
+      "Files/BMC_Base_Unificada_v4.json"
+    ],
+    "capabilities": {
+      "web_browsing": false,
+      "code_interpreter": true,
+      "dall_e": false,
+      "file_uploads": true
+    }
+  }
+}
