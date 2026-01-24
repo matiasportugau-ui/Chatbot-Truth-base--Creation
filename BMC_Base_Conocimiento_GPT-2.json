@@ -1,10 +1,18 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "5.0-Unified",
-    "fecha": "2026-01-16",
-    "validado_con": "31 presupuestos reales + Technical Truth Corrections",
-    "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay."
+    "version": "5.1-Constructivo",
+    "fecha": "2026-01-24",
+    "validado_con": "31 presupuestos reales + Technical Truth Corrections + Caso Rami/Panelin Belvedere",
+    "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay.",
+    "cambios_v5.1": [
+      "Agregada sección 'accesorios' con perfiles, terminaciones, estructurales y fijaciones",
+      "Corregidas fórmulas de silicona basadas en ML totales reales",
+      "Nuevo sistema de anclajes basado en arandela carrocero como unidad",
+      "Agregado rendimiento de varilla por espesor de panel",
+      "Definido anclaje_hormigon_base para perfil U (solo aplica a piso, no techo)",
+      "Detallados kits_fijacion con posición exacta de cada componente"
+    ]
   },
   "identidad": {
     "nombre_bot": "BMC Assistant",
@@ -161,14 +169,55 @@
     "costo_panel": "PRECIO * LARGO * CANTIDAD * ANCHO_UTIL",
     "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
     "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
-    "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
-    "tuercas_metal": "PUNTOS * 2",
-    "tuercas_hormigon": "PUNTOS * 1",
-    "tacos_hormigon": "PUNTOS * 1",
+    
+    "anclajes_sistema": {
+      "descripcion": "Sistema de anclaje basado en arandela carrocero como unidad base",
+      "anclajes_totales": "N_ANCLAJES",
+      "tuercas_galvanizadas": "ANCLAJES * 2",
+      "arandelas_carrocero": "ANCLAJES",
+      "arandelas_plana": "ANCLAJES",
+      "arandelas_pp": "ANCLAJES",
+      "varilla_cantidad": "CEIL(ANCLAJES / RENDIMIENTO_VARILLA)",
+      "nota": "Cada anclaje = 2 tuercas + 1 arandela carrocero (arriba) + 1 arandela plana (abajo) + 1 arandela PP (tapa)"
+    },
+    
+    "rendimiento_varilla": {
+      "descripcion": "Cantidad de anclajes que rinde una varilla roscada 3/8 de 1 metro",
+      "isodec_100": 4,
+      "isodec_150": 4,
+      "isodec_200": 3,
+      "isodec_250": 3,
+      "isopanel_50": 5,
+      "isopanel_100": 4,
+      "isopanel_150": 3,
+      "isopanel_200": 3,
+      "nota": "A mayor espesor de panel, menor cantidad de anclajes por varilla"
+    },
+    
+    "silicona_ml_total": {
+      "descripcion": "Cálculo de metros lineales totales para silicona neutra",
+      "formula": "ML_juntas_pared + ML_juntas_techo + ML_perfiles + ML_accesorios",
+      "ML_juntas_pared": "(CANTIDAD_PANELES_PARED - 1) * ALTURA_PARED",
+      "ML_juntas_techo": "(CANTIDAD_PANELES_TECHO - 1) * LARGO_PANEL",
+      "ML_perfiles": "PERIMETRO_PERFILES_U + ML_PERFILES_K2 + ML_PERFILES_G2",
+      "ML_accesorios": "ML_GOTEROS + ML_BABETAS + ML_CANALONES + ML_ANGULOS"
+    },
+    "silicona_pomos": "CEIL(silicona_ml_total / 8)",
+    "silicona_rendimiento_pomo_ml": 8,
+    
     "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
     "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
-    "remaches": "ROUNDUP(TOTAL_PERFILES * 20)",
-    "silicona": "ROUNDUP(TOTAL_ML / 8)"
+    "remaches_por_ml_perfil": 10,
+    "remaches": "ROUNDUP(TOTAL_ML_PERFILES * 10)",
+    
+    "formulas_legacy": {
+      "nota": "Fórmulas anteriores mantenidas para referencia - NO USAR",
+      "varilla_cantidad_OLD": "ROUNDUP(PUNTOS / 4)",
+      "tuercas_metal_OLD": "PUNTOS * 2",
+      "tuercas_hormigon_OLD": "PUNTOS * 1",
+      "tacos_hormigon_OLD": "PUNTOS * 1",
+      "silicona_OLD": "ROUNDUP(TOTAL_ML / 8)"
+    }
   },
   "formulas_ahorro_energetico": {
     "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR",
@@ -198,43 +247,259 @@
   },
   "kits_fijacion": {
     "metal": {
-      "tuercas_por_punto": 2,
+      "descripcion": "Fijación de paneles Isodec/Isopanel a estructura metálica",
+      "tuercas_por_anclaje": 2,
       "requiere_taco": false,
-      "componentes": [
-        "varilla",
-        "tuerca",
-        "arandela_carrocero",
-        "arandela_plana",
-        "arandela_pp"
-      ]
+      "componentes": {
+        "varilla_roscada_3_8": {
+          "cantidad_por_anclaje": "1/RENDIMIENTO_VARILLA",
+          "material": "acero_galvanizado",
+          "largo_m": 1.0
+        },
+        "tuerca_galvanizada_3_8": {
+          "cantidad_por_anclaje": 2,
+          "posicion": "1 arriba + 1 abajo del panel"
+        },
+        "arandela_carrocero_galvanizada": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "arriba del panel (contacto con chapa exterior)"
+        },
+        "arandela_plana_galvanizada": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "abajo del panel (contacto con estructura)"
+        },
+        "arandela_pp_blanca": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "tapa superior (protección estética)"
+        }
+      }
     },
-    "hormigon": {
-      "tuercas_por_punto": 1,
+    "hormigon_techo": {
+      "descripcion": "Fijación de paneles Isodec a losa de hormigón (techo)",
+      "tuercas_por_anclaje": 1,
       "requiere_taco": true,
-      "componentes": [
-        "varilla",
-        "tuerca",
-        "taco_expansivo",
-        "arandela_carrocero",
-        "arandela_pp"
-      ]
+      "componentes": {
+        "varilla_roscada_3_8": {
+          "cantidad_por_anclaje": "1/RENDIMIENTO_VARILLA",
+          "material": "acero_galvanizado"
+        },
+        "tuerca_galvanizada_3_8": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "arriba del panel"
+        },
+        "taco_expansivo_3_8": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "embutido en losa"
+        },
+        "arandela_carrocero_galvanizada": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "arriba del panel"
+        },
+        "arandela_pp_blanca": {
+          "cantidad_por_anclaje": 1,
+          "posicion": "tapa superior"
+        }
+      }
     },
     "madera_isoroof": {
+      "descripcion": "Fijación de Isoroof 3G a estructura de madera",
       "usa_varilla": false,
       "usa_tuercas": false,
       "componentes": [
         "caballete",
         "tornillo_aguja_5",
         "tornillo_t1"
-      ]
+      ],
+      "nota": "Sistema liviano, sin varilla ni tuercas"
+    }
+  },
+  "anclaje_hormigon_base": {
+    "descripcion": "Fijación del perfil U base a piso/losa de hormigón",
+    "aplica_a": "perfil_U_base_pared",
+    "NO_aplica_a": "techo",
+    "componentes": {
+      "tornillo_n10": {
+        "descripcion": "Tornillo cabeza hexagonal Nº10",
+        "cantidad_formula": "ML_perfil_U / frecuencia_m"
+      },
+      "arandela_plana": {
+        "cantidad_formula": "igual que tornillos"
+      },
+      "taco_8mm": {
+        "descripcion": "Taco plástico Ø8mm",
+        "cantidad_formula": "igual que tornillos"
+      }
+    },
+    "frecuencia_m": 0.3,
+    "nota": "1 tornillo + taco + arandela cada 30 cm de perfil U",
+    "fijacion_panel_a_perfil_U": {
+      "metodo": "remaches_POP_o_T1_mas_silicona",
+      "remaches_por_ml": 10,
+      "silicona": "aplicar en toda la unión"
+    }
+  },
+  "accesorios": {
+    "perfiles": {
+      "PERFIL_U_150x35_BL": {
+        "clave_interna": "PERFIL_U_150x35_BL",
+        "nombre_comercial": "Perfil U 150x35mm Blanco",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared"],
+        "regla_de_cuantificacion": "perimetro_base_m / largo_unitario_m",
+        "descripcion": "Perfil base para fijación de paneles Isopanel a losa/piso"
+      },
+      "PERFIL_U_100x35_BL": {
+        "clave_interna": "PERFIL_U_100x35_BL",
+        "nombre_comercial": "Perfil U 100x35mm Blanco",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared"],
+        "regla_de_cuantificacion": "perimetro_base_m / largo_unitario_m"
+      },
+      "PERFIL_U_200x35_BL": {
+        "clave_interna": "PERFIL_U_200x35_BL",
+        "nombre_comercial": "Perfil U 200x35mm Blanco",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared"],
+        "regla_de_cuantificacion": "perimetro_base_m / largo_unitario_m"
+      },
+      "PERFIL_K2": {
+        "clave_interna": "PERFIL_K2",
+        "nombre_comercial": "Perfil K2 (Cumbrera)",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 2.44,
+        "precio_usd_unidad": null,
+        "aplica_a": ["techo"],
+        "regla_de_cuantificacion": "largo_cumbrera_m / largo_unitario_m",
+        "descripcion": "Remate de cumbrera para techos a dos aguas"
+      },
+      "PERFIL_G2": {
+        "clave_interna": "PERFIL_G2",
+        "nombre_comercial": "Perfil G2 (Frontal)",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 2.44,
+        "precio_usd_unidad": null,
+        "aplica_a": ["techo"],
+        "regla_de_cuantificacion": "largo_frontal_m / largo_unitario_m",
+        "descripcion": "Remate frontal de techo"
+      }
+    },
+    "terminaciones": {
+      "GOTERO_FRONTAL": {
+        "clave_interna": "GOTERO_FRONTAL",
+        "nombre_comercial": "Gotero Frontal Isodec",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": 23.88,
+        "aplica_a": ["techo"],
+        "regla_de_cuantificacion": "ancho_techo_m / largo_unitario_m"
+      },
+      "GOTERO_LATERAL": {
+        "clave_interna": "GOTERO_LATERAL",
+        "nombre_comercial": "Gotero Lateral Isodec",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["techo"],
+        "regla_de_cuantificacion": "(largo_techo_m * 2) / largo_unitario_m"
+      },
+      "BABETA": {
+        "clave_interna": "BABETA",
+        "nombre_comercial": "Babeta de Remate",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 2.44,
+        "precio_usd_unidad": null,
+        "aplica_a": ["techo", "pared"],
+        "regla_de_cuantificacion": "ML_encuentros / largo_unitario_m",
+        "descripcion": "Remate de encuentro entre techo y pared, o techo y muro existente"
+      },
+      "CANALON": {
+        "clave_interna": "CANALON",
+        "nombre_comercial": "Canalón de Desagüe",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 3.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["techo"],
+        "regla_de_cuantificacion": "ML_canalon / largo_unitario_m",
+        "descripcion": "Canalón para evacuación de aguas pluviales"
+      }
+    },
+    "estructurales": {
+      "ANGULO_ESTRUCTURAL_AL": {
+        "clave_interna": "ANGULO_ESTRUCTURAL_AL",
+        "nombre_comercial": "Ángulo Estructural Aluminio",
+        "material": "aluminio",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 6.0,
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared", "techo"],
+        "regla_de_cuantificacion": "ML_estructura / largo_unitario_m",
+        "descripcion": "Ángulo para estructura de soporte metálica"
+      },
+      "ANGULO_ESQUINERO": {
+        "clave_interna": "ANGULO_ESQUINERO",
+        "nombre_comercial": "Ángulo Esquinero Prepintado",
+        "material": "chapa_prepintada",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": 2.44,
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared"],
+        "regla_de_cuantificacion": "cantidad_esquinas * altura_pared_m / largo_unitario_m",
+        "descripcion": "Remate de esquinas exteriores en paredes"
+      }
+    },
+    "fijaciones": {
+      "REMACHE_POP": {
+        "clave_interna": "REMACHE_POP",
+        "nombre_comercial": "Remache POP 4.8x12",
+        "material": "aluminio_acero",
+        "unidad_venta": "caja_100",
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared", "techo"],
+        "regla_de_cuantificacion": "ML_perfiles * 10",
+        "descripcion": "Para fijación de paneles a perfiles U (10 remaches por metro lineal)"
+      },
+      "TORNILLO_T1": {
+        "clave_interna": "TORNILLO_T1",
+        "nombre_comercial": "Tornillo T1 Autoperforante",
+        "material": "acero_galvanizado",
+        "unidad_venta": "caja_100",
+        "precio_usd_unidad": null,
+        "aplica_a": ["pared", "techo"],
+        "regla_de_cuantificacion": "ML_perfiles * 10",
+        "descripcion": "Alternativa a remaches POP para fijación a perfiles"
+      }
+    },
+    "notas": {
+      "precios_pendientes": "Los precios marcados como null requieren confirmación interna de BMC",
+      "regla_general": "Las cantidades se redondean hacia arriba (CEIL) en todos los casos"
     }
   },
   "precios_accesorios_referencia": {
     "varilla_3_8": 19.9,
-    "tuerca_3_8": 2.0,
+    "tuerca_3_8_galvanizada": 2.0,
     "taco_3_8": 8.7,
     "silicona_pomo": 11.89,
-    "gotero_frontal_isodec": 23.88
+    "gotero_frontal_isodec": 23.88,
+    "arandela_carrocero_galvanizada": null,
+    "arandela_plana_galvanizada": null,
+    "arandela_pp_blanca": null,
+    "tornillo_n10_losa": null,
+    "taco_8mm": null
   },
   "reglas_negocio": {
     "iva": 0.22,
@@ -265,11 +530,22 @@
       "cotizacion_interna_puede_diferir": true,
       "cotizacion_interna_suele_ser_neta_sin_iva": true,
       "requiere_validacion_comercial": true,
-      "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización."
+      "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización.",
+      "estructura_precios": {
+        "precio_lista": "Precio público de referencia (web/Shopify)",
+        "precio_interno": "Precio neto para cotizaciones internas (cuando disponible)"
+      },
+      "advertencia": "Usar precios web puede generar sobrecostos vs cotización real. Siempre validar con precios internos cuando estén disponibles."
     },
     "guardrails_precision": [
       "No afirmar precios de accesorios si no están en la KB maestra.",
-      "No confundir gotero frontal con gotero lateral; si falta precio, indicar que no está disponible en base."
+      "No confundir gotero frontal con gotero lateral; si falta precio, indicar que no está disponible en base.",
+      "Usar sistema de anclajes basado en arandela carrocero, NO fórmulas legacy de puntos.",
+      "Silicona: calcular ML totales reales (juntas + perfiles + accesorios) antes de dividir por 8.",
+      "Varillas: aplicar rendimiento según espesor (3 para 200mm, 4 para 100-150mm).",
+      "Anclaje a hormigón base (tornillo N°10 + taco) SOLO aplica a perfil U en piso, NO a techo.",
+      "Evitar doble conteo de fijaciones: anclajes de panel ≠ anclajes de perfil U a losa.",
+      "Indicar claramente cuando se usan precios de referencia web vs precios internos."
     ]
   },
   "contacto": {
