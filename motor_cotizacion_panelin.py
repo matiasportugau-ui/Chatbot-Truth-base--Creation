@@ -13,9 +13,9 @@ from pathlib import Path
 from typing import Dict, Optional, List, Tuple
 
 # Rutas a archivos de conocimiento
-BASE_UNIFICADA = Path("Files /BMC_Base_Unificada_v4.json")
-WEB_ONLY = Path("Files /panelin_truth_bmcuruguay_web_only_v2.json")
-ALEROS = Path("Files /Aleros -2.rtf")
+BASE_UNIFICADA = Path("Files/BMC_Base_Unificada_v4.json")
+WEB_ONLY = Path("Files/panelin_truth_bmcuruguay_web_only_v2.json")
+ALEROS = Path("Files/Aleros -2.rtf")
 
 
 class MotorCotizacionPanelin:

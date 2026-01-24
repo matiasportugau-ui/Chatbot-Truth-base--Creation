@@ -15,9 +15,9 @@ ASSISTANT_ID = "asst_7LdhJMasW5HHGZh0cgchTGkX"
 
 # Archivos de conocimiento a subir
 ARCHIVOS_CONOCIMIENTO = [
-    "Files /BMC_Base_Unificada_v4.json",
-    "Files /panelin_truth_bmcuruguay_web_only_v2.json",
-    "Files /panelin_truth_bmcuruguay_catalog_v2_index.csv",
+    "Files/BMC_Base_Unificada_v4.json",
+    "Files/panelin_truth_bmcuruguay_web_only_v2.json",
+    "Files/panelin_truth_bmcuruguay_catalog_v2_index.csv",
     "BMC_Base_Conocimiento_GPT-2.json",  # También incluir el original
 ]
 

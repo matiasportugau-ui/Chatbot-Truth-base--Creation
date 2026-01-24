@@ -165,7 +165,7 @@
 
 #### Current Directory Structure
 ```
-Files /
+Files/
 ├── BMC_Base_Conocimiento_GPT-2.json (Level 1)
 ├── BMC_Base_Unificada_v4.json (Level 2)
 ├── panelin_truth_bmcuruguay_web_only_v2.json (Level 3)
