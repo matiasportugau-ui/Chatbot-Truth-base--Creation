@@ -82,7 +82,7 @@
 #### NIVEL 2 - VALIDACIÓN
 
 7. **`BMC_Base_Unificada_v4.json`**
-   - **Ubicación**: `Files /BMC_Base_Unificada_v4.json`
+   - **Ubicación**: `Files/BMC_Base_Unificada_v4.json`
    - **Prioridad**: Alta
    - **Propósito**: Validación cruzada y detección de inconsistencias
 
@@ -91,7 +91,7 @@
 #### NIVEL 3 - DINÁMICO
 
 8. **`panelin_truth_bmcuruguay_web_only_v2.json`**
-   - **Ubicación**: Raíz del proyecto o `Files /panelin_truth_bmcuruguay_web_only_v2.json`
+   - **Ubicación**: Raíz del proyecto o `Files/panelin_truth_bmcuruguay_web_only_v2.json`
    - **Prioridad**: Alta
    - **Propósito**: Verificación de precios actualizados y estado de stock
 
@@ -100,13 +100,13 @@
 #### NIVEL 4 - SOPORTE (Adicionales)
 
 9. **`Aleros.rtf` o `Aleros -2.rtf`**
-   - **Ubicación**: `Files /Aleros -2.rtf`
+   - **Ubicación**: `Files/Aleros -2.rtf`
    - **Prioridad**: Media
    - **Propósito**: Reglas técnicas específicas de voladizos y aleros
    - **Nota**: Si OpenAI no acepta .rtf, convertir a .txt o .md primero
 
 10. **`panelin_truth_bmcuruguay_catalog_v2_index.csv`**
-    - **Ubicación**: `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`
+    - **Ubicación**: `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`
     - **Prioridad**: Media
     - **Propósito**: Índice de productos para búsquedas rápidas
 
@@ -422,7 +422,7 @@ Chatbot Truth base  Creation /
 ├── PANELIN_QUICK_REFERENCE.md              ⭐ Referencia diaria
 ├── PANELIN_MASTER_INDEX.md                 ⭐ Índice maestro
 ├── PANELIN_ALL_FILES_GUIDE.md             ⭐ Guía de archivos
-├── Files /
+├── Files/
 │   ├── BMC_Base_Unificada_v4.json         (KB Nivel 2)
 │   ├── Aleros -2.rtf                      (KB Nivel 4)
 │   └── panelin_truth_bmcuruguay_catalog_v2_index.csv (KB Nivel 4)

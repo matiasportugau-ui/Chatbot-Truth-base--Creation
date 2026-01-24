@@ -74,12 +74,12 @@ En la sección **"Knowledge"**, haz clic en **"Upload files"** y sube en este or
 #### PRIORIDAD 2 - Nivel 2 (Validación)
 3. **`BMC_Base_Unificada_v4.json`**
    - Para validación y cross-reference
-   - Ubicación: `Files /BMC_Base_Unificada_v4.json`
+   - Ubicación: `Files/BMC_Base_Unificada_v4.json`
 
 #### PRIORIDAD 3 - Nivel 3 (Dinámico)
 4. **`panelin_truth_bmcuruguay_web_only_v2.json`**
    - Snapshot web para verificación dinámica
-   - Ubicación: `panelin_truth_bmcuruguay_web_only_v2.json` o `Files /panelin_truth_bmcuruguay_web_only_v2.json`
+   - Ubicación: `panelin_truth_bmcuruguay_web_only_v2.json` o `Files/panelin_truth_bmcuruguay_web_only_v2.json`
 
 #### PRIORIDAD 4 - Nivel 4 (Soporte)
 5. **`panelin_context_consolidacion_sin_backend.md`**
@@ -88,12 +88,12 @@ En la sección **"Knowledge"**, haz clic en **"Upload files"** y sube en este or
 
 6. **`Aleros.rtf`** o **`Aleros -2.rtf`**
    - Reglas técnicas de voladizos
-   - Ubicación: `Files /Aleros -2.rtf`
+   - Ubicación: `Files/Aleros -2.rtf`
    - **Nota**: Si OpenAI no acepta .rtf, convierte el archivo a .txt o .md primero
 
 7. **`panelin_truth_bmcuruguay_catalog_v2_index.csv`**
    - Índice de productos (accesible via Code Interpreter)
-   - Ubicación: `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`
+   - Ubicación: `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`
 
 #### OPCIONAL
 8. **`BMC_Catalogo_Completo_Shopify (1).json`** (si está disponible)

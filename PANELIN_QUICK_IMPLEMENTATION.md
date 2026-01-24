@@ -69,11 +69,11 @@ En la sección **"Knowledge"**, haz clic en **"Upload files"** y sube en este or
 
 #### 📚 Recomendados (en orden)
 
-2. **`BMC_Base_Unificada_v4.json`** (ubicación: `Files /BMC_Base_Unificada_v4.json`)
+2. **`BMC_Base_Unificada_v4.json`** (ubicación: `Files/BMC_Base_Unificada_v4.json`)
 2. **`panelin_truth_bmcuruguay_web_only_v2.json`**
 3. **`panelin_context_consolidacion_sin_backend.md`**
 4. **`Aleros -2.rtf`** (si OpenAI no acepta .rtf, convierte a .txt o .md)
-5. **`panelin_truth_bmcuruguay_catalog_v2_index.csv`** (ubicación: `Files /`)
+5. **`panelin_truth_bmcuruguay_catalog_v2_index.csv`** (ubicación: `Files/`)
 
 ---
 

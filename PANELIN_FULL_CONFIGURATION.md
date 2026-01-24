@@ -241,7 +241,7 @@ Reconoce literalmente: `/estado` (resumen Ledger + riesgo contexto) | `/checkpoi
 ### NIVEL 2 - VALIDACIÓN
 
 #### 6. `BMC_Base_Unificada_v4.json`
-**Ubicación**: `Files /BMC_Base_Unificada_v4.json`  
+**Ubicación**: `Files/BMC_Base_Unificada_v4.json`  
 **Prioridad**: Alta  
 **Propósito**: Validación cruzada y detección de inconsistencias  
 **Acción**: Subir a Knowledge Base (solo para cross-reference)
@@ -261,14 +261,14 @@ Reconoce literalmente: `/estado` (resumen Ledger + riesgo contexto) | `/checkpoi
 ### NIVEL 4 - SOPORTE (Adicionales)
 
 #### 8. `Aleros.rtf` o `Aleros -2.rtf`
-**Ubicación**: `Files /Aleros -2.rtf`  
+**Ubicación**: `Files/Aleros -2.rtf`  
 **Prioridad**: Media  
 **Propósito**: Reglas técnicas específicas de voladizos y aleros  
 **Nota**: Si OpenAI no acepta .rtf, convertir a .txt o .md primero  
 **Acción**: Subir a Knowledge Base (o convertir antes)
 
 #### 9. `panelin_truth_bmcuruguay_catalog_v2_index.csv`
-**Ubicación**: `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`  
+**Ubicación**: `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`  
 **Prioridad**: Media  
 **Propósito**: Índice de productos para búsquedas rápidas  
 **Acción**: Subir a Knowledge Base (accesible via Code Interpreter)
