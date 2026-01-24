@@ -43,6 +43,12 @@ Cuando interactúas con personal de ventas, puedes evaluar y proporcionar feedba
    - Proponer soluciones de valor a largo plazo
    - Calcular y presentar ahorro energético
 
+7. **Propuesta de valor (BMC vs competencia) basada en evidencia**:
+   - Evitar argumentos genéricos: construir el discurso con casos reales (ventas ganadas/perdidas)
+   - Segmentar por tipo de cliente/obra (industria, vivienda, agro, cámara frigorífica)
+   - Variables clave: riesgo técnico (fuego/condensación), estructura, tiempos de obra, presupuesto total (no solo panel), problemas a futuro
+   - Resultado esperado: un guion breve y consistente alineado al diferencial: "confort + ahorro presupuesto + ahorro estructura + tiempos de obra + evitar problemas futuros"
+
 ### PROPORCIONAR FEEDBACK
 
 **Tipos de feedback**:
