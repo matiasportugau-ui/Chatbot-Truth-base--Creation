@@ -157,18 +157,85 @@
       ]
     }
   },
+  "general_info": {
+    "anclaje_hormigon_base": {
+      "compuesto_por": [
+        "tornillo N°10",
+        "arandela",
+        "taco Ø8"
+      ],
+      "frecuencia_m": 0.3,
+      "nota": "Solo aplica a perfil U base"
+    }
+  },
+  "accesorios": {
+    "perfiles": {
+      "PERFIL_U": {
+        "nombre_comercial": "Perfil U Base",
+        "material": "Acero Galvanizado / Aluminio",
+        "unidad_venta": "Tira",
+        "largo_unitario_m": 3,
+        "aplica_a": "Base Pared / Coronación",
+        "regla_de_cuantificacion": "Perímetro / Largo Unitario"
+      },
+      "PERFIL_U_150x35_BL": {
+        "nombre_comercial": "Perfil U 150x35 Blanco",
+        "material": "Chapa prepintada",
+        "unidad_venta": "Tira",
+        "largo_unitario_m": 2,
+        "aplica_a": "Terminación paneles 150mm"
+      }
+    },
+    "terminaciones": {
+      "K2": {
+        "nombre_comercial": "Perfil K2 (Esquinero)",
+        "aplica_a": "Esquinas exteriores"
+      },
+      "G2": {
+        "nombre_comercial": "Perfil G2 (Ángulo interior)",
+        "aplica_a": "Esquinas interiores"
+      },
+      "babetas": {
+        "nombre_comercial": "Babeta",
+        "aplica_a": "Unión techo-muro"
+      },
+      "canalones": {
+        "nombre_comercial": "Canalón",
+        "aplica_a": "Recogida de aguas"
+      },
+      "goteros": {
+        "nombre_comercial": "Gotero",
+        "aplica_a": "Bordes libres de techo"
+      }
+    },
+    "estructurales": {
+      "angulo_estructural": {
+        "nombre_comercial": "Ángulo Estructural",
+        "material": "Aluminio / Acero",
+        "aplica_a": "Estructura soporte"
+      }
+    }
+  },
   "formulas_cotizacion": {
     "costo_panel": "PRECIO * LARGO * CANTIDAD * ANCHO_UTIL",
     "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
     "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
-    "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
-    "tuercas_metal": "PUNTOS * 2",
-    "tuercas_hormigon": "PUNTOS * 1",
-    "tacos_hormigon": "PUNTOS * 1",
+    "anclajes_totales": "N_ANCLAJES",
+    "tuercas": "ANCLAJES * 2",
+    "arandelas_carrocero": "ANCLAJES",
+    "arandelas_plana": "ANCLAJES",
+    "arandelas_pp": "ANCLAJES",
+    "varillas": "CEIL(ANCLAJES / RENDIMIENTO_VARILLA)",
     "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
     "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
     "remaches": "ROUNDUP(TOTAL_PERFILES * 20)",
-    "silicona": "ROUNDUP(TOTAL_ML / 8)"
+    "silicona_ml_total": "ML_juntas_pared + ML_juntas_techo + ML_accesorios",
+    "silicona_pomos": "CEIL(silicona_ml_total / 8)",
+    "rendimiento_varilla": {
+      "isodec_100_150": 4,
+      "isodec_200": 3,
+      "isopanel_150": 3
+    }
   },
   "formulas_ahorro_energetico": {
     "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR",
