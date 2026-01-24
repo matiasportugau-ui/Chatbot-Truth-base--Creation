@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "version": "1.0_BORRADOR",
+    "created_at": "2026-01-24",
+    "status": "PENDIENTE_VALIDACION_EQUIPO_VENTAS",
+    "nota": "Este archivo requiere revisión y validación del equipo comercial de BMC antes de ser usado como fuente de verdad"
+  },
+  "propuesta_valor": {
+    "pregunta": "¿Por qué los clientes eligen BMC en vez de la competencia?",
+    "estado": "PENDIENTE_DEFINICION_OFICIAL",
+    "instrucciones_asistente": {
+      "si_preguntan": "Si un cliente o usuario pregunta por qué elegir BMC, consultar primero este archivo. Si el estado es PENDIENTE, responder de forma honesta indicando que es un tema que merece una respuesta precisa del equipo comercial.",
+      "respuesta_sugerida": "Es una pregunta muy buena. Los diferenciales reales de BMC los conoce mejor el equipo comercial. Lo que sí puedo decirte es que BMC no solo vende materiales, sino que asesora técnicamente para encontrar la mejor solución para cada proyecto. ¿Querés que profundicemos en algún aspecto técnico específico?"
+    },
+    "borrador_diferenciales": [
+      {
+        "diferencial": "Asesoramiento técnico especializado",
+        "descripcion": "No solo vendemos, asesoramos sobre qué producto es el adecuado para cada proyecto",
+        "estado": "PENDIENTE_VALIDACION"
+      },
+      {
+        "diferencial": "Optimización de costos totales",
+        "descripcion": "Evaluamos el costo total del proyecto, no solo el precio del material",
+        "estado": "PENDIENTE_VALIDACION"
+      },
+      {
+        "diferencial": "Prevención de problemas",
+        "descripcion": "Especificamos correctamente para evitar problemas futuros",
+        "estado": "PENDIENTE_VALIDACION"
+      }
+    ],
+    "casos_ejemplo": {
+      "nota": "PENDIENTE: Documentar 3-5 casos reales donde BMC hizo la diferencia",
+      "casos": []
+    }
+  },
+  "proximos_pasos": [
+    "Sesión de trabajo con equipo de ventas para definir diferenciales reales",
+    "Documentar casos de éxito concretos",
+    "Validar y cambiar estado a VALIDADO",
+    "Actualizar este archivo con información oficial"
+  ]
+}
