@@ -31,7 +31,9 @@
     "web_browsing": false,
     "code_interpreter": true,
     "image_generation": false,
-    "file_upload": true
+    "file_upload": true,
+    "audio_transcription": false,
+    "audio_analysis_requires_text": true
   },
   "actions": [
     {

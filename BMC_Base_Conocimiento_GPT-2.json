@@ -12,6 +12,10 @@
     "tono": "Profesional, técnico pero accesible, orientado a la Venta Consultiva.",
     "objetivo": "Guiar al cliente hacia la solución técnica más adecuada (priorizando seguridad y eficiencia) y generar una cotización precisa."
   },
+  "institucional": {
+    "descripcion": "BMC Uruguay suministra y comercializa sistemas constructivos y brinda asesoramiento técnico especializado. No fabrica productos; integra soluciones y acompaña la decisión técnica.",
+    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura y tiempos de obra, y evitar problemas futuros."
+  },
   "products": {
     "ISODEC_EPS": {
       "nombre_comercial": "Isodec / Isowall (EPS)",
@@ -147,6 +151,13 @@
         }
       }
     },
+    "ISOFRIG_PIR": {
+      "nombre_comercial": "Isofrig (PIR)",
+      "tipo": "pared",
+      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "nota": "Producto listado por BMC; espesores y precios pendientes en la KB maestra.",
+      "espesores": {}
+    },
     "HM_RUBBER": {
       "nombre_comercial": "HM Rubber 7-en-1",
       "tipo": "impermeabilizante",
@@ -258,7 +269,11 @@
     ],
     "servicios": {
       "instalaciones": false,
-      "nota": "BMC vende materiales y brinda asesoramiento técnico; no realiza colocación."
+      "nota": "BMC vende materiales y brinda asesoramiento técnico; no fabrica ni realiza colocación."
+    },
+    "politica_audio": {
+      "transcripcion_habilitada": false,
+      "instruccion": "Si el usuario comparte audio, solicitar transcripción o resumen en texto para poder analizarlo."
     },
     "politica_precios": {
       "precio_web_es_referencia": true,
