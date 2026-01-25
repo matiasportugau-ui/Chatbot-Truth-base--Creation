@@ -6,6 +6,8 @@
 
 import { runWorkflow } from "./panelin_agents_sdk";
 
+const DEMO_SESSION_ID = "demo_panelin_sdk";
+
 // ============================================================================
 // EJEMPLO 1: COTIZACIÓN BÁSICA
 // ============================================================================
@@ -16,7 +18,8 @@ async function ejemploCotizacion() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "Necesito cotizar ISODEC 100mm para un techo de 10m x 5m, con luz de 4m entre apoyos, fijación a hormigón"
+    input_as_text: "Necesito cotizar ISODEC 100mm para un techo de 10m x 5m, con luz de 4m entre apoyos, fijación a hormigón",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -35,7 +38,8 @@ async function ejemploCotizacionIncompleta() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "Quiero cotizar ISODEC 150mm para un techo de 8m x 6m"
+    input_as_text: "Quiero cotizar ISODEC 150mm para un techo de 8m x 6m",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -53,7 +57,8 @@ async function ejemploInformacion() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "¿Cuál es la diferencia entre ISODEC EPS e ISODEC PIR? ¿Cuándo debo usar cada uno?"
+    input_as_text: "¿Cuál es la diferencia entre ISODEC EPS e ISODEC PIR? ¿Cuándo debo usar cada uno?",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -71,7 +76,8 @@ async function ejemploPersonalizacionMauro() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "Hola, mi nombre es Mauro. Necesito información sobre autoportancia"
+    input_as_text: "Hola, mi nombre es Mauro. Necesito información sobre autoportancia",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -90,7 +96,8 @@ async function ejemploEvaluacion() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "Evalúa mi conocimiento técnico sobre sistemas de fijación para paneles"
+    input_as_text: "Evalúa mi conocimiento técnico sobre sistemas de fijación para paneles",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -108,7 +115,8 @@ async function ejemploValidacionTecnica() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "Necesito ISODEC 100mm para 6m de luz. ¿Es posible?"
+    input_as_text: "Necesito ISODEC 100mm para 6m de luz. ¿Es posible?",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -126,7 +134,8 @@ async function ejemploComparativa() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "¿Qué diferencia hay entre usar ISODEC 100mm vs 150mm para un techo de 10m x 8m con luz de 5m? Incluye análisis de ahorro energético"
+    input_as_text: "¿Qué diferencia hay entre usar ISODEC 100mm vs 150mm para un techo de 10m x 8m con luz de 5m? Incluye análisis de ahorro energético",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -144,7 +153,8 @@ async function ejemploComandoSOP() {
   console.log("=".repeat(70));
 
   const resultado = await runWorkflow({
-    input_as_text: "/estado"
+    input_as_text: "/estado",
+    session_id: DEMO_SESSION_ID
   });
 
   console.log("\n📋 Clasificación:", resultado.classification);
@@ -161,6 +171,9 @@ async function ejemploComandoSOP() {
 
 async function ejecutarTodos() {
   try {
+    // Reset demo session so results are deterministic for each run
+    await runWorkflow({ input_as_text: "/estado", session_id: DEMO_SESSION_ID, reset_session: true });
+
     await ejemploCotizacion();
     await ejemploCotizacionIncompleta();
     await ejemploInformacion();
@@ -169,6 +182,13 @@ async function ejecutarTodos() {
     await ejemploValidacionTecnica();
     await ejemploComparativa();
     await ejemploComandoSOP();
+
+    // Export demo artifacts (writes files if enabled)
+    const checkpoint = await runWorkflow({ input_as_text: "/checkpoint", session_id: DEMO_SESSION_ID, write_files: true });
+    console.log("\n💾 /checkpoint:\n", checkpoint.respuesta);
+
+    const consolidar = await runWorkflow({ input_as_text: "/consolidar", session_id: DEMO_SESSION_ID, write_files: true });
+    console.log("\n📦 /consolidar:\n", consolidar.respuesta);
 
     console.log("=".repeat(70));
     console.log("✅ Todos los ejemplos ejecutados");

@@ -4,7 +4,7 @@
   "description": "Panelin - OpenAI Agents SDK Implementation for BMC Construction Materials Quotations",
   "main": "panelin_agents_sdk.ts",
   "scripts": {
-    "build": "tsc panelin_agents_sdk.ts",
+    "build": "tsc -p .",
     "test": "ts-node test.ts",
     "dev": "ts-node --watch panelin_agents_sdk.ts"
   },
