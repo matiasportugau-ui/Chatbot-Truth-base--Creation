@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "Chatbot-Truth-base--Creation",
+			"path": "../Chatbot-Truth-base--Creation"
+		},
+		{
+			"path": "../../OPEN AI AGEN"
+		}
+	],
+	"settings": {
+		"generativeAi.option": "Gemini"
+	}
+}
