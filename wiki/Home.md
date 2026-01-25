@@ -1,0 +1,28 @@
+## Panelin Wiki (BMC Assistant Pro)
+
+Bienvenido/a a la Wiki del repositorio **Panelin**: un sistema para cotizaciones técnicas y asistencia comercial (BMC) con:
+
+- **Configuración de GPT (Builder)**: instrucciones + Knowledge Base jerarquizada (Nivel 1 → 4).
+- **Setup vía API**: creación automatizada del assistant con modelo explícito.
+- **Motor Python de cotización**: cálculo de materiales/precios con base de conocimiento.
+- **KB Update + Training**: optimizadores, cache y scheduler para mantener la KB y datos de entrenamiento.
+- **Agents SDK (TypeScript)**: orquestación multi-agente con guardrails y routing.
+
+### Empezar rápido
+
+- **Configurar el GPT en Builder**: ver `PANELIN_SETUP_COMPLETE.md` y `PANELIN_FULL_CONFIGURATION.md`.
+- **Crear Panelin vía API**: ver `SETUP_PANELIN_API.md` (script `setup_panelin_with_model.py`).
+- **KB Update System**: ver `KB_UPDATE_QUICKSTART.md` y `KB_UPDATE_COMMANDS.md`.
+- **Agents SDK**: ver `PANELIN_AGENTS_SDK_QUICKSTART.md`.
+
+### Navegación
+
+Usa la barra lateral para ir a:
+
+- **Overview** (qué es este repo, componentes y entrypoints)
+- **Setup** (Builder / API / variables de entorno)
+- **KB & Training** (optimización, tiers, scheduler)
+- **Agents SDK** (arquitectura, scripts y tools)
+- **Motor de cotización (Python)** (cómo corre, inputs/outputs)
+- **Troubleshooting** (errores típicos y soluciones)
+
