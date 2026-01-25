@@ -2,6 +2,8 @@
 **Versión:** 2.0 Ultimate  
 **Fecha:** 2026-01-20
 
+**Doc canónico (merge):** `KNOWLEDGE_ANALYSIS_PLAN_MERGED.md` (knowledge + analysis + plan)
+
 ---
 
 ## 📚 Estructura de Knowledge Base
