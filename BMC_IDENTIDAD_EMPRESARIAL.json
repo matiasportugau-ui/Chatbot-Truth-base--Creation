@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "version": "1.0",
+    "created_at": "2026-01-24",
+    "source": "Conversación de entrenamiento con Ramiro (Equipo Ventas BMC)",
+    "priority": "NIVEL_1_MASTER"
+  },
+  "empresa": {
+    "nombre": "BMC Uruguay",
+    "nombre_completo": "BMC Uruguay - Soluciones Constructivas",
+    "tipo_negocio": "Comercializador y Asesor Técnico",
+    "tipo_negocio_descripcion": "Empresa que SUMINISTRA materiales constructivos y ASESORA técnicamente. NO es fabricante.",
+    "actividad_principal": [
+      "Suministro de materiales constructivos",
+      "Comercialización de sistemas para techos, paredes y fachadas",
+      "Asesoramiento técnico especializado en soluciones constructivas",
+      "Optimización de proyectos constructivos"
+    ],
+    "no_realiza": [
+      "Fabricación de productos (los productos son suministrados por proveedores)",
+      "Instalaciones de obra (solo asesoramiento, no mano de obra)"
+    ],
+    "segmentos_mercado": [
+      "Viviendas",
+      "Depósitos y galpones",
+      "Industria",
+      "Agro",
+      "Ampliaciones y reformas",
+      "Obras desde cero"
+    ]
+  },
+  "diferencial_competitivo": {
+    "concepto_central": "Brindar soluciones técnicas optimizadas",
+    "no_es": "No es solo vender paneles o materiales",
+    "es": "Es asesorar para encontrar la mejor solución técnica para cada proyecto",
+    "beneficios_cliente": [
+      {
+        "beneficio": "Mayor confort",
+        "descripcion": "Selección de materiales que optimizan aislación térmica y acústica"
+      },
+      {
+        "beneficio": "Ahorro de presupuesto",
+        "descripcion": "Optimización de materiales para evitar gastos innecesarios"
+      },
+      {
+        "beneficio": "Ahorro de estructura",
+        "descripcion": "Selección de paneles autoportantes que reducen necesidad de vigas adicionales"
+      },
+      {
+        "beneficio": "Menor tiempo de obra",
+        "descripcion": "Sistemas de montaje rápido y soluciones pre-dimensionadas"
+      },
+      {
+        "beneficio": "Prevención de problemas futuros",
+        "descripcion": "Especificación correcta desde el inicio para evitar filtraciones, condensación, etc."
+      }
+    ]
+  },
+  "lineas_producto": {
+    "techos_cubiertas": {
+      "descripcion": "Sistemas para techos y cubiertas",
+      "productos": [
+        "Isodec EPS (panel aislante EPS para techos)",
+        "Isodec PIR (panel aislante PIR para techos - ignífugo)",
+        "Isoroof (sistema de techo liviano)",
+        "Chapas convencionales (techos sin aislación)"
+      ],
+      "nota": "Entre otros sistemas según proyecto"
+    },
+    "paredes_fachadas": {
+      "descripcion": "Sistemas para paredes y fachadas",
+      "productos": [
+        "Isopanel EPS (panel aislante EPS para paredes)",
+        "Isowall PIR (panel aislante PIR para paredes - ignífugo)",
+        "Isofrig PIR (panel para cámaras frigoríficas y alta aislación)"
+      ],
+      "nota": "Entre otros sistemas según proyecto"
+    }
+  },
+  "enfoque_venta": {
+    "tipo": "Venta consultiva técnica",
+    "descripcion": "No se vende producto por producto, se vende la solución completa al problema del cliente",
+    "principios": [
+      "Partir del problema del cliente, no del producto",
+      "Evaluar técnicamente antes de cotizar",
+      "Optimizar considerando costo total, no solo precio del material",
+      "Asesorar honestamente (incluso diciendo 'esto no te conviene')",
+      "Traducir lo técnico a lenguaje entendible",
+      "Acompañar la decisión, no solo entregar presupuesto"
+    ]
+  },
+  "reglas_respuesta": {
+    "al_describir_bmc": [
+      "SIEMPRE usar 'suministra' o 'comercializa', NUNCA 'fabrica'",
+      "Enfatizar el rol de asesoramiento técnico",
+      "Mencionar que BMC brinda soluciones, no solo productos"
+    ],
+    "al_preguntar_diferencial": [
+      "Consultar este archivo primero",
+      "Usar beneficios reales documentados",
+      "Si hay duda, consultar con el equipo comercial"
+    ]
+  }
+}

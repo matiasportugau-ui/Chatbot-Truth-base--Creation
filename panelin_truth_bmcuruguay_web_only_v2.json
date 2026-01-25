@@ -202,6 +202,68 @@
         "largo_max_m": 7.95,
         "stock_status": "unknown_public",
         "last_verified_utc": "2026-01-15T17:52:05Z"
+      },
+      "isofrig_pir_paredes": {
+        "title": "ISOFRIG® PIR (Paredes y Cámaras Frigoríficas)",
+        "url": "PENDIENTE_CONFIRMAR_URL",
+        "price_display": "PENDIENTE_CONFIRMAR_PRECIO",
+        "currency": "USD",
+        "unit": "m²",
+        "descripcion": "Panel PIR para paredes con requisitos de alta aislación térmica y cámaras frigoríficas",
+        "options": [
+          "Espesor"
+        ],
+        "option_values": {
+          "Espesor": ["PENDIENTE_CONFIRMAR_ESPESORES"]
+        },
+        "uso_recomendado": [
+          "cámaras frigoríficas",
+          "industria alimentaria",
+          "espacios refrigerados",
+          "ambientes con requisitos de alta aislación"
+        ],
+        "ventajas": [
+          "Alta resistencia térmica",
+          "Apto para temperaturas bajas",
+          "Ignífugo (PIR)"
+        ],
+        "stock_status": "unknown_public",
+        "data_status": "PENDIENTE_VALIDACION_EQUIPO_VENTAS",
+        "last_verified_utc": "2026-01-24T00:00:00Z",
+        "nota": "Producto identificado por equipo de ventas (Ramiro). Pendiente confirmar especificaciones completas."
+      },
+      "chapas_convencionales": {
+        "title": "Chapas Convencionales (Techos)",
+        "url": "PENDIENTE_CONFIRMAR_URL",
+        "price_display": "PENDIENTE_CONFIRMAR_PRECIO",
+        "currency": "USD",
+        "unit": "m²",
+        "descripcion": "Chapas para techos sin panel aislante, opción económica",
+        "options": [
+          "Tipo",
+          "Color"
+        ],
+        "option_values": {
+          "Tipo": ["PENDIENTE_CONFIRMAR_TIPOS"]
+        },
+        "uso_recomendado": [
+          "galpones",
+          "tinglados",
+          "estructuras livianas",
+          "techos sin requisitos de aislación"
+        ],
+        "ventajas": [
+          "Económica",
+          "Rápida instalación"
+        ],
+        "consideraciones": [
+          "Sin aislación térmica",
+          "Puede requerir aislación adicional según uso"
+        ],
+        "stock_status": "unknown_public",
+        "data_status": "PENDIENTE_VALIDACION_EQUIPO_VENTAS",
+        "last_verified_utc": "2026-01-24T00:00:00Z",
+        "nota": "Producto identificado por equipo de ventas (Ramiro). Pendiente confirmar especificaciones completas."
       }
     }
   },
