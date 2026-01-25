@@ -1,0 +1,74 @@
+{
+  "version": "5.0",
+  "fecha_creacion": "2026-01-23T16:17:15.273272",
+  "descripcion": "Knowledge Base Consolidada - Fuente de Verdad Única para PANELIN BMC Assistant Pro",
+  "fuentes_originales": {
+    "nivel1_master": "BMC_Base_Conocimiento_GPT-2.json",
+    "nivel2_validacion": "BMC_Base_Unificada_v4.json (Omitido)",
+    "nivel3_dinamico": "panelin_truth_bmcuruguay_web_only_v2.json"
+  },
+  "metadata": {
+    "productos_totales": 0,
+    "formulas_cotizacion": 11,
+    "consolidado_por": "consolidar_kb_v5_patched.py",
+    "consolidado_en": "2026-01-23 16:17:15"
+  },
+  "productos": [],
+  "formulas_cotizacion": {
+    "costo_panel": "PRECIO * LARGO * CANTIDAD * ANCHO_UTIL",
+    "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
+    "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
+    "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
+    "tuercas_metal": "PUNTOS * 2",
+    "tuercas_hormigon": "PUNTOS * 1",
+    "tacos_hormigon": "PUNTOS * 1",
+    "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
+    "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
+    "remaches": "ROUNDUP(TOTAL_PERFILES * 20)",
+    "silicona": "ROUNDUP(TOTAL_ML / 8)"
+  },
+  "formulas_ahorro_energetico": {
+    "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR",
+    "reduccion_transmision_calor": "(DIFERENCIA_RESISTENCIA / RESISTENCIA_MENOR) * 100",
+    "ahorro_energetico_anual": "AREA_M2 * DIFERENCIA_RESISTENCIA * GRADOS_DIA_CALEFACCION * PRECIO_KWH * HORAS_DIA * DIAS_ESTACION",
+    "nota": "Para Uruguay: marzo-noviembre (9 meses), temperatura objetivo 22°C, considerar grados-día de calefacción según zona"
+  },
+  "reglas_negocio": {
+    "moneda": "USD",
+    "iva_porcentaje": 22,
+    "pendiente_minima_techo": "7%",
+    "fuente_precios": "Shopify",
+    "iva": 0.22,
+    "perfil_5852_obligatorio_en": [
+      "pretiles",
+      "sobre techos existentes",
+      "refuerzos perimetrales"
+    ],
+    "estrategia_venta": [
+      "Si el cliente quiere techar un área determinada, preguntar siempre la distancia entre apoyos (luz) existente o proyectada.",
+      "Sugerir el panel que permita mayor autoportancia para ahorrar en estructura de soporte.",
+      "Si es vivienda o industria con riesgo, sugerir PIR por seguridad.",
+      "Siempre ofrecer opciones: Económica vs Estructuralmente Eficiente.",
+      "En TODAS las comparativas de paneles, incluir SIEMPRE las ventajas de aislamiento térmico y ahorro energético, no solo al comparar 100mm vs 150mm, sino en todas las opciones disponibles.",
+      "Sugerir al cliente considerar el valor a largo plazo en términos de confort, ahorro en climatización y mejoras de aislamiento cuando se elige un panel más grueso.",
+      "Cuando falte un costo exacto (como el de una viga), explicar que es un estimado y sugerir que el cliente considere costos reales locales, incluyendo mano de obra. Consultar referencias como SUNCA u otras bases de precios de construcción en Uruguay.",
+      "Proporcionar un cálculo aproximado del ahorro energético y la mejora de aislamiento en una habitación estándar al pasar a un panel de mayor espesor.",
+      "Aplicar lógica que combine el costo inicial con el valor a largo plazo, ofreciendo al cliente no solo el precio, sino también el impacto en confort, eficiencia energética y ahorro económico."
+    ],
+    "servicios": {
+      "instalaciones": false,
+      "nota": "BMC vende materiales y brinda asesoramiento técnico; no realiza colocación."
+    },
+    "politica_precios": {
+      "precio_web_es_referencia": true,
+      "cotizacion_interna_puede_diferir": true,
+      "cotizacion_interna_suele_ser_neta_sin_iva": true,
+      "requiere_validacion_comercial": true,
+      "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización."
+    },
+    "guardrails_precision": [
+      "No afirmar precios de accesorios si no están en la KB maestra.",
+      "No confundir gotero frontal con gotero lateral; si falta precio, indicar que no está disponible en base."
+    ]
+  }
+}
