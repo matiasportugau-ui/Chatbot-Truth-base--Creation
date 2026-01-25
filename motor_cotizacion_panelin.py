@@ -76,6 +76,10 @@ class MotorCotizacionPanelin:
                 return productos.get('ISODEC_EPS')
         elif 'ISOPANEL' in consulta_upper:
             return productos.get('ISOPANEL_EPS')
+        elif 'ISOFRIG' in consulta_upper:
+            # Línea mencionada para cámaras frigoríficas / cerramientos.
+            # Puede no tener precios/espesores cargados todavía: el motor debe responder con error controlado en esos casos.
+            return productos.get('ISOFRIG_PIR')
         elif 'ISOROOF' in consulta_upper:
             if 'PLUS' in consulta_upper:
                 return productos.get('ISOROOF_PLUS')
