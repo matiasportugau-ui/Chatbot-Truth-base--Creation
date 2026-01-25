@@ -182,38 +182,16 @@ Usuario → Guardrails → Classification Agent
 - ✅ Personalización (Mauro, Martin, Rami)
 - ✅ Estructura de tools (calcular_cotizacion, buscar_en_base_conocimiento, evaluar_vendedor)
 - ✅ Flujo de trabajo completo
-- ✅ Comandos SOP básicos: `/estado`, `/checkpoint`, `/consolidar` (con Ledger + deltas en memoria)
 
 ### ⚠️ Pendiente de Implementación
 
 - ⚠️ Integración con `motor_cotizacion_panelin.py` (backend Python)
 - ⚠️ Búsqueda real en archivos JSON de Knowledge Base
 - ⚠️ Sistema de evaluación de vendedores
+- ⚠️ Comandos SOP (/estado, /checkpoint, /consolidar)
 - ⚠️ Generación de PDFs (Code Interpreter)
 
 ---
-
-## 🧾 Comandos SOP (Ledger / Checkpoints)
-
-El SDK implementa los comandos SOP definidos en `panelin_context_consolidacion_sin_backend.md`:
-
-- **`/estado`**: muestra estado del Ledger, riesgo heurístico de contexto y conteo de deltas.
-- **`/checkpoint`**: exporta `LEDGER_SNAPSHOT.md` + `DELTAS_SIN_MERGE.jsonl`.
-- **`/consolidar`**: exporta `KB_PACK.md` + `KB_PACK.jsonl` + `BMC_TECHNICAL_TRUTH_CONSOLIDATED.json` + `PATCH.json`.
-
-Notas:
-- El estado se mantiene **en memoria** por `session_id` (sin backend).
-- Si pasás `write_files: true`, además escribe los archivos en `./panelin_exports/<session_id>/<YYYYMMDD>/`.
-
-Ejemplo mínimo:
-
-```typescript
-const session_id = "vendedor_mauro";
-
-await runWorkflow({ input_as_text: "Hola, soy Mauro...", session_id });
-await runWorkflow({ input_as_text: "/estado", session_id });
-await runWorkflow({ input_as_text: "/checkpoint", session_id, write_files: true });
-```
 
 ## 🔗 Integración con Backend Python
 
