@@ -226,6 +226,12 @@
       "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
       "ancho_util": 1.1,
       "sistema_fijacion": "varilla_tuerca",
+      "espesores": {
+        "100": { "precio": "Consultar" },
+        "150": { "precio": "Consultar" },
+        "200": { "precio": "Consultar" }
+      },
+      "nota": "Panel específico para cámaras frigoríficas y logística de frío."
       "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
       "caracteristicas": [
         "Panel PIR especializado para aplicaciones frigoríficas",
@@ -356,6 +362,8 @@
       "refuerzos perimetrales"
     ],
     "estrategia_venta": [
+      "DEFINIR DIFERENCIAL: Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura, tiempos de obra y problemas a futuro.",
+      "BMC NO FABRICA: Suministra y comercializa sistemas constructivos de alta calidad y brinda asesoramiento técnico integral.",
       "Si el cliente quiere techar un área determinada, preguntar siempre la distancia entre apoyos (luz) existente o proyectada.",
       "Sugerir el panel que permita mayor autoportancia para ahorrar en estructura de soporte.",
       "Si es vivienda o industria con riesgo, sugerir PIR por seguridad.",
