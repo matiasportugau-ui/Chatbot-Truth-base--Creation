@@ -60,6 +60,10 @@
       "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback. Si el usuario insiste, explicar la limitación y ofrecer guía para que lo transcriba/pegue el texto."
     }
   },
+  "institucional": {
+    "descripcion": "BMC Uruguay suministra y comercializa sistemas constructivos y brinda asesoramiento técnico especializado. No fabrica productos; integra soluciones y acompaña la decisión técnica.",
+    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura y tiempos de obra, y evitar problemas futuros."
+  },
   "products": {
     "ISODEC_EPS": {
       "nombre_comercial": "Isodec / Isowall (EPS)",
@@ -196,6 +200,20 @@
       }
     },
     "ISOFRIG_PIR": {
+      "nombre_comercial": "Isofrig (PIR)",
+      "tipo": "pared",
+      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "ancho_util": 1.1,
+      "sistema_fijacion": "varilla_tuerca",
+      "nota": "Producto similar a Isowall Pared (PIR); espesores y precios alineados mientras no se disponga de tabla propia.",
+      "espesores": {
+        "50": {
+          "precio": 54.65
+        },
+        "80": {
+          "precio": 64.0
+        }
+      }
       "nombre_comercial": "Isofrig PIR",
       "tipo": "pared (cámaras frigoríficas / cerramientos)",
       "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
@@ -350,7 +368,11 @@
     ],
     "servicios": {
       "instalaciones": false,
-      "nota": "BMC vende materiales y brinda asesoramiento técnico; no realiza colocación."
+      "nota": "BMC vende materiales y brinda asesoramiento técnico; no fabrica ni realiza colocación."
+    },
+    "politica_audio": {
+      "transcripcion_habilitada": false,
+      "instruccion": "Si el usuario comparte audio, solicitar transcripción o resumen en texto para poder analizarlo."
     },
     "politica_precios": {
       "precio_web_es_referencia": true,

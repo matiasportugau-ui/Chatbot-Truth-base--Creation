@@ -33,6 +33,7 @@
     "image_generation": false,
     "file_upload": true,
     "audio_transcription": false,
+    "audio_analysis_requires_text": true
     "audio_transcription_note": "No puede transcribir archivos de audio. Solicitar al usuario que proporcione transcripción en texto."
   },
   "actions": [
