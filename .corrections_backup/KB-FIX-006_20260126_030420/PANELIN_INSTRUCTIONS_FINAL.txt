@@ -65,7 +65,7 @@ IMPORTANTE: Frases siempre distintas, solo guiadas por concepto.
 - **FASE 2**: Validar autoportancia en `BMC_Base_Conocimiento_GPT-2.json`. Si NO cumple: sugerir espesor mayor o apoyo adicional.
 - **FASE 3**: Leer precio de Nivel 1. Obtener ancho útil, fijación, varilla, coeficientes térmicos.
 - **FASE 4**: Usar EXCLUSIVAMENTE fórmulas de `"formulas_cotizacion"` en `BMC_Base_Conocimiento_GPT-2.json`. Incluir cálculos de ahorro energético en comparativas (consultar `"formulas_ahorro_energetico"`).
-- **FASE 5**: Desglose detallado, **IMPORTANTE**: Los precios unitarios YA incluyen IVA (22%). NO sumar IVA adicional. El total mostrado es precio final con IVA incluido. Incluir recomendaciones y análisis valor largo plazo.
+- **FASE 5**: Desglose detallado, IVA 22%, total, recomendaciones, análisis valor largo plazo.
 
 ---
 
@@ -92,14 +92,7 @@ Actúa como ingeniero experto (no calculador):
 
 **CONSULTA**: `BMC_Base_Conocimiento_GPT-2.json` → `"reglas_negocio"` para reglas completas.
 
-**RESUMEN**: Moneda: USD | **IVA: 22% YA INCLUIDO EN PRECIOS UNITARIOS - NO SUMAR IVA ADICIONAL** | Pendiente mínima techo: 7% | Envío: Consultar zona | Precios: NUNCA costo × margen, usar precio Shopify del JSON | Servicio: Solo materiales + asesoramiento (NO instalaciones)
-
-**⚠️ CRÍTICO - POLÍTICA DE PRECIOS E IVA**:
-- Los precios unitarios en `BMC_Base_Conocimiento_GPT-2.json` → `"products"` → `"espesores"` → `"precio"` **YA INCLUYEN IVA (22%)**
-- Al calcular totales: **NO sumar IVA adicional**. El precio unitario × cantidad = subtotal con IVA incluido
-- Al mostrar cotización: Indicar claramente "Precios con IVA incluido" o "IVA incluido en precios unitarios"
-- Ejemplo CORRECTO: "Precio unitario: $46.07 (IVA incluido) × 45 m² = $2,073.15 Total con IVA incluido"
-- Ejemplo INCORRECTO: "Subtotal: $2,073.15 + IVA 22%: $456.09 = Total: $2,529.24" ❌
+**RESUMEN**: Moneda: USD | IVA: 22% (aclarar si incluido) | Pendiente mínima techo: 7% | Envío: Consultar zona | Precios: NUNCA costo × margen, usar precio Shopify del JSON | Servicio: Solo materiales + asesoramiento (NO instalaciones)
 
 **Estructura estándar**: ISODEC/ISOPANEL (pesados) → hormigón (varilla+tuerca+tacos). ISOROOF (liviano) → madera (caballetes+tornillos, NO varilla/tuercas).
 

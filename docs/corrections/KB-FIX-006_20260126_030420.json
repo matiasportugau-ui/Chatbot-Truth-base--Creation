@@ -1,0 +1,42 @@
+{
+  "correction_id": "KB-FIX-006",
+  "correction_type": "instrucciones",
+  "description": "Actualizar instrucciones para que el GPT NO sume IVA adicional - los precios ya incluyen IVA",
+  "priority": "P0",
+  "timestamp": "2026-01-26T03:04:20.675148",
+  "affected_files": [
+    "docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md",
+    "PANELIN_INSTRUCTIONS_FINAL.txt",
+    "gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt"
+  ],
+  "results": {
+    "docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md": {
+      "success": true,
+      "changes_applied": [],
+      "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md"
+    },
+    "PANELIN_INSTRUCTIONS_FINAL.txt": {
+      "success": true,
+      "changes_applied": [
+        "Reemplazado: '- **FASE 5**: Desglose detallado, IVA 22%, total, ...'",
+        "Reemplazado: '**RESUMEN**: Moneda: USD | IVA: 22% (aclarar si in...'"
+      ],
+      "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/PANELIN_INSTRUCTIONS_FINAL.txt"
+    },
+    "gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt": {
+      "success": true,
+      "changes_applied": [],
+      "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt"
+    }
+  },
+  "errors": [],
+  "backup_info": {
+    "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-006_20260126_030420",
+    "files": {
+      "docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-006_20260126_030420/docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md",
+      "PANELIN_INSTRUCTIONS_FINAL.txt": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-006_20260126_030420/PANELIN_INSTRUCTIONS_FINAL.txt",
+      "gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-006_20260126_030420/gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt"
+    }
+  },
+  "success": true
+}

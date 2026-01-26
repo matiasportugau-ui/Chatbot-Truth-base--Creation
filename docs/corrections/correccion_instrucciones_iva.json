@@ -1,0 +1,12 @@
+{
+  "correction_id": "KB-FIX-006",
+  "correction_type": "instrucciones",
+  "description": "Actualizar instrucciones para que el GPT NO sume IVA adicional - los precios ya incluyen IVA",
+  "priority": "P0",
+  "changes": {
+    "replace": {
+      "- **FASE 5**: Desglose detallado, IVA 22%, total, recomendaciones, análisis valor largo plazo.": "- **FASE 5**: Desglose detallado, **IMPORTANTE**: Los precios unitarios YA incluyen IVA (22%). NO sumar IVA adicional. El total mostrado es precio final con IVA incluido. Incluir recomendaciones y análisis valor largo plazo.",
+      "**RESUMEN**: Moneda: USD | IVA: 22% (aclarar si incluido) | Pendiente mínima techo: 7% | Envío: Consultar zona | Precios: NUNCA costo × margen, usar precio Shopify del JSON | Servicio: Solo materiales + asesoramiento (NO instalaciones)": "**RESUMEN**: Moneda: USD | **IVA: 22% YA INCLUIDO EN PRECIOS UNITARIOS - NO SUMAR IVA ADICIONAL** | Pendiente mínima techo: 7% | Envío: Consultar zona | Precios: NUNCA costo × margen, usar precio Shopify del JSON | Servicio: Solo materiales + asesoramiento (NO instalaciones)\n\n**⚠️ CRÍTICO - POLÍTICA DE PRECIOS E IVA**:\n- Los precios unitarios en `BMC_Base_Conocimiento_GPT-2.json` → `\"products\"` → `\"espesores\"` → `\"precio\"` **YA INCLUYEN IVA (22%)**\n- Al calcular totales: **NO sumar IVA adicional**. El precio unitario × cantidad = subtotal con IVA incluido\n- Al mostrar cotización: Indicar claramente \"Precios con IVA incluido\" o \"IVA incluido en precios unitarios\"\n- Ejemplo CORRECTO: \"Precio unitario: $46.07 (IVA incluido) × 45 m² = $2,073.15 Total con IVA incluido\"\n- Ejemplo INCORRECTO: \"Subtotal: $2,073.15 + IVA 22%: $456.09 = Total: $2,529.24\" ❌"
+    }
+  }
+}

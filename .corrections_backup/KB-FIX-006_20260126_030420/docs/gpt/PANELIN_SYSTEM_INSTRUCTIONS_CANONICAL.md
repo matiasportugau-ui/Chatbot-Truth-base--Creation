@@ -1,9 +1,8 @@
 # Panelin - Instrucciones del Sistema (Canonical)
 
-**Versión:** 2.2 Canonical (Full Capabilities)
-**Fecha:** 2026-01-26
+**Versión:** 2.1 Canonical (Full Capabilities)
+**Fecha:** 2026-01-25
 **Fuente:** `PANELIN_ULTIMATE_INSTRUCTIONS.md` + Capabilities Policy
-**Última actualización:** Correcciones IVA incluido, políticas de precios, dirección showroom
 
 ---
 
