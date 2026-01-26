@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated_at": "2026-01-25T22:35:42.523338",
-    "source_file": "/Users/matias/Downloads/products_export_1.csv",
+    "generated_at": "2026-01-25T23:53:22.488898",
+    "source_file": "/Users/matias/Downloads/products_export_1 (1).csv",
     "total_rows_processed": 402,
     "unique_products": 97,
     "total_variants": 335,
@@ -11,10 +11,10 @@
       "products_missing_body": 12,
       "duplicate_skus": 1,
       "vendor_variations": [
-        "Bromyros by KINGSPAN",
-        "My Store",
         "KINGSPAN",
-        "BMC URUGUAY"
+        "BMC URUGUAY",
+        "Bromyros by KINGSPAN",
+        "My Store"
       ]
     }
   },

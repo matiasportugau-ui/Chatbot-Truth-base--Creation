@@ -1,7 +1,7 @@
 # Shopify Catalog Quality Report
 
-**Generated**: 2026-01-25T22:35:42.523338
-**Source**: /Users/matias/Downloads/products_export_1.csv
+**Generated**: 2026-01-25T23:53:22.488898
+**Source**: /Users/matias/Downloads/products_export_1 (1).csv
 
 ## Summary
 
@@ -18,10 +18,10 @@
 
 ### Vendor Variations Detected
 
-- `Bromyros by KINGSPAN`
-- `My Store`
 - `KINGSPAN`
 - `BMC URUGUAY`
+- `Bromyros by KINGSPAN`
+- `My Store`
 
 ## Index Summary
 
