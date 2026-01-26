@@ -1,6 +1,7 @@
 # Panelin GPT Builder — Copy/Paste Quick Fill Guide
-**Version**: 1.0 (Full Capabilities)  
-**Date**: 2026-01-25  
+
+**Version**: 1.0 (Full Capabilities)
+**Date**: 2026-01-25
 **Estimated Time**: 15-20 minutes
 
 ---
@@ -16,6 +17,7 @@
 ## STEP 1: Configure Tab → Nombre (Name)
 
 **Copy/paste this**:
+
 ```
 Panelin — Internal BMC Assistant Pro
 ```
@@ -25,6 +27,7 @@ Panelin — Internal BMC Assistant Pro
 ## STEP 2: Configure Tab → Descripción (Description)
 
 **Copy/paste this**:
+
 ```
 Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses a strict Source-of-Truth KB (Level 1 master), validates autoportancia, applies IVA rules, supports training/evaluation + SOP commands, and can browse, analyze files, generate PDFs, and create diagrams when helpful.
 ```
@@ -36,12 +39,14 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 **Source file**: `docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md`
 
 **How to copy**:
+
 1. Open the file in your editor
 2. Copy from line 9 (`# IDENTIDAD Y ROL`) to the end (line ~220)
 3. Paste into the "Instrucciones" field
 4. Verify the capability policy addendum is at the bottom
 
 **Quick verification**:
+
 - Search for: `BMC_Base_Conocimiento_GPT-2.json` (should appear multiple times)
 - Search for: `CAPABILITIES POLICY` (should be near the end)
 - Search for: `RECOLECCIÓN DE DATOS DEL CLIENTE` (production mode data collection)
@@ -70,6 +75,7 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 ### Upload Sequence (11 files)
 
 **Priority 1 — Level 1 Master (FIRST)**
+
 1. ✅ `BMC_Base_Conocimiento_GPT-2.json`
 
 **Priority 2 — Catalog (NEW)**
@@ -97,11 +103,13 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 ## STEP 6: Configure Tab → Modelo recomendado (Model)
 
 **Click the dropdown** and select:
+
 - **GPT-4** (recommended)
 - **GPT-4 Turbo** (faster, also good)
 - **GPT-4o** (if available)
 
 **Do NOT use**:
+
 - ❌ GPT-3.5 (not precise enough for technical calculations)
 - ❌ AUTO (unpredictable model selection)
 
@@ -129,40 +137,52 @@ If you implement the backend API later, refer to `docs/gpt/PANELIN_ACTIONS_SPEC.
 ## STEP 9: Save & Test
 
 ### Save
+
 1. Click **"Guardar"** (top right)
 2. Choose **"Only me"** (recommended for internal GPT with sensitive data)
 
 ### Test in Preview
+
 Open the **Preview** pane and run these quick smoke tests:
 
 **Test 1**: Source of Truth
+
 ```
 ¿Cuánto cuesta ISODEC 100mm?
 ```
+
 **Expected**: Asks for nombre, teléfono, dirección obra. Then cites KB and gives exact price ($46.07).
 
 **Test 2**: Catalog Lookup
+
 ```
-Busca el producto con handle "isoroof-3g-gris-rojo-blanco-bromyros"
+ Busca el producto con handle "isoroof-3g-gris-rojo-blanco-bromyros"
 ```
+
 **Expected**: Returns description from catalog.
 
 **Test 3**: Code Interpreter
+
 ```
 Genera un PDF de esta cotización.
 ```
+
 **Expected**: Writes Python code, executes, provides download link.
 
 **Test 4**: Image Generation
+
 ```
 Crea un diagrama explicando "luz" y autoportancia.
 ```
+
 **Expected**: Generates diagram, disclaims it's not a real photo.
 
 **Test 5**: Web Conflict
+
 ```
-Busca en la web el precio de ISODEC 100mm y compáralo con tu base.
+     Busca en la web el precio de ISODEC 100mm y compáralo con tu base.
 ```
+
 **Expected**: Uses Level 1 KB as authority, mentions web is secondary.
 
 For full test suite, see: `docs/gpt/PANELIN_GPT_TEST_PLAN.md`
@@ -186,18 +206,22 @@ Before marking as "ready for production":
 ## Troubleshooting
 
 ### "Panelin invents prices"
+
 - **Cause**: Level 1 file not uploaded first, or instructions don't enforce it
 - **Fix**: Re-upload `BMC_Base_Conocimiento_GPT-2.json` FIRST, wait 3 min, retest
 
 ### "Code Interpreter disabled error"
+
 - **Cause**: Toggle is OFF
 - **Fix**: Go to Configure → Funcionalidades → Enable "Intérprete de código"
 
 ### "Cannot find catalog product"
+
 - **Cause**: `shopify_catalog_v1.json` not uploaded or reindex incomplete
 - **Fix**: Verify file uploaded, wait 2-3 min, retry
 
 ### "Phone validation too strict"
+
 - **Cause**: Instructions block non-Uruguay formats
 - **Fix**: Update canonical instructions to accept international formats if needed
 

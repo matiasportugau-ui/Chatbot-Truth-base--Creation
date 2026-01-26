@@ -1,0 +1,11 @@
+{
+  "correction_id": "KB-FIX-005",
+  "correction_type": "reglas_negocio",
+  "description": "Actualizar dirección del showroom a Liber Seregni, esq. Los Crisantemos, Maldonado",
+  "priority": "P1",
+  "changes": {
+    "contacto": {
+      "direccion_showroom": "Liber Seregni, esq. Los Crisantemos, Maldonado, Uruguay (Coordinar por WhatsApp)"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "correction_id": "KB-FIX-001",
+  "correction_type": "producto",
+  "description": "ISODEC EPS 100mm es cubierta LIVIANA, no pesada",
+  "priority": "P0",
+  "timestamp": "2026-01-26T02:53:08.061921",
+  "affected_files": [
+    "BMC_Base_Conocimiento_GPT-2.json"
+  ],
+  "results": {
+    "BMC_Base_Conocimiento_GPT-2.json": {
+      "success": false,
+      "error": "invalid literal for int() with base 10: '0-Unified'"
+    }
+  },
+  "errors": [
+    "Error aplicando cambios a BMC_Base_Conocimiento_GPT-2.json: invalid literal for int() with base 10: '0-Unified'"
+  ],
+  "backup_info": {
+    "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-001_20260126_025308",
+    "files": {
+      "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-001_20260126_025308/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "success": false
+}

@@ -1,7 +1,7 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "5.5-Unified",
+    "version": "5.3-Unified",
     "fecha": "2026-01-16",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay.",
@@ -28,22 +28,6 @@
         "tipo": "reglas_negocio",
         "cambios": [
           "Actualizada regla de negocio: politica_precios"
-        ]
-      },
-      {
-        "id": "KB-FIX-004",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: politica_precios"
-        ]
-      },
-      {
-        "id": "KB-FIX-005",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: contacto"
         ]
       }
     ]
@@ -342,15 +326,9 @@
       "nota": "BMC Uruguay NO fabrica productos. Suministra/comercializa materiales y brinda asesoramiento técnico-comercial; no realiza colocación ni fabricación."
     },
     "politica_precios": {
-      "precio_web_es_referencia": true,
-      "cotizacion_interna_puede_diferir": true,
       "precios_unitarios_incluyen_iva": true,
       "nota_iva": "IMPORTANTE: Los precios unitarios de productos en la KB YA incluyen IVA (22%). NO sumar IVA adicional al calcular totales. Los precios mostrados son precio final con IVA incluido.",
-      "cotizacion_interna_suele_ser_neta_sin_iva": false,
-      "requiere_validacion_comercial": true,
-      "precios_no_varian_por_color": true,
-      "nota_colores": "IMPORTANTE: Los precios de los paneles son los mismos independientemente del color (gris, rojo, blanco, bromyros, etc.). El precio unitario es único por espesor, sin variación por color.",
-      "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización."
+      "cotizacion_interna_suele_ser_neta_sin_iva": false
     },
     "guardrails_precision": [
       "No afirmar precios de accesorios si no están en la KB maestra.",
@@ -358,7 +336,7 @@
     ]
   },
   "contacto": {
-    "direccion_showroom": "Liber Seregni, esq. Los Crisantemos, Maldonado, Uruguay (Coordinar por WhatsApp)",
+    "direccion_showroom": "Montevideo, Uruguay (Coordinar por WhatsApp)",
     "horarios": "Lunes a Viernes 9-18, Sábados 9-13"
   }
 }

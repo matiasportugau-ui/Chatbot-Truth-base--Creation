@@ -1,0 +1,27 @@
+{
+  "correction_id": "KB-FIX-005",
+  "correction_type": "reglas_negocio",
+  "description": "Actualizar dirección del showroom a Liber Seregni, esq. Los Crisantemos, Maldonado",
+  "priority": "P1",
+  "timestamp": "2026-01-26T02:59:22.366935",
+  "affected_files": [
+    "BMC_Base_Conocimiento_GPT-2.json"
+  ],
+  "results": {
+    "BMC_Base_Conocimiento_GPT-2.json": {
+      "success": true,
+      "changes_applied": [
+        "Actualizada regla de negocio: contacto"
+      ],
+      "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "errors": [],
+  "backup_info": {
+    "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-005_20260126_025922",
+    "files": {
+      "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-005_20260126_025922/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "success": true
+}

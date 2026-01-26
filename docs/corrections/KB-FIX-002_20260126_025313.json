@@ -1,0 +1,27 @@
+{
+  "correction_id": "KB-FIX-002",
+  "correction_type": "producto",
+  "description": "ISOROOF 3G es aislante PIR, no EPS",
+  "priority": "P0",
+  "timestamp": "2026-01-26T02:53:13.876214",
+  "affected_files": [
+    "BMC_Base_Conocimiento_GPT-2.json"
+  ],
+  "results": {
+    "BMC_Base_Conocimiento_GPT-2.json": {
+      "success": true,
+      "changes_applied": [
+        "Actualizado campo ignifugo para ISOROOF_3G"
+      ],
+      "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "errors": [],
+  "backup_info": {
+    "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-002_20260126_025313",
+    "files": {
+      "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-002_20260126_025313/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "success": true
+}

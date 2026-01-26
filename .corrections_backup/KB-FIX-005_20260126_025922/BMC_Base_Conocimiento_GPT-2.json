@@ -1,7 +1,7 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "5.5-Unified",
+    "version": "5.4-Unified",
     "fecha": "2026-01-16",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay.",
@@ -36,14 +36,6 @@
         "tipo": "reglas_negocio",
         "cambios": [
           "Actualizada regla de negocio: politica_precios"
-        ]
-      },
-      {
-        "id": "KB-FIX-005",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: contacto"
         ]
       }
     ]
@@ -358,7 +350,7 @@
     ]
   },
   "contacto": {
-    "direccion_showroom": "Liber Seregni, esq. Los Crisantemos, Maldonado, Uruguay (Coordinar por WhatsApp)",
+    "direccion_showroom": "Montevideo, Uruguay (Coordinar por WhatsApp)",
     "horarios": "Lunes a Viernes 9-18, Sábados 9-13"
   }
 }

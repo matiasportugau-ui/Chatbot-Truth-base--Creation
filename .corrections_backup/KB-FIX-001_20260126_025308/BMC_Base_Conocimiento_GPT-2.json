@@ -1,52 +1,10 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "5.5-Unified",
+    "version": "5.0-Unified",
     "fecha": "2026-01-16",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections",
-    "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay.",
-    "correcciones": [
-      {
-        "id": "KB-FIX-001",
-        "fecha": "2026-01-26",
-        "tipo": "producto",
-        "cambios": [
-          "Actualizado campo tipo para ISODEC_EPS"
-        ]
-      },
-      {
-        "id": "KB-FIX-002",
-        "fecha": "2026-01-26",
-        "tipo": "producto",
-        "cambios": [
-          "Actualizado campo ignifugo para ISOROOF_3G"
-        ]
-      },
-      {
-        "id": "KB-FIX-003",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: politica_precios"
-        ]
-      },
-      {
-        "id": "KB-FIX-004",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: politica_precios"
-        ]
-      },
-      {
-        "id": "KB-FIX-005",
-        "fecha": "2026-01-26",
-        "tipo": "reglas_negocio",
-        "cambios": [
-          "Actualizada regla de negocio: contacto"
-        ]
-      }
-    ]
+    "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay."
   },
   "identidad": {
     "nombre_bot": "BMC Assistant",
@@ -85,7 +43,7 @@
   "products": {
     "ISODEC_EPS": {
       "nombre_comercial": "Isodec / Isowall (EPS)",
-      "tipo": "cubierta_liviana",
+      "tipo": "cubierta_pesada",
       "ignifugo": "Estándar (EPS Tipo F - Autoextinguible)",
       "ancho_util": 1.12,
       "sistema_fijacion": "varilla_tuerca",
@@ -155,7 +113,7 @@
     "ISOROOF_3G": {
       "nombre_comercial": "Isoroof Plus (3G)",
       "tipo": "cubierta_liviana",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "ignifugo": "Estándar (EPS)",
       "ancho_util": 1.0,
       "sistema_fijacion": "caballete_tornillo",
       "nota": "A madera NO usa varilla ni tuercas",
@@ -344,12 +302,8 @@
     "politica_precios": {
       "precio_web_es_referencia": true,
       "cotizacion_interna_puede_diferir": true,
-      "precios_unitarios_incluyen_iva": true,
-      "nota_iva": "IMPORTANTE: Los precios unitarios de productos en la KB YA incluyen IVA (22%). NO sumar IVA adicional al calcular totales. Los precios mostrados son precio final con IVA incluido.",
-      "cotizacion_interna_suele_ser_neta_sin_iva": false,
+      "cotizacion_interna_suele_ser_neta_sin_iva": true,
       "requiere_validacion_comercial": true,
-      "precios_no_varian_por_color": true,
-      "nota_colores": "IMPORTANTE: Los precios de los paneles son los mismos independientemente del color (gris, rojo, blanco, bromyros, etc.). El precio unitario es único por espesor, sin variación por color.",
       "nota": "No reemplazar precios Shopify en KB; registrar como precio interno aprobado en la cotización."
     },
     "guardrails_precision": [
@@ -358,7 +312,7 @@
     ]
   },
   "contacto": {
-    "direccion_showroom": "Liber Seregni, esq. Los Crisantemos, Maldonado, Uruguay (Coordinar por WhatsApp)",
+    "direccion_showroom": "Montevideo, Uruguay (Coordinar por WhatsApp)",
     "horarios": "Lunes a Viernes 9-18, Sábados 9-13"
   }
 }

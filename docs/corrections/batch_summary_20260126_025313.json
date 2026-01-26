@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-01-26T02:53:13.883719",
+  "total_corrections": 4,
+  "successful": 4,
+  "failed": 0,
+  "results": [
+    {
+      "correction_id": "KB-FIX-001",
+      "correction_type": "producto",
+      "description": "ISODEC EPS 100mm es cubierta LIVIANA, no pesada",
+      "priority": "P0",
+      "timestamp": "2026-01-26T02:53:13.870143",
+      "affected_files": [
+        "BMC_Base_Conocimiento_GPT-2.json"
+      ],
+      "results": {
+        "BMC_Base_Conocimiento_GPT-2.json": {
+          "success": true,
+          "changes_applied": [
+            "Actualizado campo tipo para ISODEC_EPS"
+          ],
+          "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "errors": [],
+      "backup_info": {
+        "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-001_20260126_025313",
+        "files": {
+          "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-001_20260126_025313/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "success": true
+    },
+    {
+      "correction_id": "KB-FIX-002",
+      "correction_type": "producto",
+      "description": "ISOROOF 3G es aislante PIR, no EPS",
+      "priority": "P0",
+      "timestamp": "2026-01-26T02:53:13.876214",
+      "affected_files": [
+        "BMC_Base_Conocimiento_GPT-2.json"
+      ],
+      "results": {
+        "BMC_Base_Conocimiento_GPT-2.json": {
+          "success": true,
+          "changes_applied": [
+            "Actualizado campo ignifugo para ISOROOF_3G"
+          ],
+          "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "errors": [],
+      "backup_info": {
+        "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-002_20260126_025313",
+        "files": {
+          "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-002_20260126_025313/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "success": true
+    },
+    {
+      "correction_id": "KB-FIX-003",
+      "correction_type": "reglas_negocio",
+      "description": "Los precios unitarios YA incluyen IVA - no sumar IVA adicional",
+      "priority": "P0",
+      "timestamp": "2026-01-26T02:53:13.880309",
+      "affected_files": [
+        "BMC_Base_Conocimiento_GPT-2.json"
+      ],
+      "results": {
+        "BMC_Base_Conocimiento_GPT-2.json": {
+          "success": true,
+          "changes_applied": [
+            "Actualizada regla de negocio: politica_precios"
+          ],
+          "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "errors": [],
+      "backup_info": {
+        "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-003_20260126_025313",
+        "files": {
+          "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-003_20260126_025313/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "success": true
+    },
+    {
+      "correction_id": "KB-FIX-004",
+      "correction_type": "reglas_negocio",
+      "description": "Los precios NO varían por color - mismo precio para todos los colores",
+      "priority": "P1",
+      "timestamp": "2026-01-26T02:53:13.883069",
+      "affected_files": [
+        "BMC_Base_Conocimiento_GPT-2.json"
+      ],
+      "results": {
+        "BMC_Base_Conocimiento_GPT-2.json": {
+          "success": true,
+          "changes_applied": [
+            "Actualizada regla de negocio: politica_precios"
+          ],
+          "file_modified": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "errors": [],
+      "backup_info": {
+        "backup_folder": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-004_20260126_025313",
+        "files": {
+          "BMC_Base_Conocimiento_GPT-2.json": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/.corrections_backup/KB-FIX-004_20260126_025313/BMC_Base_Conocimiento_GPT-2.json"
+        }
+      },
+      "success": true
+    }
+  ]
+}

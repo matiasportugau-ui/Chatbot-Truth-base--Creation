@@ -10,12 +10,14 @@ from .kb_config_agent import GPTKnowledgeBaseAgent
 from .kb_analyzer import KnowledgeBaseAnalyzer
 from .kb_evolver import KnowledgeBaseEvolver
 from .gpt_config_generator import GPTConfigGenerator
+from .correction_agent import GPTCorrectionAgent
 
 __all__ = [
     "GPTKnowledgeBaseAgent",
     "KnowledgeBaseAnalyzer",
     "KnowledgeBaseEvolver",
     "GPTConfigGenerator",
+    "GPTCorrectionAgent",
 ]
 
 __version__ = "1.0.0"

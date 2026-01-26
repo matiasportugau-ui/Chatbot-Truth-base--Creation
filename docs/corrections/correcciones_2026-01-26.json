@@ -1,0 +1,49 @@
+{
+  "corrections": [
+    {
+      "correction_id": "KB-FIX-001",
+      "correction_type": "producto",
+      "description": "ISODEC EPS 100mm es cubierta LIVIANA, no pesada",
+      "priority": "P0",
+      "changes": {
+        "product_id": "ISODEC_EPS",
+        "tipo": "cubierta_liviana"
+      }
+    },
+    {
+      "correction_id": "KB-FIX-002",
+      "correction_type": "producto",
+      "description": "ISOROOF 3G es aislante PIR, no EPS",
+      "priority": "P0",
+      "changes": {
+        "product_id": "ISOROOF_3G",
+        "ignifugo": "Excelente (PIR - Alta resistencia al fuego)"
+      }
+    },
+    {
+      "correction_id": "KB-FIX-003",
+      "correction_type": "reglas_negocio",
+      "description": "Los precios unitarios YA incluyen IVA - no sumar IVA adicional",
+      "priority": "P0",
+      "changes": {
+        "politica_precios": {
+          "precios_unitarios_incluyen_iva": true,
+          "nota_iva": "IMPORTANTE: Los precios unitarios de productos en la KB YA incluyen IVA (22%). NO sumar IVA adicional al calcular totales. Los precios mostrados son precio final con IVA incluido.",
+          "cotizacion_interna_suele_ser_neta_sin_iva": false
+        }
+      }
+    },
+    {
+      "correction_id": "KB-FIX-004",
+      "correction_type": "reglas_negocio",
+      "description": "Los precios NO varían por color - mismo precio para todos los colores",
+      "priority": "P1",
+      "changes": {
+        "politica_precios": {
+          "precios_no_varian_por_color": true,
+          "nota_colores": "IMPORTANTE: Los precios de los paneles son los mismos independientemente del color (gris, rojo, blanco, bromyros, etc.). El precio unitario es único por espesor, sin variación por color."
+        }
+      }
+    }
+  ]
+}

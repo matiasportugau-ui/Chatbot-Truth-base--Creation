@@ -1,0 +1,81 @@
+{
+  "corrections": [
+    {
+      "correction_id": "KB-001",
+      "correction_type": "institucional",
+      "description": "Actualizar descripción institucional - BMC no fabrica",
+      "priority": "P0",
+      "changes": {
+        "descripcion": "BMC Uruguay no fabrica. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial para definir la solución correcta según la obra.",
+        "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, optimizar estructura, reducir tiempos de obra y evitar problemas a futuro."
+      }
+    },
+    {
+      "correction_id": "KB-002",
+      "correction_type": "institucional",
+      "description": "Actualizar diferencial competitivo",
+      "priority": "P0",
+      "changes": {
+        "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, optimizar estructura, reducir tiempos de obra y evitar problemas a futuro."
+      }
+    },
+    {
+      "correction_id": "KB-003",
+      "correction_type": "producto",
+      "description": "Agregar producto Isofrig PIR para cámaras frigoríficas",
+      "priority": "P1",
+      "changes": {
+        "product_id": "ISOFRIG_PIR",
+        "nombre_comercial": "Isofrig (PIR)",
+        "tipo": "pared_frigorifica",
+        "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+        "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
+        "espesores": {
+          "50": {
+            "autoportancia": 3.0,
+            "precio": 55.0,
+            "coeficiente_termico": 0.022,
+            "resistencia_termica": 2.27
+          },
+          "80": {
+            "autoportancia": 4.5,
+            "precio": 60.0,
+            "coeficiente_termico": 0.022,
+            "resistencia_termica": 3.64
+          },
+          "100": {
+            "autoportancia": 5.5,
+            "precio": 65.0,
+            "coeficiente_termico": 0.022,
+            "resistencia_termica": 4.55
+          }
+        },
+        "lineas_mencionadas": {
+          "paredes_y_fachadas": ["Isopanel EPS", "Isowall PIR", "Isofrig PIR"]
+        }
+      }
+    },
+    {
+      "correction_id": "KB-PRICE-001",
+      "correction_type": "precio",
+      "description": "Actualizar precio de ISODEC EPS 100mm",
+      "priority": "P0",
+      "changes": {
+        "product_id": "ISODEC_EPS",
+        "espesor": "100",
+        "nuevo_precio": 47.50
+      }
+    },
+    {
+      "correction_id": "KB-CAP-001",
+      "correction_type": "capabilities",
+      "description": "Actualizar política de transcripción de audio",
+      "priority": "P1",
+      "changes": {
+        "audio": {
+          "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback."
+        }
+      }
+    }
+  ]
+}
