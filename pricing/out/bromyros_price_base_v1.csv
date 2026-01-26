@@ -1,0 +1,104 @@
+sku,name,thickness_mm,length_m,tipo,familia,unit_base,cost_sin_iva,sale_sin_iva,sale_iva_inc,web_sin_iva,web_iva_inc,business_margin_pct,web_margin_pct,sale_iva_consistent,web_iva_consistent,sale_sin_iva_per_ml,sale_iva_inc_per_ml
+IAGRO30,Isoroof FOIL 30 mm - Color Gris-Rojo,30,,panel,ISOROOF_3G,m2,28.18,32.41,39.54,48.13,30.9988096,13.05,41.45,True,False,,
+IAGRO50,Isoroof FOIL 50 mm - Color Rojo-Gris,50,,panel,ISOROOF_3G,m2,31.95,36.74,44.82,54.56,35.14005682,13.04,41.44,True,False,,
+IROOF30,Isoroof 30 mm Terracota o Gris,30,,panel,ISOROOF_3G,m2,34.74,39.95,48.74,59.33,38.2116075,13.04,41.45,True,False,,
+IROOF40,Isoroof 40 mm Terracota o Gris,40,,panel,ISOROOF_3G,m2,36.77,42.29,51.59,62.81,40.4506135,13.05,41.46,True,False,,
+IROOF50,Isoroof 50 mm Terracota o Gris,50,,panel,ISOROOF_3G,m2,38.26,44.0,53.68,65.35,42.084174,13.05,41.45,True,False,,
+IROOF80,Isoroof 80 mm - Gris - Rojo,80,,panel,ISOROOF_3G,m2,44.98,51.73,63.11,76.83,49.4806235,13.05,41.46,True,False,,
+IROOF50-PLS,Isoroof Plus 50 mm - Gris - Rojo (MINIMO 800 M2),50,,panel,ISOROOF_3G,m2,41.92,48.21,58.81,71.6,46.112,13.05,41.45,True,False,,
+IROOF80-PLS,Isoroof Plus 80 mm - Gris - Rojo,80,,panel,ISOROOF_3G,m2,51.15,58.82,71.76,87.36,56.2628715,13.04,41.45,True,False,,
+IAGRO30,Isoroof COLONIAL 40 mm - Color simil teja,30,,panel,ISOROOF_3G,m2,53.97,62.07,75.72,,,13.05,,True,,,
+FLETEBRO,Flete de Bromyros en Zonas Aledañas,,,otro,accesorio,unidad,180.0,240.0,292.8,307.44,,25.0,41.45,True,,,
+C.But.,Cinta Butilo 2mm x 15mm x 22.5m lineales,2,22.5,accesorio,consumible,unidad,13.16,15.13,18.46,22.48,,13.02,41.46,True,,0.67,0.82
+Cab. Roj,"Caballete Rojo Teja, Gris y blanco- (Arandela Trapezoidal)",,,accesorio,anclaje,unidad,0.38,0.57,0.7,0.65,,33.33,41.54,True,,,
+Bromplast,Bromplast 8 - Silicona Neutra  X 600,,,accesorio,consumible,unidad,9.1,10.92,13.33,15.55,,16.67,41.48,True,,,
+GFS30,Gotero Frontal Simple 30mm Prep.,30,,perfil,gotero,metro_lineal,18.24,21.89,26.7,31.15,,16.67,41.44,True,,,
+GFS50,Gotero Frontal Simple 50mm Prep.,50,,perfil,gotero,metro_lineal,19.31,23.17,28.27,32.98,,16.66,41.45,True,,,
+GFS80,Gotero Frontal Simple 80mm Prep.,80,,perfil,gotero,metro_lineal,20.31,24.37,29.73,34.68,,16.66,41.44,True,,,
+GFSUP30,Gotero Superior 30mm Prep.,30,,perfil,gotero,metro_lineal,32.51,39.01,47.59,55.52,,16.66,41.44,True,,,
+GFSUP40,Gotero Superior 40mm Prep.,40,,perfil,gotero,metro_lineal,29.44,35.33,43.1,50.29,,16.67,41.46,True,,,
+GFSUP50,Gotero Superior 50mm Prep.,50,,perfil,gotero,metro_lineal,33.49,40.19,49.03,57.2,,16.67,41.45,True,,,
+GFSUP80,Gotero Superior 80mm Prep.,80,,perfil,gotero,metro_lineal,35.52,42.62,52.0,60.67,,16.66,41.45,True,,,
+GFCGR30,Gotero frontal con greca  1 x panel  30 - 40 - 50 - 80 mm,80,,perfil,gotero,metro_lineal,19.12,24.86,30.33,32.66,,23.09,41.46,True,,,
+GSDECAM30,Gotero Superior  -  DE CAMARA  30mm,30,,perfil,gotero,metro_lineal,26.38,31.66,38.62,45.06,,16.68,41.46,True,,,
+GSDECAM40,Gotero Superior  -  DE CAMARA  40mm,40,,perfil,gotero,metro_lineal,31.47,37.77,46.08,53.75,,16.68,41.45,True,,,
+GSDECAM50,Gotero Superior  -  DE CAMARA  50mm,50,,perfil,gotero,metro_lineal,31.47,37.77,46.08,53.75,,16.68,41.45,True,,,
+GSDECAM80,Gotero Superior  -  DE CAMARA  80mm,80,,perfil,gotero,metro_lineal,34.49,41.38,50.49,58.9,,16.65,41.44,True,,,
+GL30,Gotero Lateral 30mm  Prep.,30,,perfil,gotero,metro_lineal,25.14,30.17,36.8,42.94,,16.67,41.45,True,,,
+GL40,Gotero Lateral 40mm  Prep.,40,,perfil,gotero,metro_lineal,26.12,31.35,38.24,44.62,,16.68,41.46,True,,,
+GL50,Gotero Lateral 50mm  Prep.,50,,perfil,gotero,metro_lineal,27.14,32.57,39.74,46.36,,16.67,41.46,True,,,
+GL80,Gotero Lateral 80mm  Prep.,80,,perfil,gotero,metro_lineal,29.15,34.98,42.67,49.78,,16.67,41.44,True,,,
+GLDCAM50,Gotero Lateral   CAMARA  50mm  Prep.,50,,perfil,gotero,metro_lineal,25.7,30.85,37.63,43.9,,16.69,41.46,True,,,
+GLDCAM80,Gotero Lateral  CAMARA  80mm  Prep.,80,,perfil,gotero,metro_lineal,28.93,34.71,42.35,49.41,,16.65,41.45,True,,,
+BBAS3G,Babeta de Atornillar Superior 3G,,,perfil,babeta,metro_lineal,27.34,32.81,40.03,46.7,,16.67,41.46,True,,,
+BBESUP,Babeta de Empotrar Superior 3G,,,perfil,babeta,metro_lineal,14.57,17.49,21.34,24.89,,16.7,41.46,True,,,
+BBAL,Babeta de Atornillar Lateral,,,perfil,babeta,metro_lineal,26.34,31.61,38.57,45.0,,16.67,41.47,True,,,
+BBAL,Babeta de Empotrar Lateral,,,perfil,babeta,metro_lineal,26.34,31.61,38.57,45.0,,16.67,41.47,True,,,
+CD30,"Canalón Doble roof 30mm / base 150mm + tapas + agujero + bajada / 3,03 m",30,3.03,perfil,canalon,metro_lineal,82.75,99.29,121.14,141.33,,16.66,41.45,True,,32.77,39.98
+CD50,"Canalón Doble roof 50mm / base 150mm + tapas + agujero + bajada / 3,03 m",50,3.03,perfil,canalon,metro_lineal,84.31,101.17,123.43,144.0,,16.67,41.45,True,,33.39,40.74
+CD80,"Canalón Doble roof 80mm / base 150mm + tapas + agujero + bajada / 3,03 m",80,3.03,perfil,canalon,metro_lineal,85.5,102.6,125.17,146.03,,16.67,41.45,True,,33.86,41.31
+SOPCAN3M,Soporte para Canalón Isoroof (3m),,3.0,perfil,canalon,metro_lineal,13.0,15.6,19.03,22.2,,16.67,41.44,True,,5.2,6.34
+CUMROOF3M,Cumbrera Roof 3G de 3 m,,3.0,perfil,cumbrera,metro_lineal,40.57,48.69,59.4,69.3,,16.68,41.46,True,,16.23,19.8
+CUMROOF3M,"Cumbrera Roof COLONIAL - 2,2 m (2 piezas de 1,1m)",,2.2,perfil,cumbrera,metro_lineal,81.55,97.86,119.39,139.29,,16.67,41.45,True,,44.48,54.27
+IW50,Isowall 50 mm PIR - GRIS / Blanco,50,,panel,ISODEC_EPS,m2,34.37,41.25,50.32,58.71,,16.68,41.46,True,,,
+IW50,Isowall 80 mm PIR - GRIS / Blanco,50,,panel,ISODEC_EPS,m2,40.81,48.97,59.75,69.7,,16.66,41.45,True,,,
+IW50,Isowall 50 mm,50,,panel,ISODEC_EPS,m2,38.95,44.8,54.65,66.53,,13.06,41.45,True,,,
+IW80,Isowall 80 mm,80,,panel,ISODEC_EPS,m2,46.45,53.42,65.17,79.34,,13.05,41.45,True,,,
+IW100,Isowall 100 mm,100,,panel,ISODEC_EPS,m2,49.18,56.56,69.0,84.0,,13.05,41.45,True,,,
+IF40,IsoFrig 40 mm,40,,panel,ISODEC_EPS,m2,36.27,43.53,53.11,61.96,,16.68,41.46,True,,,
+IF60 - IFSL60,IsoFrig - Sala Limpia 60 mm,60,,panel,ISODEC_EPS,m2,41.22,47.4,57.83,70.4,,13.04,41.45,True,,,
+IF80 - IFSL80,IsoFrig - Sala Limpia 80 mm,80,,panel,ISODEC_EPS,m2,45.47,52.29,63.8,77.67,,13.04,41.46,True,,,
+IF100 - IFSL100,IsoFrig - Sala Limpia 100 mm,100,,panel,ISODEC_EPS,m2,50.44,58.01,70.77,86.15,,13.05,41.45,True,,,
+IF120 - IFSL120,IsoFrig - Sala Limpia 120 mm,120,,panel,ISODEC_EPS,m2,60.29,69.34,84.59,102.98,,13.05,41.45,True,,,
+IF150 - IFSL150,IsoFrig - Sala Limpia 150 mm,150,,panel,ISODEC_EPS,m2,61.19,70.37,85.85,104.51,,13.05,41.45,True,,,
+IF180 - IFSL180,IsoFrig - Sala limpia 180 mm,180,,panel,ISODEC_EPS,m2,75.07,86.33,105.33,128.22,,13.04,41.45,True,,,
+ISD50EPS,ISOPANEL EPS 50 mm,50,,panel,ISODEC_EPS,m2,29.85,34.32,41.88,50.98,,13.02,41.45,True,,,
+ISD100EPS,ISOPANEL EPS 100 mm,100,,panel,ISODEC_EPS,m2,32.83,37.76,46.07,56.08,,13.06,41.46,True,,,
+ISD150EPS,ISOPANEL EPS 150 mm,150,,panel,ISODEC_EPS,m2,36.94,42.48,51.82,63.09,,13.04,41.45,True,,,
+ISD200EPS,ISOPANEL EPS 200 mm,200,,panel,ISODEC_EPS,m2,41.42,47.64,58.12,70.75,,13.06,41.46,True,,,
+ISD250EPS,ISOPANEL EPS 250mm,250,,panel,ISODEC_EPS,m2,45.53,52.35,63.87,77.76,,13.03,41.45,True,,,
+PU50MM,Perfil Ch. Blanco U 40 mm x 35 mm ISOFRIG / 3 m,40,3.0,perfil,perfil,metro_lineal,13.85,16.62,20.27,23.65,,16.67,41.44,True,,5.54,6.76
+PU50MM,Perfil Ch. Blanco U 50 mm x 35 mm / 3 m (ISOWALL - ISOPANEL),50,3.0,perfil,perfil,metro_lineal,9.91,11.9,14.51,16.93,,16.72,41.46,True,,3.97,4.84
+PU50MM,Perfil Ch. Blanco U 60 mm x 35 mm ISOFRIG / 3 m,60,3.0,perfil,perfil,metro_lineal,13.85,16.62,20.27,23.65,,16.67,41.44,True,,5.54,6.76
+PU50MM,Perfil Ch. Blanco U 80 mm x 35 mm ISOWALL / 3 m,80,3.0,perfil,perfil,metro_lineal,17.27,20.72,25.28,29.49,,16.65,41.44,True,,6.91,8.43
+PU100MM,Perfil Ch. Blanco U 100 mm x 35 mm / 3 m,100,3.0,perfil,perfil,metro_lineal,12.32,14.79,18.04,21.05,,16.7,41.47,True,,4.93,6.01
+PU150MM,Perfil Ch. Blanco U 120 mm x 35 mm ISOFRIG / 3 m,120,3.0,perfil,perfil,metro_lineal,20.76,24.91,30.39,35.46,,16.66,41.46,True,,8.3,10.13
+PU150MM,Perfil Ch. Blanco U 150 mm x 35 mm / 3 m,150,3.0,perfil,perfil,metro_lineal,13.85,16.62,20.27,23.65,,16.67,41.44,True,,5.54,6.76
+PU150MM,Perfil Ch. Blanco U 180 mm x 35 mm ISOFRIG / 3 m,180,3.0,perfil,perfil,metro_lineal,20.76,24.91,30.39,35.46,,16.66,41.46,True,,8.3,10.13
+PU200MM,Perfil Ch. Blanco U 200 mm x 35 mm / 3 m,200,3.0,perfil,perfil,metro_lineal,17.27,20.72,25.28,29.49,,16.65,41.44,True,,6.91,8.43
+PU250MM,Perfil Ch. Blanco U 250 mm x 35 mm / 3 m,250,3.0,perfil,perfil,metro_lineal,20.76,24.91,30.39,35.46,,16.66,41.46,True,,8.3,10.13
+PLEGU148,Plegado Galv. Tipo U 148 mm / 2 m de largo,148,2.0,otro,accesorio,unidad,28.23,33.87,41.32,48.21,,16.65,41.44,True,,16.93,20.66
+PLECHU98,Plegado Galv. Tipo U 98 mm / 2 m de largo,98,2.0,otro,accesorio,unidad,21.65,25.97,31.69,36.97,,16.63,41.44,True,,12.98,15.85
+ISD100EPS,ISODEC EPS 100 mm,100,,panel,ISODEC_EPS,m2,32.83,37.76,46.07,56.08,,13.06,41.46,True,,,
+ISD150EPS,ISODEC EPS 150 mm,150,,panel,ISODEC_EPS,m2,36.94,42.48,51.82,63.09,,13.04,41.45,True,,,
+ISD200EPS,ISODEC EPS 200 mm,200,,panel,ISODEC_EPS,m2,41.42,47.64,58.12,70.75,,13.06,41.46,True,,,
+ISD250EPS,ISODEC EPS 250mm,250,,panel,ISODEC_EPS,m2,45.53,52.35,63.87,77.76,,13.03,41.45,True,,,
+ISD50PIR,ISODEC 50mm PIR (EVITAR ESTE ESPESOR),50,,panel,ISODEC_PIR,m2,36.37,41.82,51.02,62.11,,13.03,41.44,True,,,
+ISD80PIR,ISODEC 80mm PIR,80,,panel,ISODEC_PIR,m2,37.38,42.99,52.44,63.84,,13.05,41.45,True,,,
+ISD80PIR,ISODEC 120mm PIR,80,,panel,ISODEC_PIR,m2,44.68,51.38,62.69,76.31,,13.04,41.45,True,,,
+GF80DC,"Perf. Ch. Gotero Frontal 50mm - ISODEC PIR  - (3,03m)",50,3.03,perfil,gotero,metro_lineal,16.64,19.97,24.36,28.42,,16.68,41.45,True,,6.59,8.04
+GF120DC,"Perf. Ch. Gotero Frontal 80mm - ISODEC PIR  - (3,03m)",80,3.03,perfil,gotero,metro_lineal,17.39,20.87,25.46,29.7,,16.67,41.45,True,,6.89,8.4
+6838,"Perf. Ch. Gotero Frontal 100mm - (3,03m)",100,3.03,perfil,gotero,metro_lineal,15.55,18.65,22.76,26.55,,16.62,41.43,True,,6.16,7.51
+GF120DC,"Perf. Ch. Gotero Frontal 120mm - ISODEC PIR  - (3,03m)",120,3.03,perfil,gotero,metro_lineal,20.58,24.69,30.12,35.14,,16.65,41.43,True,,8.15,9.94
+6839,"Perf. Ch. Gotero Frontal 150mm - (3,03m)",150,3.03,perfil,gotero,metro_lineal,19.22,23.07,28.14,32.83,,16.69,41.46,True,,7.61,9.29
+6840,"Perf. Ch. Gotero Frontal 200mm - (3,03m)",200,3.03,perfil,gotero,metro_lineal,23.37,28.04,34.21,39.91,,16.65,41.44,True,,9.25,11.29
+6841,"Perf. Ch. Gotero Frontal 250mm - (3,03m)",250,3.03,perfil,gotero,metro_lineal,23.6,28.32,34.55,40.31,,16.67,41.45,True,,9.35,11.4
+GL80DC,Perf. Ch. Gotero Lateral 50mm - ISODEC PIR  - (3m),50,3.0,perfil,gotero,metro_lineal,22.09,26.51,32.34,37.73,,16.67,41.45,True,,8.84,10.78
+GL80DC,Perf. Ch. Gotero Lateral 80mm - ISODEC PIR  - (3m),80,3.0,perfil,gotero,metro_lineal,22.09,26.51,32.34,37.73,,16.67,41.45,True,,8.84,10.78
+6842,Perf. Ch. Gotero Lateral 100mm - (3m),100,3.0,perfil,gotero,metro_lineal,20.6,24.72,30.16,35.19,,16.67,41.46,True,,8.24,10.05
+GL120DC,Perf. Ch. Gotero Lateral 120mm - ISODEC PIR  - (3m),120,3.0,perfil,gotero,metro_lineal,25.9,31.08,37.92,44.24,,16.67,41.46,True,,10.36,12.64
+6843,Perf. Ch. Gotero Lateral 150mm - (3m),150,3.0,perfil,gotero,metro_lineal,24.216,29.06,35.45,41.36,,16.67,41.45,True,,9.69,11.82
+6844,Perf. Ch. Gotero Lateral 200mm - (3m),200,3.0,perfil,gotero,metro_lineal,31.48,37.78,46.09,53.78,,16.68,41.47,True,,12.59,15.36
+6845,Perf. Ch. Gotero Lateral 250mm - (3m),250,3.0,perfil,gotero,metro_lineal,31.64,37.97,46.33,54.05,,16.67,41.46,True,,12.66,15.44
+6847,Perfil Cumbrera,,,perfil,cumbrera,metro_lineal,23.37,28.04,34.21,39.91,,16.65,41.44,True,,,
+6828,Babeta ISODEC de Adosar,,,perfil,babeta,metro_lineal,12.09,14.51,17.7,20.65,,16.68,41.45,True,,,
+6865,Babeta ISODEC de empotrar,,,perfil,babeta,metro_lineal,12.09,14.51,17.7,20.65,,16.68,41.45,True,,,
+6825,Vaina ISODEC Sist 2000,,,otro,accesorio,unidad,9.0,10.8,13.18,15.38,,16.67,41.48,True,,,
+CAN.ISDC120,Canalón Isodec 50mm ISODEC PIR,50,,panel,ISODEC_EPS,m2,77.72,93.26,113.78,132.74,,16.66,41.45,True,,,
+CAN.ISDC120,Canalón Isodec 80mm ISODEC PIR,80,,panel,ISODEC_EPS,m2,77.72,93.26,113.78,132.74,,16.66,41.45,True,,,
+6801,Canalón Estandar 100 mm,100,,perfil,canalon,metro_lineal,68.96,82.75,100.96,117.78,,16.66,41.45,True,,,
+CAN.ISDC120,Canalón Isodec 120mm ISODEC PIR,120,,panel,ISODEC_EPS,m2,77.72,93.26,113.78,132.74,,16.66,41.45,True,,,
+6802,Canalón Estandar 150 mm,150,,perfil,canalon,metro_lineal,70.43,84.52,103.12,120.3,,16.67,41.45,True,,,
+6803,Canalón Estandar 200 mm,200,,perfil,canalon,metro_lineal,79.07,94.88,115.76,135.05,,16.66,41.45,True,,,
+6804,Canalón Estandar 250 mm,250,,perfil,canalon,metro_lineal,88.61,106.33,129.73,151.35,,16.67,41.45,True,,,
+6805,Soporte de Canalón de 3 m,,3.0,perfil,canalon,metro_lineal,15.8,18.96,23.14,26.99,,16.67,41.46,True,,6.32,7.71

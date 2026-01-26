@@ -1,0 +1,39 @@
+status,sku,name,kb_key,thickness_mm,sheet_price,kb_price,delta,delta_pct,severity,message
+match,IROOF30,Isoroof 30 mm Terracota o Gris,ISOROOF_3G,30,48.74,48.74,0.0,0.0,ok,Price matches within tolerance
+match,IW50,Isowall 50 mm,ISOWALL_PIR,50,54.65,54.65,0.0,0.0,ok,Price matches within tolerance
+match,ISD100EPS,ISOPANEL EPS 100 mm,ISODEC_EPS,100,46.07,46.07,0.0,0.0,ok,Price matches within tolerance
+match,ISD150EPS,ISOPANEL EPS 150 mm,ISODEC_EPS,150,51.82,51.5,0.32,0.62,ok,Price matches within tolerance
+match,ISD100EPS,ISODEC EPS 100 mm,ISODEC_EPS,100,46.07,46.07,0.0,0.0,ok,Price matches within tolerance
+match,ISD150EPS,ISODEC EPS 150 mm,ISODEC_EPS,150,51.82,51.5,0.32,0.62,ok,Price matches within tolerance
+match,ISD50PIR,ISODEC 50mm PIR (EVITAR ESTE ESPESOR),ISODEC_PIR,50,51.02,51.02,0.0,0.0,ok,Price matches within tolerance
+mismatch,IAGRO30,Isoroof FOIL 30 mm - Color Gris-Rojo,ISOROOF_3G,30,39.54,48.74,-9.2,18.88,high,Price mismatch: 18.88% delta ($-9.20)
+mismatch,IAGRO50,Isoroof FOIL 50 mm - Color Rojo-Gris,ISOROOF_3G,50,44.82,53.0,-8.18,15.43,high,Price mismatch: 15.43% delta ($-8.18)
+mismatch,IROOF50,Isoroof 50 mm Terracota o Gris,ISOROOF_3G,50,53.68,53.0,0.68,1.28,medium,Price mismatch: 1.28% delta ($+0.68)
+mismatch,IROOF80,Isoroof 80 mm - Gris - Rojo,ISOROOF_3G,80,63.11,62.0,1.11,1.79,medium,Price mismatch: 1.79% delta ($+1.11)
+mismatch,IROOF50-PLS,Isoroof Plus 50 mm - Gris - Rojo (MINIMO 800 M2),ISOROOF_3G,50,58.81,53.0,5.81,10.96,high,Price mismatch: 10.96% delta ($+5.81)
+mismatch,IROOF80-PLS,Isoroof Plus 80 mm - Gris - Rojo,ISOROOF_3G,80,71.76,62.0,9.76,15.74,high,Price mismatch: 15.74% delta ($+9.76)
+mismatch,IAGRO30,Isoroof COLONIAL 40 mm - Color simil teja,ISOROOF_3G,30,75.72,48.74,26.98,55.35,high,Price mismatch: 55.35% delta ($+26.98)
+mismatch,IW50,Isowall 50 mm PIR - GRIS / Blanco,ISOWALL_PIR,50,50.32,54.65,-4.33,7.92,high,Price mismatch: 7.92% delta ($-4.33)
+mismatch,IW50,Isowall 80 mm PIR - GRIS / Blanco,ISOWALL_PIR,50,59.75,54.65,5.1,9.33,high,Price mismatch: 9.33% delta ($+5.10)
+mismatch,IW80,Isowall 80 mm,ISOWALL_PIR,80,65.17,64.0,1.17,1.83,medium,Price mismatch: 1.83% delta ($+1.17)
+mismatch,ISD200EPS,ISOPANEL EPS 200 mm,ISODEC_EPS,200,58.12,57.0,1.12,1.96,medium,Price mismatch: 1.96% delta ($+1.12)
+mismatch,ISD250EPS,ISOPANEL EPS 250mm,ISODEC_EPS,250,63.87,62.5,1.37,2.19,medium,Price mismatch: 2.19% delta ($+1.37)
+mismatch,ISD200EPS,ISODEC EPS 200 mm,ISODEC_EPS,200,58.12,57.0,1.12,1.96,medium,Price mismatch: 1.96% delta ($+1.12)
+mismatch,ISD250EPS,ISODEC EPS 250mm,ISODEC_EPS,250,63.87,62.5,1.37,2.19,medium,Price mismatch: 2.19% delta ($+1.37)
+mismatch,ISD80PIR,ISODEC 80mm PIR,ISODEC_PIR,80,52.44,55.0,-2.56,4.65,medium,Price mismatch: 4.65% delta ($-2.56)
+mismatch,ISD80PIR,ISODEC 120mm PIR,ISODEC_PIR,80,62.69,55.0,7.69,13.98,high,Price mismatch: 13.98% delta ($+7.69)
+missing_in_kb,IROOF40,Isoroof 40 mm Terracota o Gris,ISOROOF_3G,40,51.59,,,,medium,Not found in KB: ISOROOF_3G @ 40mm
+missing_in_kb,IW100,Isowall 100 mm,ISOWALL_PIR,100,69.0,,,,medium,Not found in KB: ISOWALL_PIR @ 100mm
+missing_in_kb,IF40,IsoFrig 40 mm,ISOFRIG_PIR,40,53.11,,,,medium,Not found in KB: ISOFRIG_PIR @ 40mm
+missing_in_kb,IF60 - IFSL60,IsoFrig - Sala Limpia 60 mm,ISOFRIG_PIR,60,57.83,,,,medium,Not found in KB: ISOFRIG_PIR @ 60mm
+missing_in_kb,IF80 - IFSL80,IsoFrig - Sala Limpia 80 mm,ISOFRIG_PIR,80,63.8,,,,medium,Not found in KB: ISOFRIG_PIR @ 80mm
+missing_in_kb,IF100 - IFSL100,IsoFrig - Sala Limpia 100 mm,ISOFRIG_PIR,100,70.77,,,,medium,Not found in KB: ISOFRIG_PIR @ 100mm
+missing_in_kb,IF120 - IFSL120,IsoFrig - Sala Limpia 120 mm,ISOFRIG_PIR,120,84.59,,,,medium,Not found in KB: ISOFRIG_PIR @ 120mm
+missing_in_kb,IF150 - IFSL150,IsoFrig - Sala Limpia 150 mm,ISOFRIG_PIR,150,85.85,,,,medium,Not found in KB: ISOFRIG_PIR @ 150mm
+missing_in_kb,IF180 - IFSL180,IsoFrig - Sala limpia 180 mm,ISOFRIG_PIR,180,105.33,,,,medium,Not found in KB: ISOFRIG_PIR @ 180mm
+missing_in_kb,ISD50EPS,ISOPANEL EPS 50 mm,ISODEC_EPS,50,41.88,,,,medium,Not found in KB: ISODEC_EPS @ 50mm
+missing_in_sheet,,,ISODEC_PIR,120,,62.0,,,info,Present in KB but missing from sheet: ISODEC_PIR @ 120mm
+missing_in_sheet,,,ISOPANEL_EPS,50,,41.88,,,info,Present in KB but missing from sheet: ISOPANEL_EPS @ 50mm
+missing_in_sheet,,,ISOPANEL_EPS,100,,46.0,,,info,Present in KB but missing from sheet: ISOPANEL_EPS @ 100mm
+missing_in_sheet,,,ISOPANEL_EPS,150,,51.5,,,info,Present in KB but missing from sheet: ISOPANEL_EPS @ 150mm
+missing_in_sheet,,,ISOPANEL_EPS,200,,57.0,,,info,Present in KB but missing from sheet: ISOPANEL_EPS @ 200mm

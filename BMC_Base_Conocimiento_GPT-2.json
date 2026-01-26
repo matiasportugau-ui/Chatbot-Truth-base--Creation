@@ -6,32 +6,12 @@
     "validado_con": "31 presupuestos reales + Technical Truth Corrections",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay."
   },
-  "institucional": {
-    "nombre_empresa": "BMC Uruguay",
-    "actividad_principal": "Comercialización, suministro y asesoramiento técnico de paneles aislantes y sistemas constructivos",
-    "importante": "BMC Uruguay NO fabrica. Suministra/comercializa productos de fabricantes especializados y brinda asesoramiento técnico integral.",
-    "diferencial": {
-      "descripcion": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, optimizar estructura, reducir tiempos de obra y evitar problemas a futuro",
-      "enfoque": "Venta consultiva - No somos despachantes de productos, somos asesores técnicos que acompañan la decisión de compra",
-      "valor_agregado": [
-        "Análisis técnico del proyecto antes de cotizar",
-        "Validación de autoportancia y requerimientos estructurales",
-        "Optimización de la solución para el caso específico del cliente",
-        "Asesoramiento en la elección del sistema más adecuado",
-        "Capacidad de decir 'no conviene' cuando corresponde"
-      ]
-    },
-    "alcance_servicios": {
-      "incluye": ["Venta de materiales", "Asesoramiento técnico", "Cotizaciones detalladas", "Soporte pre y post venta"],
-      "no_incluye": ["Fabricación", "Instalación/colocación"]
-    }
-  },
   "identidad": {
     "nombre_bot": "BMC Assistant",
-    "rol": "Experto Técnico y Comercial en Isopaneles y Construcción Seca - Soporte para comercialización y asesoramiento técnico (NO fabricación)",
+    "rol": "Experto Técnico y Comercial en Isopaneles y Construcción Seca",
     "tono": "Profesional, técnico pero accesible, orientado a la Venta Consultiva.",
     "objetivo": "Guiar al cliente hacia la solución técnica más adecuada (priorizando seguridad y eficiencia) y generar una cotización precisa.",
-    "aclaracion_critica": "BMC Uruguay comercializa y asesora, NO fabrica los productos."
+    "aclaracion_critica": "BMC Uruguay NO fabrica productos. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial. Es un integrador técnico-comercial, no un fabricante."
   },
   "institucional": {
     "empresa": "BMC Uruguay",
@@ -59,10 +39,6 @@
     "audio": {
       "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback. Si el usuario insiste, explicar la limitación y ofrecer guía para que lo transcriba/pegue el texto."
     }
-  },
-  "institucional": {
-    "descripcion": "BMC Uruguay suministra y comercializa sistemas constructivos y brinda asesoramiento técnico especializado. No fabrica productos; integra soluciones y acompaña la decisión técnica.",
-    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura y tiempos de obra, y evitar problemas futuros."
   },
   "products": {
     "ISODEC_EPS": {
@@ -200,20 +176,6 @@
       }
     },
     "ISOFRIG_PIR": {
-      "nombre_comercial": "Isofrig (PIR)",
-      "tipo": "pared",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
-      "ancho_util": 1.1,
-      "sistema_fijacion": "varilla_tuerca",
-      "nota": "Producto similar a Isowall Pared (PIR); espesores y precios alineados mientras no se disponga de tabla propia.",
-      "espesores": {
-        "50": {
-          "precio": 54.65
-        },
-        "80": {
-          "precio": 64.0
-        }
-      }
       "nombre_comercial": "Isofrig PIR",
       "tipo": "pared (cámaras frigoríficas / cerramientos)",
       "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
@@ -221,47 +183,6 @@
       "sistema_fijacion": "varilla_tuerca",
       "espesores": {},
       "nota": "Producto/línea comercial mencionada. Faltan espesores/precios/ficha técnica en esta base; NO cotizar sin validación técnica/comercial."
-      "nombre_comercial": "Isofrig (PIR)",
-      "tipo": "pared_frigorifica",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
-      "ancho_util": 1.1,
-      "sistema_fijacion": "varilla_tuerca",
-      "espesores": {
-        "100": { "precio": "Consultar" },
-        "150": { "precio": "Consultar" },
-        "200": { "precio": "Consultar" }
-      },
-      "nota": "Panel específico para cámaras frigoríficas y logística de frío."
-      "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
-      "caracteristicas": [
-        "Panel PIR especializado para aplicaciones frigoríficas",
-        "Alta resistencia al fuego",
-        "Excelente aislamiento térmico para control de temperatura",
-        "Apto para ambientes con temperaturas extremas"
-      ],
-      "espesores": {
-        "50": {
-          "coeficiente_termico": 0.022,
-          "resistencia_termica": 2.27,
-          "nota": "Consultar precio actualizado"
-        },
-        "80": {
-          "coeficiente_termico": 0.022,
-          "resistencia_termica": 3.64,
-          "nota": "Consultar precio actualizado"
-        },
-        "100": {
-          "coeficiente_termico": 0.022,
-          "resistencia_termica": 4.55,
-          "nota": "Consultar precio actualizado"
-        },
-        "120": {
-          "coeficiente_termico": 0.022,
-          "resistencia_termica": 5.45,
-          "nota": "Consultar precio actualizado"
-        }
-      },
-      "nota_importante": "Precios sujetos a cotización específica según requerimientos del proyecto frigorífico"
     },
     "HM_RUBBER": {
       "nombre_comercial": "HM Rubber 7-en-1",
@@ -362,8 +283,7 @@
       "refuerzos perimetrales"
     ],
     "estrategia_venta": [
-      "DEFINIR DIFERENCIAL: Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura, tiempos de obra y problemas a futuro.",
-      "BMC NO FABRICA: Suministra y comercializa sistemas constructivos de alta calidad y brinda asesoramiento técnico integral.",
+      "IMPORTANTE: Recordar siempre que BMC Uruguay NO fabrica productos. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial. Esta aclaración es crítica para evitar malentendidos con clientes.",
       "Si el cliente quiere techar un área determinada, preguntar siempre la distancia entre apoyos (luz) existente o proyectada.",
       "Sugerir el panel que permita mayor autoportancia para ahorrar en estructura de soporte.",
       "Si es vivienda o industria con riesgo, sugerir PIR por seguridad.",
@@ -376,11 +296,8 @@
     ],
     "servicios": {
       "instalaciones": false,
-      "nota": "BMC vende materiales y brinda asesoramiento técnico; no fabrica ni realiza colocación."
-    },
-    "politica_audio": {
-      "transcripcion_habilitada": false,
-      "instruccion": "Si el usuario comparte audio, solicitar transcripción o resumen en texto para poder analizarlo."
+      "fabricacion": false,
+      "nota": "BMC Uruguay NO fabrica productos. Suministra/comercializa materiales y brinda asesoramiento técnico-comercial; no realiza colocación ni fabricación."
     },
     "politica_precios": {
       "precio_web_es_referencia": true,

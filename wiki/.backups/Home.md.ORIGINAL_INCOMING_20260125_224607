@@ -15,28 +15,6 @@ The platform combines multiple AI agents, a robust knowledge base system, and mu
 
 ---
 
-## Quick Setup Guides
-
-For detailed setup instructions, refer to these guides in the repository root:
-
-### GPT Configuration
-- **`PANELIN_SETUP_COMPLETE.md`** - Complete step-by-step guide for configuring Panelin from scratch
-- **`PANELIN_FULL_CONFIGURATION.md`** - Full configuration guide with all options
-
-### API Setup
-- **`SETUP_PANELIN_API.md`** - Automated assistant creation via API (script: `setup_panelin_with_model.py`)
-
-### Knowledge Base Management
-- **`KB_UPDATE_QUICKSTART.md`** - Quick start guide for KB updates
-- **`KB_UPDATE_COMMANDS.md`** - Commands reference for KB operations
-
-### Agents SDK
-- **`PANELIN_AGENTS_SDK_QUICKSTART.md`** - Quick start for TypeScript Agents SDK
-
-> **Note:** These files are located in the repository root, not in the wiki folder.
-
----
-
 ## Key Features
 
 | Feature | Description |

@@ -1,0 +1,52 @@
+delta_pct,field,message,name,products,severity,sku,type,web_iva_inc,web_sin_iva
+,,SKU appears 2 times,,Isoroof FOIL 30 mm - Color Gris-Rojo; Isoroof COLONIAL 40 mm - Color simil teja,high,IAGRO30,duplicate_sku,,
+,,SKU appears 2 times,,Babeta de Atornillar Lateral; Babeta de Empotrar Lateral,high,BBAL,duplicate_sku,,
+,,SKU appears 2 times,,"Cumbrera Roof 3G de 3 m; Cumbrera Roof COLONIAL - 2,2 m (2 piezas de 1,1m)",high,CUMROOF3M,duplicate_sku,,
+,,SKU appears 3 times,,Isowall 50 mm PIR - GRIS / Blanco; Isowall 80 mm PIR - GRIS / Blanco; Isowall 50 mm,high,IW50,duplicate_sku,,
+,,SKU appears 2 times,,ISOPANEL EPS 100 mm; ISODEC EPS 100 mm,high,ISD100EPS,duplicate_sku,,
+,,SKU appears 2 times,,ISOPANEL EPS 150 mm; ISODEC EPS 150 mm,high,ISD150EPS,duplicate_sku,,
+,,SKU appears 2 times,,ISOPANEL EPS 200 mm; ISODEC EPS 200 mm,high,ISD200EPS,duplicate_sku,,
+,,SKU appears 2 times,,ISOPANEL EPS 250mm; ISODEC EPS 250mm,high,ISD250EPS,duplicate_sku,,
+,,SKU appears 4 times,,Perfil Ch. Blanco U 40 mm x 35 mm ISOFRIG / 3 m; Perfil Ch. Blanco U 50 mm x 35 mm / 3 m (ISOWALL - ISOPANEL); Perfil Ch. Blanco U 60 mm x 35 mm ISOFRIG / 3 m; Perfil Ch. Blanco U 80 mm x 35 mm ISOWALL / 3 m,high,PU50MM,duplicate_sku,,
+,,SKU appears 3 times,,Perfil Ch. Blanco U 120 mm x 35 mm ISOFRIG / 3 m; Perfil Ch. Blanco U 150 mm x 35 mm / 3 m; Perfil Ch. Blanco U 180 mm x 35 mm ISOFRIG / 3 m,high,PU150MM,duplicate_sku,,
+,,SKU appears 2 times,,ISODEC 80mm PIR; ISODEC 120mm PIR,high,ISD80PIR,duplicate_sku,,
+,,SKU appears 2 times,,"Perf. Ch. Gotero Frontal 80mm - ISODEC PIR  - (3,03m); Perf. Ch. Gotero Frontal 120mm - ISODEC PIR  - (3,03m)",high,GF120DC,duplicate_sku,,
+,,SKU appears 2 times,,Perf. Ch. Gotero Lateral 50mm - ISODEC PIR  - (3m); Perf. Ch. Gotero Lateral 80mm - ISODEC PIR  - (3m),high,GL80DC,duplicate_sku,,
+,,SKU appears 3 times,,Canalón Isodec 50mm ISODEC PIR; Canalón Isodec 80mm ISODEC PIR; Canalón Isodec 120mm ISODEC PIR,high,CAN.ISDC120,duplicate_sku,,
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof FOIL 30 mm - Color Gris-Rojo,,high,IAGRO30,iva_inconsistency,30.9988096,48.13
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof FOIL 50 mm - Color Rojo-Gris,,high,IAGRO50,iva_inconsistency,35.14005682,54.56
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof 30 mm Terracota o Gris,,high,IROOF30,iva_inconsistency,38.2116075,59.33
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof 40 mm Terracota o Gris,,high,IROOF40,iva_inconsistency,40.4506135,62.81
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof 50 mm Terracota o Gris,,high,IROOF50,iva_inconsistency,42.084174,65.35
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof 80 mm - Gris - Rojo,,high,IROOF80,iva_inconsistency,49.4806235,76.83
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof Plus 50 mm - Gris - Rojo (MINIMO 800 M2),,high,IROOF50-PLS,iva_inconsistency,46.112,71.6
+47.21,web_price,IVA inconsistency in web price: 47.21% delta,Isoroof Plus 80 mm - Gris - Rojo,,high,IROOF80-PLS,iva_inconsistency,56.2628715,87.36
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Frontal Simple 30mm Prep.,,low,GFS30,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Frontal Simple 50mm Prep.,,low,GFS50,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Frontal Simple 80mm Prep.,,low,GFS80,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior 30mm Prep.,,low,GFSUP30,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior 40mm Prep.,,low,GFSUP40,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior 50mm Prep.,,low,GFSUP50,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior 80mm Prep.,,low,GFSUP80,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero frontal con greca  1 x panel  30 - 40 - 50 - 80 mm,,low,GFCGR30,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior  -  DE CAMARA  30mm,,low,GSDECAM30,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior  -  DE CAMARA  40mm,,low,GSDECAM40,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior  -  DE CAMARA  50mm,,low,GSDECAM50,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Superior  -  DE CAMARA  80mm,,low,GSDECAM80,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral 30mm  Prep.,,low,GL30,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral 40mm  Prep.,,low,GL40,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral 50mm  Prep.,,low,GL50,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral 80mm  Prep.,,low,GL80,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral   CAMARA  50mm  Prep.,,low,GLDCAM50,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Gotero Lateral  CAMARA  80mm  Prep.,,low,GLDCAM80,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta de Atornillar Superior 3G,,low,BBAS3G,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta de Empotrar Superior 3G,,low,BBESUP,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta de Atornillar Lateral,,low,BBAL,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta de Empotrar Lateral,,low,BBAL,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Perfil Cumbrera,,low,6847,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta ISODEC de Adosar,,low,6828,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Babeta ISODEC de empotrar,,low,6865,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Canalón Estandar 100 mm,,low,6801,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Canalón Estandar 150 mm,,low,6802,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Canalón Estandar 200 mm,,low,6803,missing_length,,
+,,Profile without length extraction (col E) - cannot compute per_ml prices,Canalón Estandar 250 mm,,low,6804,missing_length,,

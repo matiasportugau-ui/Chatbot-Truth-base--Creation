@@ -1,19 +1,16 @@
 # Panelin Wiki
 
 ## Getting Started
-
 - [[Home]]
 - [[Getting-Started]]
 - [[Configuration]]
 
 ## Architecture
-
 - [[Architecture]]
 - [[Knowledge-Base]]
 - [[Multi-Model-Orchestration]]
 
 ## AI Agents
-
 - [[Agents-Overview]]
 - [[Quotation-Agent]]
 - [[Analysis-Agent]]
@@ -21,21 +18,14 @@
 - [[KB-Config-Agent]]
 - [[Files-Organizer-Agent]]
 
-## Core Systems
-
-- [[Quotation-Engine]]
-
 ## Training
-
 - [[Training-System]]
 - [[Evaluation-Metrics]]
 
 ## Reference
-
 - [[API-Reference]]
 - [[Troubleshooting]]
 
 ## Project
-
 - [[Contributing]]
 - [[Changelog]]
