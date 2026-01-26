@@ -1,41 +1,29 @@
-# Panelin Wiki
+## Panelin Wiki
 
-## Getting Started
+- [Home](Home)
+- [Project Overview](Project-Overview)
+- [Architecture](Architecture)
+- [Setup (Builder)](Setup-Builder)
+- [Setup (API)](Setup-API)
+- [Environment & Secrets](Environment-and-Secrets)
+- [Knowledge Base & File Hierarchy](Knowledge-Base-and-File-Hierarchy)
+- [KB Update System](KB-Update-System)
+- [Training Data Pipeline](Training-Data-Pipeline)
+- [Python Quotation Engine](Python-Quotation-Engine)
+- [Agents SDK (TypeScript)](Agents-SDK)
+- [Operational Commands (SOP)](Operational-Commands)
+- [Troubleshooting](Troubleshooting)
+- [FAQ](FAQ)
+- [Glossary](Glossary)
 
-- [[Home]]
-- [[Getting-Started]]
-- [[Configuration]]
+---
 
-## Architecture
+## Repo docs (fuente)
 
-- [[Architecture]]
-- [[Knowledge-Base]]
-- [[Multi-Model-Orchestration]]
+- `PANELIN_SETUP_COMPLETE.md`
+- `PANELIN_FULL_CONFIGURATION.md`
+- `SETUP_PANELIN_API.md`
+- `KB_UPDATE_QUICKSTART.md`
+- `KB_UPDATE_COMMANDS.md`
+- `PANELIN_AGENTS_SDK_QUICKSTART.md`
 
-## AI Agents
-
-- [[Agents-Overview]]
-- [[Quotation-Agent]]
-- [[Analysis-Agent]]
-- [[GPT-Simulation-Agent]]
-- [[KB-Config-Agent]]
-- [[Files-Organizer-Agent]]
-
-## Core Systems
-
-- [[Quotation-Engine]]
-
-## Training
-
-- [[Training-System]]
-- [[Evaluation-Metrics]]
-
-## Reference
-
-- [[API-Reference]]
-- [[Troubleshooting]]
-
-## Project
-
-- [[Contributing]]
-- [[Changelog]]
