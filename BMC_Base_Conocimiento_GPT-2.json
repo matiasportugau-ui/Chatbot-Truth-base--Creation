@@ -263,18 +263,145 @@
       ]
     }
   },
+  "accesorios": {
+    "perfiles": {
+      "PERFIL_U_BASE": {
+        "clave_interna": "PERFIL_U_BASE",
+        "nombre_comercial": "Perfil U base",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "pared",
+        "regla_de_cuantificacion": "ML_perimetro_base"
+      },
+      "PERFIL_K2": {
+        "clave_interna": "PERFIL_K2",
+        "nombre_comercial": "Perfil K2",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_perimetro_techo"
+      },
+      "PERFIL_G2": {
+        "clave_interna": "PERFIL_G2",
+        "nombre_comercial": "Perfil G2",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_perimetro_techo"
+      }
+    },
+    "terminaciones": {
+      "BABETA": {
+        "clave_interna": "BABETA",
+        "nombre_comercial": "Babeta",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_perimetro"
+      },
+      "CANALON": {
+        "clave_interna": "CANALON",
+        "nombre_comercial": "Canalon",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_borde"
+      },
+      "GOTERO_FRONTAL": {
+        "clave_interna": "GOTERO_FRONTAL",
+        "nombre_comercial": "Gotero frontal",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_frente"
+      },
+      "GOTERO_LATERAL": {
+        "clave_interna": "GOTERO_LATERAL",
+        "nombre_comercial": "Gotero lateral",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "techo",
+        "regla_de_cuantificacion": "ML_laterales"
+      }
+    },
+    "estructurales": {
+      "ANGULO_ESTRUCTURAL": {
+        "clave_interna": "ANGULO_ESTRUCTURAL",
+        "nombre_comercial": "Angulo estructural",
+        "material": "pendiente_confirmacion",
+        "unidad_venta": "unidad",
+        "largo_unitario_m": null,
+        "precio_usd_unidad": null,
+        "precio_lista": null,
+        "precio_interno": null,
+        "aplica_a": "ambos",
+        "regla_de_cuantificacion": "ML_estructura"
+      }
+    }
+  },
   "formulas_cotizacion": {
     "costo_panel": "PRECIO * LARGO * CANTIDAD * ANCHO_UTIL",
     "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
     "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
-    "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
-    "tuercas_metal": "PUNTOS * 2",
-    "tuercas_hormigon": "PUNTOS * 1",
-    "tacos_hormigon": "PUNTOS * 1",
+    "anclajes_totales": "N_ANCLAJES",
+    "varilla_cantidad": "CEIL(ANCLAJES / RENDIMIENTO_VARILLA)",
+    "tuercas": "ANCLAJES * 2",
+    "tuercas_metal": "ANCLAJES * 2",
+    "tuercas_hormigon": "ANCLAJES * 1",
+    "tacos_hormigon": "ANCLAJES * 1",
+    "arandelas_carrocero": "ANCLAJES",
+    "arandelas_plana": "ANCLAJES",
+    "arandelas_pp": "ANCLAJES",
+    "rendimiento_varilla": {
+      "isodec_100_150": 4,
+      "isodec_200": 3,
+      "isopanel_150": 3
+    },
     "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
     "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
     "remaches": "ROUNDUP(TOTAL_PERFILES * 20)",
-    "silicona": "ROUNDUP(TOTAL_ML / 8)"
+    "silicona_ml_total": "ML_juntas_pared + ML_juntas_techo + ML_accesorios",
+    "silicona_pomos": "CEIL(silicona_ml_total / 8)",
+    "silicona": "CEIL(silicona_ml_total / 8)"
+  },
+  "general_info": {
+    "anclaje_hormigon_base": {
+      "compuesto_por": [
+        "tornillo N10",
+        "arandela",
+        "taco 8mm"
+      ],
+      "frecuencia_m": 0.3,
+      "nota": "Solo aplica a perfil U base; no techo."
+    }
   },
   "formulas_ahorro_energetico": {
     "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR",
@@ -336,11 +463,62 @@
     }
   },
   "precios_accesorios_referencia": {
-    "varilla_3_8": 19.9,
-    "tuerca_3_8": 2.0,
-    "taco_3_8": 8.7,
-    "silicona_pomo": 11.89,
-    "gotero_frontal_isodec": 23.88
+    "varilla_3_8": {
+      "precio_lista": 19.9,
+      "precio_interno": null
+    },
+    "tuerca_3_8": {
+      "precio_lista": 2.0,
+      "precio_interno": null
+    },
+    "taco_3_8": {
+      "precio_lista": 8.7,
+      "precio_interno": null
+    },
+    "silicona_pomo": {
+      "precio_lista": 11.89,
+      "precio_interno": null
+    },
+    "gotero_frontal_isodec": {
+      "precio_lista": 23.88,
+      "precio_interno": null
+    },
+    "gotero_lateral_isodec": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "perfil_u_base": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "perfil_k2": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "perfil_g2": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "babeta": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "canalon": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "angulo_estructural": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "remache_pop": {
+      "precio_lista": null,
+      "precio_interno": null
+    },
+    "tornillo_t1": {
+      "precio_lista": null,
+      "precio_interno": null
+    }
   },
   "reglas_negocio": {
     "iva": 0.22,
