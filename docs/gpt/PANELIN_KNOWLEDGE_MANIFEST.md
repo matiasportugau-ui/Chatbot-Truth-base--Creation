@@ -14,13 +14,13 @@ This document defines the **authoritative list of files** to be uploaded to the 
 | Priority | Level | Filename | Path in Repo | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | **Level 1 (MASTER)** | `BMC_Base_Conocimiento_GPT-2.json` | `BMC_Base_Conocimiento_GPT-2.json` | **Source of Truth**. Prices, formulas, specs. |
-| **2** | **Level 2 (Catalog)** | `shopify_catalog_v1.json` | `catalog/out/shopify_catalog_v1.json` | Product descriptions, variants, images. **NO prices.** |
-| **3** | **Level 4 (Process)** | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Guide to the KB structure itself. |
-| **4** | **Level 4 (Process)** | `PANELIN_QUOTATION_PROCESS.md` | `PANELIN_QUOTATION_PROCESS.md` | 5-phase quotation workflow rules. |
-| **5** | **Level 4 (Process)** | `PANELIN_TRAINING_GUIDE.md` | `PANELIN_TRAINING_GUIDE.md` | Sales training and evaluation rubrics. |
-| **6** | **Level 4 (Process)** | `panelin_context_consolidacion_sin_backend.md` | `panelin_context_consolidacion_sin_backend.md` | SOP commands (`/estado`, `/consolidar`). |
-| **7** | **Level 2 (Validation)** | `BMC_Base_Unificada_v4.json` | `Files /BMC_Base_Unificada_v4.json` | Historical cross-reference. |
-| **8** | **Level 3 (Dynamic)** | `panelin_truth_bmcuruguay_web_only_v2.json` | `panelin_truth_bmcuruguay_web_only_v2.json` | Web snapshot for price verification. |
+| **2** | **Level 1.5 (Catalog)** | `shopify_catalog_v1.json` | `catalog/out/shopify_catalog_v1.json` | Product descriptions, variants, images. **NO prices.** |
+| **3** | **Level 2 (Validation)** | `BMC_Base_Unificada_v4.json` | `Files /BMC_Base_Unificada_v4.json` | Historical cross-reference. |
+| **4** | **Level 3 (Dynamic)** | `panelin_truth_bmcuruguay_web_only_v2.json` | `panelin_truth_bmcuruguay_web_only_v2.json` | Web snapshot for price verification. |
+| **5** | **Level 4 (Process)** | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Guide to the KB structure itself. |
+| **6** | **Level 4 (Process)** | `PANELIN_QUOTATION_PROCESS.md` | `PANELIN_QUOTATION_PROCESS.md` | 5-phase quotation workflow rules. |
+| **7** | **Level 4 (Process)** | `PANELIN_TRAINING_GUIDE.md` | `PANELIN_TRAINING_GUIDE.md` | Sales training and evaluation rubrics. |
+| **8** | **Level 4 (Process)** | `panelin_context_consolidacion_sin_backend.md` | `panelin_context_consolidacion_sin_backend.md` | SOP commands (`/estado`, `/consolidar`). |
 | **9** | **Level 4 (Support)** | `Aleros -2.rtf` | `Files /Aleros -2.rtf` | Technical rules for overhangs (Aleros). |
 | **10** | **Level 4 (Index)** | `shopify_catalog_index_v1.csv` | `catalog/out/shopify_catalog_index_v1.csv` | CSV index for Code Interpreter lookups. |
 | **11** | **Level 4 (Support)** | `BMC_Catalogo_Completo_Shopify (1).json` | `BMC_Catalogo_Completo_Shopify (1).json` | Legacy catalog backup. |
@@ -43,7 +43,7 @@ The following files contain sensitive data or secrets and **MUST NOT** be upload
 ## 🔄 Refresh Cadence
 
 - **Level 1 (Master)**: Update manually when BMC official prices change. Requires re-upload and version bump.
-- **Level 2 (Catalog)**: Refresh weekly or after major Shopify updates:
+- **Level 1.5 (Catalog)**: Refresh weekly or after major Shopify updates:
   ```bash
   python3 catalog/export_shopify_catalog.py path/to/products_export.csv --quality-report
   ```

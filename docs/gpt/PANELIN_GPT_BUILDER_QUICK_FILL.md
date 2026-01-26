@@ -37,7 +37,7 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 
 **How to copy**:
 1. Open the file in your editor
-2. Copy from line 9 (`# IDENTIDAD Y ROL`) to the end (line ~370)
+2. Copy from line 9 (`# IDENTIDAD Y ROL`) to the end (line ~220)
 3. Paste into the "Instrucciones" field
 4. Verify the capability policy addendum is at the bottom
 
@@ -75,15 +75,15 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 **Priority 2 — Catalog (NEW)**
 2. ✅ `catalog/out/shopify_catalog_v1.json`
 
-**Priority 3 — Process Anchors**
-3. ✅ `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
-4. ✅ `PANELIN_QUOTATION_PROCESS.md`
-5. ✅ `PANELIN_TRAINING_GUIDE.md`
-6. ✅ `panelin_context_consolidacion_sin_backend.md`
+**Priority 3 — Validation/Dynamic**
+3. ✅ `Files /BMC_Base_Unificada_v4.json`
+4. ✅ `panelin_truth_bmcuruguay_web_only_v2.json` (Root version ONLY, not `Files /`)
 
-**Priority 4 — Validation/Dynamic**
-7. ✅ `Files /BMC_Base_Unificada_v4.json`
-8. ✅ `panelin_truth_bmcuruguay_web_only_v2.json` (Root version ONLY, not `Files /`)
+**Priority 4 — Process Anchors**
+5. ✅ `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
+6. ✅ `PANELIN_QUOTATION_PROCESS.md`
+7. ✅ `PANELIN_TRAINING_GUIDE.md`
+8. ✅ `panelin_context_consolidacion_sin_backend.md`
 
 **Priority 5 — Support/Indexes**
 9. ✅ `Files /Aleros -2.rtf` (if Builder rejects: convert to `.md` first)

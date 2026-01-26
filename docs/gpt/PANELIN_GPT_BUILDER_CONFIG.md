@@ -34,12 +34,12 @@ Use these exact values when configuring the GPT in the [OpenAI GPT Builder](http
 
 1. `BMC_Base_Conocimiento_GPT-2.json`
 2. `catalog/out/shopify_catalog_v1.json`
-3. `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
-4. `PANELIN_QUOTATION_PROCESS.md`
-5. `PANELIN_TRAINING_GUIDE.md`
-6. `panelin_context_consolidacion_sin_backend.md`
-7. `Files /BMC_Base_Unificada_v4.json`
-8. `panelin_truth_bmcuruguay_web_only_v2.json` (Root version)
+3. `Files /BMC_Base_Unificada_v4.json`
+4. `panelin_truth_bmcuruguay_web_only_v2.json` (Root version)
+5. `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
+6. `PANELIN_QUOTATION_PROCESS.md`
+7. `PANELIN_TRAINING_GUIDE.md`
+8. `panelin_context_consolidacion_sin_backend.md`
 9. `Files /Aleros -2.rtf`
 10. `catalog/out/shopify_catalog_index_v1.csv`
 11. `BMC_Catalogo_Completo_Shopify (1).json` (Optional)
