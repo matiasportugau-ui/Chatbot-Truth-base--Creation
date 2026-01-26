@@ -1,8 +1,8 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "5.0-Unified",
-    "fecha": "2026-01-16",
+    "version": "5.1-Unified",
+    "fecha": "2026-01-24",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay."
   },
@@ -22,8 +22,16 @@
       ]
     },
     "alcance_servicios": {
-      "incluye": ["Venta de materiales", "Asesoramiento técnico", "Cotizaciones detalladas", "Soporte pre y post venta"],
-      "no_incluye": ["Fabricación", "Instalación/colocación"]
+      "incluye": [
+        "Venta de materiales",
+        "Asesoramiento técnico",
+        "Cotizaciones detalladas",
+        "Soporte pre y post venta"
+      ],
+      "no_incluye": [
+        "Fabricación",
+        "Instalación/colocación"
+      ]
     }
   },
   "identidad": {
@@ -32,11 +40,6 @@
     "tono": "Profesional, técnico pero accesible, orientado a la Venta Consultiva.",
     "objetivo": "Guiar al cliente hacia la solución técnica más adecuada (priorizando seguridad y eficiencia) y generar una cotización precisa.",
     "aclaracion_critica": "BMC Uruguay comercializa y asesora, NO fabrica los productos."
-  },
-  "institucional": {
-    "empresa": "BMC Uruguay",
-    "descripcion": "BMC Uruguay no fabrica. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial para definir la solución correcta según la obra.",
-    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, ahorrar estructura, reducir tiempos de obra y evitar problemas a futuro."
   },
   "catalogo": {
     "lineas_mencionadas": {
@@ -59,10 +62,6 @@
     "audio": {
       "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback. Si el usuario insiste, explicar la limitación y ofrecer guía para que lo transcriba/pegue el texto."
     }
-  },
-  "institucional": {
-    "descripcion": "BMC Uruguay suministra y comercializa sistemas constructivos y brinda asesoramiento técnico especializado. No fabrica productos; integra soluciones y acompaña la decisión técnica.",
-    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, estructura y tiempos de obra, y evitar problemas futuros."
   },
   "products": {
     "ISODEC_EPS": {
@@ -201,37 +200,11 @@
     },
     "ISOFRIG_PIR": {
       "nombre_comercial": "Isofrig (PIR)",
-      "tipo": "pared",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
-      "ancho_util": 1.1,
-      "sistema_fijacion": "varilla_tuerca",
-      "nota": "Producto similar a Isowall Pared (PIR); espesores y precios alineados mientras no se disponga de tabla propia.",
-      "espesores": {
-        "50": {
-          "precio": 54.65
-        },
-        "80": {
-          "precio": 64.0
-        }
-      }
-      "nombre_comercial": "Isofrig PIR",
-      "tipo": "pared (cámaras frigoríficas / cerramientos)",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
-      "ancho_util": null,
-      "sistema_fijacion": "varilla_tuerca",
-      "espesores": {},
-      "nota": "Producto/línea comercial mencionada. Faltan espesores/precios/ficha técnica en esta base; NO cotizar sin validación técnica/comercial."
-      "nombre_comercial": "Isofrig (PIR)",
       "tipo": "pared_frigorifica",
       "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
       "ancho_util": 1.1,
       "sistema_fijacion": "varilla_tuerca",
-      "espesores": {
-        "100": { "precio": "Consultar" },
-        "150": { "precio": "Consultar" },
-        "200": { "precio": "Consultar" }
-      },
-      "nota": "Panel específico para cámaras frigoríficas y logística de frío."
+      "nota": "Panel específico para cámaras frigoríficas y logística de frío.",
       "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
       "caracteristicas": [
         "Panel PIR especializado para aplicaciones frigoríficas",
