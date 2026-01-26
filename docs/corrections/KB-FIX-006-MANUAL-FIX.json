@@ -1,0 +1,18 @@
+{
+  "correction_id": "KB-FIX-006-MANUAL-FIX",
+  "parent_correction": "KB-FIX-006",
+  "correction_type": "instrucciones",
+  "description": "Corrección manual aplicada - El archivo INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt no se actualizó correctamente en la corrección automática",
+  "priority": "P0",
+  "timestamp": "2026-01-26T03:15:00.000000",
+  "affected_files": [
+    "gpt_configs/INSTRUCCIONES_PANELIN_ACTUALIZADAS.txt"
+  ],
+  "changes_applied": [
+    "Línea 120: Actualizado FASE 5 para indicar que precios YA incluyen IVA",
+    "Línea 189: Actualizado REGLAS DE NEGOCIO para indicar IVA ya incluido",
+    "Agregada sección CRÍTICO - POLÍTICA DE PRECIOS E IVA con ejemplos"
+  ],
+  "issue_resolved": "El archivo ahora está sincronizado con PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md y PANELIN_INSTRUCTIONS_FINAL.txt",
+  "success": true
+}
