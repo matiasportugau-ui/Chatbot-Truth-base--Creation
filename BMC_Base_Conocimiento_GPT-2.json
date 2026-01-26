@@ -82,6 +82,33 @@
       "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback. Si el usuario insiste, explicar la limitación y ofrecer guía para que lo transcriba/pegue el texto."
     }
   },
+  "institucional": {
+    "empresa": "BMC Uruguay",
+    "descripcion": "BMC Uruguay no fabrica. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial para definir la solución correcta según la obra.",
+    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, ahorrar estructura, reducir tiempos de obra y evitar problemas a futuro."
+  },
+  "catalogo": {
+    "lineas_mencionadas": {
+      "techo_y_cubiertas": [
+        "Isodec EPS",
+        "Isodec PIR",
+        "Isoroof",
+        "Chapas convencionales",
+        "Otros sistemas (no especificados)"
+      ],
+      "paredes_y_fachadas": [
+        "Isopanel EPS",
+        "Isowall PIR",
+        "Isofrig PIR"
+      ]
+    },
+    "nota": "Estas líneas reflejan el alcance comercial mencionado en conversaciones internas. Si una línea no tiene precios/espesores en `products`, NO cotizar sin validar con el equipo."
+  },
+  "capabilities": {
+    "audio": {
+      "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback. Si el usuario insiste, explicar la limitación y ofrecer guía para que lo transcriba/pegue el texto."
+    }
+  },
   "products": {
     "ISODEC_EPS": {
       "nombre_comercial": "Isodec / Isowall (EPS)",
