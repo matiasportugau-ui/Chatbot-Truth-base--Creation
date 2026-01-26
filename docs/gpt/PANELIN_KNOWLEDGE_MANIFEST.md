@@ -1,5 +1,5 @@
 # Panelin Knowledge Manifest
-**Version**: 1.0
+**Version**: 1.1
 **Last Updated**: 2026-01-25
 
 This document defines the **authoritative list of files** to be uploaded to the Panelin GPT Knowledge Base, their priority order, and purpose.
