@@ -43,5 +43,29 @@ The following files contain sensitive data or secrets and **MUST NOT** be upload
 ## 🔄 Refresh Cadence
 
 - **Level 1 (Master)**: Update manually when BMC official prices change. Requires re-upload and version bump.
-- **Level 2 (Catalog)**: Refresh weekly or after major Shopify updates using `python3 catalog/export_shopify_catalog.py`.
+- **Level 2 (Catalog)**: Refresh weekly or after major Shopify updates:
+  ```bash
+  python3 catalog/export_shopify_catalog.py path/to/products_export.csv --quality-report
+  ```
+  Then re-upload `catalog/out/shopify_catalog_v1.json`.
 - **Level 3 (Dynamic)**: Refresh monthly via web scraper.
+
+---
+
+## 📖 Usage Guidance for GPT
+
+**How Panelin should use the catalog + pricing master together:**
+
+1. **User asks**: "Tell me about ISOROOF 3G"
+   - Step 1: Search `shopify_catalog_v1.json` → find handle, description, variants
+   - Step 2: If user asks for price → get from `BMC_Base_Conocimiento_GPT-2.json`
+
+2. **User asks**: "What's the price of ISODEC 100mm?"
+   - Step 1: Collect client data (PRODUCTION MODE): nombre, teléfono, dirección obra
+   - Step 2: Get price from `BMC_Base_Conocimiento_GPT-2.json`
+   - Step 3: Optionally enhance with catalog description from `shopify_catalog_v1.json`
+
+3. **User provides SKU**: "I need product SKU XYZ123"
+   - Step 1: Use Code Interpreter to search `shopify_catalog_index_v1.csv` or `indexes.sku_to_handle` in JSON
+   - Step 2: Resolve SKU → handle → product description
+   - Step 3: For pricing → always use `BMC_Base_Conocimiento_GPT-2.json`

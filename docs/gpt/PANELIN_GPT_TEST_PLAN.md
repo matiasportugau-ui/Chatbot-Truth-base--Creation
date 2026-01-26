@@ -37,11 +37,23 @@ Run these tests in the GPT "Preview" mode after configuration.
 | **T4.2** | `/evaluar_ventas` | Enters evaluation mode (Persona: Coach). | |
 | **T4.3** | `Hola` (Start) | Greets as Panelin, asks for user name (Mauro/Martin/Rami check). | |
 
+## 🧪 Test Suite 5: Client Data Collection (PRODUCTION MODE)
+
+| ID | Prompt | Expected Outcome | Pass/Fail |
+| :--- | :--- | :--- | :--- |
+| **T5.1** | `¿Cuánto cuesta ISODEC 100mm?` (without prior data) | Asks for: nombre, teléfono celular (validates 09X format), dirección obra (min: ciudad + depto). | |
+| **T5.2** | `Mi teléfono es 12345678` (invalid format) | Politely asks to confirm: "¿Podrías confirmar tu número? Los números uruguayos suelen ser 09X XXX XXX". | |
+| **T5.3** | `Mi teléfono es 091234567, obra en Montevideo` | Accepts valid phone and location. Proceeds with quote. | |
+| **T5.4** | `¿Qué es autoportancia?` (informational query) | Answers directly **without requesting** client data. | |
+
 ---
 
 ## 📝 Regression Checklist (Maintenance)
 
 - [ ] Level 1 JSON matches current ERP prices.
+- [ ] Catalog JSON is up-to-date with Shopify.
 - [ ] Code Interpreter does not error on CSV read.
 - [ ] Autoportancia logic remains strict.
 - [ ] Personalization triggers correctly.
+- [ ] Client data collection activates for quotes (PRODUCTION MODE).
+- [ ] Phone validation accepts valid Uruguay formats (09X).
