@@ -1,6 +1,6 @@
 # Panelin GPT Test Plan
-**Version**: 1.0
-**Objective**: Verify Panelin adheres to Source-of-Truth and capabilities policies.
+**Version**: 1.1
+**Objective**: Verify Panelin adheres to Source-of-Truth, capabilities policies, and client data collection rules.
 
 Run these tests in the GPT "Preview" mode after configuration.
 
