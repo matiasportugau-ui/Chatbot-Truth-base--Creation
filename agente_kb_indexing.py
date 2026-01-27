@@ -62,6 +62,7 @@ class KBIndexingAgent:
         self._cost_matrix_cache: Optional[Dict[str, Any]] = None
         self._cost_matrix_by_code: Dict[str, Dict[str, Any]] = {}
         self._cost_matrix_by_category: Dict[str, List[Dict[str, Any]]] = {}
+        self._last_sync_at: Optional[str] = None
     
     def _load_json_file(self, filename: str, level: int) -> Optional[Dict]:
         """Load JSON file from appropriate location"""
@@ -351,6 +352,7 @@ class KBIndexingAgent:
                 from panelin_improvements.cost_matrix_tools import gsheets_manager
                 gsheets_manager.sync_up(str(file_path), str(creds_path), sheet_name)
                 sync_status = "synced_to_gsheets"
+                self._last_sync_at = datetime.now().isoformat()
             except Exception as e:
                 sync_status = f"sync_failed: {e}"
         else:
@@ -362,6 +364,7 @@ class KBIndexingAgent:
             "field": field,
             "new_value": new_value,
             "sync_status": sync_status,
+            "last_sync_at": self._last_sync_at,
             "product": target_product
         }
 
@@ -378,7 +381,11 @@ class KBIndexingAgent:
         sheet_name = GSHEETS_NAME
         
         if not Path(creds_path).exists() and not (self.kb_path / creds_path).exists():
-            return {"error": "Credentials file not found", "path": creds_path}
+            return {
+                "error": "Credentials file not found",
+                "path": creds_path,
+                "hint": "See panelin_improvements/GOOGLE_SHEETS_SETUP.md"
+            }
             
         try:
             from panelin_improvements.cost_matrix_tools import gsheets_manager
@@ -389,10 +396,30 @@ class KBIndexingAgent:
             
             # Invalidate cache
             self._cost_matrix_cache = None
+            self._last_sync_at = datetime.now().isoformat()
             
-            return {"status": "success", "message": "Cost Matrix synced from Google Sheets"}
+            return {
+                "status": "success",
+                "message": "Cost Matrix synced from Google Sheets",
+                "last_sync_at": self._last_sync_at
+            }
         except Exception as e:
             return {"error": f"Sync failed: {str(e)}"}
+
+    def get_sync_status(self) -> Dict[str, Any]:
+        """Return last sync timestamp and staleness info."""
+        if not self._last_sync_at:
+            return {"status": "unknown", "last_sync_at": None}
+        try:
+            last_dt = datetime.fromisoformat(self._last_sync_at)
+        except Exception:
+            return {"status": "invalid_timestamp", "last_sync_at": self._last_sync_at}
+        age_hours = (datetime.now() - last_dt).total_seconds() / 3600
+        return {
+            "status": "ok" if age_hours <= 24 else "stale",
+            "last_sync_at": self._last_sync_at,
+            "age_hours": round(age_hours, 2),
+        }
 
     def search_kb(
         self,

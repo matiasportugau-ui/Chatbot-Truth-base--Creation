@@ -135,6 +135,30 @@ print(get_cost_matrix_products_by_category("isoroof_foil")["count"])
 PY
 ```
 
+## Manual sync testing
+
+Use the manual script for an end-to-end check with Google Sheets:
+
+```bash
+python3 panelin_improvements/scripts/test_sync_manual.py
+```
+
+## Integration validation
+
+Run a full sync and price update test:
+
+```bash
+python3 panelin_improvements/scripts/validate_integration.py
+```
+
+## Troubleshooting
+
+- **Credentials not found**: Ensure `panelin_improvements/credentials.json` exists and is valid JSON.
+- **Spreadsheet not found**: Share the sheet with the Service Account email (Editor access).
+- **Missing columns**: The `PRODUCTS` sheet must include all headers defined by `gsheets_manager._build_headers()`.
+- **Empty sheet**: A sync down will fail if the sheet has no rows.
+- **Rate limits**: If Google throttles requests, retry after a short delay.
+
 ## Multi-supplier option (entire workbook export folder)
 
 If you want a **single unified JSON** across *all* suppliers in the exported workbook folder:

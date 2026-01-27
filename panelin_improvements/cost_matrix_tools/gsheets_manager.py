@@ -1,5 +1,6 @@
 import json
 import sys
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from datetime import datetime
@@ -18,6 +19,33 @@ SCOPE = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive",
 ]
+DEFAULT_RETRY_ATTEMPTS = 3
+DEFAULT_RETRY_BACKOFF_SECONDS = 1.5
+DEFAULT_CHUNK_SIZE = 500
+
+BASE_HEADERS = [
+    "proveedor",
+    "codigo",
+    "nombre",
+    "categoria",
+    "espesor_mm",
+    "estado",
+    "shopify_status",
+    "notas",
+    "costo_base_usd_iva",
+    "costo_con_aumento_usd_iva",
+    "costo_proximo_aumento_usd_iva",
+    "margen_porcentaje",
+    "ganancia_usd",
+    "precio_empresa_venta_iva_usd",
+    "precio_particular_consumidor_iva_inc_usd",
+    "precio_web_venta_iva_usd",
+    "precio_web_venta_iva_inc_usd",
+    "precio_ml_base_usd",
+]
+
+def _build_headers() -> List[str]:
+    return BASE_HEADERS + [f"ml_{l}" for l in LENGTHS_ML]
 
 def _num(v: Any) -> Optional[float]:
     if v is None:
@@ -39,13 +67,57 @@ def _safe_str(v: Any) -> str:
     s = str(v)
     return s.strip()
 
-def get_client(creds_path: str) -> gspread.Client:
-    if not Path(creds_path).exists():
+def _validate_credentials(creds_path: str) -> None:
+    path = Path(creds_path)
+    if not path.exists():
         raise FileNotFoundError(f"Credentials file not found at: {creds_path}")
+    try:
+        json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ValueError(f"Credentials file is not valid JSON: {creds_path}") from exc
+
+def _validate_json_structure(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    products = (data.get("productos", {}) or {}).get("todos", [])
+    if not isinstance(products, list):
+        raise ValueError("Invalid JSON structure: productos.todos must be a list")
+    return products
+
+def _validate_sheet_headers(headers: List[str]) -> None:
+    expected = _build_headers()
+    missing = [h for h in expected if h not in headers]
+    if missing:
+        raise ValueError(f"Sheet is missing required columns: {', '.join(missing)}")
+
+def _with_retries(fn, attempts: int = DEFAULT_RETRY_ATTEMPTS, backoff_seconds: float = DEFAULT_RETRY_BACKOFF_SECONDS):
+    last_exc = None
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            last_exc = exc
+            if attempt == attempts:
+                break
+            sleep_for = backoff_seconds * attempt
+            time.sleep(sleep_for)
+    raise last_exc
+
+def _update_sheet_rows(ws: gspread.Worksheet, rows: List[List[Any]], chunk_size: int = DEFAULT_CHUNK_SIZE) -> None:
+    if not rows:
+        return
+    ws.clear()
+    if len(rows) <= chunk_size:
+        ws.update(rows)
+        return
+    for start in range(0, len(rows), chunk_size):
+        chunk = rows[start:start + chunk_size]
+        ws.update(f"A{start + 1}", chunk)
+
+def get_client(creds_path: str) -> gspread.Client:
+    _validate_credentials(creds_path)
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, SCOPE)
     return gspread.authorize(creds)
 
-def sync_up(json_path: str, creds_path: str, sheet_key_or_name: str) -> None:
+def sync_up(json_path: str, creds_path: str, sheet_key_or_name: str, chunk_size: int = DEFAULT_CHUNK_SIZE) -> None:
     """
     Push local JSON data to Google Sheets.
     """
@@ -57,29 +129,10 @@ def sync_up(json_path: str, creds_path: str, sheet_key_or_name: str) -> None:
         raise FileNotFoundError(f"JSON file not found: {json_path}")
         
     data = json.loads(json_path_p.read_text(encoding="utf-8"))
-    products: List[Dict[str, Any]] = data.get("productos", {}).get("todos", [])
+    products = _validate_json_structure(data)
 
     # 2. Prepare headers
-    headers = [
-        "proveedor",
-        "codigo",
-        "nombre",
-        "categoria",
-        "espesor_mm",
-        "estado",
-        "shopify_status",
-        "notas",
-        "costo_base_usd_iva",
-        "costo_con_aumento_usd_iva",
-        "costo_proximo_aumento_usd_iva",
-        "margen_porcentaje",
-        "ganancia_usd",
-        "precio_empresa_venta_iva_usd",
-        "precio_particular_consumidor_iva_inc_usd",
-        "precio_web_venta_iva_usd",
-        "precio_web_venta_iva_inc_usd",
-        "precio_ml_base_usd",
-    ] + [f"ml_{l}" for l in LENGTHS_ML]
+    headers = _build_headers()
 
     # 3. Prepare rows
     rows: List[List[Any]] = [headers]
@@ -119,53 +172,63 @@ def sync_up(json_path: str, creds_path: str, sheet_key_or_name: str) -> None:
         rows.append(row)
 
     # 4. Connect and Update
-    client = get_client(creds_path)
+    client = _with_retries(lambda: get_client(creds_path))
     try:
-        sheet = client.open(sheet_key_or_name)
+        sheet = _with_retries(lambda: client.open(sheet_key_or_name))
     except gspread.SpreadsheetNotFound:
         # If passed name, try creating? No, safer to fail or assume ID. 
         # But instructions say "share the sheet", implying it exists.
         # Try open by key if it looks like a key, or by title.
         try:
-            sheet = client.open_by_key(sheet_key_or_name)
+            sheet = _with_retries(lambda: client.open_by_key(sheet_key_or_name))
         except Exception:
              raise ValueError(f"Could not find spreadsheet with name or key: {sheet_key_or_name}")
 
     try:
-        ws = sheet.worksheet(SHEET_NAME)
+        ws = _with_retries(lambda: sheet.worksheet(SHEET_NAME))
     except gspread.WorksheetNotFound:
-        ws = sheet.add_worksheet(title=SHEET_NAME, rows=len(rows)+100, cols=len(headers))
+        ws = _with_retries(lambda: sheet.add_worksheet(title=SHEET_NAME, rows=len(rows)+100, cols=len(headers)))
 
-    ws.clear()
-    ws.update(rows)
+    _update_sheet_rows(ws, rows, chunk_size=chunk_size)
     print("Sync UP complete.")
 
-def sync_down(creds_path: str, sheet_key_or_name: str, output_json_path: str, base_json_path: Optional[str] = None) -> Dict[str, Any]:
+def sync_down(
+    creds_path: str,
+    sheet_key_or_name: str,
+    output_json_path: str,
+    base_json_path: Optional[str] = None,
+    validate_headers: bool = True,
+    modified_since: Optional[str] = None
+) -> Dict[str, Any]:
     """
     Pull data from Google Sheets and update local JSON.
     """
     print(f"Syncing DOWN: Google Sheet '{sheet_key_or_name}' -> {output_json_path}")
+    if modified_since:
+        print("Note: modified_since provided, but full sync is performed.")
 
     # 1. Connect and Fetch
-    client = get_client(creds_path)
+    client = _with_retries(lambda: get_client(creds_path))
     try:
-        sheet = client.open(sheet_key_or_name)
+        sheet = _with_retries(lambda: client.open(sheet_key_or_name))
     except Exception:
         try:
-            sheet = client.open_by_key(sheet_key_or_name)
+            sheet = _with_retries(lambda: client.open_by_key(sheet_key_or_name))
         except Exception:
              raise ValueError(f"Could not find spreadsheet: {sheet_key_or_name}")
 
     try:
-        ws = sheet.worksheet(SHEET_NAME)
+        ws = _with_retries(lambda: sheet.worksheet(SHEET_NAME))
     except gspread.WorksheetNotFound:
         raise ValueError(f"Sheet '{SHEET_NAME}' not found in spreadsheet")
 
-    all_values = ws.get_all_values()
+    all_values = _with_retries(lambda: ws.get_all_values())
     if not all_values:
         raise ValueError("Sheet is empty")
 
     headers = [_safe_str(h) for h in all_values[0]]
+    if validate_headers:
+        _validate_sheet_headers(headers)
     header_idx = {h: i for i, h in enumerate(headers) if h}
 
     def get(row, col, default=None):

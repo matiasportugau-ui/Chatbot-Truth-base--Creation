@@ -9,6 +9,8 @@ panelin_improvements/
 ├── source_of_truth_validator.py  # P0.1: Source of Truth Enforcement
 ├── logging_setup.py               # P0.3: Detailed Logging
 ├── conflict_detector.py           # P0.4: Conflict Detection
+├── cost_matrix_tools/             # Cost Matrix ingestion + sync tools
+├── scripts/                       # Manual and integration tests
 ├── tests/
 │   └── test_quotation_formulas.py # P0.2: Test Cases
 ├── requirements.txt               # Dependencies
@@ -35,6 +37,26 @@ pytest tests/ --cov=. --cov-report=html
 ```
 
 ### 3. Example Usage
+
+#### Cost Matrix Google Sheets
+
+Setup:
+
+```
+cat GOOGLE_SHEETS_SETUP.md
+```
+
+Manual sync test:
+
+```
+python3 scripts/test_sync_manual.py
+```
+
+Integration validation:
+
+```
+python3 scripts/validate_integration.py
+```
 
 #### Source of Truth Validation
 
