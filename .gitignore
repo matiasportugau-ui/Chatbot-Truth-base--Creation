@@ -4,3 +4,10 @@
 # Credentials (keep local only)
 panelin_improvements/credentials.json
 **/credentials.json
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
