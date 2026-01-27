@@ -155,9 +155,9 @@ class Level1StaticGrounding:
         
         return result
     
-    def _extract_product_info(self, quote: Dict) -> Dict:
+    def _extract_product_info(self, quote: Dict[str, Any]) -> Dict[str, Any]:
         """Extract product information from quote"""
-        product_info = {}
+        product_info: Dict[str, Any] = {}
         
         # Look for product names
         quote_text = json.dumps(quote).lower()
@@ -174,9 +174,9 @@ class Level1StaticGrounding:
         
         return product_info
     
-    def _extract_pricing_info(self, quote: Dict) -> Dict:
+    def _extract_pricing_info(self, quote: Dict[str, Any]) -> Dict[str, Any]:
         """Extract pricing information from quote"""
-        pricing = {}
+        pricing: Dict[str, Any] = {}
         
         # Look for price fields
         price_fields = ["price", "precio", "total", "subtotal", "costo"]
@@ -192,9 +192,9 @@ class Level1StaticGrounding:
         
         return pricing
     
-    def _extract_specifications(self, quote: Dict) -> Dict:
+    def _extract_specifications(self, quote: Dict[str, Any]) -> Dict[str, Any]:
         """Extract technical specifications from quote"""
-        specs = {}
+        specs: Dict[str, Any] = {}
         
         # Look for thickness/espesor
         thickness_fields = ["thickness", "espesor", "grosor"]
@@ -212,11 +212,11 @@ class Level1StaticGrounding:
     
     def _update_kb_with_quote_data(
         self,
-        kb_data: Dict,
-        product_info: Dict,
-        pricing_info: Dict,
-        specs: Dict
-    ) -> List[Dict]:
+        kb_data: Dict[str, Any],
+        product_info: Dict[str, Any],
+        pricing_info: Dict[str, Any],
+        specs: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Update KB with quote data"""
         changes = []
         
@@ -385,9 +385,9 @@ class Level2InteractionEvolution:
     
     def _extract_interaction_patterns(
         self,
-        interactions: List[Dict],
-        analysis: Dict
-    ) -> List[Dict]:
+        interactions: List[Dict[str, Any]],
+        analysis: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Extract patterns from interactions"""
         patterns = []
         
@@ -403,7 +403,7 @@ class Level2InteractionEvolution:
         
         return patterns
     
-    def _identify_knowledge_gaps(self, interactions: List[Dict]) -> List[Dict]:
+    def _identify_knowledge_gaps(self, interactions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Identify knowledge gaps from interactions"""
         gaps = []
         
@@ -439,10 +439,10 @@ class Level2InteractionEvolution:
     def _update_kb_with_interactions(
         self,
         kb_file: Path,
-        patterns: List[Dict],
-        gaps: List[Dict],
-        interactions: List[Dict]
-    ) -> List[Dict]:
+        patterns: List[Dict[str, Any]],
+        gaps: List[Dict[str, Any]],
+        interactions: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Update KB with interaction data"""
         changes = []
         
@@ -588,7 +588,7 @@ class Level3SocialIngestion:
         
         return result
     
-    def _extract_trends(self, interactions: List[Dict]) -> List[Dict]:
+    def _extract_trends(self, interactions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Extract trends from social media interactions"""
         trends = []
         
@@ -616,9 +616,9 @@ class Level3SocialIngestion:
     
     def _generate_synthetic_cases(
         self,
-        interactions: List[Dict],
-        trends: List[Dict]
-    ) -> List[Dict]:
+        interactions: List[Dict[str, Any]],
+        trends: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Generate synthetic test cases from social interactions"""
         cases = []
         
@@ -636,9 +636,9 @@ class Level3SocialIngestion:
     def _update_kb_with_trends(
         self,
         kb_file: Path,
-        trends: List[Dict],
-        synthetic_cases: List[Dict]
-    ) -> List[Dict]:
+        trends: List[Dict[str, Any]],
+        synthetic_cases: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Update KB with social media trends"""
         changes = []
         
@@ -756,7 +756,7 @@ class Level4AutonomousFeedback:
         
         return result
     
-    def _analyze_performance(self, results: List[Dict]) -> Dict:
+    def _analyze_performance(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Analyze performance metrics from evaluation results"""
         if not results:
             return {}
@@ -774,9 +774,9 @@ class Level4AutonomousFeedback:
     
     def _identify_improvements(
         self,
-        results: List[Dict],
-        metrics: Dict
-    ) -> List[Dict]:
+        results: List[Dict[str, Any]],
+        metrics: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Identify areas for improvement"""
         improvements = []
         
@@ -803,8 +803,8 @@ class Level4AutonomousFeedback:
     def _apply_autonomous_updates(
         self,
         kb_file: Path,
-        improvements: List[Dict]
-    ) -> List[Dict]:
+        improvements: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Apply autonomous updates to KB"""
         changes = []
         

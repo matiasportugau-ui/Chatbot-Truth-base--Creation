@@ -133,7 +133,15 @@ class KBIndexingAgent:
         return index
     
     def build_index(self, level: Optional[int] = None) -> Dict[str, Any]:
-        """Build comprehensive index of KB files"""
+        """
+        Builds a comprehensive index of Knowledge Base files.
+        
+        Args:
+            level: Optional KB level (1-4) to index. If None, indexes all levels.
+            
+        Returns:
+            Dict[str, Any]: The generated index with statistics and file entries.
+        """
         index = {
             "timestamp": datetime.now().isoformat(),
             "levels": {},
@@ -325,6 +333,7 @@ class KBIndexingAgent:
                     return {"error": f"Unsupported field: {field}"}
                 
                 updated = True
+                if "metadata" not in p: p["metadata"] = {}
                 p["metadata"]["fecha_actualizacion"] = datetime.now().isoformat()
                 p["metadata"]["last_editor"] = "AI Agent"
                 break
@@ -429,13 +438,16 @@ class KBIndexingAgent:
         max_results: int = 10
     ) -> Dict[str, Any]:
         """
-        Search KB with hybrid semantic + keyword + structured search
+        Searches the Knowledge Base using hybrid semantic + keyword + structured search.
         
         Args:
-            query: Search query
-            level_priority: Preferred KB level (1-4), None for all levels
-            search_type: "hybrid", "keyword", "semantic", or "structured"
-            max_results: Maximum results to return
+            query: The search query string.
+            level_priority: Preferred KB level (1-4). If None, searches all levels.
+            search_type: Search strategy ('hybrid', 'keyword', 'semantic', 'structured').
+            max_results: Maximum number of results to return.
+            
+        Returns:
+            Dict[str, Any]: Search results including matches, scores, and metadata.
         """
         # Fast path: if the query contains a known cost-matrix product code, return it immediately.
         cm = self._load_cost_matrix()
@@ -558,7 +570,9 @@ class KBIndexingAgent:
         
         # Normalize product name
         product_key = None
-        for key in data.get("productos", {}).keys():
+        # Try "products" first (correct key), fallback to "productos" for backward compatibility
+        products_dict = data.get("products", data.get("productos", {}))
+        for key in products_dict.keys():
             if product_name.upper() in key.upper() or key.upper() in product_name.upper():
                 product_key = key
                 break
@@ -566,7 +580,7 @@ class KBIndexingAgent:
         if not product_key:
             return {"error": f"Product {product_name} not found in KB"}
         
-        product_data = data["productos"][product_key]
+        product_data = products_dict[product_key]
         
         result = {
             "product": product_key,

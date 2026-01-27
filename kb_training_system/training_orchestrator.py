@@ -440,3 +440,147 @@ Pipeline Version: {result.pipeline_version}
         
         logger.info(f"Pipeline report exported to {output_path}")
         return report
+    
+    def run_automated_level1(self, quotes_dir: Optional[str] = None) -> TrainingResult:
+        """
+        Automated Level 1 training - processes all quotes in directory
+        
+        Args:
+            quotes_dir: Directory containing quote files
+        
+        Returns:
+            TrainingResult for Level 1
+        """
+        logger.info("🤖 Running automated Level 1 training")
+        
+        if quotes_dir is None:
+            quotes_dir = str(self.kb_path.parent / "presupuestos")
+        
+        quotes_path = Path(quotes_dir)
+        if not quotes_path.exists():
+            raise FileNotFoundError(f"Quotes directory not found: {quotes_dir}")
+        
+        # Load all quote files
+        quotes = []
+        for quote_file in quotes_path.glob("*.json"):
+            try:
+                with open(quote_file, 'r', encoding='utf-8') as f:
+                    quote_data = json.load(f)
+                    quotes.append(quote_data)
+            except Exception as e:
+                logger.warning(f"Failed to load {quote_file}: {e}")
+        
+        logger.info(f"Loaded {len(quotes)} quotes from {quotes_dir}")
+        
+        # Run Level 1 training
+        if quotes:
+            result = self.level1.train_from_quotes(quotes)
+            logger.info(f"✅ Level 1 automated training complete: "
+                       f"{result.items_added} added, {result.items_updated} updated")
+            return result
+        else:
+            logger.warning("No quotes found for Level 1 training")
+            return TrainingResult(
+                level=1,
+                timestamp=datetime.now().isoformat(),
+                items_processed=0,
+                items_added=0,
+                items_updated=0,
+                items_failed=0
+            )
+    
+    def run_automated_level2(self, interactions_dir: Optional[str] = None) -> TrainingResult:
+        """
+        Automated Level 2 training - processes all interactions in directory
+        
+        Args:
+            interactions_dir: Directory containing interaction files
+        
+        Returns:
+            TrainingResult for Level 2
+        """
+        logger.info("🤖 Running automated Level 2 training")
+        
+        if interactions_dir is None:
+            interactions_dir = str(self.kb_path.parent / "training_data")
+        
+        interactions_path = Path(interactions_dir)
+        if not interactions_path.exists():
+            raise FileNotFoundError(f"Interactions directory not found: {interactions_dir}")
+        
+        # Load all interaction files
+        interactions = []
+        for interaction_file in interactions_path.glob("*.json"):
+            try:
+                with open(interaction_file, 'r', encoding='utf-8') as f:
+                    interaction_data = json.load(f)
+                    if isinstance(interaction_data, list):
+                        interactions.extend(interaction_data)
+                    else:
+                        interactions.append(interaction_data)
+            except Exception as e:
+                logger.warning(f"Failed to load {interaction_file}: {e}")
+        
+        logger.info(f"Loaded {len(interactions)} interactions from {interactions_dir}")
+        
+        # Run Level 2 training
+        if interactions:
+            result = self.level2.train_from_interactions(interactions)
+            logger.info(f"✅ Level 2 automated training complete: "
+                       f"{result.items_added} added, {result.items_updated} updated, "
+                       f"{result.metrics.get('patterns_identified', 0)} patterns")
+            return result
+        else:
+            logger.warning("No interactions found for Level 2 training")
+            return TrainingResult(
+                level=2,
+                timestamp=datetime.now().isoformat(),
+                items_processed=0,
+                items_added=0,
+                items_updated=0,
+                items_failed=0
+            )
+    
+    def run_automated_training_pipeline(
+        self,
+        quotes_dir: Optional[str] = None,
+        interactions_dir: Optional[str] = None,
+        levels: List[int] = [1, 2]
+    ) -> Dict[str, Any]:
+        """
+        Run automated training pipeline for specified levels
+        
+        Args:
+            quotes_dir: Directory containing quote files
+            interactions_dir: Directory containing interaction files
+            levels: Which levels to run automatically
+        
+        Returns:
+            Automation result with all training results
+        """
+        logger.info(f"🚀 Starting automated training pipeline for levels {levels}")
+        
+        results = {
+            "timestamp": datetime.now().isoformat(),
+            "levels_run": levels,
+            "level_results": {}
+        }
+        
+        try:
+            # Level 1 automation
+            if 1 in levels:
+                results["level_results"]["level1"] = self.run_automated_level1(quotes_dir)
+            
+            # Level 2 automation
+            if 2 in levels:
+                results["level_results"]["level2"] = self.run_automated_level2(interactions_dir)
+            
+            results["status"] = "completed"
+            logger.info("✅ Automated training pipeline completed successfully")
+        
+        except Exception as e:
+            results["status"] = "failed"
+            results["error"] = str(e)
+            logger.error(f"❌ Automated training pipeline failed: {e}")
+        
+        return results

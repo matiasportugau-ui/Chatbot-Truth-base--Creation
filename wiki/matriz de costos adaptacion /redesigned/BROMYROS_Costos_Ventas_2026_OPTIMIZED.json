@@ -7813,7 +7813,7 @@
         "estado": "ACT.",
         "costos": {
           "fabrica_directo": {
-            "costo_base_usd_iva": 28.14,
+            "costo_base_usd_iva": 999.0,
             "costo_con_aumento_usd_iva": null,
             "costo_proximo_aumento_usd_iva": null
           }
@@ -7865,8 +7865,9 @@
         "metadata": {
           "shopify_status": "Fata foto",
           "notas": "Tenemos paneles en el fondo para fotografiar",
-          "fecha_actualizacion": "2026-01-26T23:22:39.523199",
-          "source": "wiki/matriz de costos adaptacion /MATRIZ de COSTOS y VENTAS 2026 2.xlsx/BROMYROS.html"
+          "fecha_actualizacion": "2026-01-27T04:04:57.384817",
+          "source": "wiki/matriz de costos adaptacion /MATRIZ de COSTOS y VENTAS 2026 2.xlsx/BROMYROS.html",
+          "last_editor": "AI Agent"
         }
       },
       {

@@ -48,6 +48,11 @@ class KBAutoScheduler:
         
         self.kb_optimizer = KBUpdateOptimizer(API_KEY, ASSISTANT_ID)
         self.training_optimizer = TrainingDataOptimizer()
+        
+        # Event-based workflow support
+        self.event_handlers = {}
+        self.workflow_queue = []
+        
         logger.info("KB Auto Scheduler initialized")
     
     def update_level_3_daily(self):
@@ -100,6 +105,24 @@ class KBAutoScheduler:
         except Exception as e:
             logger.error(f"❌ Error extracting patterns: {e}")
     
+    def register_event_handler(self, event_name: str, handler_func):
+        """Register an event-based trigger"""
+        if event_name not in self.event_handlers:
+            self.event_handlers[event_name] = []
+        self.event_handlers[event_name].append(handler_func)
+        logger.info(f"📌 Event handler registered for: {event_name}")
+    
+    def trigger_event(self, event_name: str, event_data: dict = None):
+        """Trigger event handlers"""
+        handlers = self.event_handlers.get(event_name, [])
+        logger.info(f"🔔 Event triggered: {event_name} ({len(handlers)} handlers)")
+        
+        for handler in handlers:
+            try:
+                handler(event_data or {})
+            except Exception as e:
+                logger.error(f"❌ Event handler error ({event_name}): {e}")
+    
     def setup_schedule(self):
         """Setup automated schedule"""
         # Level 3: Daily at 2 AM (low traffic time)
@@ -123,6 +146,7 @@ class KBAutoScheduler:
         logger.info("   - Level 1: Monthly (1st) at 04:00")
         logger.info("   - Training: Daily at 04:00")
         logger.info("   - Patterns: Weekly (Sunday) at 05:00")
+        logger.info("   - Event-based triggers: Enabled")
     
     def run_once(self):
         """Run all scheduled tasks once (for testing)"""

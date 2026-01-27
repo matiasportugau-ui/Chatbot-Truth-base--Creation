@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 from .redesign_tool import CostMatrixRedesigner
 
 # Constants shared with excel_manager
@@ -114,7 +114,7 @@ def _update_sheet_rows(ws: gspread.Worksheet, rows: List[List[Any]], chunk_size:
 
 def get_client(creds_path: str) -> gspread.Client:
     _validate_credentials(creds_path)
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, SCOPE)
+    creds = Credentials.from_service_account_file(creds_path, scopes=SCOPE)
     return gspread.authorize(creds)
 
 def sync_up(json_path: str, creds_path: str, sheet_key_or_name: str, chunk_size: int = DEFAULT_CHUNK_SIZE) -> None:
