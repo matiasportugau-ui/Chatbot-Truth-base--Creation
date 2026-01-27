@@ -320,7 +320,9 @@ class KBIndexingAgent:
         target_product = None
         
         for p in products:
-            if p.get("codigo") == code:
+            p_code = p.get("codigo", "")
+            # Match exact or case-insensitive (preferring uppercase match if exact fails)
+            if p_code == code or (code and p_code == code.upper()):
                 target_product = p
                 # Update logic
                 if field == "costo_base_usd_iva":
@@ -663,13 +665,18 @@ class KBIndexingAgent:
                 
                 if file_path.exists():
                     level_status["files_found"] += 1
-                    # Validate JSON
-                    try:
-                        with open(file_path, 'r', encoding='utf-8') as f:
-                            json.load(f)
+                    
+                    # Validate JSON only for .json files
+                    if filename.lower().endswith('.json'):
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                json.load(f)
+                            level_status["files_valid"].append(filename)
+                        except json.JSONDecodeError:
+                            health_report["warnings"].append(f"Invalid JSON in {filename}")
+                    else:
+                        # Non-JSON files are considered valid if they exist
                         level_status["files_valid"].append(filename)
-                    except json.JSONDecodeError:
-                        health_report["warnings"].append(f"Invalid JSON in {filename}")
                 else:
                     level_status["files_missing"].append(filename)
             
