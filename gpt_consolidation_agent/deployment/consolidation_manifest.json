@@ -1,0 +1,60 @@
+{
+  "timestamp": "20260127_052156",
+  "files": [
+    {
+      "type": "instructions",
+      "path": "instructions.md",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/docs/gpt/PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/BMC_Base_Conocimiento_GPT-2.json",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/BMC_Base_Unificada_v4.json",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/Files /BMC_Base_Unificada_v4.json"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/panelin_truth_bmcuruguay_web_only_v2.json",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/panelin_truth_bmcuruguay_web_only_v2.json"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/PANELIN_KNOWLEDGE_BASE_GUIDE.md",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/PANELIN_KNOWLEDGE_BASE_GUIDE.md"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/PANELIN_QUOTATION_PROCESS.md",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/PANELIN_QUOTATION_PROCESS.md"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/PANELIN_TRAINING_GUIDE.md",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/PANELIN_TRAINING_GUIDE.md"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/panelin_context_consolidacion_sin_backend.md",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/panelin_context_consolidacion_sin_backend.md"
+    },
+    {
+      "type": "knowledge_base",
+      "path": "knowledge_base/Aleros -2.rtf",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/Files /Aleros -2.rtf"
+    },
+    {
+      "type": "config",
+      "path": "config/gpt_config.json",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/gpt_configs/Panelin_Asistente_Integral_BMC_config.json"
+    },
+    {
+      "type": "action",
+      "path": "actions/verify_gpt_configuration.py",
+      "source": "/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/verify_gpt_configuration.py"
+    }
+  ]
+}
