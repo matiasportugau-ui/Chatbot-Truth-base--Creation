@@ -35,7 +35,9 @@ KB_HIERARCHY = {
     ],
     "level_4_support": [
         "Aleros -2.rtf",
-        "panelin_truth_bmcuruguay_catalog_v2_index.csv"
+        "panelin_truth_bmcuruguay_catalog_v2_index.csv",
+        # Internal cost matrix (optimized JSON with indices)
+        "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
     ]
 }
 
@@ -52,6 +54,9 @@ class KBIndexingAgent:
         self.files_dir = FILES_DIR
         self._index_cache = {}
         self._metadata_cache = {}
+        self._cost_matrix_cache: Optional[Dict[str, Any]] = None
+        self._cost_matrix_by_code: Dict[str, Dict[str, Any]] = {}
+        self._cost_matrix_by_category: Dict[str, List[Dict[str, Any]]] = {}
     
     def _load_json_file(self, filename: str, level: int) -> Optional[Dict]:
         """Load JSON file from appropriate location"""
@@ -148,7 +153,11 @@ class KBIndexingAgent:
             for filename in KB_HIERARCHY[files_key]:
                 data = self._load_json_file(filename, kb_level)
                 if data:
-                    file_index = self._index_json_structure(data, "", kb_level)
+                    # Special-case: the cost matrix is already indexed; don't explode it into huge key/value entries.
+                    if "BROMYROS_Costos_Ventas_2026_OPTIMIZED.json" in filename:
+                        file_index = self._index_cost_matrix(data, kb_level)
+                    else:
+                        file_index = self._index_json_structure(data, "", kb_level)
                     level_index["files"][filename] = {
                         "entries": file_index,
                         "count": len(file_index),
@@ -168,6 +177,106 @@ class KBIndexingAgent:
         
         self._index_cache = index
         return index
+
+    def _index_cost_matrix(self, data: Dict[str, Any], level: int) -> List[Dict[str, Any]]:
+        """
+        Create a compact index for the optimized cost matrix JSON.
+        We index product codes, names, categories, and a few key numeric fields to keep search fast.
+        """
+        entries: List[Dict[str, Any]] = []
+
+        # index by_code
+        by_code = (data.get("indices", {}) or {}).get("by_code", {}) or {}
+        for code, rec in by_code.items():
+            entries.append({
+                "key": code,
+                "path": f"indices.by_code.{code}",
+                "level": level,
+                "type": "cost_matrix_code",
+                "value": rec.get("nombre", ""),
+                "value_type": "product_code",
+            })
+
+        # index categories
+        by_cat = (data.get("indices", {}) or {}).get("by_category", {}) or {}
+        for cat, codes in by_cat.items():
+            entries.append({
+                "key": cat,
+                "path": f"indices.by_category.{cat}",
+                "level": level,
+                "type": "cost_matrix_category",
+                "value": str(len(codes)) if isinstance(codes, list) else "",
+                "value_type": "category",
+            })
+
+        return entries
+
+    # ------------------------------------------------------------------------
+    # Cost Matrix Helpers (fast O(1) access)
+    # ------------------------------------------------------------------------
+
+    def _load_cost_matrix(self) -> Optional[Dict[str, Any]]:
+        """Load and cache the internal cost matrix JSON."""
+        if self._cost_matrix_cache is not None:
+            return self._cost_matrix_cache
+
+        cm_path = "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json"
+        data = self._load_json_file(cm_path, 4)
+        if not data:
+            self._cost_matrix_cache = None
+            self._cost_matrix_by_code = {}
+            self._cost_matrix_by_category = {}
+            return None
+
+        products = (data.get("productos", {}) or {}).get("todos", []) or []
+        self._cost_matrix_by_code = {p.get("codigo", ""): p for p in products if p.get("codigo")}
+        self._cost_matrix_by_category = (data.get("productos", {}) or {}).get("por_categoria", {}) or {}
+        self._cost_matrix_cache = data
+        return data
+
+    def get_cost_matrix_product(self, code: str) -> Dict[str, Any]:
+        """Get a product from the internal cost matrix by product code."""
+        data = self._load_cost_matrix()
+        if not data:
+            return {"error": "Cost matrix not available"}
+
+        code_norm = (code or "").strip()
+        if not code_norm:
+            return {"error": "Missing product code"}
+
+        product = self._cost_matrix_by_code.get(code_norm)
+        if not product and code_norm.upper() != code_norm:
+            product = self._cost_matrix_by_code.get(code_norm.upper())
+        if not product:
+            return {"error": f"Product code not found in cost matrix: {code_norm}"}
+
+        return {
+            "source": "cost_matrix_bromyros",
+            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+            "product": product,
+        }
+
+    def get_cost_matrix_products_by_category(self, category: str) -> Dict[str, Any]:
+        """Get all products from the internal cost matrix by category."""
+        data = self._load_cost_matrix()
+        if not data:
+            return {"error": "Cost matrix not available"}
+
+        cat = (category or "").strip()
+        if not cat:
+            return {"error": "Missing category"}
+
+        products = self._cost_matrix_by_category.get(cat)
+        if products is None:
+            return {"error": f"Category not found in cost matrix: {cat}"}
+
+        return {
+            "source": "cost_matrix_bromyros",
+            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+            "category": cat,
+            "count": len(products),
+            "products": products,
+        }
     
     def search_kb(
         self,
@@ -185,6 +294,35 @@ class KBIndexingAgent:
             search_type: "hybrid", "keyword", "semantic", or "structured"
             max_results: Maximum results to return
         """
+        # Fast path: if the query contains a known cost-matrix product code, return it immediately.
+        cm = self._load_cost_matrix()
+        if cm:
+            # Extract candidate tokens (codes are usually short-ish alphanumerics with optional dots)
+            tokens = re.findall(r"[A-Za-z0-9\\.]{3,}", query.strip())
+            for tok in tokens:
+                if tok in self._cost_matrix_by_code or tok.upper() in self._cost_matrix_by_code:
+                    product = self._cost_matrix_by_code.get(tok) or self._cost_matrix_by_code.get(tok.upper())
+                    return {
+                        "query": query,
+                        "search_type": "fast_cost_matrix",
+                        "level_priority": level_priority,
+                        "total_matches": 1,
+                        "results": [{
+                            "entry": {
+                                "type": "cost_matrix_product",
+                                "code": product.get("codigo"),
+                                "name": product.get("nombre"),
+                                "category": product.get("categoria"),
+                                "product": product,
+                            },
+                            "score": 100.0,
+                            "level": 4,
+                            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+                            "match_type": "cost_matrix_code",
+                            "metadata": {"source": "cost_matrix_index"},
+                        }]
+                    }
+
         if not self._index_cache:
             self.build_index()
         
@@ -547,6 +685,42 @@ def get_build_index_function_schema() -> Dict:
     }
 
 
+def get_cost_matrix_product_function_schema() -> Dict:
+    """Get cost matrix product by code function schema for OpenAI Actions"""
+    return {
+        "name": "get_cost_matrix_product",
+        "description": "Get a product record from the internal Cost Matrix (Matriz de Costos y Ventas) by product code. Returns costs, margins, and prices. INTERNAL USE ONLY (contains sensitive cost data).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Product code (e.g., 'IAGRO30', 'ISD150EPS', 'PU50MM')"
+                }
+            },
+            "required": ["code"]
+        }
+    }
+
+
+def get_cost_matrix_products_by_category_function_schema() -> Dict:
+    """Get cost matrix products by category function schema for OpenAI Actions"""
+    return {
+        "name": "get_cost_matrix_products_by_category",
+        "description": "List all products from the internal Cost Matrix by category (e.g., 'isodec_eps', 'isoroof', 'perfil'). INTERNAL USE ONLY (contains sensitive cost data).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category key (e.g., 'isoroof_foil', 'isodec_eps', 'anclaje', 'perfil')"
+                }
+            },
+            "required": ["category"]
+        }
+    }
+
+
 # ============================================================================
 # FUNCTION IMPLEMENTATIONS FOR GPT
 # ============================================================================
@@ -593,6 +767,16 @@ def build_kb_index(level: Optional[int] = None) -> Dict[str, Any]:
     return _kb_agent.build_index(level)
 
 
+def get_cost_matrix_product(code: str) -> Dict[str, Any]:
+    """Get cost matrix product by code - Function for GPT OpenAI Actions"""
+    return _kb_agent.get_cost_matrix_product(code)
+
+
+def get_cost_matrix_products_by_category(category: str) -> Dict[str, Any]:
+    """Get cost matrix products by category - Function for GPT OpenAI Actions"""
+    return _kb_agent.get_cost_matrix_products_by_category(category)
+
+
 # ============================================================================
 # ALL FUNCTION SCHEMAS (for easy import)
 # ============================================================================
@@ -605,5 +789,7 @@ def get_all_kb_function_schemas() -> List[Dict]:
         get_formula_function_schema(),
         get_kb_health_function_schema(),
         get_kb_metadata_function_schema(),
-        get_build_index_function_schema()
+        get_build_index_function_schema(),
+        get_cost_matrix_product_function_schema(),
+        get_cost_matrix_products_by_category_function_schema(),
     ]
