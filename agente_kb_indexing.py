@@ -181,8 +181,10 @@ class KBIndexingAgent:
                     
                     # Count products and formulas
                     if kb_level == 1:
-                        if "products" in data:
-                            level_index["products_indexed"] = len(data.get("products", {}))
+                        # Support both "products" and "productos" keys
+                        prods = data.get("products", data.get("productos", {}))
+                        if prods:
+                            level_index["products_indexed"] = len(prods)
                         if "formulas_cotizacion" in data:
                             level_index["formulas_indexed"] = len(data.get("formulas_cotizacion", {}))
             

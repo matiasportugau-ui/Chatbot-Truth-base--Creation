@@ -1,0 +1,16 @@
+# VERSIÓN KB: 6.0 (Actualizado: 2026-01-27)
+
+## 🚨 REGLAS CRÍTICAS v6.0
+1. DERIVACIÓN: NUNCA derivar a proveedores o instaladores externos. Derivar SIEMPRE a agentes de ventas de BMC Uruguay.
+2. IVA 2026: Confirmado en 22% para Uruguay.
+3. REFERENCIA OFICIAL: https://bmcuruguay.com.uy (Usar para catálogo).
+
+## 🛠️ NUEVOS PRODUCTOS Y FÓRMULAS
+- ANGULO_ALUMINIO: Vinculante fachada/techo (Hormigón: kit fijación | Metal: Tornillo T2).
+- TORTUGAS_PVC: Arandelas de sellado final (Colocar al último cubriendo todo el kit).
+- ARANDELA_CARROCERO: 1 por punto (Contención ante movimientos).
+- FIJACIONES PERFILERÍA: 1 cada 30cm (ROUNDUP(ML_TOTALES / 0.30)). 
+  * Nota: Remaches ya incluidos en este cálculo (o usar Tornillos T1 según prefiera el cliente).
+
+## 📝 PREFERENCIA DE COTIZACIÓN
+- Realizar desglose de accesorios POR SEPARADO en lugar de kits cerrados siempre que sea posible.

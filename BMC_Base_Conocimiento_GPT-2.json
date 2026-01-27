@@ -1,7 +1,7 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "6.0-Unified-UserCorrections-mem-update",
+    "version": "6.0-Unified-UserCorrections-mem-update-mem-update",
     "fecha": "2026-01-27",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections + User Conversational Inputs",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay. Incluye correcciones de usuario sobre fijaciones, derivaciones y accesorios.",
@@ -407,6 +407,24 @@
     {
       "fuente": "MCP_Memory",
       "fecha_captura": "2026-01-27T05:04:22.662264",
+      "entidad": "Mauro BMC",
+      "tipo": "Preferencia Cliente",
+      "observaciones": [
+        "Prefiere recibir cotizaciones con desglose de accesorios por separado."
+      ]
+    },
+    {
+      "fuente": "MCP_Memory",
+      "fecha_captura": "2026-01-27T05:09:14.586561",
+      "entidad": "IVA Uruguay 2026",
+      "tipo": "Regla de Negocio",
+      "observaciones": [
+        "El IVA estándar para productos de construcción sigue siendo 22% en 2026."
+      ]
+    },
+    {
+      "fuente": "MCP_Memory",
+      "fecha_captura": "2026-01-27T05:09:14.586593",
       "entidad": "Mauro BMC",
       "tipo": "Preferencia Cliente",
       "observaciones": [
