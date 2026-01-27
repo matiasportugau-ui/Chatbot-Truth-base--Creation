@@ -33,15 +33,8 @@
     "image_generation": false,
     "file_upload": true,
     "audio_transcription": false,
-<<<<<<< Current (Your changes)
-<<<<<<< Current (Your changes)
-    "audio_analysis_requires_text": true
-=======
->>>>>>> Incoming (Background Agent changes)
+    "audio_analysis_requires_text": true,
     "audio_transcription_note": "No puede transcribir archivos de audio. Solicitar al usuario que proporcione transcripción en texto."
-=======
-    "audio_analysis_requires_text": true
->>>>>>> Incoming (Background Agent changes)
   },
   "actions": [
     {

@@ -67,6 +67,45 @@ Notes:
 - The third argument (“base_json”) preserves meta/rules from the current JSON while importing updated rows.
 - Canonical editable sheet is **`PRODUCTS`**.
 
+## Process C: Google Sheets (Live Sync)
+
+Use this for live collaboration between humans and the bot.
+
+### Prerequisites
+
+1.  **Credentials**: Place `credentials.json` (Service Account key) in `panelin_improvements/credentials.json`.
+2.  **Access**: Share the Google Sheet with the Service Account email.
+3.  **Dependencies**: `pip install gspread oauth2client` (already in `panelin_improvements/requirements.txt`).
+
+### Workflow
+
+1.  **Initial Push (Local -> Cloud)**:
+    Use this to populate the Sheet for the first time or reset it from local JSON.
+    ```bash
+    python3 -m panelin_improvements.cost_matrix_tools.gsheets_manager sync_up \
+      "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json" \
+      "panelin_improvements/credentials.json" \
+      "BROMYROS_Costos_Ventas_2026"
+    ```
+
+2.  **Bot Update (Price Change)**:
+    The bot calls `update_product_price(code, new_price)`.
+    - Updates local JSON.
+    - Pushes changes to Google Sheet automatically.
+
+3.  **Human Edit (Cloud)**:
+    Humans edit the **`PRODUCTS`** sheet in Google Sheets.
+
+4.  **Pull Updates (Cloud -> Local)**:
+    The bot calls `sync_cost_matrix()` or you run manually:
+    ```bash
+    python3 -m panelin_improvements.cost_matrix_tools.gsheets_manager sync_down \
+      "panelin_improvements/credentials.json" \
+      "BROMYROS_Costos_Ventas_2026" \
+      "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json" \
+      "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json"
+    ```
+
 ## How GPT gets instant access
 
 The KB Indexing Agent (`agente_kb_indexing.py`) now includes the optimized cost matrix JSON in its hierarchy:
@@ -107,4 +146,3 @@ python3 -m panelin_improvements.cost_matrix_tools.redesign_tool \
 ```
 
 This adds `metadata.proveedor` based on the `.html` filename (sheet name).
-

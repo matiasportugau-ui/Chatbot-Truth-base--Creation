@@ -174,19 +174,10 @@
     },
     "ISOFRIG_PIR": {
       "nombre_comercial": "Isofrig (PIR)",
-<<<<<<< Current (Your changes)
       "tipo": "pared_frigorifica",
       "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
       "ancho_util": 1.1,
       "sistema_fijacion": "varilla_tuerca",
-<<<<<<< Current (Your changes)
-      "espesores": {
-        "100": { "precio": "Consultar" },
-        "150": { "precio": "Consultar" },
-        "200": { "precio": "Consultar" }
-      },
-      "nota": "Panel específico para cámaras frigoríficas y logística de frío."
-=======
       "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
       "caracteristicas": [
         "Panel PIR especializado para aplicaciones frigoríficas",
@@ -214,16 +205,18 @@
           "coeficiente_termico": 0.022,
           "resistencia_termica": 5.45,
           "nota": "Consultar precio actualizado"
+        },
+        "150": {
+          "precio": "Consultar",
+          "nota": "Consultar precio actualizado"
+        },
+        "200": {
+          "precio": "Consultar",
+          "nota": "Consultar precio actualizado"
         }
       },
+      "nota": "Panel específico para cámaras frigoríficas y logística de frío.",
       "nota_importante": "Precios sujetos a cotización específica según requerimientos del proyecto frigorífico"
->>>>>>> Incoming (Background Agent changes)
-=======
-      "tipo": "pared",
-      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
-      "nota": "Producto listado por BMC; espesores y precios pendientes en la KB maestra.",
-      "espesores": {}
->>>>>>> Incoming (Background Agent changes)
     },
     "HM_RUBBER": {
       "nombre_comercial": "HM Rubber 7-en-1",

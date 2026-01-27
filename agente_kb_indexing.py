@@ -12,6 +12,7 @@ Features:
 - Semantic and keyword search
 - Conflict detection and resolution
 - Structured data extraction
+- Google Sheets bidirectional sync for Cost Matrix
 """
 
 import json
@@ -45,6 +46,10 @@ KB_HIERARCHY = {
 PROJECT_ROOT = Path(__file__).parent
 FILES_DIR = PROJECT_ROOT / "Files"
 
+# Google Sheets Configuration
+GSHEETS_CREDS = "panelin_improvements/credentials.json"
+GSHEETS_NAME = "BROMYROS_Costos_Ventas_2026"
+COST_MATRIX_REL_PATH = "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json"
 
 class KBIndexingAgent:
     """Expert agent for KB indexing and retrieval"""
@@ -167,8 +172,8 @@ class KBIndexingAgent:
                     
                     # Count products and formulas
                     if kb_level == 1:
-                        if "productos" in data:
-                            level_index["products_indexed"] = len(data.get("productos", {}))
+                        if "products" in data:
+                            level_index["products_indexed"] = len(data.get("products", {}))
                         if "formulas_cotizacion" in data:
                             level_index["formulas_indexed"] = len(data.get("formulas_cotizacion", {}))
             
@@ -220,7 +225,7 @@ class KBIndexingAgent:
         if self._cost_matrix_cache is not None:
             return self._cost_matrix_cache
 
-        cm_path = "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json"
+        cm_path = COST_MATRIX_REL_PATH
         data = self._load_json_file(cm_path, 4)
         if not data:
             self._cost_matrix_cache = None
@@ -252,7 +257,7 @@ class KBIndexingAgent:
 
         return {
             "source": "cost_matrix_bromyros",
-            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+            "file": COST_MATRIX_REL_PATH,
             "product": product,
         }
 
@@ -272,12 +277,123 @@ class KBIndexingAgent:
 
         return {
             "source": "cost_matrix_bromyros",
-            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+            "file": COST_MATRIX_REL_PATH,
             "category": cat,
             "count": len(products),
             "products": products,
         }
     
+    # ------------------------------------------------------------------------
+    # Google Sheets Integration
+    # ------------------------------------------------------------------------
+
+    def update_product_price(self, code: str, new_value: float, field: str = "costo_base_usd_iva") -> Dict[str, Any]:
+        """Update a product value in the Cost Matrix and sync to Google Sheets."""
+        # 1. Load data
+        file_path = self.kb_path / COST_MATRIX_REL_PATH
+        if not file_path.exists():
+            file_path = self.files_dir / COST_MATRIX_REL_PATH
+        
+        if not file_path.exists():
+            return {"error": f"Cost matrix file not found at {COST_MATRIX_REL_PATH}"}
+            
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except Exception as e:
+            return {"error": f"Failed to load JSON: {e}"}
+            
+        # 2. Find and update product
+        products = (data.get("productos", {}) or {}).get("todos", [])
+        updated = False
+        target_product = None
+        
+        for p in products:
+            if p.get("codigo") == code:
+                target_product = p
+                # Update logic
+                if field == "costo_base_usd_iva":
+                    if "costos" not in p: p["costos"] = {}
+                    if "fabrica_directo" not in p["costos"]: p["costos"]["fabrica_directo"] = {}
+                    p["costos"]["fabrica_directo"]["costo_base_usd_iva"] = new_value
+                elif field == "precio_venta":
+                    if "precios" not in p: p["precios"] = {}
+                    if "empresa" not in p["precios"]: p["precios"]["empresa"] = {}
+                    p["precios"]["empresa"]["venta_iva_usd"] = new_value
+                else:
+                    return {"error": f"Unsupported field: {field}"}
+                
+                updated = True
+                p["metadata"]["fecha_actualizacion"] = datetime.now().isoformat()
+                p["metadata"]["last_editor"] = "AI Agent"
+                break
+        
+        if not updated:
+            return {"error": f"Product code {code} not found"}
+            
+        # 3. Save JSON
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            
+            # Invalidate cache
+            self._cost_matrix_cache = None
+        except Exception as e:
+            return {"error": f"Failed to save JSON: {e}"}
+
+        # 4. Sync to Google Sheets
+        creds_path = GSHEETS_CREDS
+        sheet_name = GSHEETS_NAME
+        
+        # Check for creds
+        if (self.kb_path / creds_path).exists() or Path(creds_path).exists():
+            try:
+                from panelin_improvements.cost_matrix_tools import gsheets_manager
+                gsheets_manager.sync_up(str(file_path), str(creds_path), sheet_name)
+                sync_status = "synced_to_gsheets"
+            except Exception as e:
+                sync_status = f"sync_failed: {e}"
+        else:
+            sync_status = "skipped_no_creds"
+
+        return {
+            "status": "success",
+            "code": code,
+            "field": field,
+            "new_value": new_value,
+            "sync_status": sync_status,
+            "product": target_product
+        }
+
+    def sync_cost_matrix(self) -> Dict[str, Any]:
+        """Pull latest data from Google Sheets to local Cost Matrix."""
+        cm_path = COST_MATRIX_REL_PATH
+        out_path = self.kb_path / cm_path
+        
+        # Ensure directory exists
+        if not out_path.parent.exists():
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+
+        creds_path = GSHEETS_CREDS
+        sheet_name = GSHEETS_NAME
+        
+        if not Path(creds_path).exists() and not (self.kb_path / creds_path).exists():
+            return {"error": "Credentials file not found", "path": creds_path}
+            
+        try:
+            from panelin_improvements.cost_matrix_tools import gsheets_manager
+            # Pass base_json as the current file to preserve extra metadata
+            base_json = str(out_path) if out_path.exists() else None
+            
+            gsheets_manager.sync_down(str(creds_path), sheet_name, str(out_path), base_json)
+            
+            # Invalidate cache
+            self._cost_matrix_cache = None
+            
+            return {"status": "success", "message": "Cost Matrix synced from Google Sheets"}
+        except Exception as e:
+            return {"error": f"Sync failed: {str(e)}"}
+
     def search_kb(
         self,
         query: str,
@@ -317,7 +433,7 @@ class KBIndexingAgent:
                             },
                             "score": 100.0,
                             "level": 4,
-                            "file": "wiki/matriz de costos adaptacion /redesigned/BROMYROS_Costos_Ventas_2026_OPTIMIZED.json",
+                            "file": COST_MATRIX_REL_PATH,
                             "match_type": "cost_matrix_code",
                             "metadata": {"source": "cost_matrix_index"},
                         }]
@@ -720,6 +836,45 @@ def get_cost_matrix_products_by_category_function_schema() -> Dict:
         }
     }
 
+def get_update_product_price_function_schema() -> Dict:
+    """Get update product price function schema for OpenAI Actions"""
+    return {
+        "name": "update_product_price",
+        "description": "Update a product's base cost or price in the Cost Matrix and sync changes to Google Sheets. Use this to keep prices up to date.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Product code (e.g., 'IAGRO30', 'ISD150EPS')"
+                },
+                "new_value": {
+                    "type": "number",
+                    "description": "New monetary value"
+                },
+                "field": {
+                    "type": "string",
+                    "enum": ["costo_base_usd_iva", "precio_venta"],
+                    "description": "Field to update. Defaults to 'costo_base_usd_iva'.",
+                    "default": "costo_base_usd_iva"
+                }
+            },
+            "required": ["code", "new_value"]
+        }
+    }
+
+def get_sync_cost_matrix_function_schema() -> Dict:
+    """Get sync cost matrix function schema for OpenAI Actions"""
+    return {
+        "name": "sync_cost_matrix",
+        "description": "Force a synchronization of the Cost Matrix from Google Sheets to the local KB. Use this if a human has edited the sheet and you need the latest data.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+
 
 # ============================================================================
 # FUNCTION IMPLEMENTATIONS FOR GPT
@@ -776,6 +931,14 @@ def get_cost_matrix_products_by_category(category: str) -> Dict[str, Any]:
     """Get cost matrix products by category - Function for GPT OpenAI Actions"""
     return _kb_agent.get_cost_matrix_products_by_category(category)
 
+def update_product_price(code: str, new_value: float, field: str = "costo_base_usd_iva") -> Dict[str, Any]:
+    """Update product price - Function for GPT OpenAI Actions"""
+    return _kb_agent.update_product_price(code, new_value, field)
+
+def sync_cost_matrix() -> Dict[str, Any]:
+    """Sync cost matrix - Function for GPT OpenAI Actions"""
+    return _kb_agent.sync_cost_matrix()
+
 
 # ============================================================================
 # ALL FUNCTION SCHEMAS (for easy import)
@@ -792,4 +955,6 @@ def get_all_kb_function_schemas() -> List[Dict]:
         get_build_index_function_schema(),
         get_cost_matrix_product_function_schema(),
         get_cost_matrix_products_by_category_function_schema(),
+        get_update_product_price_function_schema(),
+        get_sync_cost_matrix_function_schema(),
     ]
