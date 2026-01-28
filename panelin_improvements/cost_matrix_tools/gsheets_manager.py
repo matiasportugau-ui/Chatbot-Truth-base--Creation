@@ -1,10 +1,15 @@
 import json
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 from .redesign_tool import CostMatrixRedesigner
+
+# Preferred auth (matches tests + modern google-auth)
+try:
+    from google.oauth2.service_account import Credentials  # type: ignore
+except Exception:  # pragma: no cover
+    Credentials = None  # type: ignore
 
 # Re-use ML lengths from excel_manager context
 LENGTHS_ML: List[str] = [
@@ -12,11 +17,21 @@ LENGTHS_ML: List[str] = [
     "8.0", "8.5", "9.0", "9.5", "10.0", "10.5", "11.0", "11.5", "12.0", "12.5", "13.0",
 ]
 
-def _get_client(credentials_path: str):
+def get_client(credentials_path: str):
     """Authenticate and return gspread client."""
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive",
+    ]
+    if Credentials is None:
+        raise ImportError("google-auth is required for get_client()")
+    creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
     return gspread.authorize(creds)
+
+
+# Backwards-compatible alias
+def _get_client(credentials_path: str):
+    return get_client(credentials_path)
 
 def _safe_str(v: Any) -> str:
     return str(v).strip() if v is not None else ""
@@ -42,7 +57,7 @@ def _build_headers() -> List[str]:
 
 def sync_up(json_path: str, credentials_path: str, spreadsheet_name: str):
     """Push local JSON Cost Matrix to Google Sheets."""
-    client = _get_client(credentials_path)
+    client = get_client(credentials_path)
     
     # Load JSON
     with open(json_path, 'r', encoding='utf-8') as f:
@@ -109,7 +124,7 @@ def sync_up(json_path: str, credentials_path: str, spreadsheet_name: str):
 
 def sync_down(credentials_path: str, spreadsheet_name: str, output_json_path: str, base_json_path: Optional[str] = None):
     """Pull Google Sheets Cost Matrix to local JSON."""
-    client = _get_client(credentials_path)
+    client = get_client(credentials_path)
     sh = client.open(spreadsheet_name)
     ws = sh.worksheet("PRODUCTS")
     
