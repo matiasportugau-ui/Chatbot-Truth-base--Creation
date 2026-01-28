@@ -22,3 +22,8 @@ __pycache__/
 
 # Generated PDF outputs (test files)
 panelin_reports/output/*.pdf
+
+# Test/coverage artifacts
+.coverage
+htmlcov/
+.pytest_cache/
