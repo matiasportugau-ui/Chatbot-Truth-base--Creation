@@ -1,0 +1,42 @@
+{
+  "rules": [
+    {
+      "name": "Panels On Demand Production",
+      "target_fields": ["min_length_m", "max_length_m", "production_type"],
+      "condition": {
+        "sku_contains": ["IAGRO", "IROOF", "IW", "IF", "ISOPANEL", "ISODEC", "ISD", "CUMROOF"],
+        "name_excludes": ["3m", "3 m", "2.2 m", "piezas", "3,03m", "3.03 m"]
+      },
+      "values": {
+        "min_length_m": 2.5,
+        "max_length_m": 14.0,
+        "production_type": "on_demand"
+      },
+      "priority": 20
+    },
+    {
+      "name": "Standard Profile Length 3m",
+      "target_fields": ["length_m", "production_type"],
+      "condition": {
+        "type": "perfil",
+        "length_m_is_missing": true
+      },
+      "values": {
+        "length_m": 3.0,
+        "production_type": "standard_stock"
+      },
+      "priority": 5
+    }
+  ],
+  "families": {
+    "ISOROOF_3G": {
+      "type": "panel",
+      "unit_base": "m2",
+      "default_thickness": 30
+    },
+    "ISOWALL_PIR": {
+      "type": "panel",
+      "unit_base": "m2"
+    }
+  }
+}

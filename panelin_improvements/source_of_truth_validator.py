@@ -49,7 +49,8 @@ class SourceOfTruthValidator:
         self.kb_path = Path(knowledge_base_path) if knowledge_base_path else None
         self.level_1_files = [
             "BMC_Base_Conocimiento_GPT.json",
-            "BMC_Base_Conocimiento_GPT-2.json"
+            "BMC_Base_Conocimiento_GPT-2.json",
+            "bromyros_pricing_master.json"
         ]
         self.level_2_files = [
             "BMC_Base_Unificada_v4.json"
