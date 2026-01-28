@@ -9,12 +9,16 @@ Modules:
 - report_templates: Report templates (JSON, Markdown, PDF)
 - report_scheduler: Scheduled report generation
 - report_distributor: Email and file distribution
+- pdf_generator: BMC Uruguay quotation PDF generation
+- pdf_styles: PDF styling and branding configuration
 """
 
 from .report_generator import ReportGenerator
 from .report_templates import ReportTemplate, TemplateType
 from .report_scheduler import ReportScheduler
 from .report_distributor import ReportDistributor
+from .pdf_generator import BMCQuotationPDF, QuotationDataFormatter, generate_quotation_pdf
+from .pdf_styles import BMCStyles, QuotationConstants
 
 __all__ = [
     "ReportGenerator",
@@ -22,6 +26,11 @@ __all__ = [
     "TemplateType",
     "ReportScheduler",
     "ReportDistributor",
+    "BMCQuotationPDF",
+    "QuotationDataFormatter",
+    "generate_quotation_pdf",
+    "BMCStyles",
+    "QuotationConstants",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
