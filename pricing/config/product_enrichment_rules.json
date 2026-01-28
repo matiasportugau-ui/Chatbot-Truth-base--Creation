@@ -37,6 +37,30 @@
     "ISOWALL_PIR": {
       "type": "panel",
       "unit_base": "m2"
+    },
+    "gotero": {
+      "type": "perfil",
+      "unit_base": "unidad",
+      "note": "Goteros are sold as complete units (3m pieces), not per meter"
+    }
+  },
+  "nomenclature": {
+    "thickness_field": "Thickness_mm",
+    "length_field": "Length_m",
+    "description": "Standardized field naming for technical specifications"
+  },
+  "unit_base_calculation_logic": {
+    "unidad": {
+      "formula": "cantidad × sale_sin_iva",
+      "description": "Sold as complete units, do not multiply by length"
+    },
+    "ml": {
+      "formula": "cantidad × Length_m × sale_sin_iva",
+      "description": "Sold per linear meter, multiply by length"
+    },
+    "m²": {
+      "formula": "área_total × sale_sin_iva",
+      "description": "Sold per square meter, calculate area first"
     }
   }
 }
