@@ -157,16 +157,14 @@ class QuotationDataFormatter:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             fixings_total += item["total_usd"]
 
-        # Total from all items (which already includes IVA)
-        grand_total_items = products_total + accessories_total + fixings_total
+        # Total from all items (calculated without IVA)
+        subtotal = products_total + accessories_total + fixings_total
 
-        # Calculate subtotal (net) and IVA from the total that already includes it
-        # subtotal_net = grand_total_items / 1.22
-        subtotal = grand_total_items / (1 + QuotationConstants.IVA_RATE)
-        iva = grand_total_items - subtotal
+        # Calculate IVA from the subtotal
+        iva = subtotal * QuotationConstants.IVA_RATE
 
-        # Materials total is the original sum (IVA included)
-        materials_total = grand_total_items
+        # Materials total is subtotal + IVA
+        materials_total = subtotal + iva
 
         # Shipping
         shipping = (
