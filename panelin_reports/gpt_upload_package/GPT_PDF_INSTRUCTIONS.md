@@ -56,11 +56,12 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
-            'length_m': [LENGTH],
+            'Length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
-            'total_m2': [AREA]
+            'total_m2': [AREA],
+            'unit_base': 'm2'
         },
         # ... more products from your calculation
     ],

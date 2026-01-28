@@ -141,19 +141,19 @@ class QuotationDataFormatter:
 
         products_total = 0
         for item in products:
-            if "total_usd" not in item:
+            if item.get("total_usd") is None:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             products_total += item["total_usd"]
 
         accessories_total = 0
         for item in accessories:
-            if "total_usd" not in item:
+            if item.get("total_usd") is None:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             accessories_total += item["total_usd"]
 
         fixings_total = 0
         for item in fixings:
-            if "total_usd" not in item:
+            if item.get("total_usd") is None:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             fixings_total += item["total_usd"]
 
@@ -387,7 +387,7 @@ class BMCQuotationPDF:
         # Table data
         data = [header]
         for product in products:
-            # Bug 1 & 2 Fix: Use both Length_m and length_m, and ensure total_usd is calculated
+            # Ensure correct Length_m and total_usd calculation
             length = product.get("Length_m", product.get("length_m", ""))
             total_usd = product.get("total_usd")
             if total_usd is None or total_usd == 0:
@@ -430,7 +430,7 @@ class BMCQuotationPDF:
         data = [header]
 
         for item in accessories:
-            # Bug 1 & 2 Fix: Use both Length_m and length_m, and ensure total_usd is calculated
+            # Ensure correct Length_m and total_usd calculation
             length = item.get("Length_m", item.get("length_m", ""))
             total_usd = item.get("total_usd")
             if total_usd is None or total_usd == 0:
