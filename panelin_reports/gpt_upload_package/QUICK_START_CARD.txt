@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   BMC URUGUAY PDF GENERATION - QUICK START CARD                     ║
+║   Implementation Time: 5 minutes                                     ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ STEP 1: GET BMC LOGO (2 min)                                         │
+└──────────────────────────────────────────────────────────────────────┘
+
+   Download from: https://bmcuruguay.com.uy
+   Or request: info@bmcuruguay.com.uy
+   
+   Save as: bmc_logo.png
+   Location: This folder (gpt_upload_package/)
+   
+   Specs: PNG, 800x300px, 300 DPI
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ STEP 2: UPLOAD TO GPT (1 min)                                        │
+└──────────────────────────────────────────────────────────────────────┘
+
+   Go to: https://chat.openai.com/gpts/editor/
+   
+   Select: "Panelin - BMC Assistant" GPT
+   
+   Click: Configure → Knowledge → Upload files
+   
+   Upload these 3 files from this folder:
+   
+   ☐ pdf_generator.py
+   ☐ pdf_styles.py
+   ☐ bmc_logo.png
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ STEP 3: UPDATE INSTRUCTIONS (2 min)                                  │
+└──────────────────────────────────────────────────────────────────────┘
+
+   1. Open: GPT_PDF_INSTRUCTIONS.md (in this folder)
+   
+   2. Copy: The entire "📄 PDF Quotation Generation" section
+   
+   3. Paste: Into your GPT's Instructions field
+      (After your quotation formulas section)
+   
+   4. Click: Save
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ STEP 4: TEST (30 sec)                                                │
+└──────────────────────────────────────────────────────────────────────┘
+
+   Start new chat with your GPT
+   
+   Type: "Genera cotización PDF de prueba para Juan Pérez, 100m² Isopanel 50mm"
+   
+   ✅ GPT should calculate, generate PDF, and provide download link
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   DONE! Your GPT can now generate professional BMC PDFs 🎉          ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ WHAT'S INCLUDED IN EVERY PDF                                         │
+└──────────────────────────────────────────────────────────────────────┘
+
+   ┌────────────────────────────────────────────────────────┐
+   │ [BMC LOGO]              info@bmcuruguay.com.uy        │
+   │                         www.bmcuruguay.com.uy         │
+   │                         42224031                       │
+   │                         Fecha: DD/MM/YYYY              │
+   ├────────────────────────────────────────────────────────┤
+   │ Cotización: [Product Description]                     │
+   │                                                        │
+   │ Cliente: [Name]                                       │
+   │ Dirección: [Address]                                  │
+   │ Tel/cel: [Phone]                                      │
+   ├────────────────────────────────────────────────────────┤
+   │ PRODUCTOS TABLE                                        │
+   │ [Product] [Largos] [Cant] [Precio] [Total]           │
+   ├────────────────────────────────────────────────────────┤
+   │ ACCESORIOS TABLE                                       │
+   │ [Profiles, gutters, etc.]                             │
+   ├────────────────────────────────────────────────────────┤
+   │ FIJACIONES TABLE                                       │
+   │ [Screws, sealants, etc.]                              │
+   ├────────────────────────────────────────────────────────┤
+   │ TOTALES                                                │
+   │                                                        │
+   │ Sub-Total:      $XX,XXX.XX                            │
+   │ IVA 22%:        $X,XXX.XX                             │
+   │ Materiales:     $XX,XXX.XX                            │
+   │ Traslado:       $280.00                               │
+   │ ─────────────────────────                             │
+   │ TOTAL U$S:      $XX,XXX.XX                            │
+   ├────────────────────────────────────────────────────────┤
+   │ TÉRMINOS Y CONDICIONES (14 conditions)                │
+   ├────────────────────────────────────────────────────────┤
+   │ INFORMACIÓN BANCARIA                                   │
+   │ BROU - Cuenta USD: 110520638-00002                    │
+   └────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+   Problem: Logo not showing
+   → Check file is named: bmc_logo.png (exact, lowercase)
+   → Re-upload to GPT Knowledge
+
+   Problem: "Module not found"
+   → Upload pdf_generator.py and pdf_styles.py to GPT
+
+   Problem: PDF calculations wrong
+   → Verify GPT uses formulas from BMC_Base_Conocimiento_GPT-2.json
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ FILES IN THIS PACKAGE                                                │
+└──────────────────────────────────────────────────────────────────────┘
+
+   📁 gpt_upload_package/
+   │
+   ├── 📄 pdf_generator.py              → Upload to GPT ⭐
+   ├── 📄 pdf_styles.py                 → Upload to GPT ⭐
+   ├── 🖼️  bmc_logo.png                  → Upload to GPT ⭐ (ADD THIS!)
+   ├── 📋 GPT_PDF_INSTRUCTIONS.md       → Copy to GPT Instructions
+   ├── 📖 README_UPLOAD.md              → Full documentation
+   └── 📇 QUICK_START_CARD.txt          → This file
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ SUPPORT                                                              │
+└──────────────────────────────────────────────────────────────────────┘
+
+   Logo/Branding:
+   • Website: https://bmcuruguay.com.uy
+   • Email: info@bmcuruguay.com.uy
+   • Phone: 42224031
+
+   Technical Help:
+   • Full Guide: ../GPT_FULL_IMPLEMENTATION_GUIDE.md
+   • Test Script: ../test_pdf_generation.py
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║  🎯 READY TO DEPLOY!                                                 ║
+║                                                                      ║
+║  Status: ✅ Code ready | ⚠️ Need BMC logo                           ║
+║  Next: Add logo → Upload 3 files → Update instructions → Test       ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+
+Created: 2026-01-28
+Version: 1.0
+For: Panelin - BMC Assistant GPT
