@@ -1,0 +1,10 @@
+# BMC Uruguay Assets
+
+Place the following assets in this directory:
+
+## Required:
+- `bmc_logo.png` - BMC Uruguay official logo (high resolution, transparent background preferred)
+
+## Optional:
+- Custom fonts (TTF/OTF format)
+- Additional branding assets

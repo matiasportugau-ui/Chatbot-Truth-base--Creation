@@ -1,0 +1,66 @@
+{
+  "rules": [
+    {
+      "name": "Panels On Demand Production",
+      "target_fields": ["min_length_m", "max_length_m", "production_type"],
+      "condition": {
+        "sku_contains": ["IAGRO", "IROOF", "IW", "IF", "ISOPANEL", "ISODEC", "ISD", "CUMROOF"],
+        "name_excludes": ["3m", "3 m", "2.2 m", "piezas", "3,03m", "3.03 m"]
+      },
+      "values": {
+        "min_length_m": 2.5,
+        "max_length_m": 14.0,
+        "production_type": "on_demand"
+      },
+      "priority": 20
+    },
+    {
+      "name": "Standard Profile Length 3m",
+      "target_fields": ["length_m", "production_type"],
+      "condition": {
+        "type": "perfil",
+        "length_m_is_missing": true
+      },
+      "values": {
+        "length_m": 3.0,
+        "production_type": "standard_stock"
+      },
+      "priority": 5
+    }
+  ],
+  "families": {
+    "ISOROOF_3G": {
+      "type": "panel",
+      "unit_base": "m2",
+      "default_thickness": 30
+    },
+    "ISOWALL_PIR": {
+      "type": "panel",
+      "unit_base": "m2"
+    },
+    "gotero": {
+      "type": "perfil",
+      "unit_base": "unidad",
+      "note": "Goteros are sold as complete units (3m pieces), not per meter"
+    }
+  },
+  "nomenclature": {
+    "thickness_field": "Thickness_mm",
+    "length_field": "Length_m",
+    "description": "Standardized field naming for technical specifications"
+  },
+  "unit_base_calculation_logic": {
+    "unidad": {
+      "formula": "cantidad × sale_sin_iva",
+      "description": "Sold as complete units, do not multiply by length"
+    },
+    "ml": {
+      "formula": "cantidad × Length_m × sale_sin_iva",
+      "description": "Sold per linear meter, multiply by length"
+    },
+    "m²": {
+      "formula": "área_total × sale_sin_iva",
+      "description": "Sold per square meter, calculate area first"
+    }
+  }
+}

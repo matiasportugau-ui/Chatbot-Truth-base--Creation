@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "date": "2026-01-28",
+  "description": "Manual product data corrections identified from ledger checkpoints",
+  "corrections": [
+    {
+      "sku": "6842",
+      "product_name": "Perf. Ch. Gotero Lateral 100mm",
+      "date_corrected": "2026-01-28",
+      "reason": "Unit base incorrectly set to metro_lineal, should be unidad",
+      "fields_corrected": {
+        "unit_base": {
+          "old_value": "metro_lineal",
+          "new_value": "unidad",
+          "justification": "Product is sold as complete unit (3m piece), not per meter"
+        }
+      },
+      "validated_fields": {
+        "thickness_mm": 100,
+        "length_m": 3.00,
+        "sale_price_usd_ex_iva": 20.77,
+        "type": "perfil",
+        "family": "gotero"
+      },
+      "impact": "Affects quotation calculations - must use cantidad × price, not cantidad × length × price",
+      "status": "pending_application"
+    }
+  ],
+  "application_instructions": {
+    "step_1": "Update source CSV or database with corrected unit_base value",
+    "step_2": "Regenerate bromyros_pricing_master.json using csv_to_optimized_json.py",
+    "step_3": "Validate correction using validate_product_data.py",
+    "step_4": "Deploy updated pricing file to GPT knowledge base",
+    "step_5": "Test PDF generation with SKU 6842 to verify calculation logic"
+  },
+  "related_products": [
+    {
+      "note": "Review other gotero products to ensure correct unit_base",
+      "action": "Audit all products with type='perfil' and family='gotero'",
+      "priority": "high"
+    }
+  ]
+}

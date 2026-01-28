@@ -54,7 +54,7 @@ class KBUpdateOptimizer:
         """Initialize optimizer"""
         self.client = OpenAI(api_key=api_key)
         self.assistant_id = assistant_id
-        self.query_cache = {}
+        self.query_cache: Dict[str, Any] = {}
         self.cache_file = HASH_CACHE_DIR / "query_cache.json"
         self.load_query_cache()
         logger.info("KB Update Optimizer initialized")
@@ -99,10 +99,14 @@ class KBUpdateOptimizer:
         force: bool = False
     ) -> Optional[str]:
         """
-        Upload file only if it has changed
+        Uploads a file to OpenAI Assistants API only if it has changed since the last upload.
         
+        Args:
+            file_path: Path to the file to upload.
+            force: If True, uploads the file even if no changes are detected.
+            
         Returns:
-            File ID if uploaded, None if skipped
+            Optional[str]: The OpenAI File ID if uploaded, None if skipped or failed.
         """
         if not file_path.exists():
             logger.warning(f"File not found: {file_path}")
@@ -133,7 +137,7 @@ class KBUpdateOptimizer:
     
     def update_level_3_incremental(
         self,
-        latest_prices: Optional[Dict] = None
+        latest_prices: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Update Level 3 (dynamic) file incrementally

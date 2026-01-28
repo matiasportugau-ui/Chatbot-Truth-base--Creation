@@ -417,6 +417,7 @@ kb = load_bromyros_kb()
 
 ## Related Documentation
 
+- [[KB-Indexing-Agent]] - Expert agent for KB indexing and retrieval (optimized for GPT OpenAI Actions)
 - [[Agents-Overview]] - Agents that use the KB
 - [[Training-System]] - How training updates the KB
 - [[Troubleshooting]] - Common KB issues

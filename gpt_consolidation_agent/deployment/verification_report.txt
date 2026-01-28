@@ -1,0 +1,43 @@
+[PASS] Archivo BMC_Base_Conocimiento_GPT-2.json existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/BMC_Base_Conocimiento_GPT-2.json
+[PASS] Archivo BMC_Base_Unificada_v4.json existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/Files /BMC_Base_Unificada_v4.json
+[PASS] Archivo panelin_truth_bmcuruguay_web_only_v2.json existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/panelin_truth_bmcuruguay_web_only_v2.json
+[PASS] Archivo panelin_context_consolidacion_sin_backend.md existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/panelin_context_consolidacion_sin_backend.md
+[PASS] Archivo Aleros -2.rtf existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/Files /Aleros -2.rtf
+[PASS] Archivo panelin_truth_bmcuruguay_catalog_v2_index.csv existe
+  - Ruta: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/Files /panelin_truth_bmcuruguay_catalog_v2_index.csv
+[PASS] BMC_Base_Unificada_v4.json tiene formato JSON válido
+  - Tamaño: 8418 caracteres
+[PASS] panelin_truth_bmcuruguay_web_only_v2.json tiene formato JSON válido
+  - Tamaño: 4936 caracteres
+[PASS] Sección 'meta' presente
+  - Tipo: dict
+[PASS] Sección 'products' presente
+  - Tipo: dict
+[PASS] Sección 'formulas_cotizacion' presente
+  - Tipo: dict
+[PASS] Sección 'reglas_negocio' presente
+  - Tipo: dict
+[PASS] Campo meta.nombre presente
+[PASS] Campo meta.version presente
+[PASS] Campo meta.fecha presente
+[PASS] Instrucciones contienen 'Source of Truth'
+  - Keywords encontradas: 3/3
+[PASS] Instrucciones contienen 'Personalización'
+  - Keywords encontradas: 3/3
+[PASS] Instrucciones contienen 'Guardrails'
+  - Keywords encontradas: 2/2
+[PASS] Instrucciones contienen 'Fórmulas'
+  - Keywords encontradas: 2/2
+[PASS] Instrucciones contienen 'Comandos SOP'
+  - Keywords encontradas: 3/3
+[PASS] Instrucciones contienen 'Reglas de Negocio'
+  - Keywords encontradas: 3/3
+[PASS] Jerarquía 'NIVEL 1 - MASTER' documentada
+[PASS] Jerarquía 'NIVEL 2 - VALIDACIÓN' documentada
+[PASS] Jerarquía 'NIVEL 3 - DINÁMICO' documentada
+[PASS] Jerarquía 'NIVEL 4 - SOPORTE' documentada

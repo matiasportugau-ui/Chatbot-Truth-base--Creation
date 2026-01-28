@@ -1,0 +1,74 @@
+sku,name,current_status,length_m,thickness_mm,type,family,unit_base
+IAGRO30,Isoroof FOIL 30 mm - Color Gris-Rojo,In Stock,,30,panel,ISOROOF_3G,m2
+IAGRO50,Isoroof FOIL 50 mm - Color Rojo-Gris,In Stock,,50,panel,ISOROOF_3G,m2
+IROOF30,Isoroof 30 mm Terracota o Gris,In Stock,,30,panel,ISOROOF_3G,m2
+IROOF40,Isoroof 40 mm Terracota o Gris,In Stock,,40,panel,ISOROOF_3G,m2
+IROOF50,Isoroof 50 mm Terracota o Gris,In Stock,,50,panel,ISOROOF_3G,m2
+IROOF80,Isoroof 80 mm - Gris - Rojo,In Stock,,80,panel,ISOROOF_3G,m2
+IROOF50-PLS,Isoroof Plus 50 mm - Gris - Rojo (MINIMO 800 M2),In Stock,,50,panel,ISOROOF_3G,m2
+IROOF80-PLS,Isoroof Plus 80 mm - Gris - Rojo,In Stock,,80,panel,ISOROOF_3G,m2
+IAGRO30,Isoroof COLONIAL 40 mm - Color simil teja,Check Availability,,30,panel,ISOROOF_3G,m2
+FLETEBRO,Flete de Bromyros en Zonas Aledañas,In Stock,,,otro,accesorio,unidad
+Cab. Roj,"Caballete Rojo Teja, Gris y blanco- (Arandela Trapezoidal)",In Stock,,,accesorio,anclaje,unidad
+Bromplast,Bromplast 8 - Silicona Neutra  X 600,In Stock,,,accesorio,consumible,unidad
+GFS30,Gotero Frontal Simple 30mm Prep.,In Stock,,30,perfil,gotero,metro_lineal
+GFS50,Gotero Frontal Simple 50mm Prep.,In Stock,,50,perfil,gotero,metro_lineal
+GFS80,Gotero Frontal Simple 80mm Prep.,In Stock,,80,perfil,gotero,metro_lineal
+GFSUP30,Gotero Superior 30mm Prep.,In Stock,,30,perfil,gotero,metro_lineal
+GFSUP40,Gotero Superior 40mm Prep.,In Stock,,40,perfil,gotero,metro_lineal
+GFSUP50,Gotero Superior 50mm Prep.,In Stock,,50,perfil,gotero,metro_lineal
+GFSUP80,Gotero Superior 80mm Prep.,In Stock,,80,perfil,gotero,metro_lineal
+GFCGR30,Gotero frontal con greca  1 x panel  30 - 40 - 50 - 80 100 mm,In Stock,,100,perfil,gotero,metro_lineal
+GSDECAM30,Gotero Superior  -  DE CAMARA  30mm,Check Availability,,30,perfil,gotero,metro_lineal
+GSDECAM40,Gotero Superior  -  DE CAMARA  40mm,Check Availability,,40,perfil,gotero,metro_lineal
+GSDECAM50,Gotero Superior  -  DE CAMARA  50mm,Check Availability,,50,perfil,gotero,metro_lineal
+GSDECAM80,Gotero Superior  -  DE CAMARA  80mm,Check Availability,,80,perfil,gotero,metro_lineal
+GL30,Gotero Lateral 30mm  Prep.,In Stock,,30,perfil,gotero,metro_lineal
+GL40,Gotero Lateral 40mm  Prep.,In Stock,,40,perfil,gotero,metro_lineal
+GL50,Gotero Lateral 50mm  Prep.,In Stock,,50,perfil,gotero,metro_lineal
+GL80,Gotero Lateral 80mm  Prep.,In Stock,,80,perfil,gotero,metro_lineal
+GLDCAM50,Gotero Lateral   CAMARA  50mm  Prep.,Check Availability,,50,perfil,gotero,metro_lineal
+GLDCAM80,Gotero Lateral  CAMARA  80mm  Prep.,Check Availability,,80,perfil,gotero,metro_lineal
+BBAS3G,Babeta de Atornillar Superior 3G,In Stock,,,perfil,babeta,metro_lineal
+BBESUP,Babeta de Empotrar Superior 3G,Check Availability,,,perfil,babeta,metro_lineal
+BBAL,Babeta de Atornillar Lateral,Check Availability,,,perfil,babeta,metro_lineal
+BBAL,Babeta de Empotrar Lateral,Check Availability,,,perfil,babeta,metro_lineal
+SOPCAN3M,Soporte para Canalón Isoroof (3m),Check Availability,3.0,,perfil,canalon,metro_lineal
+CUMROOF3M,Cumbrera Roof 3G de 3 m,In Stock,3.0,,perfil,cumbrera,metro_lineal
+CUMROOF3M,"Cumbrera Roof COLONIAL - 2,2 m (2 piezas de 1,1m)",In Stock,2.2,,perfil,cumbrera,metro_lineal
+IW50,Isowall 50 mm PIR - GRIS / Blanco,Check Availability,,50,panel,ISODEC_EPS,m2
+IW50,Isowall 80 mm PIR - GRIS / Blanco,Check Availability,,50,panel,ISODEC_EPS,m2
+IW50,Isowall 50 mm,Check Availability,,50,panel,ISODEC_EPS,m2
+IW80,Isowall 80 mm,Check Availability,,80,panel,ISODEC_EPS,m2
+IW100,Isowall 100 mm,Check Availability,,100,panel,ISODEC_EPS,m2
+IF40,IsoFrig 40 mm,In Stock,,40,panel,ISODEC_EPS,m2
+IF60 - IFSL60,IsoFrig - Sala Limpia 60 mm,In Stock,,60,panel,ISODEC_EPS,m2
+IF80 - IFSL80,IsoFrig - Sala Limpia 80 mm,In Stock,,80,panel,ISODEC_EPS,m2
+IF100 - IFSL100,IsoFrig - Sala Limpia 100 mm,In Stock,,100,panel,ISODEC_EPS,m2
+IF120 - IFSL120,IsoFrig - Sala Limpia 120 mm,In Stock,,120,panel,ISODEC_EPS,m2
+IF150 - IFSL150,IsoFrig - Sala Limpia 150 mm,In Stock,,150,panel,ISODEC_EPS,m2
+IF180 - IFSL180,IsoFrig - Sala limpia 180 mm,In Stock,,180,panel,ISODEC_EPS,m2
+ISD50EPS,ISOPANEL EPS 50 mm,Check Availability,,50,panel,ISODEC_EPS,m2
+ISD100EPS,ISOPANEL EPS 100 mm,Check Availability,,100,panel,ISODEC_EPS,m2
+ISD150EPS,ISOPANEL EPS 150 mm,Check Availability,,150,panel,ISODEC_EPS,m2
+ISD200EPS,ISOPANEL EPS 200 mm,Check Availability,,200,panel,ISODEC_EPS,m2
+ISD250EPS,ISOPANEL EPS 250mm,Check Availability,,250,panel,ISODEC_EPS,m2
+ISD100EPS,ISODEC EPS 100 mm,Check Availability,,100,panel,ISODEC_EPS,m2
+ISD150EPS,ISODEC EPS 150 mm,Check Availability,,150,panel,ISODEC_EPS,m2
+ISD200EPS,ISODEC EPS 200 mm,Check Availability,,200,panel,ISODEC_EPS,m2
+ISD250EPS,ISODEC EPS 250mm,Check Availability,,250,panel,ISODEC_EPS,m2
+ISD50PIR,ISODEC 50mm PIR (EVITAR ESTE ESPESOR),Check Availability,,50,panel,ISODEC_PIR,m2
+ISD80PIR,ISODEC 80mm PIR,Check Availability,,80,panel,ISODEC_PIR,m2
+ISD80PIR,ISODEC 120mm PIR,Check Availability,,80,panel,ISODEC_PIR,m2
+6847,Perfil Cumbrera,Check Availability,,,perfil,cumbrera,metro_lineal
+6828,Babeta ISODEC de Adosar,Check Availability,,,perfil,babeta,metro_lineal
+6865,Babeta ISODEC de empotrar,Check Availability,,,perfil,babeta,metro_lineal
+6825,Vaina ISODEC Sist 2000,Check Availability,,,otro,accesorio,unidad
+CAN.ISDC120,Canalón Isodec 50mm ISODEC PIR,Check Availability,,50,panel,ISODEC_EPS,m2
+CAN.ISDC120,Canalón Isodec 80mm ISODEC PIR,Check Availability,,80,panel,ISODEC_EPS,m2
+6801,Canalón Estandar 100 mm,Check Availability,,100,perfil,canalon,metro_lineal
+CAN.ISDC120,Canalón Isodec 120mm ISODEC PIR,Check Availability,,120,panel,ISODEC_EPS,m2
+6802,Canalón Estandar 150 mm,Check Availability,,150,perfil,canalon,metro_lineal
+6803,Canalón Estandar 200 mm,Check Availability,,200,perfil,canalon,metro_lineal
+6804,Canalón Estandar 250 mm,Check Availability,,250,perfil,canalon,metro_lineal
+6805,Soporte de Canalón de 3 m,Check Availability,3.0,,perfil,canalon,metro_lineal
