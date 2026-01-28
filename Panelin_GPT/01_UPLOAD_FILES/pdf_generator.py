@@ -387,14 +387,20 @@ class BMCQuotationPDF:
         # Table data
         data = [header]
         for product in products:
+            # Bug 1 & 2 Fix: Use both Length_m and length_m, and ensure total_usd is calculated
+            length = product.get("Length_m", product.get("length_m", ""))
+            total_usd = product.get("total_usd")
+            if total_usd is None or total_usd == 0:
+                total_usd = QuotationDataFormatter.calculate_item_total(product)
+
             row = [
                 product.get("name", ""),
-                str(product.get("Length_m", product.get("length_m", ""))),
+                str(length),
                 str(product.get("quantity", "")),
                 QuotationDataFormatter.format_currency(
                     product.get("unit_price_usd", 0)
                 ),
-                QuotationDataFormatter.format_currency(product.get("total_usd", 0)),
+                QuotationDataFormatter.format_currency(total_usd),
             ]
             data.append(row)
 
@@ -424,12 +430,18 @@ class BMCQuotationPDF:
         data = [header]
 
         for item in accessories:
+            # Bug 1 & 2 Fix: Use both Length_m and length_m, and ensure total_usd is calculated
+            length = item.get("Length_m", item.get("length_m", ""))
+            total_usd = item.get("total_usd")
+            if total_usd is None or total_usd == 0:
+                total_usd = QuotationDataFormatter.calculate_item_total(item)
+
             row = [
                 item.get("name", ""),
-                str(item.get("Length_m", item.get("length_m", ""))),
+                str(length),
                 str(item.get("quantity", "")),
                 QuotationDataFormatter.format_currency(item.get("unit_price_usd", 0)),
-                QuotationDataFormatter.format_currency(item.get("total_usd", 0)),
+                QuotationDataFormatter.format_currency(total_usd),
             ]
             data.append(row)
 
@@ -458,12 +470,17 @@ class BMCQuotationPDF:
         data = [header]
 
         for item in fixings:
+            # Bug 2 Fix: Ensure total_usd is calculated if missing
+            total_usd = item.get("total_usd")
+            if total_usd is None or total_usd == 0:
+                total_usd = QuotationDataFormatter.calculate_item_total(item)
+
             row = [
                 item.get("name", ""),
                 item.get("specification", ""),
                 str(item.get("quantity", "")),
                 QuotationDataFormatter.format_currency(item.get("unit_price_usd", 0)),
-                QuotationDataFormatter.format_currency(item.get("total_usd", 0)),
+                QuotationDataFormatter.format_currency(total_usd),
             ]
             data.append(row)
 
