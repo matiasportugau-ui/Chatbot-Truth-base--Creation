@@ -1,0 +1,367 @@
+# =============================================================================
+# PANELIN IMPROVEMENT GUIDE v2.0
+# =============================================================================
+# Guía para AI agents que mejoren el sistema Panelin
+# 
+# PRINCIPIO FUNDAMENTAL: LLM orquesta, código calcula.
+# =============================================================================
+
+version: "2.0.0"
+last_updated: "2026-01-28"
+purpose: "Guía estructurada para mejora continua del sistema Panelin"
+
+# =============================================================================
+# PRINCIPIOS ARQUITECTÓNICOS
+# =============================================================================
+architecture_principles:
+  
+  LLM_NEVER_CALCULATES:
+    description: "El LLM NUNCA ejecuta aritmética directamente"
+    enforcement:
+      - "Toda operación matemática en funciones Python con Decimal"
+      - "Cada resultado debe tener calculation_verified=True"
+      - "Si calculation_verified=False → ALERTA CRÍTICA"
+    code_pattern: |
+      from decimal import Decimal, ROUND_HALF_UP
+      
+      def calculate_something(value: float) -> float:
+          # Convertir a Decimal para precisión
+          dec_value = Decimal(str(value))
+          result = dec_value * Decimal('1.22')  # Ejemplo: +22% IVA
+          return float(result.quantize(Decimal('0.01'), ROUND_HALF_UP))
+  
+  SINGLE_SOURCE_OF_TRUTH:
+    description: "panelin_truth_bmcuruguay.json es la ÚNICA fuente de precios"
+    rules:
+      - "Todos los precios vienen de este archivo"
+      - "Actualizar vía webhooks Shopify, no manualmente"
+      - "Git commit automático para audit trail"
+      - "Nunca hardcodear precios en código"
+    location: "panelin_hybrid_agent/knowledge_base/panelin_truth_bmcuruguay.json"
+  
+  DETERMINISTIC_FIRST:
+    description: "Preferir herramientas deterministas sobre razonamiento LLM"
+    rationale: |
+      - Los LLMs tienen ~73% precisión en cálculos complejos
+      - Python con Decimal tiene 100% precisión
+      - Menor costo por consulta
+      - Mayor velocidad de respuesta
+  
+  VALIDATE_EVERYTHING:
+    description: "Cada output pasa por verificación"
+    implementation:
+      - "validate_quotation() obligatoria antes de responder"
+      - "Checks: subtotales suman, IVA correcto, valores positivos"
+      - "Log de cualquier discrepancia"
+
+# =============================================================================
+# MODIFICACIONES DE ARCHIVOS
+# =============================================================================
+file_modifications:
+  
+  kb_training_system:
+    action: "CONSOLIDATE"
+    target: "panelin_hybrid_agent/knowledge_base/panelin_truth_bmcuruguay.json"
+    instructions: |
+      - Migrar datos útiles de BMC_Base_Conocimiento_GPT-2.json
+      - Eliminar archivos KB duplicados del sistema antiguo
+      - Unificar formato de precios (siempre números, no strings)
+      - Agregar campo 'calculation_rules' por producto
+      - Incluir 'last_sync' timestamp en cada producto
+      - Validar contra catálogo Shopify actual
+    validation:
+      - "Todos los productos tienen precio numérico"
+      - "Espesores son integers"
+      - "ancho_util es float entre 0.5 y 2.0"
+  
+  gpt_consolidation_agent:
+    action: "DEPRECATE_AND_MIGRATE"
+    reason: "Multi-agente → single-agent architecture"
+    instructions: |
+      - Mantener para referencia histórica
+      - Migrar prompts útiles a SYSTEM_PROMPT en agent.py
+      - Convertir sub-agents a tool functions
+      - Implementar structured output para extracción
+      - Agregar validation layer post-extraction
+    migration_path:
+      from: "gpt_consolidation_agent/deployment/"
+      to: "panelin_hybrid_agent/"
+  
+  calculation_functions:
+    action: "CREATE/ENHANCE"
+    location: "panelin_hybrid_agent/tools/quotation_calculator.py"
+    instructions: |
+      - Usar Decimal para toda aritmética financiera
+      - Incluir type hints completos (TypedDict returns)
+      - Cargar precios desde JSON KB, nunca hardcodear
+      - Agregar 'calculation_verified: True' en outputs
+      - Implementar unit tests para cada función
+    required_functions:
+      - "calculate_panel_quote()"
+      - "calculate_fijaciones()"
+      - "calculate_perfileria()"
+      - "validate_quotation()"
+      - "lookup_product_specs()"
+  
+  shopify_integration:
+    action: "IMPLEMENT"
+    location: "panelin_hybrid_agent/sync/shopify_sync.py"
+    instructions: |
+      - Webhook handlers para products/update, inventory_levels/update
+      - HMAC validation para seguridad
+      - Transformación Shopify → KB schema
+      - Git commit automático tras cambios
+      - Reconciliación diaria (cron job)
+
+# =============================================================================
+# PATRONES DE CÓDIGO
+# =============================================================================
+code_patterns:
+  
+  tool_definition:
+    description: "Cómo definir una herramienta determinista"
+    example: |
+      from langchain_core.tools import tool
+      from decimal import Decimal
+      from typing import Literal
+      
+      @tool
+      def calculate_panel_quote(
+          panel_type: Literal["Isopanel_EPS", "Isodec_EPS", "Isodec_PIR"],
+          thickness_mm: int,
+          length_m: float,
+          width_m: float, 
+          quantity: int,
+          discount_percent: float = 0.0
+      ) -> dict:
+          """
+          Cálculo DETERMINISTA de cotización.
+          El LLM NUNCA ejecuta esta aritmética - solo extrae parámetros.
+          """
+          # Cargar desde KB
+          kb = load_knowledge_base()
+          price_per_m2 = Decimal(str(kb['products'][panel_type]['precio']))
+          
+          # Cálculo con Decimal
+          area = Decimal(str(length_m)) * Decimal(str(width_m))
+          subtotal = area * price_per_m2 * Decimal(str(quantity))
+          
+          return {
+              'subtotal': float(subtotal),
+              'calculation_verified': True,  # CRÍTICO
+              'calculation_method': 'deterministic_python_decimal'
+          }
+  
+  llm_configuration:
+    description: "Configuración óptima del LLM para extracción de parámetros"
+    example: |
+      from langchain_openai import ChatOpenAI
+      
+      llm = ChatOpenAI(
+          model="gpt-4o-mini",
+          temperature=0,  # Determinístico
+          model_kwargs={
+              "response_format": {"type": "json_object"}
+          }
+      )
+      
+      # Bind tools para structured outputs
+      llm_with_tools = llm.bind_tools(TOOLS, tool_choice="required")
+  
+  validation_pattern:
+    description: "Verificación post-cálculo obligatoria"
+    example: |
+      from decimal import Decimal
+      
+      def validate_quotation(result: dict) -> dict:
+          errors = []
+          checks = []
+          
+          # CRÍTICO: Verificar flag determinista
+          if not result.get('calculation_verified'):
+              errors.append("CRITICAL: calculation_verified is False!")
+          else:
+              checks.append("✓ Cálculo verificado como determinista")
+          
+          # Verificar que subtotales suman al total
+          expected = (
+              Decimal(str(result.get('panels_subtotal', 0))) +
+              Decimal(str(result.get('fijaciones_subtotal', 0))) +
+              Decimal(str(result.get('perfileria_subtotal', 0)))
+          )
+          actual = Decimal(str(result.get('subtotal', 0)))
+          
+          if abs(expected - actual) > Decimal('0.02'):
+              errors.append(f"Subtotal mismatch: {expected} vs {actual}")
+          else:
+              checks.append("✓ Subtotales verificados")
+          
+          return {
+              'is_valid': len(errors) == 0,
+              'errors': errors,
+              'checks': checks
+          }
+
+# =============================================================================
+# REQUISITOS DE TESTING
+# =============================================================================
+testing_requirements:
+  
+  minimum_golden_tests: 50
+  coverage_threshold: 95
+  
+  required_test_categories:
+    basic_calculations:
+      description: "Tests básicos de cálculo de cotización"
+      examples:
+        - "test_isodec_100mm_basic_quote"
+        - "test_isopanel_50mm_basic_quote"
+        - "test_isoroof_30mm_quote"
+    
+    discount_applications:
+      description: "Tests de aplicación de descuentos"
+      examples:
+        - "test_discount_10_percent"
+        - "test_discount_maximum_30_percent"
+        - "test_no_discount"
+    
+    edge_cases_dimensions:
+      description: "Casos límite de dimensiones"
+      examples:
+        - "test_minimum_panel_length"
+        - "test_maximum_panel_length_14m"
+        - "test_large_quantity_100_panels"
+    
+    error_handling:
+      description: "Manejo de errores"
+      examples:
+        - "test_invalid_panel_type"
+        - "test_invalid_thickness"
+        - "test_price_not_available"
+    
+    shopify_sync_verification:
+      description: "Tests de sincronización Shopify"
+      examples:
+        - "test_webhook_hmac_validation"
+        - "test_product_update_sync"
+        - "test_inventory_cache_update"
+    
+    llm_never_calculates:
+      description: "Verificar que LLM nunca calcula"
+      examples:
+        - "test_all_quotes_have_verification_flag"
+        - "test_calculation_method_is_deterministic"
+  
+  golden_dataset_location: "panelin_hybrid_agent/tests/golden_cases.json"
+
+# =============================================================================
+# MÉTRICAS DE MONITOREO
+# =============================================================================
+monitoring_metrics:
+  
+  critical_alerts:
+    - metric: "calculation_verified == False"
+      threshold: 0
+      action: "ALERTA CRÍTICA inmediata - El LLM calculó directamente"
+    
+    - metric: "validation_errors_count"
+      threshold: 0
+      action: "Revisar logs de validación"
+  
+  performance_thresholds:
+    - metric: "error_rate_schema_validation"
+      threshold: "< 0.1%"
+      action: "Revisar prompts de extracción de parámetros"
+    
+    - metric: "latency_p95"
+      threshold: "< 3 segundos"
+      action: "Optimizar o escalar"
+    
+    - metric: "cost_per_query"
+      threshold: "< $0.01"
+      action: "Revisar uso de tokens"
+  
+  data_integrity:
+    - metric: "kb_shopify_price_mismatch"
+      threshold: 0
+      action: "Ejecutar reconciliación inmediata"
+    
+    - metric: "kb_last_sync_age_hours"
+      threshold: "< 24"
+      action: "Verificar webhooks Shopify"
+
+# =============================================================================
+# ROADMAP DE MIGRACIÓN
+# =============================================================================
+migration_roadmap:
+  
+  phase_1_foundation:
+    duration: "Semana 1-2"
+    tasks:
+      - "Consolidar JSON KB a single source of truth"
+      - "Implementar funciones de cálculo deterministas con tests"
+      - "Configurar webhooks Shopify básicos"
+    deliverables:
+      - "panelin_truth_bmcuruguay.json consolidado"
+      - "quotation_calculator.py con tests passing"
+      - "Webhook endpoint funcional"
+  
+  phase_2_agent_core:
+    duration: "Semana 3-4"
+    tasks:
+      - "Migrar a LangGraph 1.0 con tool definitions"
+      - "Configurar structured outputs para extracción"
+      - "Implementar verificación dual-path"
+    deliverables:
+      - "agent.py funcional con LangGraph"
+      - "SYSTEM_PROMPT optimizado"
+      - "Integration tests passing"
+  
+  phase_3_production:
+    duration: "Semana 5-6"
+    tasks:
+      - "Testing con golden dataset (50+ casos)"
+      - "Configurar observabilidad (LangSmith/Langfuse)"
+      - "Deploy gradual con shadow testing"
+    deliverables:
+      - "100% golden tests passing"
+      - "Observability dashboard"
+      - "Documentación completa"
+  
+  phase_4_optimization:
+    duration: "Continuo"
+    tasks:
+      - "Evaluar Qdrant para búsqueda semántica"
+      - "Optimizar model selection"
+      - "Implementar caching"
+    deliverables:
+      - "Latencia < 2 segundos"
+      - "Costo < $0.005/consulta"
+
+# =============================================================================
+# ESTIMACIONES DE COSTO
+# =============================================================================
+cost_estimates:
+  
+  per_query:
+    current_multiagent: "$0.03-0.05"
+    proposed_hybrid: "$0.002-0.01"
+    reduction: "~70%"
+  
+  monthly_at_1000_queries:
+    current: "$30-50"
+    proposed: "$2-10"
+  
+  breakdown:
+    llm_extraction: "$0.001-0.003 (GPT-4o-mini, ~500 tokens)"
+    llm_formatting: "$0.001-0.003 (respuesta)"
+    computation: "$0 (Python local)"
+    storage: "$0 (JSON file)"
+
+# =============================================================================
+# CONTACTO Y SOPORTE
+# =============================================================================
+support:
+  documentation: "panelin_hybrid_agent/README.md"
+  tests: "panelin_hybrid_agent/tests/"
+  issues: "Crear issue en repositorio"

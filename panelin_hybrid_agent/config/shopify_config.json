@@ -1,0 +1,32 @@
+{
+  "store_url": "bmcuruguay.myshopify.com",
+  "api_version": "2024-01",
+  "webhooks": {
+    "enabled_topics": [
+      "products/create",
+      "products/update",
+      "products/delete",
+      "inventory_levels/update"
+    ],
+    "endpoint": "/webhooks/shopify"
+  },
+  "sync": {
+    "daily_reconciliation_enabled": true,
+    "reconciliation_time_utc": "06:00",
+    "auto_fix_discrepancies": false,
+    "notify_on_discrepancy": true
+  },
+  "field_mapping": {
+    "shopify_to_kb": {
+      "id": "shopify_id",
+      "title": "nombre_comercial",
+      "handle": "handle",
+      "variants[].price": "espesores[].precio",
+      "variants[].inventory_quantity": "inventory_quantity"
+    }
+  },
+  "notes": {
+    "access_token": "Set via SHOPIFY_ACCESS_TOKEN environment variable",
+    "webhook_secret": "Set via SHOPIFY_WEBHOOK_SECRET environment variable"
+  }
+}
