@@ -3,6 +3,61 @@
 ## 📌 Overview
 Version 6.0 introduces critical user-driven corrections, new structural accessories, and updated calculation formulas for perfilería and fixations. It also enforces a strict internal-only derivation policy.
 
+---
+
+## 🆕 Update: 2026-01-28 - Ledger Checkpoint & Unit Base Logic
+
+### Critical Addition: Unit Base Calculation Logic
+
+**Implemented**: Explicit calculation rules based on `unit_base` field for all quotations.
+
+| `unit_base` | Formula | When to Use |
+|-------------|---------|-------------|
+| `"unidad"` | `cantidad × sale_sin_iva` | Products sold as complete units (e.g., goteros) |
+| `"ml"` | `cantidad × Length_m × sale_sin_iva` | Products sold per linear meter |
+| `"m²"` | `área_total × sale_sin_iva` | Products sold per square meter (panels) |
+
+### Product Data Correction
+
+**SKU 6842** - Perf. Ch. Gotero Lateral 100mm:
+- ❌ **Incorrect**: `unit_base = "metro_lineal"`
+- ✅ **Corrected**: `unit_base = "unidad"`
+- **Reason**: Product is sold as complete 3m pieces, not per meter
+- **Impact**: Quotation calculations now use `cantidad × price` instead of `cantidad × length × price`
+
+### Standardized Nomenclature
+
+**Technical field names** (use consistently):
+- `Thickness_mm` - Product thickness in millimeters
+- `Length_m` - Product length in meters
+- `unit_base` - Unit of measurement for pricing
+
+### Documentation Added
+
+New files:
+- `LEDGER_CHECKPOINT_2026-01-28.md` - Complete checkpoint documentation
+- `QUICK_REFERENCE_UNIT_BASE.md` - Fast lookup guide for unit_base logic
+- `pricing/config/product_corrections_2026-01-28.json` - Correction tracking
+- `pricing/tools/apply_sku_6842_correction.py` - Automated correction script
+- `LEDGER_IMPLEMENTATION_SUMMARY.md` - Implementation summary
+
+Updated files:
+- `panelin_reports/GPT_PDF_INSTRUCTIONS.md` - Added unit_base logic
+- `pricing/GPT_INSTRUCTIONS_PRICING.md` - Added unit_base calculation section
+- `pricing/config/product_enrichment_rules.json` - Added gotero family rules
+
+### Assets
+
+- ✅ BMC logo copied to `panelin_reports/assets/bmc_logo.png`
+- Ready for PDF generation
+
+### PDF Lucía Status
+
+- 🔄 In preparation for final regeneration
+- Will use: corrected terminology, unit_base logic, BMC branding
+
+---
+
 ## 🚀 Critical Changes
 
 ### 1. New Products & Accessories
