@@ -1,0 +1,175 @@
+{
+  "version": "2.0.0",
+  "last_sync": "2026-01-28T22:25:09.498736Z",
+  "shopify_store": "bmcuruguay.myshopify.com",
+  "products": {
+    "isopanel_eps_paredes_fachadas": {
+      "shopify_id": "123456789",
+      "name": "ISOPANEL EPS (Paredes y Fachadas) / 50 - 100 - 150 - 200 - 250 mm.",
+      "price_per_m2": 41.88,
+      "currency": "USD",
+      "available_thicknesses": [
+        50,
+        100,
+        150,
+        200,
+        250
+      ],
+      "calculation_rules": {
+        "minimum_order_m2": 2.6219999999999994,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.14,
+        "length_min_m": 2.3,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 100,
+      "last_updated": "2026-01-28T22:27:43.061118+00:00",
+      "_sync_source": "shopify_webhook"
+    },
+    "isodec_eps_techo": {
+      "shopify_id": "",
+      "name": "ISODEC EPS (Techos y Cubiertas) / 100 - 150 - 200 - 250 mm.",
+      "price_per_m2": 46.07,
+      "currency": "USD",
+      "available_thicknesses": [
+        100,
+        150,
+        200,
+        250
+      ],
+      "calculation_rules": {
+        "minimum_order_m2": 2.576,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.12,
+        "length_min_m": 2.3,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "isodec_pir_techo": {
+      "shopify_id": "",
+      "name": "ISODEC® PIR (Techos y Cubiertas) / 50 - 80 - 120 mm.",
+      "price_per_m2": 51.02,
+      "currency": "USD",
+      "available_thicknesses": [
+        50,
+        80,
+        120
+      ],
+      "calculation_rules": {
+        "minimum_order_m2": 3.9200000000000004,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.12,
+        "length_min_m": 3.5,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "isowall_pir_fachadas": {
+      "shopify_id": "",
+      "name": "ISOWALL® PIR- Fachadas - (50 mm - 80 mm)",
+      "price_per_m2": 54.65,
+      "currency": "USD",
+      "available_thicknesses": [
+        50,
+        80
+      ],
+      "calculation_rules": {
+        "minimum_order_m2": 3.5,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.0,
+        "length_min_m": 3.5,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "isoroof_3g": {
+      "shopify_id": "",
+      "name": "ISOROOF. 3G.",
+      "price_per_m2": 48.74,
+      "currency": "USD",
+      "available_thicknesses": [],
+      "calculation_rules": {
+        "minimum_order_m2": 3.5,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.0,
+        "length_min_m": 3.5,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "isoroof_plus_3g": {
+      "shopify_id": "",
+      "name": "ISOROOF PLUS. 3G.",
+      "price_per_m2": 71.76,
+      "currency": "USD",
+      "available_thicknesses": [],
+      "calculation_rules": {
+        "minimum_order_m2": 3.5,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.0,
+        "length_min_m": 3.5,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "isoroof_foil_3g": {
+      "shopify_id": "",
+      "name": "ISOROOF FOIL. 3G.",
+      "price_per_m2": 39.54,
+      "currency": "USD",
+      "available_thicknesses": [],
+      "calculation_rules": {
+        "minimum_order_m2": 3.5,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.0,
+        "length_min_m": 3.5,
+        "length_max_m": 14
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    },
+    "hiansa_panel_5g_becam": {
+      "shopify_id": "",
+      "name": "Hiansa-Panel (Trapezoidal 5G) - BECAM",
+      "price_per_m2": 46.73,
+      "currency": "USD",
+      "available_thicknesses": [],
+      "calculation_rules": {
+        "minimum_order_m2": 2.95,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "width_m": 1.0,
+        "length_min_m": 2.95,
+        "length_max_m": 7.95
+      },
+      "inventory_quantity": 0,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "consolidated_web_snapshot"
+    }
+  },
+  "pricing_rules": {
+    "tax_rate_uy": 22,
+    "delivery_cost_per_m2": 1.5,
+    "minimum_delivery_charge": 50,
+    "currency": "USD"
+  }
+}
