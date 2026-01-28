@@ -13,6 +13,7 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
+
 - Usar `Thickness_mm` para espesor
 - Usar `Length_m` para largo  
 - Usar `SKU`, `NAME`, `Tipo`, `Familia`, `unit_base`
@@ -26,6 +27,7 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 | `m²` | área_total × sale_sin_iva | 180 × $36.54 = $6,577.20 |
 
 **IMPORTANTE - SKU 6842 (Gotero Lateral 100mm)**:
+
 - `unit_base = unidad` ← Se vende por pieza
 - `Length_m = 3.0` ← Es informativo, NO se usa en cálculo
 - Cálculo correcto: `cantidad × $20.77` (NO multiplicar por 3.0)
@@ -33,6 +35,7 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### When to Use
 
 Generate a PDF quotation when:
+
 - User explicitly requests "genera PDF" or "cotización en PDF"
 - User wants a formal quotation document for client delivery
 - User asks for a downloadable quotation
@@ -87,6 +90,7 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 ### Data Requirements
 
 **Minimum Required**:
+
 - `client_name`: Client's name
 - `products`: At least one product with:
   - `name`: Product name
@@ -96,6 +100,7 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
   - `unit_base`: Unit of measurement (`"unidad"`, `"ml"`, `"m²"`)
 
 **Recommended**:
+
 - `client_address`: Client's address
 - `client_phone`: Client's phone
 - `quote_description`: Brief description of the quotation
@@ -103,10 +108,12 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `fixings`: Screws, sealants, etc.
 
 **Technical Fields** (use standardized nomenclature):
+
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
 **Automatic Calculations**:
+
 - The PDF generator automatically calculates:
   - Subtotal (based on `unit_base` logic - see below)
   - IVA 22%
@@ -124,6 +131,7 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
+
 - Calculating product totals
 - Validating subtotals
 - Generating PDF line items
@@ -209,6 +217,7 @@ except Exception as e:
 ### Quality Checklist
 
 Before generating PDF, verify:
+
 - [ ] Client name is provided
 - [ ] All product calculations use correct `unit_base` logic
 - [ ] Technical nomenclature is standardized (`Thickness_mm`, `Length_m`)
@@ -226,28 +235,34 @@ Before generating PDF, verify:
 The generated PDF includes:
 
 ✅ **Header Section**:
+
 - BMC Uruguay logo (when available)
 - Company contact: email, website, phone
 - Date and location
 - Technical specs (autoportancia, apoyos)
 
 ✅ **Client Information**:
+
 - Client name, address, phone
 
 ✅ **Products Table**:
+
 - Product name, length, quantity
 - Unit price (per m²)
 - Total price
 
 ✅ **Accessories Table**:
+
 - Profiles, gutters, etc.
 - Linear pricing
 
 ✅ **Fixings Table**:
+
 - Screws, sealants, etc.
 - Unit pricing
 
 ✅ **Totals Section**:
+
 - Subtotal
 - Total m² (facade and roof separately)
 - IVA 22%
@@ -256,12 +271,14 @@ The generated PDF includes:
 - Grand total
 
 ✅ **Terms & Conditions**:
+
 - Standard BMC Uruguay conditions
 - Payment terms
 - Production time
 - Warranty information
 
 ✅ **Banking Information**:
+
 - BROU account details
 - RUT information
 
@@ -270,6 +287,7 @@ The generated PDF includes:
 ## 🚨 Common Mistakes to Avoid
 
 ❌ **DON'T**:
+
 - Generate PDF without validating calculations
 - Use incorrect IVA rate (must be 22%)
 - Skip accessories or fixings
@@ -277,6 +295,7 @@ The generated PDF includes:
 - Generate PDF for incomplete quotations
 
 ✅ **DO**:
+
 - Always calculate using KB formulas first
 - Include all required items per formulas
 - Validate autoportancia
