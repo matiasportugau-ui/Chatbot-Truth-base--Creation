@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "last_sync": "2026-01-28T00:00:00Z",
+  "shopify_store": "bmcuruguay.myshopify.com",
+  "products": {
+    "Isopanel_50mm": {
+      "shopify_id": null,
+      "name": "Panel Isopanel 50mm",
+      "price_per_m2": 22.5,
+      "currency": "USD",
+      "available_thicknesses": [50, 75, 100, 150],
+      "last_updated": "2026-01-28T00:00:00Z"
+    },
+    "Isodec_75mm": {
+      "shopify_id": null,
+      "name": "Panel Isodec 75mm",
+      "price_per_m2": 28.0,
+      "currency": "USD",
+      "available_thicknesses": [50, 75, 100, 150],
+      "last_updated": "2026-01-28T00:00:00Z"
+    },
+    "Isoroof_50mm": {
+      "shopify_id": null,
+      "name": "Panel Isoroof 50mm",
+      "price_per_m2": 39.54,
+      "currency": "USD",
+      "available_thicknesses": [30, 50, 80],
+      "last_updated": "2026-01-28T00:00:00Z"
+    }
+  },
+  "pricing_rules": {
+    "tax_rate_uy": 22,
+    "delivery_cost_per_m2": 1.5,
+    "minimum_delivery_charge": 50
+  }
+}
+
