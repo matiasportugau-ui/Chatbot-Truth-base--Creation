@@ -127,6 +127,28 @@
 
 ---
 
+### 9. **Arquitectura_Optima_Agentes_Cotizacion_2025.md**
+**Proposito**: Arquitectura 2025 single-agent determinista para cotizaciones  
+**Cuando usar**: Para planificar migracion y decisiones de stack  
+**Contenido**:
+- Principio "LLM orquesta, codigo calcula"
+- Comparativas de modelos y frameworks 2025
+- Arquitectura propuesta y tools deterministas
+- Estrategia KB <-> Shopify y testing
+
+---
+
+### 10. **panelin_improvement_guide.yaml**
+**Proposito**: Guia estructurada para AI agents que modifiquen codigo  
+**Cuando usar**: Al implementar mejoras o refactors  
+**Contenido**:
+- Principios de arquitectura determinista
+- Acciones por modulo
+- Patrones de tools y validacion
+- Requisitos de testing
+
+---
+
 ## 📁 Archivos de Knowledge Base
 
 ### Nivel 1 - Master (Obligatorios) ⭐
