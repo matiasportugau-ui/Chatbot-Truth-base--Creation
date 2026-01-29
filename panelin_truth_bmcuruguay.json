@@ -1,0 +1,89 @@
+{
+  "version": "2.0.0",
+  "last_sync": "2026-01-28T00:00:00Z",
+  "shopify_store": "bmcuruguay.myshopify.com",
+  "currency": "USD",
+  "products": {
+    "Isopanel_50mm": {
+      "shopify_id": null,
+      "name": "ISOPANEL EPS 50mm",
+      "price_per_m2": 41.88,
+      "currency": "USD",
+      "available_thicknesses": [50, 100, 150, 200, 250],
+      "calculation_rules": {
+        "minimum_order_m2": 0,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 0
+      },
+      "inventory_quantity": null,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "shopify_public_snapshot_web_only_v2"
+    },
+    "Isopanel_100mm": {
+      "shopify_id": null,
+      "name": "ISOPANEL EPS 100mm",
+      "price_per_m2": 41.88,
+      "currency": "USD",
+      "available_thicknesses": [50, 100, 150, 200, 250],
+      "calculation_rules": {
+        "minimum_order_m2": 0,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 0
+      },
+      "inventory_quantity": null,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "shopify_public_snapshot_web_only_v2"
+    },
+    "Isodec_75mm": {
+      "shopify_id": null,
+      "name": "ISODEC EPS 75mm",
+      "price_per_m2": 46.07,
+      "currency": "USD",
+      "available_thicknesses": [75, 100, 150, 200, 250],
+      "calculation_rules": {
+        "minimum_order_m2": 0,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 0
+      },
+      "inventory_quantity": null,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "shopify_public_snapshot_web_only_v2"
+    },
+    "Isodec_100mm": {
+      "shopify_id": null,
+      "name": "ISODEC EPS 100mm",
+      "price_per_m2": 46.07,
+      "currency": "USD",
+      "available_thicknesses": [75, 100, 150, 200, 250],
+      "calculation_rules": {
+        "minimum_order_m2": 0,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 0
+      },
+      "inventory_quantity": null,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "shopify_public_snapshot_web_only_v2"
+    },
+    "Isoroof_50mm": {
+      "shopify_id": null,
+      "name": "ISOROOF 3G 50mm",
+      "price_per_m2": 48.74,
+      "currency": "USD",
+      "available_thicknesses": [50],
+      "calculation_rules": {
+        "minimum_order_m2": 0,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 0
+      },
+      "inventory_quantity": null,
+      "last_updated": "2026-01-15T17:52:05Z",
+      "_sync_source": "shopify_public_snapshot_web_only_v2"
+    }
+  },
+  "pricing_rules": {
+    "tax_rate_uy": 22,
+    "delivery_cost_per_m2": 0,
+    "minimum_delivery_charge": 0
+  }
+}
+
