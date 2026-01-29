@@ -1,10 +1,19 @@
 import json
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime
+
+import gspread
+from google.oauth2.service_account import Credentials
+
 from .redesign_tool import CostMatrixRedesigner
+
+# Preferred auth (matches tests + modern google-auth)
+try:
+    from google.oauth2.service_account import Credentials  # type: ignore
+except Exception:  # pragma: no cover
+    Credentials = None  # type: ignore
 
 # Re-use ML lengths from excel_manager context
 LENGTHS_ML: List[str] = [
@@ -33,11 +42,20 @@ LENGTHS_ML: List[str] = [
 
 
 def get_client(credentials_path: str):
+    """Public wrapper for Google Sheets client authentication.
+
+    Args:
+        credentials_path: Path to the Google credentials JSON file.
+
+    Returns:
+        Authenticated gspread client.
+    """
+    return _get_client(credentials_path)
+
+
+def _get_client(credentials_path: str):
     """Authenticate and return gspread client."""
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive",
-    ]
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
     return gspread.authorize(creds)
 
@@ -54,7 +72,7 @@ def _num(v: Any) -> Optional[float]:
     s = str(v).strip().replace(",", "").replace(" ", "")
     try:
         return float(s)
-    except:
+    except ValueError:
         return None
 
 
@@ -85,7 +103,7 @@ def _build_headers() -> List[str]:
 def sync_up(json_path: str, credentials_path: str, spreadsheet_name: str):
     """Push local JSON Cost Matrix to Google Sheets."""
     client = get_client(credentials_path)
-
+    
     # Load JSON
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)

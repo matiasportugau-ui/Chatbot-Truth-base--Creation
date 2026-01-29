@@ -1,0 +1,46 @@
+# Panelin Quotation Agent v2 - Dependencies
+# ==========================================
+#
+# Core dependencies for the hybrid agent architecture.
+# LLM orchestrates, Python calculates with Decimal precision.
+
+# LangChain & LangGraph (Core Agent Framework)
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-openai>=0.1.0
+langgraph>=0.2.0
+
+# OpenAI (Primary LLM Provider)
+openai>=1.0.0
+
+# HTTP Clients (for Shopify sync)
+httpx>=0.25.0
+aiohttp>=3.9.0
+
+# Data Validation
+pydantic>=2.0.0
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.0.0
+
+# Development
+python-dotenv>=1.0.0
+black>=24.0.0
+ruff>=0.2.0
+mypy>=1.0.0
+
+# Optional: Observability
+# Uncomment if using LangSmith
+# langsmith>=0.1.0
+
+# Optional: Vector Store for semantic search
+# Uncomment if implementing Qdrant search
+# qdrant-client>=1.7.0
+
+# Optional: Anthropic (for Claude fallback)
+# langchain-anthropic>=0.1.0
+
+# Optional: Google (for Gemini)
+# langchain-google-genai>=1.0.0
