@@ -13,14 +13,14 @@ def test_safe_str():
     assert gsheets_manager._safe_str(None) == ""
     assert gsheets_manager._safe_str(123) == "123"
 
-@patch('panelin_improvements.cost_matrix_tools.gsheets_manager.Credentials')
+@patch('panelin_improvements.cost_matrix_tools.gsheets_manager.ServiceAccountCredentials')
 @patch('gspread.authorize')
 def test_get_client(mock_authorize, mock_creds, tmp_path):
     creds_file = tmp_path / "creds.json"
     creds_file.write_text('{"type": "service_account"}')
     
-    mock_creds.from_service_account_file.return_value = MagicMock()
+    mock_creds.from_json_keyfile_name.return_value = MagicMock()
     
     client = gsheets_manager.get_client(str(creds_file))
-    assert mock_creds.from_service_account_file.called
+    assert mock_creds.from_json_keyfile_name.called
     assert mock_authorize.called

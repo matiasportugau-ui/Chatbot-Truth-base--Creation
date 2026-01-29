@@ -18,6 +18,10 @@ def _get_client(credentials_path: str):
     creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
     return gspread.authorize(creds)
 
+def get_client(credentials_path: str):
+    """Public wrapper for Google Sheets client authentication."""
+    return _get_client(credentials_path)
+
 def _safe_str(v: Any) -> str:
     return str(v).strip() if v is not None else ""
 
