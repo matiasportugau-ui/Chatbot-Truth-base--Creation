@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+print("Loading pdf_generator...")
 """
 BMC Uruguay Quotation PDF Generator
 ====================================
@@ -22,10 +23,13 @@ from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, Paragraph, Spacer, Image, PageBreak
 from reportlab.platypus import SimpleDocTemplate, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 
-from .pdf_styles import BMCStyles, QuotationConstants
+try:
+    from .pdf_styles import BMCStyles, QuotationConstants
+except ImportError:
+    from pdf_styles import BMCStyles, QuotationConstants
 
 
 class QuotationDataFormatter:
