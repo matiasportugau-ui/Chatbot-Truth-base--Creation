@@ -14,6 +14,8 @@ file_modifications:
     instructions: |
       - Eliminar archivos KB duplicados
       - Migrar todos los precios a formato estandarizado
+      - Agregar campo "calculation_rules" por producto
+      - Incluir "last_sync" timestamp en cada producto
       - Agregar campo 'calculation_rules' por producto
       - Incluir 'last_sync' timestamp en cada producto
 
@@ -39,6 +41,7 @@ file_modifications:
       - Usar Decimal para toda aritmetica financiera
       - Incluir type hints completos (TypedDict returns)
       - Cargar precios desde JSON KB, nunca hardcodear
+      - Agregar "calculation_verified: True" en outputs
       - Agregar 'calculation_verified: True' en outputs
       - Implementar unit tests para cada funcion
 
@@ -54,6 +57,7 @@ code_patterns:
         quantity: int,
         discount_percent: float = 0.0
     ) -> QuotationResult:
+        """Calculo determinista - LLM solo extrae parametros."""
         """Calculo determinista - LLM solo extrae parametros"""
         # ... implementacion con Decimal ...
         return result
