@@ -1,0 +1,567 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Panelin Agent V2 API",
+    "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Search Products",
+        "description": "Busca productos basándose en descripción en lenguaje natural.",
+        "operationId": "search_products_products_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Query de búsqueda",
+              "title": "Q"
+            },
+            "description": "Query de búsqueda"
+          },
+          {
+            "name": "max_results",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5,
+              "title": "Max Results"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{product_id}/price": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Price",
+        "description": "Obtiene el precio exacto de un producto por su ID.",
+        "operationId": "get_price_products__product_id__price_get",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Product Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{product_id}/availability": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Availability",
+        "description": "Verifica disponibilidad y stock de un producto.",
+        "operationId": "get_availability_products__product_id__availability_get",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Product Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "List Products",
+        "description": "Lista todos los productos disponibles, opcionalmente filtrados por familia.",
+        "operationId": "list_products_products_get",
+        "parameters": [
+          {
+            "name": "family",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Family"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quotes": {
+      "post": {
+        "tags": [
+          "Quotations"
+        ],
+        "summary": "Create Quote",
+        "description": "Calcula una cotización determinista para paneles.",
+        "operationId": "create_quote_quotes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pricing/rules": {
+      "get": {
+        "tags": [
+          "Pricing"
+        ],
+        "summary": "Get Rules",
+        "description": "Obtiene las reglas de precios vigentes (IVA, envíos, etc.).",
+        "operationId": "get_rules_pricing_rules_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessoriesResult": {
+        "properties": {
+          "panels_needed": {
+            "type": "integer",
+            "title": "Panels Needed"
+          },
+          "supports_needed": {
+            "type": "integer",
+            "title": "Supports Needed"
+          },
+          "fixation_points": {
+            "type": "integer",
+            "title": "Fixation Points"
+          },
+          "rod_quantity": {
+            "type": "integer",
+            "title": "Rod Quantity"
+          },
+          "front_drip_edge_units": {
+            "type": "integer",
+            "title": "Front Drip Edge Units"
+          },
+          "lateral_drip_edge_units": {
+            "type": "integer",
+            "title": "Lateral Drip Edge Units"
+          },
+          "rivets_needed": {
+            "type": "integer",
+            "title": "Rivets Needed"
+          },
+          "silicone_tubes": {
+            "type": "integer",
+            "title": "Silicone Tubes"
+          },
+          "metal_nuts": {
+            "type": "integer",
+            "title": "Metal Nuts"
+          },
+          "concrete_nuts": {
+            "type": "integer",
+            "title": "Concrete Nuts"
+          },
+          "concrete_anchors": {
+            "type": "integer",
+            "title": "Concrete Anchors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "panels_needed",
+          "supports_needed",
+          "fixation_points",
+          "rod_quantity",
+          "front_drip_edge_units",
+          "lateral_drip_edge_units",
+          "rivets_needed",
+          "silicone_tubes",
+          "metal_nuts",
+          "concrete_nuts",
+          "concrete_anchors"
+        ],
+        "title": "AccessoriesResult"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "QuotationResult": {
+        "properties": {
+          "quotation_id": {
+            "type": "string",
+            "title": "Quotation Id"
+          },
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "product_name": {
+            "type": "string",
+            "title": "Product Name"
+          },
+          "length_m": {
+            "type": "number",
+            "title": "Length M"
+          },
+          "width_m": {
+            "type": "number",
+            "title": "Width M"
+          },
+          "area_m2": {
+            "type": "number",
+            "title": "Area M2"
+          },
+          "panels_needed": {
+            "type": "integer",
+            "title": "Panels Needed"
+          },
+          "unit_price_per_m2": {
+            "type": "number",
+            "title": "Unit Price Per M2"
+          },
+          "subtotal_usd": {
+            "type": "number",
+            "title": "Subtotal Usd"
+          },
+          "discount_percent": {
+            "type": "number",
+            "title": "Discount Percent"
+          },
+          "discount_amount_usd": {
+            "type": "number",
+            "title": "Discount Amount Usd"
+          },
+          "total_before_tax_usd": {
+            "type": "number",
+            "title": "Total Before Tax Usd"
+          },
+          "tax_amount_usd": {
+            "type": "number",
+            "title": "Tax Amount Usd"
+          },
+          "total_usd": {
+            "type": "number",
+            "title": "Total Usd"
+          },
+          "accessories": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccessoriesResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "accessories_total_usd": {
+            "type": "number",
+            "title": "Accessories Total Usd"
+          },
+          "grand_total_usd": {
+            "type": "number",
+            "title": "Grand Total Usd"
+          },
+          "calculation_verified": {
+            "type": "boolean",
+            "title": "Calculation Verified"
+          },
+          "calculation_method": {
+            "type": "string",
+            "title": "Calculation Method"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quotation_id",
+          "product_id",
+          "product_name",
+          "length_m",
+          "width_m",
+          "area_m2",
+          "panels_needed",
+          "unit_price_per_m2",
+          "subtotal_usd",
+          "discount_percent",
+          "discount_amount_usd",
+          "total_before_tax_usd",
+          "tax_amount_usd",
+          "total_usd",
+          "accessories",
+          "accessories_total_usd",
+          "grand_total_usd",
+          "calculation_verified",
+          "calculation_method",
+          "currency"
+        ],
+        "title": "QuotationResult",
+        "description": "Complete quotation result with deterministic calculations"
+      },
+      "QuoteRequest": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "title": "Product Id",
+            "description": "ID del producto (ej: ISOPANEL_EPS_50mm)"
+          },
+          "length_m": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Length M",
+            "description": "Largo del panel en metros"
+          },
+          "width_m": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Width M",
+            "description": "Ancho total a cubrir en metros"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Quantity",
+            "description": "Cantidad de instalaciones/paneles",
+            "default": 1
+          },
+          "discount_percent": {
+            "type": "number",
+            "maximum": 30.0,
+            "minimum": 0.0,
+            "title": "Discount Percent",
+            "description": "Porcentaje de descuento aplicable",
+            "default": 0.0
+          },
+          "include_accessories": {
+            "type": "boolean",
+            "title": "Include Accessories",
+            "description": "Incluir cálculo de accesorios",
+            "default": false
+          },
+          "include_tax": {
+            "type": "boolean",
+            "title": "Include Tax",
+            "description": "Incluir IVA (22%)",
+            "default": true
+          },
+          "installation_type": {
+            "type": "string",
+            "enum": [
+              "techo",
+              "pared"
+            ],
+            "title": "Installation Type",
+            "description": "Tipo de instalación",
+            "default": "techo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "length_m",
+          "width_m"
+        ],
+        "title": "QuoteRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

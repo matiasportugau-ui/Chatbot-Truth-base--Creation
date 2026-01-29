@@ -25,10 +25,10 @@ Arquitectura:
 
 Uso básico:
     from panelin_agent_v2 import calculate_panel_quote, find_product_by_query
-    
+
     # Buscar producto
     products = find_product_by_query("isopanel 100mm para techo")
-    
+
     # Calcular cotización (determinista)
     quote = calculate_panel_quote(
         product_id=products[0]["product_id"],
@@ -36,7 +36,7 @@ Uso básico:
         width_m=4.0,
         quantity=1
     )
-    
+
     # Verificar que el cálculo fue por Python, no LLM
     assert quote["calculation_verified"] == True
 
@@ -56,42 +56,73 @@ __author__ = "Panelin Team"
 __architecture__ = "single_agent_deterministic_tools"
 
 # Core tools - Always available
-from .tools.quotation_calculator import (
-    calculate_panel_quote,
-    calculate_panels_needed,
-    calculate_supports_needed,
-    calculate_fixation_points,
-    calculate_accessories,
-    lookup_product_specs,
-    validate_quotation,
-    QuotationResult,
-    ProductSpecs,
-    AccessoriesResult,
-)
-
-from .tools.product_lookup import (
-    find_product_by_query,
-    get_product_price,
-    check_product_availability,
-    list_all_products,
-    get_pricing_rules,
-)
-
-# Sync service
-from .sync.shopify_sync import (
-    ShopifySyncService,
-    process_product_webhook,
-    process_inventory_webhook,
-    daily_reconciliation,
-)
+try:
+    from .tools.quotation_calculator import (
+        calculate_panel_quote,
+        calculate_panels_needed,
+        calculate_supports_needed,
+        calculate_fixation_points,
+        calculate_accessories,
+        lookup_product_specs,
+        validate_quotation,
+        QuotationResult,
+        ProductSpecs,
+        AccessoriesResult,
+    )
+    from .tools.product_lookup import (
+        find_product_by_query,
+        get_product_price,
+        check_product_availability,
+        list_all_products,
+        get_pricing_rules,
+    )
+    from .sync.shopify_sync import (
+        ShopifySyncService,
+        process_product_webhook,
+        process_inventory_webhook,
+        daily_reconciliation,
+    )
+except (ImportError, ValueError):
+    from tools.quotation_calculator import (
+        calculate_panel_quote,
+        calculate_panels_needed,
+        calculate_supports_needed,
+        calculate_fixation_points,
+        calculate_accessories,
+        lookup_product_specs,
+        validate_quotation,
+        QuotationResult,
+        ProductSpecs,
+        AccessoriesResult,
+    )
+    from tools.product_lookup import (
+        find_product_by_query,
+        get_product_price,
+        check_product_availability,
+        list_all_products,
+        get_pricing_rules,
+    )
+    from sync.shopify_sync import (
+        ShopifySyncService,
+        process_product_webhook,
+        process_inventory_webhook,
+        daily_reconciliation,
+    )
 
 # Agent (requires LangGraph)
 try:
-    from .agent.panelin_agent import (
-        PanelinQuotationAgent,
-        create_agent,
-        run_quotation_query,
-    )
+    try:
+        from .agent.panelin_agent import (
+            PanelinQuotationAgent,
+            create_agent,
+            run_quotation_query,
+        )
+    except (ImportError, ValueError):
+        from agent.panelin_agent import (
+            PanelinQuotationAgent,
+            create_agent,
+            run_quotation_query,
+        )
     AGENT_AVAILABLE = True
 except ImportError:
     AGENT_AVAILABLE = False
@@ -103,7 +134,6 @@ __all__ = [
     # Version info
     "__version__",
     "__architecture__",
-    
     # Quotation calculator
     "calculate_panel_quote",
     "calculate_panels_needed",
@@ -115,20 +145,17 @@ __all__ = [
     "QuotationResult",
     "ProductSpecs",
     "AccessoriesResult",
-    
     # Product lookup
     "find_product_by_query",
     "get_product_price",
     "check_product_availability",
     "list_all_products",
     "get_pricing_rules",
-    
     # Sync service
     "ShopifySyncService",
     "process_product_webhook",
     "process_inventory_webhook",
     "daily_reconciliation",
-    
     # Agent (conditional)
     "PanelinQuotationAgent",
     "create_agent",
