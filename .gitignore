@@ -16,6 +16,11 @@ __pycache__/
 .coverage
 .pytest_cache/
 
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
 # Debug logs
 .cursor/debug.log
 .cursor/*.log
