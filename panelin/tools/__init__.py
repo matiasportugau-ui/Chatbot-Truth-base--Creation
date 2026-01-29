@@ -39,3 +39,5 @@ __all__ = [
     "sync_product_from_shopify",
     "daily_shopify_reconciliation",
 ]
+"""Deterministic tool functions for Panelin agents."""
+

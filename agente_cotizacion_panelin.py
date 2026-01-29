@@ -16,6 +16,7 @@ import sys
 # Importar motor
 sys.path.insert(0, str(Path(__file__).parent))
 from motor_cotizacion_panelin import MotorCotizacionPanelin
+from panelin.tools.quotation_calculator import calculate_panel_quote as _calculate_panel_quote
 
 motor = MotorCotizacionPanelin()
 
@@ -35,11 +36,63 @@ def analizar_cotizacion_completa(*args, **kwargs):
 # FUNCIONES PARA AGENTES (Function Calling)
 # ============================================================================
 
+def get_calculate_panel_quote_function_schema() -> Dict:
+    """
+    Schema de función para cotización determinista por m².
+
+    Principio: el LLM solo extrae parámetros; Python calcula con Decimal.
+    """
+    return {
+        "name": "calculate_panel_quote",
+        "description": "Calcula cotización exacta determinista por m² para paneles BMC. USAR SIEMPRE para cualquier cálculo de precio. No inventar precios.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "panel_type": {
+                    "type": "string",
+                    "enum": ["Isopanel", "Isodec", "Isoroof"],
+                    "description": "Tipo de panel solicitado"
+                },
+                "thickness_mm": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Espesor en milímetros"
+                },
+                "length_m": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 20.0,
+                    "description": "Largo del panel/área en metros"
+                },
+                "width_m": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 5.0,
+                    "description": "Ancho del panel/área en metros"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Cantidad de paneles"
+                },
+                "discount_percent": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 30,
+                    "default": 0,
+                    "description": "Porcentaje de descuento aplicable"
+                }
+            },
+            "required": ["panel_type", "thickness_mm", "length_m", "width_m", "quantity"]
+        }
+    }
+
+
 def get_cotizacion_function_schema() -> Dict:
     """Retorna el schema de función para OpenAI/Claude Function Calling"""
     return {
         "name": "calcular_cotizacion",
-        "description": "Calcula una cotización completa para paneles ISODEC, ISOPANEL, ISOROOF o ISOWALL usando la base de conocimiento validada. Incluye validación técnica, cálculo de materiales y costos con IVA.",
+        "description": "LEGACY: Calcula una cotización completa (materiales + IVA) usando la base de conocimiento validada. Para cálculo de precio por m² usar calculate_panel_quote().",
         "parameters": {
             "type": "object",
             "properties": {
@@ -83,6 +136,30 @@ def get_cotizacion_function_schema() -> Dict:
             "required": ["producto", "espesor", "largo", "ancho", "luz", "tipo_fijacion"]
         }
     }
+
+def calculate_panel_quote_agente(
+    panel_type: str,
+    thickness_mm: int,
+    length_m: float,
+    width_m: float,
+    quantity: int,
+    discount_percent: float = 0.0,
+) -> Dict[str, Any]:
+    """
+    Wrapper para exponer `calculate_panel_quote()` a agentes vía Function Calling.
+    """
+    try:
+        result = _calculate_panel_quote(
+            panel_type=panel_type,  # type: ignore[arg-type]
+            thickness_mm=thickness_mm,
+            length_m=length_m,
+            width_m=width_m,
+            quantity=quantity,
+            discount_percent=discount_percent,
+        )
+        return {"success": True, "error": None, "quote": result}
+    except Exception as e:
+        return {"success": False, "error": str(e), "quote": None}
 
 
 def calcular_cotizacion_agente(
@@ -163,16 +240,17 @@ def crear_config_openai_assistant() -> Dict:
         "instructions": """Eres Panelin, BMC Assistant Pro - experto técnico en cotizaciones y sistemas constructivos BMC.
 
 INSTRUCCIONES CRÍTICAS:
-1. SIEMPRE usa la función calcular_cotizacion() para generar cotizaciones
-2. NUNCA inventes precios - usa la función que accede a la base de conocimiento
-3. Valida autoportancia ANTES de cotizar
-4. Indaga: pregunta dimensiones, luz, tipo de fijación
-5. Presenta resultados de forma profesional y consultiva
-6. Usa analizar_cotizacion_completa() para revisar inputs, generar presupuestos, encontrar PDFs reales, comparar y aprender
+1. SIEMPRE usa la función calculate_panel_quote() para cálculos de precio (determinista con Decimal)
+2. Usa calcular_cotizacion() SOLO si necesitas una cotización legacy completa (materiales + IVA)
+3. NUNCA inventes precios - usa funciones que acceden a la base de conocimiento (SSOT)
+4. Valida autoportancia ANTES de cotizar (si aplica)
+5. Indaga: pregunta dimensiones, luz, tipo de fijación
+6. Presenta resultados de forma profesional y consultiva
+7. Usa analizar_cotizacion_completa() para revisar inputs, generar presupuestos, encontrar PDFs reales, comparar y aprender
 
 PROCESO DE COTIZACIÓN:
 1. Indagar: dimensiones, luz, tipo de fijación
-2. Llamar calcular_cotizacion() con los datos
+2. Llamar calculate_panel_quote() con los datos (precio determinista)
 3. Validar resultado (especialmente autoportancia)
 4. Presentar cotización completa con todos los detalles
 5. Ofrecer recomendaciones técnicas si aplica
@@ -184,6 +262,10 @@ PROCESO DE ANÁLISIS Y APRENDIZAJE:
 4. Incorpora el conocimiento para mejorar futuras cotizaciones""",
         "model": "gpt-4",
         "tools": [
+            {
+                "type": "function",
+                "function": get_calculate_panel_quote_function_schema()
+            },
             {
                 "type": "function",
                 "function": get_cotizacion_function_schema()
@@ -210,11 +292,17 @@ def crear_config_claude() -> Dict:
         "system": """Eres Panelin, BMC Assistant Pro - experto técnico en cotizaciones.
 
 INSTRUCCIONES:
-- Usa la función calcular_cotizacion() para TODAS las cotizaciones
+- Usa la función calculate_panel_quote() para TODO cálculo de precio (determinista)
+- Usa calcular_cotizacion() solo si necesitas legacy completo (materiales + IVA)
 - Valida autoportancia siempre
 - Indaga dimensiones, luz, tipo de fijación antes de cotizar
 - Presenta resultados profesionales""",
         "tools": [
+            {
+                "name": "calculate_panel_quote",
+                "description": get_calculate_panel_quote_function_schema()["description"],
+                "input_schema": get_calculate_panel_quote_function_schema()["parameters"]
+            },
             {
                 "name": "calcular_cotizacion",
                 "description": get_cotizacion_function_schema()["description"],
@@ -227,10 +315,15 @@ INSTRUCCIONES:
 def crear_config_gemini() -> Dict:
     """Configuración para Gemini (Google)"""
     return {
-        "system_instruction": """Eres Panelin, BMC Assistant Pro. Usa la función calcular_cotizacion() para generar cotizaciones precisas usando la base de conocimiento validada.""",
+        "system_instruction": """Eres Panelin, BMC Assistant Pro. Usa calculate_panel_quote() para TODO cálculo de precio (determinista).""",
         "tools": [
             {
                 "function_declarations": [
+                    {
+                        "name": "calculate_panel_quote",
+                        "description": get_calculate_panel_quote_function_schema()["description"],
+                        "parameters": get_calculate_panel_quote_function_schema()["parameters"],
+                    },
                     {
                         "name": "calcular_cotizacion",
                         "description": get_cotizacion_function_schema()["description"],
@@ -265,6 +358,7 @@ class AgentePanelinOpenAI:
         self.client = OpenAI(api_key=api_key)
         self.assistant_id = assistant_id
         self.functions = {
+            "calculate_panel_quote": calculate_panel_quote_agente,
             "calcular_cotizacion": calcular_cotizacion_agente,
             "analizar_cotizacion_completa": analizar_cotizacion_completa
         }
@@ -341,6 +435,7 @@ class AgentePanelinClaude:
             raise ImportError("Instala anthropic: pip install anthropic")
         
         self.functions = {
+            "calculate_panel_quote": calculate_panel_quote_agente,
             "calcular_cotizacion": calcular_cotizacion_agente
         }
     
@@ -361,6 +456,10 @@ class AgentePanelinClaude:
             tool_use = response.content[0]
             if tool_use.name == "calcular_cotizacion":
                 result = calcular_cotizacion_agente(**tool_use.input)
+            elif tool_use.name == "calculate_panel_quote":
+                result = calculate_panel_quote_agente(**tool_use.input)
+            else:
+                result = {"success": False, "error": f"Tool no soportada: {tool_use.name}", "quote": None}
                 # Continuar conversación con resultado
                 response = self.client.messages.create(
                     model=model,
@@ -402,6 +501,7 @@ class AgentePanelinGemini:
             raise ImportError("Instala google-generativeai: pip install google-generativeai")
         
         self.functions = {
+            "calculate_panel_quote": calculate_panel_quote_agente,
             "calcular_cotizacion": calcular_cotizacion_agente
         }
     
@@ -439,25 +539,27 @@ def crear_config_github_copilot() -> str:
 Agente de cotización para paneles constructivos BMC usando base de conocimiento validada.
 
 ## Funciones Disponibles
+- `calculate_panel_quote()`: Cotización determinista por m² (Decimal + SSOT) **RECOMENDADA**
 - `calcular_cotizacion()`: Calcula cotización completa con validación técnica
 
 ## Uso
 ```python
-from agente_cotizacion_panelin import calcular_cotizacion_agente
+from agente_cotizacion_panelin import calculate_panel_quote_agente
 
-resultado = calcular_cotizacion_agente(
-    producto="ISODEC EPS",
-    espesor="100",
-    largo=10.0,
-    ancho=5.0,
-    luz=4.5,
-    tipo_fijacion="hormigon"
+resultado = calculate_panel_quote_agente(
+    panel_type="Isodec",
+    thickness_mm=100,
+    length_m=3.0,
+    width_m=1.2,
+    quantity=50,
+    discount_percent=10
 )
 ```
 
 ## Archivos de Conocimiento
 - Files/BMC_Base_Unificada_v4.json
 - Files/panelin_truth_bmcuruguay_web_only_v2.json
+- panelin_truth_bmcuruguay.json (SSOT para cálculo determinista)
 """
 
 
