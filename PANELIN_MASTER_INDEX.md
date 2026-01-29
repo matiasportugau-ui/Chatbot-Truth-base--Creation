@@ -146,6 +146,13 @@
 - Acciones por modulo
 - Patrones de tools y validacion
 - Requisitos de testing
+**Propósito**: Arquitectura 2025 para cotizaciones deterministas  
+**Cuándo usar**: Para definir el nuevo enfoque single-agent + tools  
+**Contenido**:
+- Evaluación 2025 de frameworks y LLMs
+- Arquitectura híbrida (LLM orquesta, Python calcula)
+- Sincronización Shopify y KB estructurada
+- Testing, monitoreo y roadmap de migración
 
 ---
 
@@ -207,6 +214,7 @@
 | Checklist_Verificacion_GPT_Configurado.md | ⭐⭐ | | ⭐⭐⭐ | ⭐ |
 | Guia_Crear_GPT_OpenAI_Panelin.md | ⭐⭐ | | ⭐ | |
 | Arquitectura_Ideal_GPT_Panelin.md | ⭐ | | ⭐ | ⭐⭐⭐ |
+| Arquitectura_Optima_Agentes_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 
 **Leyenda**: ⭐⭐⭐ = Muy útil | ⭐⭐ = Útil | ⭐ = Referencia
 
