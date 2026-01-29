@@ -33,7 +33,6 @@ LENGTHS_ML: List[str] = [
     "13.0",
 ]
 
-
 def get_client(credentials_path: str):
     """Authenticate and return gspread client."""
     scopes = [
@@ -87,6 +86,7 @@ def _build_headers() -> List[str]:
 def sync_up(json_path: str, credentials_path: str, spreadsheet_name: str):
     """Push local JSON Cost Matrix to Google Sheets."""
     client = get_client(credentials_path)
+    
 
     # Load JSON
     with open(json_path, "r", encoding="utf-8") as f:
