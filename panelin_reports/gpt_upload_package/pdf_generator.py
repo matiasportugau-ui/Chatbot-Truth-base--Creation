@@ -124,7 +124,10 @@ class QuotationDataFormatter:
         shipping_usd: Optional[float] = None,
     ) -> Dict:
         """
-        Calculate all financial totals for the quotation
+        Calculate all financial totals for the quotation.
+
+        LEDGER: Item totals are sin IVA (from sale_sin_iva / unit_price_usd).
+        subtotal = sum of items; IVA = subtotal × rate; materials = subtotal + IVA.
 
         Args:
             products: List of product items
