@@ -127,6 +127,35 @@
 
 ---
 
+### 9. **Arquitectura_Optima_Agentes_Cotizacion_2025.md**
+**Proposito**: Arquitectura 2025 single-agent determinista para cotizaciones  
+**Cuando usar**: Para planificar migracion y decisiones de stack  
+**Contenido**:
+- Principio "LLM orquesta, codigo calcula"
+- Comparativas de modelos y frameworks 2025
+- Arquitectura propuesta y tools deterministas
+- Estrategia KB <-> Shopify y testing
+
+---
+
+### 10. **panelin_improvement_guide.yaml**
+**Proposito**: Guia estructurada para AI agents que modifiquen codigo  
+**Cuando usar**: Al implementar mejoras o refactors  
+**Contenido**:
+- Principios de arquitectura determinista
+- Acciones por modulo
+- Patrones de tools y validacion
+- Requisitos de testing
+**Propósito**: Arquitectura 2025 para cotizaciones deterministas  
+**Cuándo usar**: Para definir el nuevo enfoque single-agent + tools  
+**Contenido**:
+- Evaluación 2025 de frameworks y LLMs
+- Arquitectura híbrida (LLM orquesta, Python calcula)
+- Sincronización Shopify y KB estructurada
+- Testing, monitoreo y roadmap de migración
+
+---
+
 ## 📁 Archivos de Knowledge Base
 
 ### Nivel 1 - Master (Obligatorios) ⭐
@@ -185,6 +214,7 @@
 | Checklist_Verificacion_GPT_Configurado.md | ⭐⭐ | | ⭐⭐⭐ | ⭐ |
 | Guia_Crear_GPT_OpenAI_Panelin.md | ⭐⭐ | | ⭐ | |
 | Arquitectura_Ideal_GPT_Panelin.md | ⭐ | | ⭐ | ⭐⭐⭐ |
+| Arquitectura_Optima_Agentes_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 
 **Leyenda**: ⭐⭐⭐ = Muy útil | ⭐⭐ = Útil | ⭐ = Referencia
 

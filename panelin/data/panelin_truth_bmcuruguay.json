@@ -1,0 +1,394 @@
+{
+  "version": "2.0.0",
+  "last_sync": "2026-01-28T10:00:00Z",
+  "shopify_store": "bmcuruguay.myshopify.com",
+  "meta": {
+    "schema_version": "panelin_truth_catalog_v2",
+    "description": "Base de conocimiento consolidada para Panelin Quotation Agent v2",
+    "sources": {
+      "site": "https://bmcuruguay.com.uy/",
+      "platform": "Shopify"
+    },
+    "architecture_note": "Este archivo es la ÚNICA fuente de verdad para precios y productos. Toda aritmética se ejecuta en Python con Decimal, nunca por LLM."
+  },
+  "products": {
+    "isopanel_eps_50mm": {
+      "shopify_id": "gid://shopify/Product/isopanel-eps-50",
+      "sku": "IPANEL50",
+      "name": "ISOPANEL EPS 50mm (Paredes y Fachadas)",
+      "familia": "ISOPANEL EPS",
+      "sub_familia": "EPS",
+      "tipo": "Panel",
+      "price_per_m2": 41.88,
+      "currency": "USD",
+      "available_thicknesses": [50, 100, 150, 200, 250],
+      "ancho_util_m": 1.14,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14.0,
+      "largo_nota": "A medida. Máximos: 12 a 14 m.",
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 150,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isopanel_eps_100mm": {
+      "shopify_id": "gid://shopify/Product/isopanel-eps-100",
+      "sku": "IPANEL100",
+      "name": "ISOPANEL EPS 100mm (Paredes y Fachadas)",
+      "familia": "ISOPANEL EPS",
+      "sub_familia": "EPS",
+      "tipo": "Panel",
+      "price_per_m2": 49.50,
+      "currency": "USD",
+      "available_thicknesses": [50, 100, 150, 200, 250],
+      "ancho_util_m": 1.14,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14.0,
+      "largo_nota": "A medida. Máximos: 12 a 14 m.",
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 100,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isopanel_eps_150mm": {
+      "shopify_id": "gid://shopify/Product/isopanel-eps-150",
+      "sku": "IPANEL150",
+      "name": "ISOPANEL EPS 150mm (Paredes y Fachadas)",
+      "familia": "ISOPANEL EPS",
+      "sub_familia": "EPS",
+      "tipo": "Panel",
+      "price_per_m2": 57.20,
+      "currency": "USD",
+      "available_thicknesses": [50, 100, 150, 200, 250],
+      "ancho_util_m": 1.14,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 75,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isodec_eps_100mm": {
+      "shopify_id": "gid://shopify/Product/isodec-eps-100",
+      "sku": "IDEC100",
+      "name": "ISODEC EPS 100mm (Techos y Cubiertas)",
+      "familia": "ISODEC EPS",
+      "sub_familia": "EPS",
+      "tipo": "Panel",
+      "price_per_m2": 46.07,
+      "currency": "USD",
+      "available_thicknesses": [100, 150, 200, 250],
+      "ancho_util_m": 1.12,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14.0,
+      "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 120,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isodec_eps_150mm": {
+      "shopify_id": "gid://shopify/Product/isodec-eps-150",
+      "sku": "IDEC150",
+      "name": "ISODEC EPS 150mm (Techos y Cubiertas)",
+      "familia": "ISODEC EPS",
+      "sub_familia": "EPS",
+      "tipo": "Panel",
+      "price_per_m2": 52.30,
+      "currency": "USD",
+      "available_thicknesses": [100, 150, 200, 250],
+      "ancho_util_m": 1.12,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 85,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isodec_pir_50mm": {
+      "shopify_id": "gid://shopify/Product/isodec-pir-50",
+      "sku": "IDEC-PIR50",
+      "name": "ISODEC PIR 50mm (Techos y Cubiertas)",
+      "familia": "ISODEC PIR",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 51.02,
+      "currency": "USD",
+      "available_thicknesses": [50, 80, 120],
+      "ancho_util_m": 1.12,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 60,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isodec_pir_80mm": {
+      "shopify_id": "gid://shopify/Product/isodec-pir-80",
+      "sku": "IDEC-PIR80",
+      "name": "ISODEC PIR 80mm (Techos y Cubiertas)",
+      "familia": "ISODEC PIR",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 58.50,
+      "currency": "USD",
+      "available_thicknesses": [50, 80, 120],
+      "ancho_util_m": 1.12,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 45,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isowall_pir_50mm": {
+      "shopify_id": "gid://shopify/Product/isowall-pir-50",
+      "sku": "IWALL50",
+      "name": "ISOWALL PIR 50mm (Fachadas)",
+      "familia": "ISOWALL PIR",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 54.65,
+      "currency": "USD",
+      "available_thicknesses": [50, 80],
+      "ancho_util_m": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "largo_nota": "A medida. Máximos: 12 a 14 m.",
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 40,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isowall_pir_80mm": {
+      "shopify_id": "gid://shopify/Product/isowall-pir-80",
+      "sku": "IWALL80",
+      "name": "ISOWALL PIR 80mm (Fachadas)",
+      "familia": "ISOWALL PIR",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 62.30,
+      "currency": "USD",
+      "available_thicknesses": [50, 80],
+      "ancho_util_m": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 35,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isoroof_3g": {
+      "shopify_id": "gid://shopify/Product/isoroof-3g",
+      "sku": "IROOF3G",
+      "name": "ISOROOF 3G (Techos)",
+      "familia": "ISOROOF",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 48.74,
+      "currency": "USD",
+      "available_thicknesses": [30, 40, 50],
+      "ancho_util_m": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "largo_nota": "A medida. Máximos: entre 12 y 14 m.",
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 90,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isoroof_plus_3g": {
+      "shopify_id": "gid://shopify/Product/isoroof-plus-3g",
+      "sku": "IROOF-PLUS",
+      "name": "ISOROOF PLUS 3G (Techos Premium)",
+      "familia": "ISOROOF",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 71.76,
+      "currency": "USD",
+      "available_thicknesses": [50, 80],
+      "ancho_util_m": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 0,
+      "stock_status": "out_of_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "isoroof_foil_3g": {
+      "shopify_id": "gid://shopify/Product/isoroof-foil-3g",
+      "sku": "IAGRO30",
+      "name": "ISOROOF FOIL 3G (Techos Económico)",
+      "familia": "ISOROOF / FOIL",
+      "sub_familia": "PIR",
+      "tipo": "Panel",
+      "price_per_m2": 39.54,
+      "currency": "USD",
+      "available_thicknesses": [30, 50],
+      "ancho_util_m": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14.0,
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 110,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    },
+    "hiansa_panel_5g": {
+      "shopify_id": "gid://shopify/Product/hiansa-panel-5g",
+      "sku": "HIANSA5G",
+      "name": "Hiansa-Panel (Trapezoidal 5G) - BECAM",
+      "familia": "HIANSA",
+      "sub_familia": "BECAM",
+      "tipo": "Panel",
+      "price_per_m2": 46.73,
+      "currency": "USD",
+      "available_thicknesses": null,
+      "ancho_util_m": 1.0,
+      "largo_min_m": 2.95,
+      "largo_max_m": 7.95,
+      "largos_disponibles_m": [2.95, 3.95, 4.95, 5.95, 6.95, 7.95],
+      "calculation_rules": {
+        "minimum_order_m2": 10,
+        "bulk_discount_threshold_m2": 100,
+        "bulk_discount_percent": 5,
+        "max_discount_percent": 30
+      },
+      "inventory_quantity": 55,
+      "stock_status": "in_stock",
+      "last_updated": "2026-01-28T09:30:00Z",
+      "sync_source": "shopify_webhook"
+    }
+  },
+  "indices": {
+    "by_sku": {
+      "IPANEL50": {"product_key": "isopanel_eps_50mm", "familia": "ISOPANEL EPS"},
+      "IPANEL100": {"product_key": "isopanel_eps_100mm", "familia": "ISOPANEL EPS"},
+      "IPANEL150": {"product_key": "isopanel_eps_150mm", "familia": "ISOPANEL EPS"},
+      "IDEC100": {"product_key": "isodec_eps_100mm", "familia": "ISODEC EPS"},
+      "IDEC150": {"product_key": "isodec_eps_150mm", "familia": "ISODEC EPS"},
+      "IDEC-PIR50": {"product_key": "isodec_pir_50mm", "familia": "ISODEC PIR"},
+      "IDEC-PIR80": {"product_key": "isodec_pir_80mm", "familia": "ISODEC PIR"},
+      "IWALL50": {"product_key": "isowall_pir_50mm", "familia": "ISOWALL PIR"},
+      "IWALL80": {"product_key": "isowall_pir_80mm", "familia": "ISOWALL PIR"},
+      "IROOF3G": {"product_key": "isoroof_3g", "familia": "ISOROOF"},
+      "IROOF-PLUS": {"product_key": "isoroof_plus_3g", "familia": "ISOROOF"},
+      "IAGRO30": {"product_key": "isoroof_foil_3g", "familia": "ISOROOF / FOIL"},
+      "HIANSA5G": {"product_key": "hiansa_panel_5g", "familia": "HIANSA"}
+    },
+    "by_familia": {
+      "ISOPANEL EPS": ["isopanel_eps_50mm", "isopanel_eps_100mm", "isopanel_eps_150mm"],
+      "ISODEC EPS": ["isodec_eps_100mm", "isodec_eps_150mm"],
+      "ISODEC PIR": ["isodec_pir_50mm", "isodec_pir_80mm"],
+      "ISOWALL PIR": ["isowall_pir_50mm", "isowall_pir_80mm"],
+      "ISOROOF": ["isoroof_3g", "isoroof_plus_3g"],
+      "ISOROOF / FOIL": ["isoroof_foil_3g"],
+      "HIANSA": ["hiansa_panel_5g"]
+    },
+    "by_application": {
+      "paredes": ["isopanel_eps_50mm", "isopanel_eps_100mm", "isopanel_eps_150mm"],
+      "fachadas": ["isopanel_eps_50mm", "isopanel_eps_100mm", "isowall_pir_50mm", "isowall_pir_80mm"],
+      "techos": ["isodec_eps_100mm", "isodec_eps_150mm", "isodec_pir_50mm", "isodec_pir_80mm", "isoroof_3g", "isoroof_plus_3g", "isoroof_foil_3g"],
+      "cubiertas": ["isodec_eps_100mm", "isodec_eps_150mm", "isodec_pir_50mm", "isoroof_3g"],
+      "galpones": ["hiansa_panel_5g", "isodec_eps_100mm"]
+    }
+  },
+  "pricing_rules": {
+    "tax_rate_uy": 22,
+    "delivery_cost_per_m2": 1.50,
+    "minimum_delivery_charge": 50,
+    "free_delivery_threshold_usd": 1000,
+    "default_currency": "USD",
+    "minimum_order_value": 100,
+    "customer_discounts": {
+      "retail": 0,
+      "wholesale": 5,
+      "contractor": 10
+    },
+    "volume_discounts": [
+      {"threshold_m2": 100, "discount_percent": 5},
+      {"threshold_m2": 200, "discount_percent": 8},
+      {"threshold_m2": 500, "discount_percent": 12}
+    ]
+  },
+  "recrawl_policy": {
+    "scheduled_full_refresh": "daily",
+    "on_demand_refresh": {
+      "enabled": true,
+      "ttl_seconds": 3600,
+      "tracked_fields": ["price_per_m2", "inventory_quantity", "stock_status"]
+    },
+    "refresh_method_priority": ["Shopify_Admin_API", "Shopify_Storefront_API", "HTML_fallback"]
+  }
+}

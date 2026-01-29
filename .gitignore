@@ -12,6 +12,13 @@ __pycache__/
 *.pyd
 .Python
 
+# Test coverage
+.coverage
+htmlcov/
+# Test coverage files
+.coverage
+.pytest_cache/
+
 # Debug logs
 .cursor/debug.log
 .cursor/*.log
