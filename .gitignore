@@ -12,6 +12,10 @@ __pycache__/
 *.pyd
 .Python
 
+# Test coverage
+.coverage
+htmlcov/
+
 # Debug logs
 .cursor/debug.log
 .cursor/*.log
