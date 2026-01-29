@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Literal, NotRequired, TypedDict, Any
 
 
-DEFAULT_TRUTH_KB_PATH = Path("panelin_truth_bmcuruguay.json")
+DEFAULT_TRUTH_KB_PATH = Path(__file__).parent.parent.parent / "panelin_truth_bmcuruguay.json"
 
 
 class QuotationResult(TypedDict):
@@ -50,8 +50,6 @@ def _d(value: float | int | str | Decimal) -> Decimal:
     """
     if isinstance(value, Decimal):
         return value
-    if isinstance(value, (int, str)):
-        return Decimal(str(value))
     return Decimal(str(value))
 
 
@@ -79,7 +77,8 @@ def lookup_product_specs(
     kb = load_truth_kb(kb_path)
     product_id = build_product_id(panel_type, thickness_mm)
     if product_id not in kb["products"]:
-        raise ValueError(f"Producto no encontrado: {product_id}")
+        available = ", ".join(kb["products"].keys())
+        raise ValueError(f"Producto no encontrado: {product_id}. Disponibles: {available}")
     return kb["products"][product_id]
 
 
@@ -145,11 +144,15 @@ def validate_quotation(result: QuotationResult) -> bool:
     If this fails, it indicates either:
     - input extraction produced invalid values, or
     - arithmetic was not executed deterministically.
+    
+    Returns True on success, raises AssertionError on validation failure.
     """
     if result.get("calculation_verified") is not True:
         raise AssertionError("calculation_verified debe ser True")
 
     for key in ("area_m2", "unit_price_usd", "subtotal_usd", "discount_usd", "total_usd"):
+        if key not in result:
+            raise AssertionError(f"Campo requerido faltante: {key}")
         if result[key] < 0:
             raise AssertionError(f"{key} no puede ser negativo")
 
