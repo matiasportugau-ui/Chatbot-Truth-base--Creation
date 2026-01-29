@@ -8,6 +8,10 @@ Este documento define la **arquitectura perfecta** para el GPT Assistant "Paneli
 - ✅ **Optimización para dominio técnico-comercial** (cotizaciones, productos constructivos)
 - ✅ **Escalabilidad y mantenibilidad** a largo plazo
 
+> Nota 2026-01-28: Para la arquitectura 2025 de agente único con herramientas
+> deterministas, sincronización Shopify y costos optimizados, ver
+> `Arquitectura_Optima_Agentes_Cotizacion_2025.md`.
+
 ---
 
 ## 1. Arquitectura de Capas (Layered Architecture)

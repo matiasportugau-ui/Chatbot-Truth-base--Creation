@@ -135,6 +135,14 @@
 - Comparativa de modelos y frameworks 2025
 - Arquitectura híbrida con LangGraph 1.0
 - Estrategia de sync Shopify y tests de precisión
+### 9. **Arquitectura_Optima_Agentes_Cotizacion_2025.md**
+**Propósito**: Arquitectura 2025 para cotizaciones deterministas  
+**Cuándo usar**: Para definir el nuevo enfoque single-agent + tools  
+**Contenido**:
+- Evaluación 2025 de frameworks y LLMs
+- Arquitectura híbrida (LLM orquesta, Python calcula)
+- Sincronización Shopify y KB estructurada
+- Testing, monitoreo y roadmap de migración
 
 ---
 
@@ -197,6 +205,7 @@
 | Guia_Crear_GPT_OpenAI_Panelin.md | ⭐⭐ | | ⭐ | |
 | Arquitectura_Ideal_GPT_Panelin.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 | Arquitectura_Optima_GPT_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
+| Arquitectura_Optima_Agentes_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 
 **Leyenda**: ⭐⭐⭐ = Muy útil | ⭐⭐ = Útil | ⭐ = Referencia
 

@@ -1,0 +1,128 @@
+# panelin_improvement_guide.yaml
+# Guia para AI agents que mejoren el sistema Panelin
+
+architecture_principles:
+  - LLM_NEVER_CALCULATES: "Todo calculo matematico debe ejecutarse en funciones Python con tipo Decimal"
+  - SINGLE_SOURCE_OF_TRUTH: "panelin_truth_bmcuruguay.json es la unica fuente de precios"
+  - DETERMINISTIC_FIRST: "Preferir herramientas deterministas sobre razonamiento LLM"
+  - VALIDATE_EVERYTHING: "Cada output de calculo debe pasar por verificacion"
+
+file_modifications:
+  kb_training_system:
+    action: "CONSOLIDATE"
+    target: "panelin_truth_bmcuruguay.json"
+    instructions: |
+      - Eliminar archivos KB duplicados
+      - Migrar todos los precios a formato estandarizado
+      - Agregar campo 'calculation_rules' por producto
+      - Incluir 'last_sync' timestamp en cada producto
+
+  gpt_consolidation_agent:
+    action: "SIMPLIFY"
+    instructions: |
+      - Reducir a single-agent architecture
+      - Convertir sub-agents a tool functions
+      - Implementar structured output para extraccion
+      - Agregar validation layer post-extraction
+
+architecture_principles:
+  - LLM_NEVER_CALCULATES: "Todo cálculo matemático debe ejecutarse en funciones Python con tipo Decimal"
+  - SINGLE_SOURCE_OF_TRUTH: "`panelin_truth_bmcuruguay.json` es la única fuente de precios (SSOT)"
+  - DETERMINISTIC_FIRST: "Preferir herramientas deterministas sobre razonamiento LLM"
+  - VALIDATE_EVERYTHING: "Cada output de cálculo debe pasar por verificación post-cálculo (dual-path)"
+
+file_modifications:
+  calculation_functions:
+    action: "CREATE"
+    location: "panelin/tools/quotation_calculator.py"
+    instructions: |
+      - Usar Decimal para toda aritmetica financiera
+      - Incluir type hints completos (TypedDict returns)
+      - Cargar precios desde JSON KB, nunca hardcodear
+      - Agregar 'calculation_verified: True' en outputs
+      - Implementar unit tests para cada funcion
+
+code_patterns:
+  tool_definition: |
+    # Ejemplo de herramienta correcta
+    @tool
+    def calculate_panel_quote(
+        panel_type: Literal["Isopanel", "Isodec", "Isoroof"],
+        thickness_mm: int,
+        length_m: float,
+        width_m: float,
+        quantity: int,
+        discount_percent: float = 0.0
+    ) -> QuotationResult:
+        """Calculo determinista - LLM solo extrae parametros"""
+        # ... implementacion con Decimal ...
+        return result
+
+  llm_configuration: |
+    # Configuracion optima para precision
+    llm = ChatOpenAI(
+        model="gpt-4o-mini",
+        temperature=0,
+        model_kwargs={"response_format": {"type": "json_object"}}
+    )
+
+  validation_pattern: |
+    # Verificacion post-calculo
+    def validate_quotation(result: QuotationResult) -> bool:
+        assert result["calculation_verified"] is True
+        assert result["total_usd"] > 0
+        assert result["area_m2"] > 0
+        # Verificar que total = sum(line_items)
+        return True
+
+testing_requirements:
+  - minimum_golden_tests: 50
+  - coverage_threshold: 95%
+  - required_test_categories:
+      - basic_calculations
+      - discount_applications
+      - edge_cases_dimensions
+      - error_handling
+      - shopify_sync_verification
+      - Usar Decimal para toda aritmética financiera
+      - Incluir type hints completos (TypedDict returns)
+      - Cargar precios desde JSON KB (SSOT), nunca hardcodear
+      - Agregar `calculation_verified: true` en outputs
+      - Implementar `validate_quotation()` y tests golden
+
+  kb_source_of_truth:
+    action: "CONSOLIDATE"
+    target: "panelin_truth_bmcuruguay.json"
+    instructions: |
+      - Mantener versionado en Git
+      - Estructura estable (products -> <PanelType>_<thickness>mm)
+      - Validar con JSON Schema en `schemas/panelin_truth_bmcuruguay.schema.json`
+      - Registrar `last_sync` y `last_updated` por producto
+
+tooling_contracts:
+  calculate_panel_quote:
+    purpose: "Cotización exacta de paneles por m² (solo cálculo determinista)."
+    input_fields:
+      - panel_type
+      - thickness_mm
+      - length_m
+      - width_m
+      - quantity
+      - discount_percent (optional)
+    output_fields:
+      - product_id
+      - area_m2
+      - unit_price_usd
+      - quantity
+      - subtotal_usd
+      - discount_usd
+      - total_usd
+      - calculation_verified
+
+testing_requirements:
+  minimum_golden_tests: 3
+  required_test_categories:
+    - basic_calculations
+    - discount_applications
+    - error_handling
+
