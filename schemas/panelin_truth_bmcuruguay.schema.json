@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "panelin_truth_bmcuruguay.schema.json",
+  "title": "Panelin Truth KB (BMC Uruguay)",
+  "type": "object",
+  "required": ["version", "last_sync", "products"],
+  "properties": {
+    "version": { "type": "string" },
+    "last_sync": { "type": "string" },
+    "shopify_store": { "type": ["string", "null"] },
+    "currency": { "type": "string", "default": "USD" },
+    "products": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "price_per_m2"],
+        "properties": {
+          "shopify_id": { "type": ["string", "null"] },
+          "name": { "type": "string" },
+          "price_per_m2": { "type": "number", "minimum": 0 },
+          "currency": { "type": "string", "default": "USD" },
+          "available_thicknesses": {
+            "type": "array",
+            "items": { "type": "integer" }
+          },
+          "calculation_rules": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "inventory_quantity": { "type": ["integer", "null"], "minimum": 0 },
+          "last_updated": { "type": ["string", "null"] },
+          "_sync_source": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "pricing_rules": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
+

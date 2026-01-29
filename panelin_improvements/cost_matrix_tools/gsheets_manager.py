@@ -1,4 +1,5 @@
 import json
+import gspread
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -7,6 +8,12 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 from .redesign_tool import CostMatrixRedesigner
+
+# Preferred auth (matches tests + modern google-auth)
+try:
+    from google.oauth2.service_account import Credentials  # type: ignore
+except Exception:  # pragma: no cover
+    Credentials = None  # type: ignore
 
 # Re-use ML lengths from excel_manager context
 LENGTHS_ML: List[str] = [
@@ -35,6 +42,20 @@ LENGTHS_ML: List[str] = [
 
 def get_client(credentials_path: str):
     """Authenticate and return gspread client."""
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive",
+    ]
+    if Credentials is None:
+        raise ImportError("google-auth is required for get_client()")
+    creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
+    return gspread.authorize(creds)
+
+
+# Backwards-compatible alias
+def _get_client(credentials_path: str):
+    return get_client(credentials_path)
+
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
