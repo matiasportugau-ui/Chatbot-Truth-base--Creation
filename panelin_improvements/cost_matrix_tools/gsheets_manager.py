@@ -63,6 +63,9 @@ def _get_client(credentials_path: str):
     creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
     return gspread.authorize(creds)
 
+def get_client(credentials_path: str):
+    """Public wrapper for Google Sheets client authentication."""
+    return _get_client(credentials_path)
 
 # Backwards-compatible alias
 def _get_client(credentials_path: str):
