@@ -29,13 +29,13 @@ class BMCStyles:
     MARGIN_LEFT = 15 * mm
     MARGIN_RIGHT = 15 * mm
 
-    # Colors - BMC Uruguay Brand
-    BMC_BLUE = colors.HexColor("#003366")
-    BMC_LIGHT_BLUE = colors.HexColor("#0066CC")
-    TABLE_HEADER_BG = colors.HexColor("#E8E8E8")
+    # Colors - BMC Uruguay Brand (Updated from ODS Template)
+    BMC_BLUE = colors.HexColor("#0F6C94")  # BRAND_PRIMARY_COLOR
+    BMC_DARK_BLUE = colors.HexColor("#0C5472")  # BRAND_SECONDARY_COLOR
+    TABLE_HEADER_BG = colors.HexColor("#EAF4F8")  # BRAND_HEADER_BG
     TABLE_BORDER = colors.HexColor("#CCCCCC")
     TEXT_BLACK = colors.black
-    TEXT_GRAY = colors.HexColor("#666666")
+    TEXT_GRAY = colors.HexColor("#666666")  # BRAND_TEXT_GRAY
     HIGHLIGHT_YELLOW = colors.HexColor("#FFF9E6")
 
     # Fonts
