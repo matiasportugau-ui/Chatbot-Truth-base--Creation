@@ -10,8 +10,8 @@ message-based and time-based triggers.
 import json
 import time
 from datetime import datetime, timedelta
-from typing import Dict, Optional, Any, Callable, List
 from pathlib import Path
+from typing import Dict, Optional, Any, Callable, List
 
 from .context_database import ContextDatabase
 
@@ -48,9 +48,7 @@ class CheckpointManager:
         self.last_checkpoint_time: Optional[datetime] = None
 
         # Callbacks
-        self.on_checkpoint_saved: Optional[
-            Callable[[int, Dict[str, Any]], None]
-        ] = None
+        self.on_checkpoint_saved: Optional[Callable[[int, Dict[str, Any]], None]] = None
 
     def start_session(self, session_id: str, user_id: str):
         """Start a new session or resume existing"""
@@ -101,9 +99,7 @@ class CheckpointManager:
             return None
 
         if not self.current_session_id or not self.current_user_id:
-            raise ValueError(
-                "Session not started. Call start_session() first."
-            )
+            raise ValueError("Session not started. Call start_session() first.")
 
         # Add automatic metadata
         checkpoint_metadata = {
@@ -161,15 +157,11 @@ class CheckpointManager:
             "context": json.loads(checkpoint.context_data),
             "metadata": json.loads(checkpoint.metadata),
             "compression_ratio": checkpoint.compression_ratio,
-            "compressed_size_mb": round(
-                checkpoint.compressed_size / (1024 * 1024), 3
-            ),
-            "original_size_mb": round(
-                checkpoint.original_size / (1024 * 1024), 3
-            ),
+            "compressed_size_mb": round(checkpoint.compressed_size / (1024 * 1024), 3),
+            "original_size_mb": round(checkpoint.original_size / (1024 * 1024), 3),
         }
 
-    def get_session_history(self, limit: int = 10) -> list[Dict[str, Any]]:
+    def get_session_history(self, limit: int = 10) -> List[Dict[str, Any]]:
         """Get checkpoint history for current session"""
         if not self.current_session_id:
             return []

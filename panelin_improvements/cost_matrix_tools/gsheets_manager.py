@@ -34,6 +34,18 @@ LENGTHS_ML: List[str] = [
 ]
 
 def get_client(credentials_path: str):
+    """Public wrapper for Google Sheets client authentication.
+
+    Args:
+        credentials_path: Path to the Google credentials JSON file.
+
+    Returns:
+        Authenticated gspread client.
+    """
+    return _get_client(credentials_path)
+
+
+def _get_client(credentials_path: str):
     """Authenticate and return gspread client."""
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
