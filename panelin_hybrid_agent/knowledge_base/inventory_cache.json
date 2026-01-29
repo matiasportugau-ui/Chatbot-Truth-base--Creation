@@ -1,0 +1,32 @@
+{
+  "Isodec_EPS_100mm": {
+    "quantity": 150,
+    "last_sync": "2026-01-28T10:00:00Z"
+  },
+  "Isodec_EPS_150mm": {
+    "quantity": 75,
+    "last_sync": "2026-01-28T10:00:00Z"
+  },
+  "Isopanel_EPS_50mm": {
+    "quantity": 200,
+    "last_sync": "2026-01-28T10:00:00Z"
+  },
+  "Isopanel_EPS_100mm": {
+    "quantity": 120,
+    "last_sync": "2026-01-28T10:00:00Z"
+  },
+  "Isoroof_3G_30mm": {
+    "quantity": 80,
+    "last_sync": "2026-01-28T10:00:00Z"
+  },
+  "Isoroof_Plus_80mm": {
+    "quantity": 0,
+    "last_sync": "2026-01-28T10:00:00Z",
+    "status": "agotado"
+  },
+  "_meta": {
+    "description": "Caché de inventario sincronizado desde Shopify",
+    "last_full_sync": "2026-01-28T10:00:00Z",
+    "sync_source": "initial_seed"
+  }
+}

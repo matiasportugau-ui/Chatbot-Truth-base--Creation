@@ -1,0 +1,514 @@
+{
+  "meta": {
+    "schema_version": "2.0.0",
+    "name": "Panelin Truth - BMC Uruguay",
+    "description": "Single Source of Truth para cotizaciones de paneles aislantes. DETERMINISTIC - NO usar LLM para cálculos.",
+    "last_sync": "2026-01-28T10:00:00Z",
+    "shopify_store": "bmcuruguay.myshopify.com",
+    "sources": [
+      "https://bmcuruguay.com.uy (Catalogo Oficial)",
+      "BMC_Base_Conocimiento_GPT-2.json (validated)",
+      "panelin_truth_bmcuruguay_web_only_v2.json (Shopify prices)"
+    ],
+    "validation": {
+      "validated_with": "31+ presupuestos reales",
+      "last_validation": "2026-01-28",
+      "accuracy_target": "100%"
+    }
+  },
+  "institucional": {
+    "nombre_empresa": "BMC Uruguay",
+    "actividad_principal": "Comercialización, suministro y asesoramiento técnico de paneles aislantes",
+    "nota_importante": "BMC Uruguay NO fabrica. Suministra/comercializa productos y brinda asesoramiento técnico.",
+    "contacto": {
+      "direccion": "Montevideo, Uruguay",
+      "horarios": "Lunes a Viernes 9-18, Sábados 9-13",
+      "canal": "WhatsApp"
+    }
+  },
+  "products": {
+    "Isopanel_EPS": {
+      "shopify_id": "gid://shopify/Product/isopanel-eps",
+      "nombre_comercial": "Isopanel EPS (Paredes y Fachadas)",
+      "tipo": "pared",
+      "material": "EPS",
+      "ignifugo": "Estándar (EPS Tipo F - Autoextinguible)",
+      "ancho_util": 1.14,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14,
+      "sistema_fijacion": "varilla_tuerca",
+      "varilla": "3/8",
+      "espesores": {
+        "50": {
+          "precio": 41.88,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": null,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 1.43,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "100": {
+          "precio": 46.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 5.5,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 2.86,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "150": {
+          "precio": 51.50,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 7.5,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 4.29,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "200": {
+          "precio": 57.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 9.1,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 5.71,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "250": {
+          "precio": 62.50,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 10.4,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 7.14,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      },
+      "notas": [
+        "Panel para paredes y fachadas",
+        "Ancho útil 1.14m"
+      ]
+    },
+    "Isodec_EPS": {
+      "shopify_id": "gid://shopify/Product/isodec-eps",
+      "nombre_comercial": "Isodec EPS (Techos y Cubiertas)",
+      "tipo": "cubierta_pesada",
+      "material": "EPS",
+      "ignifugo": "Estándar (EPS Tipo F - Autoextinguible)",
+      "ancho_util": 1.12,
+      "largo_min_m": 2.3,
+      "largo_max_m": 14,
+      "sistema_fijacion": "varilla_tuerca",
+      "varilla": "3/8",
+      "espesores": {
+        "100": {
+          "precio": 46.07,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 5.5,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 2.86,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "150": {
+          "precio": 51.50,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 7.5,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 4.29,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "200": {
+          "precio": 57.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 9.1,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 5.71,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "250": {
+          "precio": 62.50,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 10.4,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 7.14,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      },
+      "notas": [
+        "Panel para techos y cubiertas",
+        "El isopanel de 100mm es el recomendado para viviendas en Uruguay",
+        "Pendiente mínima 7%"
+      ]
+    },
+    "Isodec_PIR": {
+      "shopify_id": "gid://shopify/Product/isodec-pir",
+      "nombre_comercial": "Isodec PIR (Techos y Cubiertas)",
+      "tipo": "cubierta_pesada",
+      "material": "PIR",
+      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "ancho_util": 1.12,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14,
+      "sistema_fijacion": "varilla_tuerca",
+      "varilla": "3/8",
+      "espesores": {
+        "50": {
+          "precio": 51.02,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 3.5,
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 2.27,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "80": {
+          "precio": 55.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 5.5,
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 3.64,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "120": {
+          "precio": 62.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 7.6,
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 5.45,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      },
+      "ventajas": [
+        "Mayor resistencia al fuego",
+        "Mejor aislación térmica por mm",
+        "Ideal para industria con riesgo"
+      ]
+    },
+    "Isoroof_3G": {
+      "shopify_id": "gid://shopify/Product/isoroof-3g",
+      "nombre_comercial": "Isoroof 3G (Cubierta Liviana)",
+      "tipo": "cubierta_liviana",
+      "material": "EPS",
+      "ignifugo": "Estándar (EPS)",
+      "ancho_util": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14,
+      "sistema_fijacion": "caballete_tornillo",
+      "nota_fijacion": "A madera NO usa varilla ni tuercas",
+      "espesores": {
+        "30": {
+          "precio": 48.74,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 2.8,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 0.86,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "50": {
+          "precio": 53.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 3.3,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 1.43,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "80": {
+          "precio": 62.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 4.0,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 2.29,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      }
+    },
+    "Isoroof_Plus": {
+      "shopify_id": "gid://shopify/Product/isoroof-plus",
+      "nombre_comercial": "Isoroof Plus 3G",
+      "tipo": "cubierta_liviana",
+      "material": "EPS",
+      "ignifugo": "Estándar (EPS)",
+      "ancho_util": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14,
+      "sistema_fijacion": "caballete_tornillo",
+      "espesores": {
+        "80": {
+          "precio": 71.76,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 5.0,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 2.29,
+          "stock_status": "agotado",
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      }
+    },
+    "Isoroof_Foil": {
+      "shopify_id": "gid://shopify/Product/isoroof-foil",
+      "nombre_comercial": "Isoroof Foil 3G",
+      "tipo": "cubierta_liviana",
+      "material": "EPS",
+      "ignifugo": "Estándar (EPS)",
+      "ancho_util": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14,
+      "sistema_fijacion": "caballete_tornillo",
+      "espesores": {
+        "30": {
+          "precio": 39.54,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 2.5,
+          "coeficiente_termico": 0.035,
+          "resistencia_termica": 0.86,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      }
+    },
+    "Isowall_PIR": {
+      "shopify_id": "gid://shopify/Product/isowall-pir",
+      "nombre_comercial": "Isowall PIR (Paredes)",
+      "tipo": "pared",
+      "material": "PIR",
+      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "ancho_util": 1.0,
+      "largo_min_m": 3.5,
+      "largo_max_m": 14,
+      "sistema_fijacion": "varilla_tuerca",
+      "espesores": {
+        "50": {
+          "precio": 54.65,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": null,
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 2.27,
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "80": {
+          "precio": 64.00,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": null,
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 3.64,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      },
+      "ventajas": [
+        "Alta resistencia al fuego",
+        "Mejor aislamiento por mm"
+      ]
+    },
+    "Isofrig_PIR": {
+      "shopify_id": "gid://shopify/Product/isofrig-pir",
+      "nombre_comercial": "Isofrig PIR (Frigoríficos)",
+      "tipo": "pared_frigorifica",
+      "material": "PIR",
+      "ignifugo": "Excelente (PIR - Alta resistencia al fuego)",
+      "ancho_util": 1.1,
+      "sistema_fijacion": "varilla_tuerca",
+      "aplicacion": "Cámaras frigoríficas, cuartos fríos, industria alimenticia",
+      "espesores": {
+        "50": {
+          "precio": "Consultar",
+          "currency": "USD",
+          "unit": "m2",
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 2.27,
+          "nota": "Consultar precio actualizado",
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "80": {
+          "precio": "Consultar",
+          "currency": "USD",
+          "unit": "m2",
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 3.64,
+          "nota": "Consultar precio actualizado",
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "100": {
+          "precio": "Consultar",
+          "currency": "USD",
+          "unit": "m2",
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 4.55,
+          "nota": "Consultar precio actualizado",
+          "last_updated": "2026-01-28T10:00:00Z"
+        },
+        "120": {
+          "precio": "Consultar",
+          "currency": "USD",
+          "unit": "m2",
+          "coeficiente_termico": 0.022,
+          "resistencia_termica": 5.45,
+          "nota": "Consultar precio actualizado",
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      },
+      "nota_importante": "Precios sujetos a cotización específica según requerimientos del proyecto frigorífico"
+    },
+    "Hiansa_5G": {
+      "shopify_id": "gid://shopify/Product/hiansa-5g",
+      "nombre_comercial": "Hiansa Panel Trapezoidal 5G (BECAM)",
+      "tipo": "cubierta_liviana",
+      "material": "EPS",
+      "ignifugo": "Estándar",
+      "ancho_util": 1.0,
+      "largos_disponibles_m": [2.95, 3.95, 4.95, 5.95, 6.95, 7.95],
+      "largo_min_m": 2.95,
+      "largo_max_m": 7.95,
+      "sistema_fijacion": "caballete_tornillo",
+      "espesores": {
+        "30": {
+          "precio": 46.73,
+          "currency": "USD",
+          "unit": "m2",
+          "autoportancia": 2.5,
+          "last_updated": "2026-01-28T10:00:00Z"
+        }
+      }
+    }
+  },
+  "accesorios": {
+    "HM_Rubber": {
+      "nombre_comercial": "HM Rubber 7-en-1",
+      "tipo": "impermeabilizante",
+      "rendimiento": "1.5kg por m2 para impermeabilización total",
+      "aplicacion": "Directo sobre óxido firme, hormigón, chapa, etc.",
+      "nota": "No es pintura, es caucho líquido (membrana)"
+    },
+    "Angulo_Aluminio": {
+      "nombre_comercial": "Ángulo de Aluminio Estructural",
+      "tipo": "accesorio_estructural",
+      "funcion": "Vinculante entre fachadas y techos",
+      "instalacion": {
+        "a_hormigon": "Se fija con kit de fijación a hormigón",
+        "a_metal": "Se fija con tornillo T2"
+      }
+    },
+    "Tortugas_PVC": {
+      "nombre_comercial": "Tortugas / Arandelas Plásticas de PVC",
+      "tipo": "accesorio_fijacion",
+      "funcion": "Sellar e impermeabilizar la fijación, cubriendo todo el kit",
+      "instalacion": "Se coloca al último"
+    }
+  },
+  "precios_accesorios_referencia": {
+    "varilla_3_8": 19.90,
+    "tuerca_3_8": 2.00,
+    "taco_3_8": 8.70,
+    "silicona_pomo": 11.89,
+    "gotero_frontal_isodec": 23.88,
+    "gotero_lateral_isodec": 23.88,
+    "tornillo_t1": 0.15,
+    "tornillo_aguja_5": 0.20,
+    "arandela_carrocera": 0.30,
+    "arandela_plana": 0.15,
+    "arandela_pp": 0.25,
+    "tortuga_pvc": 0.50
+  },
+  "formulas_cotizacion": {
+    "costo_panel": "PRECIO * LARGO * ANCHO_UTIL * CANTIDAD",
+    "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
+    "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
+    "varilla_cantidad": "ROUNDUP(PUNTOS / 4)",
+    "tuercas_metal": "PUNTOS * 2",
+    "tuercas_hormigon": "PUNTOS * 1",
+    "tacos_hormigon": "PUNTOS * 1",
+    "arandelas_carrocero": "PUNTOS * 1",
+    "tortugas_pvc": "PUNTOS * 1",
+    "gotero_frontal": "ROUNDUP((CANTIDAD * ANCHO_UTIL) / 3)",
+    "gotero_lateral": "ROUNDUP((LARGO * 2) / 3)",
+    "fijaciones_perfileria": "ROUNDUP(METROS_LINEALES_TOTALES / 0.30)",
+    "silicona": "ROUNDUP(TOTAL_ML / 8)"
+  },
+  "kits_fijacion": {
+    "metal": {
+      "tuercas_por_punto": 2,
+      "requiere_taco": false,
+      "componentes": [
+        "varilla",
+        "tuerca (x2)",
+        "arandela_carrocero",
+        "arandela_plana",
+        "arandela_pp",
+        "tortuga_pvc"
+      ],
+      "nota": "Arandela carrocera funciona como contención ante movimientos. Tortuga PVC va al final para sellar."
+    },
+    "hormigon": {
+      "tuercas_por_punto": 1,
+      "requiere_taco": true,
+      "componentes": [
+        "varilla",
+        "tuerca",
+        "taco_expansivo",
+        "arandela_carrocero",
+        "arandela_pp",
+        "tortuga_pvc"
+      ]
+    },
+    "madera": {
+      "usa_varilla": false,
+      "usa_tuercas": false,
+      "componentes": [
+        "caballete",
+        "tornillo_aguja_5",
+        "tornillo_t1"
+      ],
+      "nota": "Isoroof a madera NO usa varilla ni tuercas"
+    }
+  },
+  "reglas_negocio": {
+    "iva": 0.22,
+    "moneda": "USD",
+    "pendiente_minima_techo": "7%",
+    "derivacion": {
+      "regla": "NUNCA derivar a proveedor externo. Derivar SIEMPRE a agentes de ventas de BMC URUGUAY."
+    },
+    "pricing_rules": {
+      "bulk_discount_threshold_m2": 100,
+      "bulk_discount_percent": 5,
+      "minimum_order_m2": 10
+    },
+    "delivery": {
+      "cost_per_m2": 1.50,
+      "minimum_charge": 50
+    },
+    "servicios": {
+      "instalaciones": false,
+      "nota": "BMC vende materiales y brinda asesoramiento técnico; no realiza colocación."
+    },
+    "guardrails": [
+      "No afirmar precios de accesorios si no están en la KB",
+      "No confundir gotero frontal con gotero lateral",
+      "No recomendar instaladores externos"
+    ]
+  },
+  "calculation_rules": {
+    "precision": "Usar Decimal para toda aritmética financiera",
+    "rounding": {
+      "currency": "ROUND_HALF_UP a 2 decimales",
+      "quantities": "ROUND_UP (siempre redondear hacia arriba para materiales)"
+    },
+    "verification": {
+      "required": true,
+      "flag": "calculation_verified",
+      "method": "deterministic_python_decimal"
+    }
+  }
+}
