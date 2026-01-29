@@ -25,6 +25,13 @@ file_modifications:
       - Implementar structured output para extraccion
       - Agregar validation layer post-extraction
 
+architecture_principles:
+  - LLM_NEVER_CALCULATES: "Todo cálculo matemático debe ejecutarse en funciones Python con tipo Decimal"
+  - SINGLE_SOURCE_OF_TRUTH: "`panelin_truth_bmcuruguay.json` es la única fuente de precios (SSOT)"
+  - DETERMINISTIC_FIRST: "Preferir herramientas deterministas sobre razonamiento LLM"
+  - VALIDATE_EVERYTHING: "Cada output de cálculo debe pasar por verificación post-cálculo (dual-path)"
+
+file_modifications:
   calculation_functions:
     action: "CREATE"
     location: "panelin/tools/quotation_calculator.py"
@@ -77,3 +84,45 @@ testing_requirements:
       - edge_cases_dimensions
       - error_handling
       - shopify_sync_verification
+      - Usar Decimal para toda aritmética financiera
+      - Incluir type hints completos (TypedDict returns)
+      - Cargar precios desde JSON KB (SSOT), nunca hardcodear
+      - Agregar `calculation_verified: true` en outputs
+      - Implementar `validate_quotation()` y tests golden
+
+  kb_source_of_truth:
+    action: "CONSOLIDATE"
+    target: "panelin_truth_bmcuruguay.json"
+    instructions: |
+      - Mantener versionado en Git
+      - Estructura estable (products -> <PanelType>_<thickness>mm)
+      - Validar con JSON Schema en `schemas/panelin_truth_bmcuruguay.schema.json`
+      - Registrar `last_sync` y `last_updated` por producto
+
+tooling_contracts:
+  calculate_panel_quote:
+    purpose: "Cotización exacta de paneles por m² (solo cálculo determinista)."
+    input_fields:
+      - panel_type
+      - thickness_mm
+      - length_m
+      - width_m
+      - quantity
+      - discount_percent (optional)
+    output_fields:
+      - product_id
+      - area_m2
+      - unit_price_usd
+      - quantity
+      - subtotal_usd
+      - discount_usd
+      - total_usd
+      - calculation_verified
+
+testing_requirements:
+  minimum_golden_tests: 3
+  required_test_categories:
+    - basic_calculations
+    - discount_applications
+    - error_handling
+
