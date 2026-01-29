@@ -5,6 +5,12 @@
     "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     "version": "2.0.0"
   },
+  "servers": [
+    {
+      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
+      "description": "Production Server"
+    }
+  ],
   "paths": {
     "/": {
       "get": {
@@ -61,7 +67,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductInfo"
+                  },
+                  "title": "Response Search Products Products Search Get"
+                }
               }
             }
           },
@@ -102,7 +114,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PriceInfo"
+                }
               }
             }
           },
@@ -143,7 +157,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityInfo"
+                }
               }
             }
           },
@@ -191,7 +207,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductInfo"
+                  },
+                  "title": "Response List Products Products Get"
+                }
               }
             }
           },
@@ -263,7 +285,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PricingRules"
+                }
               }
             }
           }
@@ -336,6 +360,67 @@
         ],
         "title": "AccessoriesResult"
       },
+      "AvailabilityInfo": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "found": {
+            "type": "boolean",
+            "title": "Found"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "stock_status": {
+            "type": "string",
+            "title": "Stock Status"
+          },
+          "inventory_quantity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inventory Quantity"
+          },
+          "last_updated": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "found",
+          "available",
+          "stock_status"
+        ],
+        "title": "AvailabilityInfo"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -348,6 +433,172 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "PriceInfo": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "price_per_m2": {
+            "type": "number",
+            "title": "Price Per M2"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "last_updated": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "name",
+          "price_per_m2",
+          "currency"
+        ],
+        "title": "PriceInfo"
+      },
+      "PricingRules": {
+        "properties": {
+          "tax_rate_uy_iva": {
+            "type": "number",
+            "title": "Tax Rate Uy Iva"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "delivery_cost_per_m2": {
+            "type": "number",
+            "title": "Delivery Cost Per M2"
+          },
+          "minimum_delivery_charge_usd": {
+            "type": "number",
+            "title": "Minimum Delivery Charge Usd"
+          },
+          "payment_terms": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payment Terms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tax_rate_uy_iva",
+          "currency",
+          "delivery_cost_per_m2",
+          "minimum_delivery_charge_usd",
+          "payment_terms"
+        ],
+        "title": "PricingRules"
+      },
+      "ProductInfo": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "title": "Product Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "family": {
+            "type": "string",
+            "title": "Family"
+          },
+          "thickness_mm": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thickness Mm"
+          },
+          "price_per_m2": {
+            "type": "number",
+            "title": "Price Per M2"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "stock_status": {
+            "type": "string",
+            "title": "Stock Status"
+          },
+          "ancho_util_m": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ancho Util M"
+          },
+          "largo_min_m": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Largo Min M"
+          },
+          "largo_max_m": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Largo Max M"
+          },
+          "match_score": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "name",
+          "family",
+          "price_per_m2",
+          "currency",
+          "stock_status"
+        ],
+        "title": "ProductInfo"
       },
       "QuotationResult": {
         "properties": {
