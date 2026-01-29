@@ -1,0 +1,355 @@
+# panelin_improvement_guide.yaml
+# ================================
+# Guía para AI agents que mejoren el sistema Panelin
+#
+# Este archivo documenta la arquitectura óptima para el agente de cotización
+# de paneles aislantes BMC Uruguay (2025).
+
+metadata:
+  version: "2.0.0"
+  updated: "2026-01-28"
+  author: "BMC Uruguay AI Team"
+  purpose: "Documentación arquitectónica para agentes GPT de cotización"
+
+# =============================================================================
+# PRINCIPIOS ARQUITECTÓNICOS FUNDAMENTALES
+# =============================================================================
+
+architecture_principles:
+  LLM_NEVER_CALCULATES:
+    description: "Todo cálculo matemático debe ejecutarse en funciones Python con tipo Decimal"
+    rationale: |
+      La investigación de 2025 confirma que ningún LLM garantiza precisión del 100%
+      en cálculos. GPT-4o alcanza ~73% en benchmarks complejos. La solución es
+      usar el LLM exclusivamente para comprensión de lenguaje natural mientras
+      Python ejecuta toda la aritmética.
+    enforcement:
+      - Todas las herramientas retornan "calculation_verified: True"
+      - Monitoreo alerta si calculation_verified es False
+      - Tests validan que cálculos vienen de código determinista
+
+  SINGLE_SOURCE_OF_TRUTH:
+    description: "panelin_truth_bmcuruguay.json es la única fuente de precios"
+    rationale: |
+      Evita inconsistencias entre múltiples fuentes. Sincronización automática
+      con Shopify mantiene la KB actualizada.
+    location: "panelin_hybrid_agent/kb/panelin_truth_bmcuruguay.json"
+
+  DETERMINISTIC_FIRST:
+    description: "Preferir herramientas deterministas sobre razonamiento LLM"
+    rationale: |
+      Las herramientas deterministas garantizan resultados reproducibles y
+      auditables. El LLM solo debe interpretar intención y formatear respuestas.
+
+  VALIDATE_EVERYTHING:
+    description: "Cada output de cálculo debe pasar por verificación"
+    implementation: "panelin_hybrid_agent/validation/validators.py"
+
+  SINGLE_AGENT_PATTERN:
+    description: "Usar un solo agente con herramientas, no multi-agente"
+    rationale: |
+      Anthropic y Cognition AI (Devin) recomiendan evitar multi-agente porque
+      la pérdida de contexto entre subagentes causa inconsistencias.
+      Klarna maneja 2.3M conversaciones/mes con single-agent + tools.
+
+# =============================================================================
+# ESTRUCTURA DE ARCHIVOS
+# =============================================================================
+
+file_structure:
+  panelin_hybrid_agent/:
+    __init__.py: "Exports principales del módulo"
+    
+    tools/:
+      __init__.py: "Exports de herramientas"
+      quotation_calculator.py: |
+        Cálculos deterministas con Decimal:
+        - calculate_panel_quote(): Cotización de paneles
+        - calculate_fixation_points(): Puntos de fijación
+        - calculate_profiles_quote(): Perfiles y accesorios
+        - calculate_complete_quotation(): Cotización completa
+      product_lookup.py: |
+        Búsqueda en KB:
+        - lookup_product_specs(): Por SKU
+        - search_products_by_criteria(): Por filtros
+        - get_available_thicknesses(): Espesores disponibles
+      pricing_rules.py: |
+        Reglas de negocio:
+        - apply_discount(): Descuentos
+        - apply_bulk_pricing(): Precios por volumen
+        - calculate_delivery_cost(): Flete
+    
+    agent/:
+      __init__.py: "Exports del agente"
+      panelin_agent.py: "Implementación LangGraph"
+      tool_definitions.py: "Definiciones de herramientas para LLM"
+    
+    kb/:
+      panelin_truth_bmcuruguay.json: "Fuente de verdad única"
+    
+    sync/:
+      shopify_sync.py: "Sincronización con Shopify"
+      webhook_handler.py: "Handler de webhooks"
+    
+    validation/:
+      validators.py: "Validadores de cotizaciones"
+      monitoring.py: "Observabilidad y métricas"
+    
+    tests/:
+      test_quotation_calculator.py: "Tests de cálculos"
+      test_validation.py: "Tests de validación"
+
+# =============================================================================
+# PATRONES DE CÓDIGO
+# =============================================================================
+
+code_patterns:
+  tool_definition:
+    description: "Cómo definir una herramienta correctamente"
+    example: |
+      from decimal import Decimal, ROUND_HALF_UP
+      from typing import TypedDict, Literal
+      
+      class QuotationResult(TypedDict):
+          total_usd: float
+          calculation_verified: bool  # SIEMPRE incluir
+      
+      def calculate_panel_quote(
+          panel_type: Literal["Isopanel", "Isodec", "Isoroof"],
+          thickness_mm: int,
+          length_m: float,
+          width_m: float,
+          quantity: int,
+          discount_percent: float = 0.0
+      ) -> QuotationResult:
+          """Cálculo determinista - LLM solo extrae parámetros"""
+          
+          # Usar Decimal para precisión
+          area = Decimal(str(length_m)) * Decimal(str(width_m))
+          
+          # Cargar precios desde KB, NUNCA hardcodear
+          kb = load_knowledge_base()
+          price = Decimal(str(kb["products"][...]["price_usd"]))
+          
+          total = (area * price * quantity).quantize(
+              Decimal("0.01"), ROUND_HALF_UP
+          )
+          
+          return QuotationResult(
+              total_usd=float(total),
+              calculation_verified=True  # SIEMPRE True en código determinista
+          )
+
+  llm_configuration:
+    description: "Configuración óptima del LLM"
+    example: |
+      # Para extracción de parámetros: temperatura 0, structured outputs
+      llm_config = {
+          "model": "gpt-4o-mini",  # Óptimo costo/rendimiento
+          "temperature": 0,        # Determinista
+          "response_format": {"type": "json_object"}
+      }
+      
+      # Alternativas por costo:
+      # - Gemini 2.5 Flash: $0.002/consulta (más económico)
+      # - Claude 3.5 Haiku: $0.004/consulta (mejor razonamiento)
+
+  validation_pattern:
+    description: "Verificación post-cálculo"
+    example: |
+      def validate_quotation(result: QuotationResult) -> bool:
+          # CRÍTICO: Verificar que viene de código determinista
+          assert result["calculation_verified"] == True
+          
+          # Validaciones de negocio
+          assert result["total_usd"] > 0
+          assert result["area_m2"] > 0
+          
+          return True
+
+# =============================================================================
+# FÓRMULAS DE CÁLCULO
+# =============================================================================
+
+calculation_formulas:
+  panel_count:
+    formula: "ROUNDUP(total_width / useful_width)"
+    description: "Cantidad de paneles necesarios para cubrir un ancho"
+    example: "Para 10m de ancho con panel de 1.12m útil: ROUNDUP(10/1.12) = 9 paneles"
+
+  supports:
+    formula: "ROUNDUP((length / autoportancia) + 1)"
+    description: "Cantidad de apoyos según autoportancia del panel"
+    example: "Para 6m de largo con autoportancia 5.5m: ROUNDUP((6/5.5)+1) = 3 apoyos"
+
+  fixation_points:
+    formula: "ROUNDUP(((panel_count * supports) * 2) + (length * 2 / 2.5))"
+    description: "Puntos de fijación totales para la instalación"
+
+  rods:
+    formula: "ROUNDUP(fixation_points / 4)"
+    description: "Varillas roscadas necesarias (4 puntos por varilla)"
+
+  metal_nuts:
+    formula: "fixation_points * 2"
+    description: "Tuercas para estructura metálica"
+
+  concrete_nuts:
+    formula: "fixation_points"
+    description: "Tuercas para estructura de hormigón"
+
+  frontal_drip:
+    formula: "ROUNDUP((panel_count * useful_width) / 3)"
+    description: "Goteros frontales (perfiles de 3m)"
+
+  lateral_drip:
+    formula: "ROUNDUP((length * 2) / 3)"
+    description: "Goteros laterales (2 lados, perfiles de 3m)"
+
+  rivets:
+    formula: "ROUNDUP(total_profiles * 20)"
+    description: "Remaches (20 por perfil)"
+
+  silicone:
+    formula: "ROUNDUP(total_linear_meters / 8)"
+    description: "Tubos de silicona"
+
+# =============================================================================
+# REQUISITOS DE TESTING
+# =============================================================================
+
+testing_requirements:
+  minimum_golden_tests: 50
+  coverage_threshold: 95
+  
+  required_test_categories:
+    basic_calculations:
+      description: "Tests de fórmulas básicas"
+      examples:
+        - "Área = largo × ancho"
+        - "Total = precio × cantidad"
+        - "Descuento aplicado correctamente"
+    
+    discount_applications:
+      description: "Tests de descuentos y recargos"
+      examples:
+        - "Descuento 10% reduce total 10%"
+        - "Descuento máximo 30%"
+        - "Recargo pedido mínimo"
+    
+    edge_cases_dimensions:
+      description: "Casos límite de dimensiones"
+      examples:
+        - "Largo mínimo 0.5m"
+        - "Largo máximo 14m"
+        - "Espesor fuera de catálogo"
+    
+    error_handling:
+      description: "Manejo de errores"
+      examples:
+        - "Producto no encontrado"
+        - "Parámetros inválidos"
+        - "KB no disponible"
+    
+    shopify_sync_verification:
+      description: "Sincronización con Shopify"
+      examples:
+        - "Precio actualizado"
+        - "Webhook HMAC válido"
+        - "Discrepancias detectadas"
+    
+    calculation_verified_always_true:
+      description: "Verificar que calculation_verified siempre es True"
+      critical: true
+      examples:
+        - "Panel quote: calculation_verified = True"
+        - "Fixation: calculation_verified = True"
+        - "Profiles: calculation_verified = True"
+
+# =============================================================================
+# MONITOREO Y ALERTAS
+# =============================================================================
+
+monitoring:
+  critical_metrics:
+    calculation_not_verified:
+      threshold: 0
+      action: "ALERTA CRÍTICA inmediata"
+      description: "Si calculation_verified es False, el LLM calculó directamente"
+    
+    error_rate:
+      threshold: "< 0.1%"
+      action: "Revisar prompts de extracción"
+    
+    price_out_of_range:
+      threshold: "Auto-detectar"
+      action: "Queue revisión humana"
+    
+    latency_p95:
+      threshold: "< 3 segundos"
+      action: "Optimizar o escalar"
+
+  observability_options:
+    - "LangSmith (LangChain)"
+    - "Langfuse (open source)"
+    - "Custom logging to JSON"
+
+# =============================================================================
+# STACK TECNOLÓGICO
+# =============================================================================
+
+technology_stack:
+  framework_agent: "LangGraph 1.0"
+  llm_primary: "GPT-4o-mini o Gemini 2.5 Flash"
+  llm_fallback: "Claude 3.5 Haiku"
+  kb_structured: "JSON + JSON Schema"
+  vector_store: "Qdrant Free Tier (opcional)"
+  sync_engine: "Python custom / n8n"
+  observability: "LangSmith o Langfuse"
+
+cost_estimates:
+  per_query:
+    gpt_4o: "$0.01"
+    gemini_flash: "$0.002"
+    claude_haiku: "$0.004"
+  
+  monthly_estimate:
+    "1000_queries": "$2-10"
+    "10000_queries": "$20-100"
+
+# =============================================================================
+# ROADMAP DE MIGRACIÓN
+# =============================================================================
+
+migration_roadmap:
+  phase_1:
+    name: "Fundación"
+    duration: "Semana 1-2"
+    tasks:
+      - "Consolidar JSON KB a single source of truth"
+      - "Implementar funciones de cálculo deterministas con tests"
+      - "Configurar webhooks Shopify básicos"
+  
+  phase_2:
+    name: "Agente Core"
+    duration: "Semana 3-4"
+    tasks:
+      - "Migrar a LangGraph 1.0 con tool definitions"
+      - "Configurar structured outputs para extracción"
+      - "Implementar verificación dual-path"
+  
+  phase_3:
+    name: "Producción"
+    duration: "Semana 5-6"
+    tasks:
+      - "Testing con golden dataset (50+ casos reales)"
+      - "Configurar observabilidad (LangSmith/Langfuse)"
+      - "Deploy gradual con shadow testing"
+  
+  phase_4:
+    name: "Optimización"
+    duration: "Continuo"
+    tasks:
+      - "Evaluar Qdrant para búsqueda semántica"
+      - "Optimizar model selection"
+      - "Caching de consultas frecuentes"
