@@ -17,6 +17,11 @@ Regla: precios/fórmulas **no se hardcodean** en prompts ni en el LLM.
 - **Tool**: `panelin.tools.quotation_calculator.calculate_panel_quote`
 - **Garantía**: la salida siempre incluye `calculation_verified: true` y pasa `validate_quotation()`.
 
+Además, el agente legacy (`agente_cotizacion_panelin.py`) expone este tool para Function Calling:
+
+- **Nombre de tool**: `calculate_panel_quote`
+- **Wrapper**: `calculate_panel_quote_agente(...)`
+
 ### Integración incremental (sin romper el sistema actual)
 
 El repo ya contiene motores/agents legacy (`motor_cotizacion_panelin.py`, `agente_cotizacion_panelin.py`).
