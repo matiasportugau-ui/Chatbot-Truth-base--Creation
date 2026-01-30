@@ -45,9 +45,9 @@ Multiple Python files contained hardcoded API keys for:
 
 **Remediation Actions Required:**
 1. ✅ Revoke all exposed API keys immediately
-   - Anthropic API key: `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`
-   - OpenAI API key: `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`
-   - Google API key: `AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0`
+   - Anthropic API key: `sk-ant-api03-9nG2Kz...ccnQ-UJfT6wAA` (full key in git history)
+   - OpenAI API key: `sk-proj-Jw5v9Y...T82QA` (full key in git history)
+   - Google API key: `AIzaSyAg_TTib...wa-X0` (full key in git history)
 2. ✅ Generate new API keys
 3. ✅ Store new keys in `.env` file (not tracked by git)
 4. Monitor API usage for any unauthorized activity

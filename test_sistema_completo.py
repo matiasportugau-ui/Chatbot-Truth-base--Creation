@@ -8,10 +8,15 @@ import sys
 
 # Configurar API keys
 # Load API key from environment - set in .env file
+import sys
 if not os.getenv('ANTHROPIC_API_KEY'):
-    print("⚠️  WARNING: ANTHROPIC_API_KEY not set")
+    print("❌ ERROR: ANTHROPIC_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 if not os.getenv('GOOGLE_API_KEY'):
-    print("⚠️  WARNING: GOOGLE_API_KEY not set")
+    print("❌ ERROR: GOOGLE_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 
 from motor_cotizacion_panelin import MotorCotizacionPanelin
 from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo

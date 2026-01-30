@@ -10,10 +10,15 @@ import sys
 # Make sure to set these in your .env file:
 # ANTHROPIC_API_KEY=your_key_here
 # GOOGLE_API_KEY=your_key_here
+import sys
 if not os.getenv('ANTHROPIC_API_KEY'):
-    print("⚠️  WARNING: ANTHROPIC_API_KEY not set")
+    print("❌ ERROR: ANTHROPIC_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 if not os.getenv('GOOGLE_API_KEY'):
-    print("⚠️  WARNING: GOOGLE_API_KEY not set")
+    print("❌ ERROR: GOOGLE_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 
 from agente_analisis_inteligente import AgenteAnalisisInteligente
 from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo

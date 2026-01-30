@@ -7,29 +7,32 @@ The following API keys were exposed in your git history and **MUST** be revoked 
 
 #### Anthropic Claude API Key
 ```
-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
+sk-ant-api03-9nG2Kz...ccnQ-UJfT6wAA
+(Pattern: sk-ant-api03-*, check your console for full key)
 ```
 **Action:** 
 1. Go to https://console.anthropic.com/settings/keys
-2. Delete this key
+2. Delete ALL keys matching pattern `sk-ant-api03-`
 3. Generate a new key
 
 #### OpenAI API Key  
 ```
-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
+sk-proj-Jw5v9Y...T82QA
+(Pattern: sk-proj-*, check your console for full key)
 ```
 **Action:**
 1. Go to https://platform.openai.com/api-keys
-2. Delete this key
+2. Delete ALL keys matching pattern `sk-proj-`
 3. Generate a new key
 
 #### Google API Key
 ```
-AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0
+AIzaSyAg_TTib...wa-X0
+(Pattern: AIzaSy*, check your Google Cloud Console for full key)
 ```
 **Action:**
 1. Go to https://console.cloud.google.com/apis/credentials
-2. Delete this key
+2. Delete this key (check first/last chars)
 3. Generate a new key
 
 ---
