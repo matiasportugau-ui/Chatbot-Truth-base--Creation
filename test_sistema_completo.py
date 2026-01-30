@@ -7,7 +7,9 @@ import os
 import sys
 
 # Configurar API keys
-os.environ['ANTHROPIC_API_KEY'] = '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'
+# Load API key from environment - set in .env file
+if not os.getenv('ANTHROPIC_API_KEY'):
+    print("⚠️  WARNING: ANTHROPIC_API_KEY not set")
 os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
 
 from motor_cotizacion_panelin import MotorCotizacionPanelin
