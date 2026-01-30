@@ -18,7 +18,8 @@ import re
 # Load API key from environment - set in .env file
 if not os.getenv('ANTHROPIC_API_KEY'):
     print("⚠️  WARNING: ANTHROPIC_API_KEY not set")
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
+if not os.getenv('GOOGLE_API_KEY'):
+    print("⚠️  WARNING: GOOGLE_API_KEY not set")
 
 from agente_analisis_inteligente import AgenteAnalisisInteligente
 from motor_cotizacion_panelin import MotorCotizacionPanelin
