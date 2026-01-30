@@ -6,9 +6,19 @@ Prueba completa del sistema
 import os
 import sys
 
-# Configurar API keys
-os.environ['ANTHROPIC_API_KEY'] = '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'
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
+# Load API keys from environment
+# Make sure to set these in your .env file:
+# ANTHROPIC_API_KEY=your_key_here
+# GOOGLE_API_KEY=your_key_here
+import sys
+if not os.getenv('ANTHROPIC_API_KEY'):
+    print("❌ ERROR: ANTHROPIC_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
+if not os.getenv('GOOGLE_API_KEY'):
+    print("❌ ERROR: GOOGLE_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 
 from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo
 from motor_cotizacion_panelin import MotorCotizacionPanelin

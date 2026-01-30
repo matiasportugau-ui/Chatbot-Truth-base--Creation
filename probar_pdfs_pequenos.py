@@ -10,9 +10,16 @@ from pathlib import Path
 from datetime import datetime
 import re
 
-# Configurar API keys
-os.environ['ANTHROPIC_API_KEY'] = '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'
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
+# Load API key from environment - set in .env file
+import sys
+if not os.getenv('ANTHROPIC_API_KEY'):
+    print("❌ ERROR: ANTHROPIC_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
+if not os.getenv('GOOGLE_API_KEY'):
+    print("❌ ERROR: GOOGLE_API_KEY not set")
+    print("Please set it in your .env file")
+    sys.exit(1)
 
 from agente_analisis_inteligente import AgenteAnalisisInteligente
 from motor_cotizacion_panelin import MotorCotizacionPanelin
