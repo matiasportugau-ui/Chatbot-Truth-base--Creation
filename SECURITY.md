@@ -20,8 +20,12 @@ We take the security of our chatbot system seriously. If you believe you have fo
 - Exploit the vulnerability beyond what is necessary to demonstrate it
 
 ### Please DO:
-1. **Email us**: Send details to **[your-security-email@example.com]** (Update this!)
-2. **Include**:
+1. **Email us**: Send details to **security@panelin-project.example.com** (or create a private security advisory on GitHub)
+2. **Use GitHub Security Advisories** (Preferred):
+   - Go to repository → **Security** tab → **Advisories** → **New draft security advisory**
+   - Fill in vulnerability details
+   - This allows private discussion before public disclosure
+3. **Include**:
    - Type of vulnerability
    - Full paths of source file(s) related to the vulnerability
    - Location of the affected source code (tag/branch/commit or URL)
@@ -111,6 +115,26 @@ This system processes:
 
 ## 🔄 Updates to This Policy
 
-This security policy may be updated from time to time. We will notify contributors of significant changes.
+This security policy may be updated from time to time. We will notify contributors of significant changes via:
+- GitHub repository notifications
+- Pull request comments for major security updates
+- Issue tracking for policy changes
 
 **Last Updated**: 2026-01-31
+
+---
+
+## 📖 Additional Security Documentation
+
+For more detailed information, see:
+- [Secrets Management Guide](.github/SECRETS_MANAGEMENT.md) - How to manage API keys and environment variables
+- [Branch Protection Setup](.github/BRANCH_PROTECTION_SETUP.md) - Repository security configuration
+- [Contributing Guidelines](CONTRIBUTING.md) - Development and contribution practices (if available)
+
+## 🔗 Related Workflows
+
+Our automated security includes:
+- **CodeQL Analysis** - Weekly security scanning for Python and JavaScript
+- **Security Scan** - Daily scans with Bandit, Safety, and pip-audit
+- **Dependabot** - Automated dependency updates
+- **Secret Scanning** - Continuous monitoring for exposed secrets
