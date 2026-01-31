@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Large Data & Models
+training_data/
+ingestion_analysis_output/
+*.json
+!panelin_agent_v2/config/*.json
+!panelin_agent_v2/tools/*.json
+
+# Docs and temporary files
+docs/
+*.md
+*.pdf
+.corrections_backup/
+.kb_update_cache/
+
+# Specific large directories from workspace root (if context is root)
+ai_architect_agent/
+ai-project-files-organizer-agent/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+kb_training_system/
+panelin_improvements/
+pricing/
+wiki/
+Copia de panelin_agent_v2/

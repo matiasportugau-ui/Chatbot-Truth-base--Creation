@@ -10,6 +10,12 @@
 # No external dependencies for core calculation tools!
 # Python's built-in decimal module handles all precision arithmetic.
 
+# Web Framework
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
 # Testing
 pytest>=7.4.0
 pytest-asyncio>=0.21.0
