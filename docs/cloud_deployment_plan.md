@@ -119,12 +119,19 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
+- [x] `Dockerfile` (Created in `Copia de panelin_agent_v2/Dockerfile`)
+- [x] `.dockerignore` (Created in `Copia de panelin_agent_v2/.dockerignore`)
+- [x] `cloudbuild.yaml` (Created in workspace root)
 - [ ] Cloud Run service live
 - [ ] OpenAPI schema updated with Cloud Run URL
-- [ ] Optional: `/health` endpoint
+- [x] Optional: `/health` endpoint (Implemented in `api.py`)
+
+## Improvements and Security
+See `docs/cloud_run_deployment_improvements.md` for details on:
+- Production-grade Dockerfile (using `sh -c` for PORT expansion)
+- Health and Readiness probes
+- Resource limits and autoscaling configuration
+- Secret Manager and IAM recommendations
 
 ---
 
