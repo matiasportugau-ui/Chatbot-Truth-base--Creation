@@ -8,18 +8,18 @@ class TestDeterministicQuoteCalculator:
         result = calculate_panel_quote(
             panel_type="Isopanel",
             thickness_mm=50,
-            length_m=2.0,
+            length_m=2.5,
             width_m=1.0,
             quantity=10,
         )
-        # area: 2m², unit: 2 * 41.88 = 83.76, subtotal: 837.60
-        assert result["area_m2"] == 2.0
-        assert result["unit_price_usd"] == 83.76
-        assert result["subtotal_usd"] == 837.60
-        assert result["discount_usd"] == 0.0
-        assert result["total_usd"] == 837.60
+        # area: 2.5m², unit: 2.5 * 41.88 = 104.70, subtotal: 1047.00
+        assert result["line_items"][0]["area_m2"] == 2.5
+        assert result["line_items"][0]["unit_price_usd"] == 104.70
+        assert result["subtotal_usd"] == 1047.00
+        assert result["discount_amount_usd"] == 0.0
+        assert result["total_usd"] == 1047.00
         assert result["calculation_verified"] is True
-        assert validate_quotation(result) is True
+        assert validate_quotation(result)["is_valid"] is True
 
     def test_discount_application(self):
         result = calculate_panel_quote(
@@ -34,13 +34,13 @@ class TestDeterministicQuoteCalculator:
         # subtotal: 165.85 * 50 = 8292.50
         # discount: 10% = 829.25
         # total: 7463.25
-        assert result["area_m2"] == pytest.approx(3.6)
-        assert result["unit_price_usd"] == 165.85
+        assert result["line_items"][0]["area_m2"] == pytest.approx(3.6)
+        assert result["line_items"][0]["unit_price_usd"] == 165.85
         assert result["subtotal_usd"] == 8292.50
-        assert result["discount_usd"] == 829.25
+        assert result["discount_amount_usd"] == 829.25
         assert result["total_usd"] == 7463.25
         assert result["calculation_verified"] is True
-        assert validate_quotation(result) is True
+        assert validate_quotation(result)["is_valid"] is True
 
     def test_invalid_product_raises(self):
         with pytest.raises(ValueError):
