@@ -1,0 +1,29 @@
+# Code Owners - Security and Critical Files
+# These owners will be automatically requested for review when someone opens a pull request that modifies these files
+
+# Environment and configuration files
+/.env.example @matiasportugau-ui
+/.gitignore @matiasportugau-ui
+/requirements.txt @matiasportugau-ui
+/requirements-dev.txt @matiasportugau-ui
+/package.json @matiasportugau-ui
+
+# GitHub workflows and security configs
+/.github/ @matiasportugau-ui
+/SECURITY.md @matiasportugau-ui
+
+# Configuration directories
+/config/ @matiasportugau-ui
+/gpt_configs/ @matiasportugau-ui
+
+# Core system files
+/panelin_core/ @matiasportugau-ui
+/panelin_agent_v2/ @matiasportugau-ui
+
+# Knowledge base files (sensitive business data)
+*.json @matiasportugau-ui
+/catalog/ @matiasportugau-ui
+
+# Security-critical scripts
+*security*.py @matiasportugau-ui
+*auth*.py @matiasportugau-ui
