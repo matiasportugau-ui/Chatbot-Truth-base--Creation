@@ -1,0 +1,282 @@
+# =============================================================================
+# Cloud Monitoring Alert Policies for Panelin API
+# =============================================================================
+# Deploy with:
+#   gcloud alpha monitoring policies create --policy-from-file=alert-policies.yaml
+#
+# Or use Terraform/Pulumi for infrastructure as code.
+# =============================================================================
+
+# =============================================================================
+# Alert 1: High Error Rate
+# =============================================================================
+# Triggers when error rate exceeds 5% of requests over 5 minutes
+---
+displayName: "Panelin API - High Error Rate"
+documentation:
+  content: |
+    ## High Error Rate Alert
+    
+    The Panelin API is experiencing elevated error rates (>5% of requests returning 5xx errors).
+    
+    ### Investigation Steps:
+    1. Check Cloud Run logs: `gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=panelin-api AND severity>=ERROR" --limit=50`
+    2. Review recent deployments
+    3. Check dependent services (MongoDB, OpenAI API)
+    4. Verify Secret Manager secrets are accessible
+    
+    ### Escalation:
+    - Page on-call if error rate >10% for >10 minutes
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "Error rate > 5%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+        AND metric.labels.response_code_class = "5xx"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - resource.labels.service_name
+      denominatorFilter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+      denominatorAggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 0.05
+      duration: 300s
+      trigger:
+        count: 1
+notificationChannels:
+  # Add your notification channel IDs here
+  # - projects/YOUR_PROJECT/notificationChannels/CHANNEL_ID
+alertStrategy:
+  autoClose: 604800s  # Auto-close after 7 days
+
+# =============================================================================
+# Alert 2: High Latency (P95)
+# =============================================================================
+# Triggers when P95 latency exceeds 2 seconds
+---
+displayName: "Panelin API - High Latency (P95 > 2s)"
+documentation:
+  content: |
+    ## High Latency Alert
+    
+    The Panelin API P95 latency has exceeded 2 seconds.
+    
+    ### Investigation Steps:
+    1. Check Cloud Trace for slow requests
+    2. Review container resource usage (CPU/memory)
+    3. Check for cold starts: `gcloud run services describe panelin-api --format="value(status.conditions)"`
+    4. Consider increasing min-instances to reduce cold starts
+    
+    ### Potential Causes:
+    - High CPU usage (increase CPU allocation)
+    - Memory pressure (increase memory)
+    - Slow external API calls (OpenAI, MongoDB)
+    - Cold start latency (increase min-instances)
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "P95 latency > 2000ms"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_latencies"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_PERCENTILE_95
+          crossSeriesReducer: REDUCE_PERCENTILE_95
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 2000  # milliseconds
+      duration: 300s
+      trigger:
+        count: 1
+notificationChannels: []
+alertStrategy:
+  autoClose: 604800s
+
+# =============================================================================
+# Alert 3: Container Instance Crashes
+# =============================================================================
+# Triggers when containers are restarting frequently
+---
+displayName: "Panelin API - Container Restart Frequency"
+documentation:
+  content: |
+    ## Container Restart Alert
+    
+    Containers are restarting more frequently than expected.
+    
+    ### Investigation Steps:
+    1. Check container logs for crash reasons
+    2. Review memory usage (OOM kills)
+    3. Check application startup errors
+    4. Verify health check endpoints are responding
+    
+    ### Common Causes:
+    - Out of memory errors
+    - Uncaught exceptions during startup
+    - Health check failures
+    - Dependency initialization errors
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "Instance count drop"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/instance_count"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_LT
+      thresholdValue: -3  # More than 3 instances terminated
+      duration: 300s
+      trigger:
+        count: 1
+notificationChannels: []
+alertStrategy:
+  autoClose: 604800s
+
+# =============================================================================
+# Alert 4: Cold Start Rate
+# =============================================================================
+# Monitors cold starts to track user experience impact
+---
+displayName: "Panelin API - High Cold Start Rate"
+documentation:
+  content: |
+    ## Cold Start Alert
+    
+    A high percentage of requests are hitting cold starts.
+    
+    ### Mitigation:
+    1. Increase min-instances: `gcloud run services update panelin-api --min-instances=1`
+    2. Optimize container startup time
+    3. Use CPU boost: `--cpu-boost`
+    
+    ### Trade-offs:
+    - min-instances > 0 incurs costs even when idle
+    - Balance between latency and cost
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "Billable instance time spike"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/billable_instance_time"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+      comparison: COMPARISON_GT
+      thresholdValue: 100  # Adjust based on baseline
+      duration: 600s
+      trigger:
+        count: 1
+notificationChannels: []
+alertStrategy:
+  autoClose: 604800s
+
+# =============================================================================
+# Alert 5: Memory Usage
+# =============================================================================
+# Triggers when memory usage approaches limits
+---
+displayName: "Panelin API - High Memory Usage"
+documentation:
+  content: |
+    ## High Memory Usage Alert
+    
+    Container memory usage is approaching the configured limit.
+    
+    ### Investigation Steps:
+    1. Check for memory leaks in application logs
+    2. Review recent code changes
+    3. Check if data processing volumes increased
+    
+    ### Mitigation:
+    1. Increase memory limit: `gcloud run services update panelin-api --memory=1Gi`
+    2. Investigate and fix memory leaks
+    3. Implement pagination for large data operations
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "Memory > 80%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/memory/utilizations"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_PERCENTILE_95
+      comparison: COMPARISON_GT
+      thresholdValue: 0.8  # 80%
+      duration: 300s
+      trigger:
+        count: 1
+notificationChannels: []
+alertStrategy:
+  autoClose: 604800s
+
+# =============================================================================
+# Alert 6: Request Volume Anomaly
+# =============================================================================
+# Detects unusual traffic patterns (potential attacks or issues)
+---
+displayName: "Panelin API - Traffic Anomaly"
+documentation:
+  content: |
+    ## Traffic Anomaly Alert
+    
+    Request volume is significantly different from normal patterns.
+    
+    ### Investigation Steps:
+    1. Check if this is expected (new feature launch, marketing campaign)
+    2. Review request sources for potential abuse
+    3. Check dependent systems for cascading effects
+    
+    ### Mitigation:
+    - If attack: Enable Cloud Armor or rate limiting
+    - If legitimate: Ensure autoscaling is handling the load
+  mimeType: text/markdown
+combiner: OR
+conditions:
+  - displayName: "Traffic spike > 10x baseline"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_GT
+      thresholdValue: 1000  # Requests per 5 minutes - adjust based on baseline
+      duration: 300s
+      trigger:
+        count: 1
+notificationChannels: []
+alertStrategy:
+  autoClose: 604800s
