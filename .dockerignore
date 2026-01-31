@@ -1,0 +1,209 @@
+# ============================================================================
+# Panelin Agent V2 - Docker Build Exclusions
+# ============================================================================
+# Optimizes build time, reduces image size, and prevents sensitive data leakage
+# ============================================================================
+
+# -----------------------------
+# Git and Version Control
+# -----------------------------
+.git
+.gitignore
+.gitattributes
+
+# -----------------------------
+# CI/CD and GitHub
+# -----------------------------
+.github/
+.gitlab-ci.yml
+.circleci/
+Jenkinsfile
+
+# -----------------------------
+# IDE and Editor Files
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+*.code-workspace
+
+# -----------------------------
+# Python Cache and Bytecode
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+MANIFEST
+
+# -----------------------------
+# Virtual Environments
+# -----------------------------
+venv/
+env/
+.env/
+ENV/
+.venv/
+
+# -----------------------------
+# Node.js (if any frontend)
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# Large Data Files (CRITICAL for build optimization)
+# -----------------------------
+*.pdf
+*.PDF
+*.csv
+*.xlsx
+*.xls
+*.ods
+*.parquet
+*.feather
+*.h5
+*.hdf5
+
+# JSON data files (except config)
+training_data/
+ingestion_analysis_output/
+.kb_update_cache/
+.corrections_backup/
+
+# Specific large JSON files
+ingestion_analysis_*.json
+codex_analysis_results.json
+prueba_*.json
+*_resultados.json
+
+# -----------------------------
+# Documentation (not needed in runtime)
+# -----------------------------
+docs/
+wiki/
+*.md
+!README.md
+LICENSE
+CHANGELOG.md
+
+# -----------------------------
+# Test Files
+# -----------------------------
+tests/
+test_*.py
+*_test.py
+pytest.ini
+conftest.py
+.coveragerc
+
+# -----------------------------
+# Development Scripts
+# -----------------------------
+scripts/
+*.sh
+!instalar_ocr.sh
+
+# -----------------------------
+# Image and Media Files
+# -----------------------------
+image/
+images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.webp
+*.html
+
+# -----------------------------
+# Archives and Backups
+# -----------------------------
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+*.bak
+*.backup
+*_backup/
+*.old
+
+# -----------------------------
+# Environment and Secrets
+# -----------------------------
+.env
+.env.*
+*.env
+.envrc
+secrets/
+*.pem
+*.key
+*.crt
+*.p12
+
+# -----------------------------
+# Directories NOT needed for production
+# -----------------------------
+deployment_bundle/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+ai_architect_agent/
+ai-project-files-organizer-agent/
+architectures/
+catalog/out/
+pricing/*.csv
+kb_training_system/
+panelin_reports/
+panelin_improvements/
+panelin_persistence/
+panelin_automation/
+
+# Duplicate/backup directories
+Copia de panelin_agent_v2/
+Files /
+
+# -----------------------------
+# Docker and Containerization
+# -----------------------------
+Dockerfile*
+docker-compose*.yml
+.docker/
+.dockerignore
+
+# -----------------------------
+# Cloud Build (avoid recursive copy)
+# -----------------------------
+cloudbuild*.yaml

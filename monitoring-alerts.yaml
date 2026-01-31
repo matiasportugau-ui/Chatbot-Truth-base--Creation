@@ -1,0 +1,231 @@
+# ============================================================================
+# Panelin Agent V2 - Cloud Monitoring Alerts Configuration
+# ============================================================================
+# Apply with: gcloud alpha monitoring policies create --policy-from-file=monitoring-alerts.yaml
+# 
+# Before applying, replace:
+#   - YOUR_PROJECT_ID with your actual project ID
+#   - YOUR_NOTIFICATION_CHANNEL with your notification channel ID
+# ============================================================================
+
+# Get notification channels with:
+# gcloud alpha monitoring channels list
+
+---
+# Alert 1: High Error Rate
+displayName: "Panelin API - High Error Rate"
+documentation:
+  content: |
+    ## High Error Rate Alert
+    
+    The Panelin API is experiencing a high rate of 5xx errors.
+    
+    ### Actions to take:
+    1. Check Cloud Run logs for error details
+    2. Verify external dependencies (OpenAI API, Shopify) are responding
+    3. Check if a recent deployment introduced issues
+    4. Consider rollback if errors persist
+    
+    ### Logs query:
+    ```
+    resource.type="cloud_run_revision"
+    resource.labels.service_name="panelin-api"
+    severity>=ERROR
+    ```
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "Error rate > 1%"
+    conditionThreshold:
+      filter: >
+        resource.type="cloud_run_revision" AND
+        resource.labels.service_name="panelin-api" AND
+        metric.type="run.googleapis.com/request_count" AND
+        metric.labels.response_code_class="5xx"
+      aggregations:
+        - alignmentPeriod: "300s"
+          perSeriesAligner: "ALIGN_RATE"
+          crossSeriesReducer: "REDUCE_SUM"
+      comparison: "COMPARISON_GT"
+      thresholdValue: 0.01
+      duration: "300s"
+combiner: "OR"
+alertStrategy:
+  autoClose: "604800s"  # 7 days
+notificationChannels:
+  - "projects/YOUR_PROJECT_ID/notificationChannels/YOUR_NOTIFICATION_CHANNEL"
+
+---
+# Alert 2: High Latency (P95)
+displayName: "Panelin API - High Latency"
+documentation:
+  content: |
+    ## High Latency Alert
+    
+    The Panelin API P95 latency is above 1000ms.
+    
+    ### Actions to take:
+    1. Check if there's increased load (scaling issue)
+    2. Verify external API response times
+    3. Check for cold starts (increase min-instances if needed)
+    4. Review recent code changes for performance regressions
+    
+    ### Useful metrics to check:
+    - Instance count
+    - CPU utilization
+    - Memory usage
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "P95 latency > 1000ms"
+    conditionThreshold:
+      filter: >
+        resource.type="cloud_run_revision" AND
+        resource.labels.service_name="panelin-api" AND
+        metric.type="run.googleapis.com/request_latencies"
+      aggregations:
+        - alignmentPeriod: "300s"
+          perSeriesAligner: "ALIGN_PERCENTILE_95"
+          crossSeriesReducer: "REDUCE_MEAN"
+      comparison: "COMPARISON_GT"
+      thresholdValue: 1000  # milliseconds
+      duration: "300s"
+combiner: "OR"
+alertStrategy:
+  autoClose: "604800s"
+notificationChannels:
+  - "projects/YOUR_PROJECT_ID/notificationChannels/YOUR_NOTIFICATION_CHANNEL"
+
+---
+# Alert 3: Instance Restart Frequency
+displayName: "Panelin API - Frequent Restarts"
+documentation:
+  content: |
+    ## Frequent Restarts Alert
+    
+    The Panelin API instances are restarting frequently.
+    
+    ### Possible causes:
+    - Memory leaks causing OOM kills
+    - Unhandled exceptions in startup code
+    - Health check failures
+    - Resource exhaustion
+    
+    ### Actions to take:
+    1. Check instance logs for startup errors
+    2. Review memory usage patterns
+    3. Verify health endpoint is responding correctly
+    4. Consider increasing memory/CPU allocation
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "Instance restarts > 3 in 10 minutes"
+    conditionThreshold:
+      filter: >
+        resource.type="cloud_run_revision" AND
+        resource.labels.service_name="panelin-api" AND
+        metric.type="run.googleapis.com/container/instance_count"
+      aggregations:
+        - alignmentPeriod: "600s"
+          perSeriesAligner: "ALIGN_DELTA"
+          crossSeriesReducer: "REDUCE_SUM"
+      comparison: "COMPARISON_GT"
+      thresholdValue: 3
+      duration: "0s"
+combiner: "OR"
+alertStrategy:
+  autoClose: "604800s"
+notificationChannels:
+  - "projects/YOUR_PROJECT_ID/notificationChannels/YOUR_NOTIFICATION_CHANNEL"
+
+---
+# Alert 4: Cold Start Latency
+displayName: "Panelin API - High Cold Start Latency"
+documentation:
+  content: |
+    ## High Cold Start Latency Alert
+    
+    Cold start times are above 5 seconds, impacting user experience.
+    
+    ### Actions to take:
+    1. Increase min-instances to keep instances warm
+    2. Enable CPU boost for faster startup
+    3. Optimize container startup (lazy loading, etc.)
+    4. Reduce container image size
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "Cold start > 5000ms"
+    conditionThreshold:
+      filter: >
+        resource.type="cloud_run_revision" AND
+        resource.labels.service_name="panelin-api" AND
+        metric.type="run.googleapis.com/container/startup_latencies"
+      aggregations:
+        - alignmentPeriod: "300s"
+          perSeriesAligner: "ALIGN_PERCENTILE_95"
+          crossSeriesReducer: "REDUCE_MEAN"
+      comparison: "COMPARISON_GT"
+      thresholdValue: 5000
+      duration: "300s"
+combiner: "OR"
+alertStrategy:
+  autoClose: "604800s"
+notificationChannels:
+  - "projects/YOUR_PROJECT_ID/notificationChannels/YOUR_NOTIFICATION_CHANNEL"
+
+---
+# Alert 5: Low Availability
+displayName: "Panelin API - Low Availability"
+documentation:
+  content: |
+    ## Low Availability Alert
+    
+    The service availability has dropped below 99.5%.
+    
+    ### SLO Target: 99.9%
+    ### Alert Threshold: 99.5%
+    
+    ### Actions to take:
+    1. Check for ongoing incidents
+    2. Review error logs
+    3. Verify all dependencies are healthy
+    4. Consider scaling up or failover
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "Availability < 99.5%"
+    conditionThreshold:
+      filter: >
+        resource.type="cloud_run_revision" AND
+        resource.labels.service_name="panelin-api" AND
+        metric.type="run.googleapis.com/request_count"
+      aggregations:
+        - alignmentPeriod: "3600s"
+          perSeriesAligner: "ALIGN_RATE"
+          crossSeriesReducer: "REDUCE_SUM"
+          groupByFields:
+            - "metric.labels.response_code_class"
+      comparison: "COMPARISON_LT"
+      thresholdValue: 0.995
+      duration: "0s"
+combiner: "OR"
+alertStrategy:
+  autoClose: "604800s"
+notificationChannels:
+  - "projects/YOUR_PROJECT_ID/notificationChannels/YOUR_NOTIFICATION_CHANNEL"
+
+# ============================================================================
+# Setup Instructions
+# ============================================================================
+# 
+# 1. Create a notification channel (email, Slack, PagerDuty, etc.):
+#    gcloud alpha monitoring channels create --type=email \
+#      --display-name="Panelin Alerts" \
+#      --channel-labels=email_address=your-email@example.com
+#
+# 2. Get the channel ID:
+#    gcloud alpha monitoring channels list
+#
+# 3. Update this file with your project ID and channel ID
+#
+# 4. Apply each alert policy:
+#    gcloud alpha monitoring policies create --policy-from-file=monitoring-alerts.yaml
+#
+# Or apply via Terraform/Pulumi for better IaC management.
+# ============================================================================
