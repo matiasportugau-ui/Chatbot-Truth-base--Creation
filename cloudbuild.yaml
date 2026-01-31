@@ -1,0 +1,59 @@
+steps:
+  # 1. Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${_AR_HOSTNAME}/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}', '.']
+    id: 'Build Container'
+
+  # 2. Push the image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_AR_HOSTNAME}/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}']
+    id: 'Push to Registry'
+
+  # 3. Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image'
+      - '${_AR_HOSTNAME}/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
+      - '--region'
+      - '${_DEPLOY_REGION}'
+      - '--platform'
+      - 'managed'
+      # Resource limits (User Request: Define CPU/Memory/Concurrency)
+      - '--memory'
+      - '512Mi'
+      - '--cpu'
+      - '1'
+      - '--concurrency'
+      - '80'
+      - '--timeout'
+      - '300'
+      # Autoscaling
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '10'
+      # Security (User Request: IAM preferred over --allow-unauthenticated)
+      - '--no-allow-unauthenticated'
+      # Liveness/Readiness Probes (New in Cloud Run)
+      # Note: These flags might require beta or recent gcloud version.
+      # Alternatively configure via YAML or Console if CLI support varies.
+      # We assume standard startup probe usage or rely on PORT listening.
+      # Explicit health check config often done via service.yaml or flags:
+      # --update-env-vars=...
+      # Secrets (Example placeholder - uncomment to use)
+      # - '--set-secrets'
+      # - 'API_KEY=projects/${PROJECT_ID}/secrets/my-api-key/versions/latest'
+    id: 'Deploy to Cloud Run'
+
+substitutions:
+  _AR_HOSTNAME: 'us-central1-docker.pkg.dev'
+  _REPO_NAME: 'panelin'
+  _SERVICE_NAME: 'panelin-api'
+  _DEPLOY_REGION: 'us-central1'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

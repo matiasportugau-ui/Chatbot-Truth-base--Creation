@@ -1,0 +1,48 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.git
+.gitignore
+.github
+docs/
+# Keep tests in repo but maybe not in container? User said "excluir datasets..."
+# For production image, tests are usually not needed.
+tests/
+training_data/
+ingestion_analysis_output/
+.kb_update_cache/
+.corrections_backup/
+deployment_bundle/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+panelin_reports/
+wiki/
+image/
+catalog/
+pricing/
+# Large data files
+*.csv
+*.pdf
+*.zip
+*.tar.gz
+# Exclude result jsons but keep config jsons
+*_results.json
+*_output.json
+ingestion_analysis_*.json
+batch_summary_*.json
+KB-FIX-*.json
+correcciones_*.json
+codex_*.json
+# Keep config/panelin_truth_bmcuruguay.json
+# Be careful with *.json, better to list what to ignore or ignore specific large folders
+.DS_Store
+node_modules/
+coverage/
+.pytest_cache/

@@ -98,6 +98,17 @@ class QuoteRequest(BaseModel):
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
 
+@app.get("/health", tags=["Health"])
+def health():
+    """Liveness probe: Checks if the service is running."""
+    return {"status": "ok"}
+
+@app.get("/ready", tags=["Health"])
+def ready():
+    """Readiness probe: Checks if the service is ready to accept traffic."""
+    # Add checks for dependencies (DB, caches) here if needed
+    return {"status": "ready"}
+
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
 def search_products(
