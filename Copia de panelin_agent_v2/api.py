@@ -1,4 +1,8 @@
+import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from tools.quotation_calculator import (
@@ -12,18 +16,41 @@ from tools.product_lookup import (
     check_product_availability,
     list_all_products,
     get_pricing_rules,
+    _load_knowledge_base,
 )
+
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL")
+OPENAPI_SERVERS = (
+    [{"url": PUBLIC_BASE_URL, "description": "Public base URL"}] if PUBLIC_BASE_URL else []
+)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Basic startup readiness: validate KB can be loaded.
+    try:
+        kb = _load_knowledge_base()
+        if not isinstance(kb, dict) or "products" not in kb:
+            raise ValueError("Knowledge base loaded but missing expected keys")
+        app.state.kb_loaded = True
+        app.state.kb_products_count = len(kb.get("products", {}))
+        app.state.ready = True
+        app.state.ready_error = None
+    except Exception as e:
+        app.state.kb_loaded = False
+        app.state.kb_products_count = 0
+        app.state.ready = False
+        app.state.ready_error = str(e)
+
+    yield
+
 
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
-    servers=[
-        {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
-        }
-    ],
+    servers=OPENAPI_SERVERS,
+    lifespan=lifespan,
 )
 
 # --- Response Models ---
@@ -97,6 +124,37 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def liveness_check():
+    # Liveness should be lightweight and always return 200 if process is up.
+    return {"status": "ok", "service": "panelin-agent-v2", "check": "liveness"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    # Readiness validates the KB dependency used by all endpoints.
+    if getattr(app.state, "ready", False):
+        return {
+            "status": "ok",
+            "service": "panelin-agent-v2",
+            "check": "readiness",
+            "kb_loaded": getattr(app.state, "kb_loaded", False),
+            "kb_products_count": getattr(app.state, "kb_products_count", 0),
+        }
+
+    error = getattr(app.state, "ready_error", "unknown")
+    return JSONResponse(
+        status_code=503,
+        content={
+            "status": "error",
+            "service": "panelin-agent-v2",
+            "check": "readiness",
+            "kb_loaded": getattr(app.state, "kb_loaded", False),
+            "error": error,
+        },
+    )
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])

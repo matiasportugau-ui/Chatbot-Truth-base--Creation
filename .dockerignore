@@ -1,0 +1,44 @@
+# VCS / CI
+.git
+.github
+
+# Python caches / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+
+# Large / irrelevant repo artifacts (reduce build context size)
+deployment_bundle/
+wiki/
+training_data/
+ingestion_analysis_output/
+.kb_update_cache/
+.corrections_backup/
+catalog/out/
+panelin_reports/
+pricing/
+
+# Documents / media (not needed in container runtime)
+**/*.pdf
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.html
+**/*.csv
+**/*.rtf
+**/*.md
+
+# Keep service source + config
+!Copia de panelin_agent_v2/**
+
