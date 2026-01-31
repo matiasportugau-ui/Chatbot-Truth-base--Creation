@@ -1,19 +1,12 @@
 import json
-import gspread
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 import gspread
-from google.oauth2.service_account import Credentials
+from oauth2client.service_account import ServiceAccountCredentials
 
 from .redesign_tool import CostMatrixRedesigner
-
-# Preferred auth (matches tests + modern google-auth)
-try:
-    from google.oauth2.service_account import Credentials  # type: ignore
-except Exception:  # pragma: no cover
-    Credentials = None  # type: ignore
 
 # Re-use ML lengths from excel_manager context
 LENGTHS_ML: List[str] = [
@@ -41,42 +34,26 @@ LENGTHS_ML: List[str] = [
 ]
 
 def get_client(credentials_path: str):
-    """Public wrapper for Google Sheets client authentication.
+    """Authenticate and return a gspread client.
 
-    Args:
-        credentials_path: Path to the Google credentials JSON file.
-
-    Returns:
-        Authenticated gspread client.
+    Uses `oauth2client.service_account.ServiceAccountCredentials` because it's:
+    - simple and stable for service-account JSON keyfiles
+    - compatible with the existing unit tests (patched symbol)
     """
-    return _get_client(credentials_path)
-
-
-def _get_client(credentials_path: str):
-    """Authenticate and return gspread client."""
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive",
-    ]
-    if Credentials is None:
-        raise ImportError("google-auth is required for get_client()")
-    creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
-    return gspread.authorize(creds)
-
-def get_client(credentials_path: str):
-    """Public wrapper for Google Sheets client authentication."""
-    return _get_client(credentials_path)
-
-# Backwards-compatible alias
-def _get_client(credentials_path: str):
-    return get_client(credentials_path)
-
     scopes = [
+        "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
     ]
-    creds = Credentials.from_service_account_file(credentials_path, scopes=scopes)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(
+        credentials_path, scopes=scopes
+    )
     return gspread.authorize(creds)
+
+
+# Backwards-compatible alias (some callers may import `_get_client`)
+def _get_client(credentials_path: str):
+    return get_client(credentials_path)
 
 
 def _safe_str(v: Any) -> str:
