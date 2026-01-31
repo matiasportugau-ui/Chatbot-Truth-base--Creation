@@ -94,9 +94,22 @@ class QuoteRequest(BaseModel):
 # --- Endpoints ---
 
 
-@app.get("/", tags=["Health"])
+@app.get("/health", tags=["Health"])
 def health_check():
+    """Liveness probe: Checks if the service is running."""
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    """Readiness probe: Checks if the service is ready to accept traffic."""
+    # Add dependency checks here if needed (e.g., DB connection)
+    return {"status": "ready"}
+
+
+@app.get("/", tags=["Health"])
+def root_health_check():
+    return health_check()
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
