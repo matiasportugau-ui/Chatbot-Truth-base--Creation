@@ -1,5 +1,7 @@
 # Cloud Deployment Recommendation & Implementation Plan
 
+> **📚 For complete production deployment, see [PRODUCTION_DEPLOYMENT_GUIDE.md](./PRODUCTION_DEPLOYMENT_GUIDE.md)**
+
 ## Best Option: Google Cloud Run + Artifact Registry + Cloud Build
 
 **Why this is the best fit for this repo**
@@ -7,6 +9,22 @@
 - **Auto-scaling and cost efficiency**: Scales to zero when idle and scales up with traffic.
 - **Simplified HTTPS & public URL**: Cloud Run provides a stable HTTPS endpoint that can replace the current Localtunnel URL injection step.
 - **Easy CI/CD**: Cloud Build integrates directly with GitHub and Artifact Registry.
+
+## Production-Ready Files (Updated)
+
+The following files have been created/updated for production deployment:
+
+| File | Purpose |
+|------|---------|
+| `/Dockerfile` | Multi-stage build with proper PORT handling |
+| `/.dockerignore` | Comprehensive exclusions for faster builds |
+| `/cloudbuild.yaml` | CI/CD with staging/production, tests, quality gates |
+| `/cloudrun-service.yaml` | Full service configuration with resources, probes |
+| `/api.py` | Production API with /health, /ready, /live endpoints |
+| `/requirements-production.txt` | Pinned versions for reproducibility |
+| `/scripts/setup_secrets.sh` | Secret Manager and IAM setup |
+| `/monitoring/alerting-policies.yaml` | Cloud Monitoring alerts |
+| `/monitoring/setup_monitoring.sh` | Dashboard and alerting setup |
 
 ## Current State Observations
 The local deployment helper (`scripts/deploy_thewolf.py`) currently:
@@ -29,56 +47,80 @@ This is excellent for local dev but **not production-grade** because:
 ## Implementation Plan (Step-by-Step)
 
 ### 1) Containerize the API
-Create a `Dockerfile` in the repo root (or in `Copia de panelin_agent_v2` if that is the runtime context):
+
+> ⚠️ **IMPORTANT FIX**: The original CMD used JSON form which does NOT expand `${PORT}`.
+> The production Dockerfile uses shell form: `CMD exec uvicorn ... --port $PORT`
+
+The production `Dockerfile` in the repo root includes:
 
 ```Dockerfile
-FROM python:3.11-slim
+# Multi-stage build for smaller image
+FROM python:3.11-slim as builder
+# ... dependency installation ...
 
-WORKDIR /app
+FROM python:3.11-slim as production
+# Run as non-root user for security
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+USER appuser
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . /app
-
-# Cloud Run provides $PORT
-ENV PORT=8000
-
-CMD ["python", "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "${PORT}"]
+# CORRECT: Shell form properly expands $PORT
+CMD exec uvicorn api:app --host 0.0.0.0 --port $PORT --workers 1
 ```
 
-> If the API lives inside `Copia de panelin_agent_v2`, adjust the Docker build context accordingly.
+See `/Dockerfile` for the complete implementation with:
+- Multi-stage build for smaller images
+- Non-root user for security
+- Proper PORT environment variable handling
+- Health check configuration
 
 ### 2) Add a `.dockerignore`
 Avoid shipping large files (e.g., training data, analysis outputs).
 
 ### 3) Create a Cloud Build config
-Example `cloudbuild.yaml`:
+
+The production `cloudbuild.yaml` includes a full CI/CD pipeline:
 
 ```yaml
+# Simplified overview - see /cloudbuild.yaml for full implementation
 steps:
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA", "."]
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"]
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    entrypoint: gcloud
-    args:
-      - run
-      - deploy
-      - ${_SERVICE}
-      - --image
-      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA
-      - --region
-      - ${_REGION}
-      - --platform
-      - managed
-      - --allow-unauthenticated
-substitutions:
-  _REGION: us-central1
-  _REPO: panelin
-  _SERVICE: panelin-api
+  # 1. Lint - Code quality checks
+  - name: 'python:3.11-slim'
+    id: 'lint'
+    # Runs black, isort checks
+
+  # 2. Test - Unit tests with coverage
+  - name: 'python:3.11-slim'
+    id: 'test'
+    # Runs pytest
+
+  # 3. Build - Docker image with caching
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build'
+
+  # 4. Push - To Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push'
+
+  # 5. Deploy Staging - On main branch push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-staging'
+    # Includes resource limits, secrets, health probes
+
+  # 6. Smoke Tests - Validate staging
+  - name: 'gcr.io/cloud-builders/curl'
+    id: 'smoke-test-staging'
+
+  # 7. Deploy Production - On version tag (v*.*.*)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-production'
+    # --no-allow-unauthenticated for production
 ```
+
+Key improvements:
+- **Quality gates**: Lint and test before deploy
+- **Staging/Production environments**: Separate configurations
+- **Smoke tests**: Validate deployment before production
+- **Version tagging**: Production deploys on `v*.*.*` tags
 
 ### 4) Create Artifact Registry Repo
 ```bash
@@ -119,12 +161,34 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
-- [ ] Cloud Run service live
-- [ ] OpenAPI schema updated with Cloud Run URL
-- [ ] Optional: `/health` endpoint
+
+### Core Files (Completed ✅)
+- [x] `Dockerfile` - Multi-stage build with proper PORT handling
+- [x] `.dockerignore` - Comprehensive exclusions
+- [x] `cloudbuild.yaml` - Full CI/CD pipeline with quality gates
+- [x] `cloudrun-service.yaml` - Resource limits, scaling, health probes
+- [x] `api.py` - Production API with `/health`, `/ready`, `/live` endpoints
+- [x] `requirements-production.txt` - Pinned dependency versions
+
+### Security (Completed ✅)
+- [x] `scripts/setup_secrets.sh` - Secret Manager setup
+- [x] Service account with minimal permissions
+- [x] IAM configuration for least privilege
+- [x] Secret injection via Cloud Run
+
+### Observability (Completed ✅)
+- [x] `monitoring/alerting-policies.yaml` - 7 production alerts
+- [x] `monitoring/setup_monitoring.sh` - Dashboard and uptime checks
+- [x] Structured JSON logging for Cloud Logging
+- [x] Request tracing with Cloud Trace headers
+
+### Deployment Tasks (Manual)
+- [ ] Create Artifact Registry repository
+- [ ] Add secret values to Secret Manager
+- [ ] Deploy Cloud Run service
+- [ ] Configure Cloud Build triggers
+- [ ] Update OpenAPI schema with Cloud Run URL
+- [ ] Verify alerting policies
 
 ---
 

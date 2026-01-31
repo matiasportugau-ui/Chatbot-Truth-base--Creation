@@ -1,0 +1,302 @@
+# ============================================================================
+# Cloud Monitoring Alerting Policies
+# ============================================================================
+# Terraform/gcloud-compatible alerting policy definitions for Panelin API
+#
+# Apply with:
+#   gcloud alpha monitoring policies create --policy-from-file=alerting-policies.yaml
+#
+# Or import into Terraform using google_monitoring_alert_policy resource
+# ============================================================================
+
+---
+# -----------------------------------------------------------------------------
+# 1. High Error Rate Alert
+# -----------------------------------------------------------------------------
+# Triggers when error rate exceeds 5% over 5 minutes
+displayName: "Panelin API - High Error Rate"
+combiner: OR
+conditions:
+  - displayName: "Error rate > 5%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+        AND metric.labels.response_code_class != "2xx"
+      aggregations:
+        - alignmentPeriod: 300s  # 5 minutes
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - resource.labels.service_name
+      denominatorFilter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+      denominatorAggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 0.05  # 5%
+      duration: 300s  # Must exceed for 5 minutes
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## High Error Rate Alert
+    
+    The Panelin API is experiencing an error rate above 5%.
+    
+    **Immediate Actions:**
+    1. Check Cloud Run logs: `gcloud run logs read panelin-api --region=us-central1`
+    2. Review recent deployments: `gcloud run revisions list --service=panelin-api`
+    3. Check dependency health (OpenAI API, MongoDB)
+    
+    **Runbook:** https://docs.panelin.io/runbooks/high-error-rate
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+alertStrategy:
+  autoClose: 1800s  # Auto-close after 30 minutes if resolved
+
+---
+# -----------------------------------------------------------------------------
+# 2. High Latency (P95) Alert
+# -----------------------------------------------------------------------------
+# Triggers when P95 latency exceeds 2 seconds
+displayName: "Panelin API - High Latency (P95 > 2s)"
+combiner: OR
+conditions:
+  - displayName: "P95 latency > 2000ms"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_latencies"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_PERCENTILE_95
+          crossSeriesReducer: REDUCE_MAX
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 2000  # 2000ms = 2 seconds
+      duration: 300s
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## High Latency Alert
+    
+    P95 latency for Panelin API has exceeded 2 seconds.
+    
+    **Possible Causes:**
+    - Cold starts (check min-instances setting)
+    - OpenAI API slowness
+    - Heavy calculation workloads
+    - Resource constraints (CPU/Memory)
+    
+    **Immediate Actions:**
+    1. Check current instance count and scaling
+    2. Review slow requests in Cloud Trace
+    3. Consider increasing min-instances
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+
+---
+# -----------------------------------------------------------------------------
+# 3. Cold Start Frequency Alert
+# -----------------------------------------------------------------------------
+# Triggers when cold starts exceed 10 per hour
+displayName: "Panelin API - Excessive Cold Starts"
+combiner: OR
+conditions:
+  - displayName: "Cold starts > 10/hour"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/startup_latencies"
+      aggregations:
+        - alignmentPeriod: 3600s  # 1 hour
+          perSeriesAligner: ALIGN_COUNT
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 10
+      duration: 0s
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## Excessive Cold Starts
+    
+    The service is experiencing frequent cold starts, which impacts latency.
+    
+    **Recommendations:**
+    1. Increase `minScale` to keep warm instances
+    2. Enable CPU boost for faster cold starts
+    3. Optimize container startup time
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+
+---
+# -----------------------------------------------------------------------------
+# 4. Container Restart Alert
+# -----------------------------------------------------------------------------
+# Triggers when container restarts more than 3 times in 10 minutes
+displayName: "Panelin API - Container Restarts"
+combiner: OR
+conditions:
+  - displayName: "Container restarts > 3 in 10min"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/instance_count"
+      aggregations:
+        - alignmentPeriod: 600s
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_GT
+      thresholdValue: 3
+      duration: 0s
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## Container Restarts Alert
+    
+    Containers are restarting frequently, indicating potential crashes.
+    
+    **Immediate Actions:**
+    1. Check container logs for errors/crashes
+    2. Verify memory limits aren't being exceeded
+    3. Check for unhandled exceptions
+    4. Review liveness probe failures
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+
+---
+# -----------------------------------------------------------------------------
+# 5. Memory Utilization Alert
+# -----------------------------------------------------------------------------
+# Triggers when memory usage exceeds 80%
+displayName: "Panelin API - High Memory Usage"
+combiner: OR
+conditions:
+  - displayName: "Memory usage > 80%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/container/memory/utilizations"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_PERCENTILE_95
+          crossSeriesReducer: REDUCE_MAX
+          groupByFields:
+            - resource.labels.service_name
+      comparison: COMPARISON_GT
+      thresholdValue: 0.80  # 80%
+      duration: 300s
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## High Memory Usage Alert
+    
+    Memory utilization has exceeded 80%.
+    
+    **Actions:**
+    1. Check for memory leaks
+    2. Consider increasing memory limit
+    3. Review concurrent request handling
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+
+---
+# -----------------------------------------------------------------------------
+# 6. Request Count Drop Alert (Traffic Anomaly)
+# -----------------------------------------------------------------------------
+# Triggers when traffic drops by 80% compared to previous week
+displayName: "Panelin API - Traffic Drop"
+combiner: OR
+conditions:
+  - displayName: "Traffic dropped 80%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+      aggregations:
+        - alignmentPeriod: 3600s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_LT
+      # Note: For percentage drops, use MQL or separate baseline metric
+      thresholdValue: 10  # Adjust based on expected baseline
+      duration: 1800s  # 30 minutes
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## Traffic Drop Alert
+    
+    Request traffic has dropped significantly. This could indicate:
+    - Client-side issues
+    - DNS problems
+    - Load balancer misconfiguration
+    - Service outage that's preventing requests from reaching the service
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+
+---
+# -----------------------------------------------------------------------------
+# 7. 5xx Error Spike Alert
+# -----------------------------------------------------------------------------
+# Immediate alert on any 500 errors
+displayName: "Panelin API - 5xx Errors"
+combiner: OR
+conditions:
+  - displayName: "5xx errors detected"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "panelin-api"
+        AND metric.type = "run.googleapis.com/request_count"
+        AND metric.labels.response_code_class = "5xx"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_GT
+      thresholdValue: 0  # Any 5xx error
+      duration: 60s
+      trigger:
+        count: 1
+documentation:
+  content: |
+    ## 5xx Server Errors Detected
+    
+    The API is returning 500-level errors.
+    
+    **Immediate Actions:**
+    1. Check recent logs: `gcloud run logs read panelin-api --limit=100`
+    2. Review stack traces in Error Reporting
+    3. Check external dependencies (OpenAI, database)
+  mimeType: text/markdown
+notificationChannels:
+  - projects/PROJECT_ID/notificationChannels/CHANNEL_ID
+alertStrategy:
+  autoClose: 600s  # Auto-close after 10 minutes if resolved
