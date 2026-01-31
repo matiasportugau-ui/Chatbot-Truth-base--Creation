@@ -1,0 +1,292 @@
+# ============================================
+# DOCKERIGNORE - Panelin Production Build
+# ============================================
+# Excludes unnecessary files to reduce image size,
+# improve build times, and enhance security.
+# ============================================
+
+# ========================================
+# GIT & VERSION CONTROL
+# ========================================
+.git
+.gitignore
+.gitattributes
+.github
+.gitkeep
+
+# ========================================
+# DOCUMENTATION (reduce image size)
+# ========================================
+*.md
+!README.md
+docs/
+wiki/
+*.pdf
+*.docx
+*.doc
+*.rtf
+LICENSE*
+CHANGELOG*
+CONTRIBUTING*
+
+# ========================================
+# PYTHON DEVELOPMENT
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ========================================
+# VIRTUAL ENVIRONMENTS
+# ========================================
+.env
+.env.*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+Pipfile.lock
+poetry.lock
+
+# ========================================
+# TESTING & COVERAGE
+# ========================================
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.coverage
+.hypothesis/
+.pytest_cache/
+nosetests.xml
+tests/
+test_*.py
+*_test.py
+conftest.py
+
+# ========================================
+# IDE & EDITOR
+# ========================================
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.code-workspace
+
+# ========================================
+# OS FILES
+# ========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ========================================
+# SECRETS & CREDENTIALS
+# ========================================
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/
+*.secret
+credentials*.json
+*_credentials.json
+service-account*.json
+*.keystore
+
+# ========================================
+# DATABASES & DATA
+# ========================================
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+ingestion_database.db
+*.csv
+*.xlsx
+*.xls
+*.ods
+
+# ========================================
+# TRAINING DATA & LARGE FILES
+# ========================================
+training_data/
+analysis_output/
+ingestion_analysis_output/
+.kb_update_cache/
+.corrections_backup/
+*.json.bak
+*_backup.json
+*.dump
+*.tar
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Exclude specific large JSON files
+analisis_multi_modelo_resultado.json
+ingestion_analysis_*.json
+codex_*.json
+prueba_pdfs_pequenos_resultados.json
+
+# ========================================
+# DEPLOYMENT ARTIFACTS
+# ========================================
+deployment_bundle/
+gpt_configs/
+gpt_consolidation_agent/deployment/knowledge_base/*.json
+panelin_gpt_deployment*.zip
+*.zip
+
+# ========================================
+# LOGS & TEMPORARY
+# ========================================
+*.log
+*.tmp
+*.bak
+temp/
+.temp/
+tmp/
+logs/
+*.out
+*.err
+
+# ========================================
+# INFRASTRUCTURE AS CODE
+# ========================================
+terraform/
+*.tf
+*.tfvars
+*.tfstate*
+pulumi/
+.pulumi/
+cdk.out/
+
+# ========================================
+# DOCKER (avoid recursive includes)
+# ========================================
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+.docker/
+
+# ========================================
+# CI/CD
+# ========================================
+cloudbuild*.yaml
+.travis.yml
+Jenkinsfile
+.circleci/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# ========================================
+# MEDIA FILES
+# ========================================
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.ico
+*.svg
+*.bmp
+*.mp4
+*.mp3
+*.wav
+*.avi
+image/
+images/
+
+# ========================================
+# NOTEBOOKS & ANALYSIS
+# ========================================
+*.ipynb
+.ipynb_checkpoints/
+
+# ========================================
+# AGENTS & TOOLS (not needed in runtime)
+# ========================================
+ai_architect_agent/
+ai-project-files-organizer-agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+kb_training_system/
+panelin_reports/
+scripts/
+
+# ========================================
+# LEGACY & BACKUP FOLDERS
+# ========================================
+Copia de */
+*_backup/
+*_old/
+*.old
+
+# ========================================
+# PROJECT-SPECIFIC EXCLUSIONS
+# ========================================
+# Files directory with RTF/JSON exports
+Files /
+Files/
+
+# Architecture documentation
+architectures/
+
+# Pricing tools (CSV conversion scripts)
+pricing/tools/
+pricing/out/
+pricing/*.csv
+
+# Catalog management
+catalog/
+
+# Schemas (used for validation tools only)
+schemas/
+
+# Keep necessary runtime files
+!panelin/
+!panelin_hybrid_agent/
+!panelin_core/
+!config/
+!api.py
+!requirements*.txt
