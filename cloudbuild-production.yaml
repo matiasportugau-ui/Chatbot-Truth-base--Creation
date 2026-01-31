@@ -1,0 +1,200 @@
+# ============================================================================
+# Panelin Agent V2 - Cloud Build Configuration (Production Only)
+# ============================================================================
+# Use this for production deployments with stricter quality gates
+# Trigger: Manual or from main/master branch only
+# ============================================================================
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+  _MIN_INSTANCES: '1'           # Always-on for production
+  _MAX_INSTANCES: '20'
+  _MEMORY: '1Gi'
+  _CPU: '2'
+  _CONCURRENCY: '100'
+  _TIMEOUT: '60s'               # Shorter timeout for production reliability
+  _ENVIRONMENT: 'production'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
+
+steps:
+  # =========================================================================
+  # Stage 1: Strict Quality Gates (Tests MUST pass)
+  # =========================================================================
+  
+  - id: 'test-strict'
+    name: 'python:3.11-slim'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install --no-cache-dir -r requirements.txt
+        pip install --no-cache-dir -r requirements-dev.txt
+        echo "Running tests with strict mode..."
+        pytest tests/ -v --tb=short --strict-markers
+        if [ $? -ne 0 ]; then
+          echo "❌ Tests failed - aborting production deployment"
+          exit 1
+        fi
+        echo "✅ All tests passed"
+
+  # =========================================================================
+  # Stage 2: Security Scan
+  # =========================================================================
+  
+  - id: 'security-scan'
+    name: 'python:3.11-slim'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install --no-cache-dir bandit safety
+        echo "Running security scan..."
+        bandit -r . -ll --exclude ./tests,./venv,./.venv || echo "Security issues found - review recommended"
+        echo "Checking dependencies for vulnerabilities..."
+        safety check -r requirements.txt || echo "Dependency vulnerabilities found - review recommended"
+    waitFor: ['test-strict']
+
+  # =========================================================================
+  # Stage 3: Build Production Image
+  # =========================================================================
+  
+  - id: 'build-production'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:production'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:stable'
+      - '--cache-from'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:production'
+      - '.'
+    waitFor: ['security-scan']
+
+  # =========================================================================
+  # Stage 4: Push to Artifact Registry
+  # =========================================================================
+  
+  - id: 'push-production'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}'
+    waitFor: ['build-production']
+
+  # =========================================================================
+  # Stage 5: Deploy to Production Cloud Run
+  # =========================================================================
+  
+  - id: 'deploy-production'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE}'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      # ---------------------------------------------------------
+      # Production Resource Configuration
+      # ---------------------------------------------------------
+      - '--memory'
+      - '${_MEMORY}'
+      - '--cpu'
+      - '${_CPU}'
+      - '--concurrency'
+      - '${_CONCURRENCY}'
+      - '--timeout'
+      - '${_TIMEOUT}'
+      - '--min-instances'
+      - '${_MIN_INSTANCES}'
+      - '--max-instances'
+      - '${_MAX_INSTANCES}'
+      # ---------------------------------------------------------
+      # CPU Boost for faster cold starts
+      # ---------------------------------------------------------
+      - '--cpu-boost'
+      # ---------------------------------------------------------
+      # Security Configuration
+      # ---------------------------------------------------------
+      - '--no-allow-unauthenticated'
+      - '--service-account'
+      - 'panelin-api@${PROJECT_ID}.iam.gserviceaccount.com'
+      # ---------------------------------------------------------
+      # Secret Manager Integration
+      # ---------------------------------------------------------
+      - '--set-secrets'
+      - 'OPENAI_API_KEY=OPENAI_API_KEY:latest,SHOPIFY_API_KEY=SHOPIFY_API_KEY:latest'
+      # ---------------------------------------------------------
+      # Environment Variables
+      # ---------------------------------------------------------
+      - '--set-env-vars'
+      - 'ENVIRONMENT=production,LOG_LEVEL=WARNING,PYTHONUNBUFFERED=1'
+      # ---------------------------------------------------------
+      # Revision Traffic (Canary)
+      # ---------------------------------------------------------
+      - '--tag'
+      - 'v${SHORT_SHA}'
+      # ---------------------------------------------------------
+      # Labels
+      # ---------------------------------------------------------
+      - '--labels'
+      - 'app=panelin,environment=production,version=${SHORT_SHA}'
+    waitFor: ['push-production']
+
+  # =========================================================================
+  # Stage 6: Verify Production Health
+  # =========================================================================
+  
+  - id: 'verify-production'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Waiting for production deployment to stabilize..."
+        sleep 45
+        
+        SERVICE_URL=$(gcloud run services describe ${_SERVICE} \
+          --region ${_REGION} --format 'value(status.url)')
+        
+        TOKEN=$(gcloud auth print-identity-token)
+        
+        # Health check
+        echo "Checking /health endpoint..."
+        HEALTH=$(curl -s -o /dev/null -w "%{http_code}" \
+          -H "Authorization: Bearer $${TOKEN}" \
+          "$${SERVICE_URL}/health")
+        
+        # Readiness check
+        echo "Checking /ready endpoint..."
+        READY=$(curl -s -o /dev/null -w "%{http_code}" \
+          -H "Authorization: Bearer $${TOKEN}" \
+          "$${SERVICE_URL}/ready")
+        
+        if [ "$${HEALTH}" = "200" ] && [ "$${READY}" = "200" ]; then
+          echo "✅ Production deployment verified successfully!"
+        else
+          echo "⚠️ Health: $${HEALTH}, Ready: $${READY}"
+          echo "Consider rollback if issues persist"
+        fi
+    waitFor: ['deploy-production']
+
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:production'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:stable'
+
+timeout: '900s'

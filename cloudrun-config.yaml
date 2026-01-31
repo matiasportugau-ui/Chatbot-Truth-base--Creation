@@ -1,0 +1,158 @@
+# ============================================================================
+# Panelin Agent V2 - Cloud Run Service Configuration
+# ============================================================================
+# This file documents the recommended Cloud Run configuration.
+# Apply via gcloud CLI or use in cloudbuild.yaml substitutions.
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# Service Identity
+# -----------------------------------------------------------------------------
+service:
+  name: panelin-api
+  region: us-central1
+  platform: managed
+
+# -----------------------------------------------------------------------------
+# Resource Limits
+# -----------------------------------------------------------------------------
+# Configure based on expected workload
+resources:
+  staging:
+    cpu: "1"
+    memory: "512Mi"
+    concurrency: 80
+    timeout: "300s"
+    min_instances: 0      # Scale to zero when idle
+    max_instances: 10
+  
+  production:
+    cpu: "2"
+    memory: "1Gi"
+    concurrency: 100
+    timeout: "60s"        # Shorter for reliability
+    min_instances: 1      # Always warm for low latency
+    max_instances: 20
+    cpu_boost: true       # Faster cold starts
+
+# -----------------------------------------------------------------------------
+# Security Configuration
+# -----------------------------------------------------------------------------
+security:
+  # Authentication options:
+  # - allow-unauthenticated: Public access (for public APIs)
+  # - no-allow-unauthenticated: IAM authentication required
+  authentication: "no-allow-unauthenticated"
+  
+  # Dedicated service account (principle of least privilege)
+  service_account: "panelin-api@PROJECT_ID.iam.gserviceaccount.com"
+  
+  # IAM bindings for the service account:
+  # - roles/secretmanager.secretAccessor (for Secret Manager)
+  # - roles/cloudtrace.agent (for Cloud Trace)
+  # - roles/logging.logWriter (for Cloud Logging)
+  # - roles/monitoring.metricWriter (for Cloud Monitoring)
+
+# -----------------------------------------------------------------------------
+# Secret Manager Integration
+# -----------------------------------------------------------------------------
+# Secrets are mounted as environment variables at runtime
+# Never store secrets in code or container images
+secrets:
+  # Format: ENV_VAR_NAME=SECRET_NAME:VERSION
+  - OPENAI_API_KEY=OPENAI_API_KEY:latest
+  - SHOPIFY_API_KEY=SHOPIFY_API_KEY:latest
+  # Add more secrets as needed:
+  # - DATABASE_URL=DATABASE_URL:latest
+  # - MONGODB_URI=MONGODB_URI:latest
+
+# -----------------------------------------------------------------------------
+# Environment Variables
+# -----------------------------------------------------------------------------
+environment:
+  staging:
+    ENVIRONMENT: staging
+    LOG_LEVEL: DEBUG
+    PYTHONUNBUFFERED: "1"
+    ALLOWED_ORIGINS: "*"
+  
+  production:
+    ENVIRONMENT: production
+    LOG_LEVEL: WARNING
+    PYTHONUNBUFFERED: "1"
+    ALLOWED_ORIGINS: "https://panelin.bmcuruguay.com"
+
+# -----------------------------------------------------------------------------
+# Health Checks
+# -----------------------------------------------------------------------------
+# Cloud Run automatically uses the startup probe
+# Configure via container startup and liveness probes
+health_checks:
+  liveness:
+    path: "/health"
+    initial_delay_seconds: 5
+    period_seconds: 30
+    timeout_seconds: 10
+    failure_threshold: 3
+  
+  readiness:
+    path: "/ready"
+    initial_delay_seconds: 10
+    period_seconds: 15
+    timeout_seconds: 5
+    failure_threshold: 2
+
+# -----------------------------------------------------------------------------
+# Traffic Management
+# -----------------------------------------------------------------------------
+traffic:
+  # Revision tags for canary deployments
+  # Use gcloud run services update-traffic for traffic splitting
+  latest_percent: 100
+  
+  # For gradual rollouts:
+  # - Deploy new revision with 0% traffic
+  # - Increase traffic incrementally (10% → 50% → 100%)
+  # - Rollback if errors increase
+
+# -----------------------------------------------------------------------------
+# VPC Configuration (Optional)
+# -----------------------------------------------------------------------------
+# Uncomment if service needs to access private resources
+# vpc:
+#   connector: "projects/PROJECT_ID/locations/us-central1/connectors/vpc-connector"
+#   egress: "private-ranges-only"
+
+# -----------------------------------------------------------------------------
+# CLI Commands Reference
+# -----------------------------------------------------------------------------
+# Deploy with this configuration:
+#
+# gcloud run deploy panelin-api \
+#   --image us-central1-docker.pkg.dev/PROJECT_ID/panelin/panelin-api:latest \
+#   --region us-central1 \
+#   --platform managed \
+#   --memory 1Gi \
+#   --cpu 2 \
+#   --concurrency 100 \
+#   --timeout 60s \
+#   --min-instances 1 \
+#   --max-instances 20 \
+#   --cpu-boost \
+#   --no-allow-unauthenticated \
+#   --service-account panelin-api@PROJECT_ID.iam.gserviceaccount.com \
+#   --set-secrets "OPENAI_API_KEY=OPENAI_API_KEY:latest,SHOPIFY_API_KEY=SHOPIFY_API_KEY:latest" \
+#   --set-env-vars "ENVIRONMENT=production,LOG_LEVEL=WARNING"
+
+# -----------------------------------------------------------------------------
+# Monitoring Alerts Setup
+# -----------------------------------------------------------------------------
+# Create alerts with:
+#
+# gcloud monitoring policies create --policy-from-file=alerts.yaml
+#
+# Recommended alerts:
+# - Error rate > 1% over 5 minutes
+# - P95 latency > 1000ms over 5 minutes
+# - Instance restarts > 3 in 10 minutes
+# - Cold start latency > 5000ms
