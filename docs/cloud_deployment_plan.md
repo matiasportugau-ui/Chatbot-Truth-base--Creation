@@ -29,25 +29,28 @@ This is excellent for local dev but **not production-grade** because:
 ## Implementation Plan (Step-by-Step)
 
 ### 1) Containerize the API
-Create a `Dockerfile` in the repo root (or in `Copia de panelin_agent_v2` if that is the runtime context):
+Create a `Dockerfile` in the repo root (this repo’s deployable FastAPI app lives in `Copia de panelin_agent_v2/api.py`).
 
 ```Dockerfile
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install pinned production deps (recommended)
+COPY ["Copia de panelin_agent_v2/requirements.prod.txt", "/app/requirements.txt"]
+RUN python -m pip install --no-cache-dir -r /app/requirements.txt
 
-COPY . /app
+# Copy only the API runtime folder
+COPY ["Copia de panelin_agent_v2/", "/app/"]
 
-# Cloud Run provides $PORT
-ENV PORT=8000
+# Cloud Run injects $PORT (default 8080)
+ENV PORT=8080
 
-CMD ["python", "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "${PORT}"]
+# IMPORTANT: use a shell so ${PORT} expands
+CMD ["sh","-c","python -m uvicorn api:app --host 0.0.0.0 --port ${PORT:-8080}"]
 ```
 
-> If the API lives inside `Copia de panelin_agent_v2`, adjust the Docker build context accordingly.
+> **Important**: In JSON-array `CMD` format, `${PORT}` does **not** expand unless you run through a shell (`sh -c`). This is a common Cloud Run startup failure.
 
 ### 2) Add a `.dockerignore`
 Avoid shipping large files (e.g., training data, analysis outputs).
@@ -73,7 +76,8 @@ steps:
       - ${_REGION}
       - --platform
       - managed
-      - --allow-unauthenticated
+      # Prefer private-by-default (remove this line only if API must be public)
+      - --no-allow-unauthenticated
 substitutions:
   _REGION: us-central1
   _REPO: panelin
@@ -92,7 +96,7 @@ gcloud artifacts repositories create panelin \
 gcloud run deploy panelin-api \
   --source . \
   --region us-central1 \
-  --allow-unauthenticated
+  --no-allow-unauthenticated
 ```
 
 ### 6) Update OpenAPI Schema for Production
@@ -106,8 +110,51 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 
 ### 7) Monitoring & Reliability
 - Enable **Cloud Run logging** (default).
-- Add `/health` endpoint for readiness.
+- Implement **liveness vs readiness** explicitly:
+  - `GET /health`: liveness (process is up)
+  - `GET /ready`: readiness (KB loaded + valid)
 - Add basic alerts on error rate and latency.
+
+---
+
+## Production Hardening (Recommended)
+
+### Security & Identity
+- **Dedicated Service Account (least privilege)**: create and deploy with a service account specific to this service.
+- **Secret Manager (don’t paste secrets as “flat” env vars)**: inject secrets via Cloud Run secret references, enabling rotation.
+- **Restrict access**:
+  - If internal/private: keep `--no-allow-unauthenticated` and use IAM Auth (caller must be authenticated).
+  - If public: consider API Gateway + auth + rate limiting, and/or Cloud Armor for IP allowlists.
+
+Example (Secret Manager injection):
+
+```bash
+gcloud run deploy panelin-api \
+  --image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/panelin-api:${TAG}" \
+  --region "${REGION}" \
+  --service-account "panelin-api-sa@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --no-allow-unauthenticated \
+  --set-secrets "OPENAI_API_KEY=OPENAI_API_KEY:latest"
+```
+
+### Cloud Run runtime settings (avoid surprises)
+Define explicit limits so behavior is predictable:
+- `--cpu`, `--memory`
+- `--concurrency`
+- `--timeout`
+- `--min-instances` (optional, for low-latency / reduce cold starts)
+- `--max-instances` (cost control)
+
+### Observability
+Add Cloud Monitoring alerts with concrete thresholds, e.g.:
+- error rate \(> X%\)
+- latency P95 \(> Y ms\)
+- container restarts / cold starts spikes
+
+### Data persistence
+Cloud Run containers are stateless. If you need state:
+- **DB**: Cloud SQL / Firestore (preferred for transactional/state)
+- **Storage**: GCS for blobs/files
 
 ---
 

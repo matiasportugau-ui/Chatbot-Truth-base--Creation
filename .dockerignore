@@ -1,0 +1,51 @@
+.git
+.github
+
+# Python caches / venvs
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.tox/
+**/.venv/
+**/venv/
+
+# Repo-large, not needed for runtime container
+wiki/
+docs/
+architectures/
+deployment_bundle/
+panelin_reports/
+panelin_improvements/
+Panelin_GPT/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+kb_training_system/
+training_data/
+ingestion_analysis_output/
+image/
+.corrections_backup/
+.kb_update_cache/
+
+# Big artifacts / exports
+*.pdf
+*.html
+*.rtf
+*.csv
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+
+# Known large JSON artifacts (keep config JSONs)
+ingestion_analysis_*.json
+codex_analysis_results.json
+prueba_*_resultados.json
+comparacion_vendedoras_sistema.json
+
+# Local/dev leftovers
+tunnel_url.txt

@@ -1,3 +1,8 @@
+import json
+import os
+import time
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -25,6 +30,12 @@ app = FastAPI(
         }
     ],
 )
+
+# Basic process uptime (useful for troubleshooting restarts / cold starts)
+_PROCESS_START_TS = time.time()
+
+# Knowledge base path (used by readiness checks)
+_KB_PATH = Path(__file__).parent / "config" / "panelin_truth_bmcuruguay.json"
 
 # --- Response Models ---
 
@@ -94,9 +105,66 @@ class QuoteRequest(BaseModel):
 # --- Endpoints ---
 
 
+def _readiness_check() -> tuple[bool, str]:
+    """
+    Readiness should confirm the container can serve real traffic.
+
+    For this service, that means the deterministic knowledge base exists
+    and is valid JSON with expected top-level keys.
+    """
+    if not _KB_PATH.exists():
+        return (False, f"Knowledge base not found at {_KB_PATH}")
+
+    try:
+        kb = json.loads(_KB_PATH.read_text(encoding="utf-8"))
+    except Exception as e:
+        return (False, f"Knowledge base invalid JSON: {e}")
+
+    if not isinstance(kb, dict):
+        return (False, "Knowledge base must be a JSON object")
+
+    if "products" not in kb or not isinstance(kb.get("products"), dict) or not kb["products"]:
+        return (False, "Knowledge base missing 'products' or it is empty")
+
+    if "pricing_rules" not in kb or not isinstance(kb.get("pricing_rules"), dict):
+        return (False, "Knowledge base missing 'pricing_rules'")
+
+    return (True, "ready")
+
+
 @app.get("/", tags=["Health"])
-def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+def root_health():
+    """Backward-compatible health endpoint."""
+    uptime_s = int(time.time() - _PROCESS_START_TS)
+    return {
+        "status": "ok",
+        "service": "Panelin Agent V2 API",
+        "uptime_s": uptime_s,
+        "environment": os.getenv("ENVIRONMENT", "unknown"),
+    }
+
+
+@app.get("/health", tags=["Health"])
+def health():
+    """
+    Liveness: process is up and responding.
+
+    Keep this lightweight (do not hit external dependencies).
+    """
+    uptime_s = int(time.time() - _PROCESS_START_TS)
+    return {
+        "status": "ok",
+        "uptime_s": uptime_s,
+    }
+
+
+@app.get("/ready", tags=["Health"])
+def ready():
+    """Readiness: service can handle real requests."""
+    ok, reason = _readiness_check()
+    if not ok:
+        raise HTTPException(status_code=503, detail=reason)
+    return {"status": "ready"}
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
