@@ -1,0 +1,62 @@
+steps:
+  # Build
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        ".",
+      ]
+
+  # Push
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+      ]
+
+  # Deploy (secure-by-default: do NOT make public here)
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE}",
+        "--image",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        "--region",
+        "${_REGION}",
+        "--platform",
+        "managed",
+        "--no-allow-unauthenticated",
+        "--cpu",
+        "${_CPU}",
+        "--memory",
+        "${_MEMORY}",
+        "--concurrency",
+        "${_CONCURRENCY}",
+        "--timeout",
+        "${_TIMEOUT}",
+        "--min-instances",
+        "${_MIN_INSTANCES}",
+        "--max-instances",
+        "${_MAX_INSTANCES}",
+      ]
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+  _CPU: "1"
+  _MEMORY: 512Mi
+  _CONCURRENCY: "40"
+  _TIMEOUT: "300"
+  _MIN_INSTANCES: "0"
+  _MAX_INSTANCES: "10"
+
+images:
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+

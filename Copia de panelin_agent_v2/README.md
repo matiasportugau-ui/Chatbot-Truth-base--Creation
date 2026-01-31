@@ -18,12 +18,11 @@ Sistema de cotización de paneles aislantes para BMC Uruguay con **precisión 10
 ## Instalación
 
 ```bash
-# Core (sin dependencias externas)
-cd panelin_agent_v2
-pip install pytest
-
-# Con agente LangGraph
+# Runtime API (Cloud Run / producción)
 pip install -r requirements.txt
+
+# Tests (local/dev)
+pip install -r requirements-dev.txt
 ```
 
 ## Uso Rápido

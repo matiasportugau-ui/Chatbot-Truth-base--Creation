@@ -1,0 +1,4 @@
+# Panelin Agent V2 - Dev/Test dependencies (pinned)
+pytest==9.0.2
+pytest-asyncio==1.3.0
+
