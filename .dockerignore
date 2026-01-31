@@ -1,0 +1,230 @@
+# ============================================================================
+# .dockerignore - Panelin API Production Build
+# ============================================================================
+# Excludes unnecessary files to reduce build context size and improve security
+# This significantly reduces build time and resulting image size
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# Git and Version Control
+# -----------------------------------------------------------------------------
+.git
+.gitignore
+.github
+.gitattributes
+
+# -----------------------------------------------------------------------------
+# Documentation (not needed in container)
+# -----------------------------------------------------------------------------
+*.md
+*.MD
+README*
+CHANGELOG*
+LICENSE*
+CONTRIBUTING*
+docs/
+wiki/
+*.pdf
+*.PDF
+
+# -----------------------------------------------------------------------------
+# Python artifacts
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+Pipfile.lock
+
+# -----------------------------------------------------------------------------
+# IDE and Editor files
+# -----------------------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# -----------------------------------------------------------------------------
+# Testing and Development
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coveragerc
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+tests/
+test_*.py
+*_test.py
+conftest.py
+pytest.ini
+setup.cfg
+tox.ini
+requirements-dev.txt
+
+# -----------------------------------------------------------------------------
+# Large Data Files (CRITICAL for build performance)
+# -----------------------------------------------------------------------------
+# Training data and datasets
+training_data/
+*.json.bak
+*_backup*.json
+*.cache
+.kb_update_cache/
+.corrections_backup/
+
+# Analysis outputs
+*_output/
+*_results/
+ingestion_analysis_output/
+codex_*.json
+ingestion_analysis_*.json
+prueba_*.json
+analisis_*.html
+
+# PDF and image files
+*.pdf
+*.PDF
+pdfs/
+images/
+image/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+
+# Exported files
+exports/
+Files /
+*.csv
+*.xlsx
+*.xls
+*.rtf
+
+# Large data directories
+architectures/
+catalog/
+pricing/data/
+gpt_configs/
+deployment_bundle/
+
+# -----------------------------------------------------------------------------
+# Cloud Build and CI/CD artifacts
+# -----------------------------------------------------------------------------
+cloudbuild*.yaml
+cloudbuild*.yml
+.cloudbuild/
+Makefile
+Dockerfile*
+!Dockerfile
+docker-compose*.yml
+docker-compose*.yaml
+
+# -----------------------------------------------------------------------------
+# Local scripts and utilities (not needed in production)
+# -----------------------------------------------------------------------------
+scripts/
+*.sh
+!docker-entrypoint.sh
+
+# Analysis and automation scripts
+analisis_*.py
+buscar_*.py
+generate_*.py
+parse_*.py
+prueba_*.py
+verificar_*.py
+orquestador_*.py
+setup_*.py
+train_*.py
+kb_auto_scheduler.py
+analyze_ods.py
+training_data_optimizer.py
+
+# -----------------------------------------------------------------------------
+# GPT and Agent configurations (local development only)
+# -----------------------------------------------------------------------------
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+ai_architect_agent/
+ai-project-files-organizer-agent/
+panelin_automation/
+panelin_improvements/
+panelin_persistence/
+panelin_reports/
+kb_training_system/
+Panelin_GPT/
+
+# Backup and copy directories
+Copia de */
+
+# -----------------------------------------------------------------------------
+# Environment and secrets (NEVER include in container)
+# -----------------------------------------------------------------------------
+.env*
+*.env
+!.env.example
+secrets/
+*.pem
+*.key
+*.crt
+credentials/
+service-account*.json
+
+# -----------------------------------------------------------------------------
+# Temporary and cache files
+# -----------------------------------------------------------------------------
+*.log
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# -----------------------------------------------------------------------------
+# OS-specific files
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.lnk
