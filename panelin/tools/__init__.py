@@ -1,3 +1,5 @@
+"""Deterministic tools used by the quotation agent."""
+
 """
 Panelin Tools - Herramientas deterministas para el agente híbrido.
 
