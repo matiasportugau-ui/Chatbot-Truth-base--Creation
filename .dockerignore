@@ -1,0 +1,180 @@
+# =============================================================================
+# .dockerignore - Comprehensive exclusions for production Docker builds
+# =============================================================================
+# This file reduces build context size, improves build speed, and prevents
+# sensitive/unnecessary files from being included in the container image.
+
+# =============================================================================
+# Git & Version Control
+# =============================================================================
+.git
+.gitignore
+.gitattributes
+.github
+
+# =============================================================================
+# IDE & Editor Files
+# =============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# =============================================================================
+# Python Artifacts
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual Environments
+venv/
+.venv/
+ENV/
+env/
+.env
+.env.*
+*.env
+
+# =============================================================================
+# Testing & Coverage
+# =============================================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+tests/
+**/test_*.py
+**/*_test.py
+pytest.ini
+
+# =============================================================================
+# Large Data Files & Datasets
+# =============================================================================
+# JSON data files (large)
+*.json
+!**/config/*.json
+!panelin_core/knowledge_base/*.json
+!Copia\ de\ panelin_agent_v2/config/*.json
+
+# Training data
+training_data/
+**/training_data/
+
+# Analysis outputs
+*_output/
+ingestion_analysis_output/
+**/analysis_*.json
+codex_analysis_results.json
+ingestion_analysis_*.json
+
+# PDF files
+*.pdf
+GEMS_READY_FOR_GOOGLE_LABS.pdf
+
+# =============================================================================
+# Documentation (not needed in runtime)
+# =============================================================================
+*.md
+!README.md
+docs/
+wiki/
+*.html
+*.rtf
+
+# =============================================================================
+# Build & Cache Files
+# =============================================================================
+.corrections_backup/
+.kb_update_cache/
+deployment_bundle/
+architectures/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_simulation_agent/
+
+# =============================================================================
+# Scripts & Dev Tools (not needed in runtime)
+# =============================================================================
+scripts/
+*.sh
+!instalar_ocr.sh
+
+# =============================================================================
+# Duplicate/Backup Directories
+# =============================================================================
+# Keep only the main agent directory, exclude copies
+# Copia de panelin_agent_v2/  # Include this if it's the main app
+
+# =============================================================================
+# Image Files
+# =============================================================================
+image/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+
+# =============================================================================
+# Catalog & Export Files
+# =============================================================================
+catalog/out/
+*.csv
+Files\ /
+
+# =============================================================================
+# Miscellaneous Dev Files
+# =============================================================================
+*.txt
+!requirements.txt
+!requirements-dev.txt
+pdfs_pequenos_lista.txt
+tsconfig.json
+
+# =============================================================================
+# Docker Files (avoid recursive issues)
+# =============================================================================
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
+.dockerignore
+
+# =============================================================================
+# CI/CD Configuration (not needed in runtime)
+# =============================================================================
+cloudbuild*.yaml
+.github/
+dependabot.yml
+
+# =============================================================================
+# Temporary & Log Files
+# =============================================================================
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+logs/

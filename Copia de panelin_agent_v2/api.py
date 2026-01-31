@@ -1,6 +1,12 @@
-from fastapi import FastAPI, HTTPException, Query
+import os
+import time
+from datetime import datetime, timezone
+
+from fastapi import FastAPI, HTTPException, Query, Response
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
+
 from tools.quotation_calculator import (
     calculate_panel_quote,
     QuotationResult,
@@ -14,14 +20,24 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# =============================================================================
+# Application Configuration
+# =============================================================================
+SERVICE_VERSION = "2.1.0"
+SERVICE_NAME = "panelin-api"
+STARTUP_TIME = time.time()
+
+# Cloud Run URL (set via environment variable)
+CLOUD_RUN_URL = os.getenv("CLOUD_RUN_URL", "https://YOUR-CLOUD-RUN-URL.run.app")
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
-    version="2.0.0",
+    version=SERVICE_VERSION,
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": CLOUD_RUN_URL,
+            "description": "Production Server (Cloud Run)",
         }
     ],
 )
@@ -91,12 +107,132 @@ class QuoteRequest(BaseModel):
     )
 
 
-# --- Endpoints ---
+# =============================================================================
+# Health & Readiness Endpoints
+# =============================================================================
+# These endpoints are critical for Cloud Run and container orchestration:
+# - /health (liveness): Is the container alive? Basic process check.
+# - /ready (readiness): Is the service ready to accept traffic?
+# =============================================================================
 
 
-@app.get("/", tags=["Health"])
+class HealthResponse(BaseModel):
+    """Health check response model."""
+    status: str
+    service: str
+    version: str
+    timestamp: str
+    uptime_seconds: float
+
+
+class ReadinessResponse(BaseModel):
+    """Readiness check response model."""
+    ready: bool
+    service: str
+    version: str
+    timestamp: str
+    checks: Dict[str, Any]
+
+
+def _check_knowledge_base() -> Dict[str, Any]:
+    """Verify knowledge base is accessible."""
+    try:
+        # Try to list products - this validates the knowledge base is loaded
+        products = list_all_products()
+        return {
+            "status": "ok",
+            "product_count": len(products) if products else 0
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+def _check_pricing_rules() -> Dict[str, Any]:
+    """Verify pricing rules are accessible."""
+    try:
+        rules = get_pricing_rules()
+        return {
+            "status": "ok" if rules else "warning",
+            "has_rules": rules is not None
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+@app.get("/", tags=["Health"], response_model=HealthResponse)
+def root():
+    """Root endpoint - returns basic service info."""
+    return HealthResponse(
+        status="healthy",
+        service=SERVICE_NAME,
+        version=SERVICE_VERSION,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        uptime_seconds=round(time.time() - STARTUP_TIME, 2)
+    )
+
+
+@app.get("/health", tags=["Health"], response_model=HealthResponse)
 def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+    """
+    Liveness probe endpoint.
+    
+    Returns 200 if the service is alive and responding.
+    This should be a fast, lightweight check that doesn't validate dependencies.
+    Used by Cloud Run to determine if the container should be restarted.
+    """
+    return HealthResponse(
+        status="healthy",
+        service=SERVICE_NAME,
+        version=SERVICE_VERSION,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        uptime_seconds=round(time.time() - STARTUP_TIME, 2)
+    )
+
+
+@app.get("/ready", tags=["Health"], response_model=ReadinessResponse)
+def readiness_check(response: Response):
+    """
+    Readiness probe endpoint.
+    
+    Returns 200 if the service is ready to accept traffic.
+    Validates that all dependencies (knowledge base, pricing rules) are accessible.
+    Used by Cloud Run to determine if traffic should be routed to this instance.
+    """
+    kb_check = _check_knowledge_base()
+    pricing_check = _check_pricing_rules()
+    
+    checks = {
+        "knowledge_base": kb_check,
+        "pricing_rules": pricing_check
+    }
+    
+    # Determine overall readiness
+    all_ok = all(
+        check.get("status") in ("ok", "warning") 
+        for check in checks.values()
+    )
+    
+    if not all_ok:
+        response.status_code = 503  # Service Unavailable
+    
+    return ReadinessResponse(
+        ready=all_ok,
+        service=SERVICE_NAME,
+        version=SERVICE_VERSION,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        checks=checks
+    )
+
+
+# =============================================================================
+# Business Endpoints
+# =============================================================================
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])

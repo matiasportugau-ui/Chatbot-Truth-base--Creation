@@ -1,0 +1,175 @@
+# =============================================================================
+# Cloud Run Service Configuration
+# =============================================================================
+# This file defines the Cloud Run service configuration for the Panelin API.
+# Deploy with: gcloud run services replace cloudrun-service.yaml --region=us-central1
+#
+# For more options, see:
+# https://cloud.google.com/run/docs/reference/yaml/v1
+# =============================================================================
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: panelin-api
+  labels:
+    app: panelin-api
+    env: production
+    managed-by: cloud-run
+  annotations:
+    # Allow traffic from anywhere (set to 'internal' for private services)
+    run.googleapis.com/ingress: all
+    # Enable CPU boost during startup
+    run.googleapis.com/startup-cpu-boost: "true"
+spec:
+  template:
+    metadata:
+      annotations:
+        # =======================================================================
+        # Autoscaling Configuration
+        # =======================================================================
+        # Minimum instances (0 = scale to zero when idle)
+        autoscaling.knative.dev/minScale: "0"
+        # Maximum instances (adjust based on expected load)
+        autoscaling.knative.dev/maxScale: "10"
+        
+        # =======================================================================
+        # Execution Environment
+        # =======================================================================
+        # Use second-generation execution environment
+        run.googleapis.com/execution-environment: gen2
+        
+        # =======================================================================
+        # CPU Allocation
+        # =======================================================================
+        # CPU is always allocated (not only during request processing)
+        # Required for background tasks, better cold start performance
+        run.googleapis.com/cpu-throttling: "false"
+        
+        # =======================================================================
+        # Session Affinity (optional)
+        # =======================================================================
+        # Sticky sessions for stateful operations (disabled by default)
+        run.googleapis.com/sessionAffinity: "false"
+        
+    spec:
+      # =========================================================================
+      # Service Account (Principle of Least Privilege)
+      # =========================================================================
+      # Use a dedicated service account instead of default compute SA
+      serviceAccountName: panelin-api-sa@${PROJECT_ID}.iam.gserviceaccount.com
+      
+      # =========================================================================
+      # Concurrency & Timeout
+      # =========================================================================
+      # Maximum concurrent requests per container instance
+      containerConcurrency: 80
+      
+      # Request timeout (max 3600s = 1 hour)
+      timeoutSeconds: 300
+      
+      containers:
+        - image: us-central1-docker.pkg.dev/${PROJECT_ID}/panelin/panelin-api:latest
+          name: panelin-api
+          
+          # =====================================================================
+          # Resource Limits
+          # =====================================================================
+          resources:
+            limits:
+              # CPU: 1 = 1 vCPU (can be fractional: 0.5, 1, 2, 4, 8)
+              cpu: "1"
+              # Memory: Allocate enough for your application
+              memory: "512Mi"
+          
+          # =====================================================================
+          # Port Configuration
+          # =====================================================================
+          ports:
+            - containerPort: 8080
+              name: http1
+          
+          # =====================================================================
+          # Environment Variables
+          # =====================================================================
+          env:
+            # Runtime environment
+            - name: ENVIRONMENT
+              value: "production"
+            
+            # Cloud Run URL (auto-populated after first deploy)
+            - name: CLOUD_RUN_URL
+              value: "https://panelin-api-HASH.run.app"
+            
+            # Logging level
+            - name: LOG_LEVEL
+              value: "INFO"
+            
+            # Python optimizations
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            
+            # =================================================================
+            # Secrets from Secret Manager
+            # =================================================================
+            # Reference secrets securely instead of hardcoding values
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: latest
+            
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-uri
+                  key: latest
+            
+            # Add more secrets as needed:
+            # - name: SHOPIFY_API_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: shopify-api-key
+            #       key: latest
+          
+          # =====================================================================
+          # Health Probes
+          # =====================================================================
+          # Startup probe: Gives container time to start
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 12  # 60 seconds max startup time
+          
+          # Liveness probe: Restarts container if unhealthy
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          # Readiness probe: Removes from load balancer if not ready (Cloud Run v2)
+          # Note: Cloud Run uses TCP probe by default, HTTP probe via YAML
+          # readinessProbe:
+          #   httpGet:
+          #     path: /ready
+          #     port: 8080
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+
+  # ===========================================================================
+  # Traffic Configuration
+  # ===========================================================================
+  traffic:
+    - percent: 100
+      latestRevision: true
