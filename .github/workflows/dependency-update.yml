@@ -10,6 +10,8 @@ jobs:
   update-dependencies:
     name: Check for Dependency Updates
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
