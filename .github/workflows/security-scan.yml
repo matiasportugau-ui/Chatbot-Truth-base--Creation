@@ -1,0 +1,169 @@
+name: "Python Security Scanning"
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run security scan every week on Wednesday at 3:00 AM UTC
+    - cron: '0 3 * * 3'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  security-scan:
+    name: Python Security Analysis
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit[toml] safety pip-audit
+        
+        # Install project dependencies for better analysis
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt || true
+        fi
+
+    - name: Run Bandit (SAST for Python)
+      run: |
+        echo "🔍 Running Bandit security linter..."
+        bandit -r . -f json -o bandit-report.json --exit-zero || true
+        bandit -r . -f txt -o bandit-report.txt --exit-zero || true
+        
+        # Show summary in logs
+        echo "📊 Bandit Summary:"
+        bandit -r . --exit-zero || true
+      continue-on-error: true
+
+    - name: Run Safety (vulnerability check)
+      run: |
+        echo "🔍 Running Safety vulnerability scanner..."
+        safety check --json --output safety-report.json --continue-on-error || true
+        
+        # Show summary in logs
+        echo "📊 Safety Summary:"
+        safety check --continue-on-error || true
+      continue-on-error: true
+
+    - name: Run pip-audit (dependency vulnerabilities)
+      run: |
+        echo "🔍 Running pip-audit for dependency vulnerabilities..."
+        pip-audit --format json --output pip-audit-report.json --require-hashes=false || true
+        
+        # Show summary in logs
+        echo "📊 pip-audit Summary:"
+        pip-audit --require-hashes=false || true
+      continue-on-error: true
+
+    - name: Generate Combined Security Report
+      if: always()
+      run: |
+        echo "# 🔒 Python Security Scan Report" > security-summary.md
+        echo "" >> security-summary.md
+        echo "**Scan Date:** $(date -u)" >> security-summary.md
+        echo "**Branch:** ${{ github.ref_name }}" >> security-summary.md
+        echo "**Commit:** ${{ github.sha }}" >> security-summary.md
+        echo "" >> security-summary.md
+        
+        echo "## 🛡️ Scan Results" >> security-summary.md
+        echo "" >> security-summary.md
+        
+        # Bandit results
+        echo "### Bandit (Static Analysis)" >> security-summary.md
+        if [ -f bandit-report.txt ]; then
+          echo '```' >> security-summary.md
+          cat bandit-report.txt >> security-summary.md
+          echo '```' >> security-summary.md
+        else
+          echo "No Bandit report generated" >> security-summary.md
+        fi
+        echo "" >> security-summary.md
+        
+        # Safety results
+        echo "### Safety (Known Vulnerabilities)" >> security-summary.md
+        if [ -f safety-report.json ]; then
+          echo '```json' >> security-summary.md
+          cat safety-report.json >> security-summary.md
+          echo '```' >> security-summary.md
+        else
+          echo "No Safety report generated" >> security-summary.md
+        fi
+        echo "" >> security-summary.md
+        
+        # pip-audit results
+        echo "### pip-audit (Dependency Vulnerabilities)" >> security-summary.md
+        if [ -f pip-audit-report.json ]; then
+          echo '```json' >> security-summary.md
+          cat pip-audit-report.json >> security-summary.md
+          echo '```' >> security-summary.md
+        else
+          echo "No pip-audit report generated" >> security-summary.md
+        fi
+        
+        cat security-summary.md
+
+    - name: Upload Bandit Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: bandit-security-report
+        path: |
+          bandit-report.json
+          bandit-report.txt
+        retention-days: 90
+
+    - name: Upload Safety Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: safety-vulnerability-report
+        path: safety-report.json
+        retention-days: 90
+
+    - name: Upload pip-audit Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: pip-audit-dependency-report
+        path: pip-audit-report.json
+        retention-days: 90
+
+    - name: Upload Combined Security Summary
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-scan-summary
+        path: security-summary.md
+        retention-days: 90
+
+    - name: Comment PR with Security Summary
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const fs = require('fs');
+          if (fs.existsSync('security-summary.md')) {
+            const summary = fs.readFileSync('security-summary.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+          }

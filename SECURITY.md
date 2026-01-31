@@ -20,7 +20,7 @@ We take the security of our chatbot system seriously. If you believe you have fo
 - Exploit the vulnerability beyond what is necessary to demonstrate it
 
 ### Please DO:
-1. **Email us**: Send details to **[your-security-email@example.com]** (Update this!)
+1. **Email us**: Send details to **matiasportugau@gmail.com** or create a [Private Security Advisory](https://github.com/matiasportugau-ui/Chatbot-Truth-base--Creation/security/advisories/new)
 2. **Include**:
    - Type of vulnerability
    - Full paths of source file(s) related to the vulnerability
