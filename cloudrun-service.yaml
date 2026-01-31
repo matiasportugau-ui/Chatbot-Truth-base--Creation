@@ -1,0 +1,224 @@
+# ============================================================================
+# Cloud Run Service Configuration
+# ============================================================================
+# This file defines the production configuration for Cloud Run
+# Apply with: gcloud run services replace cloudrun-service.yaml
+#
+# Documentation: https://cloud.google.com/run/docs/reference/yaml/v1
+# ============================================================================
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: panelin-api
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    # Prevent accidental deletion
+    run.googleapis.com/launch-stage: GA
+    # Description
+    run.googleapis.com/description: "Panelin Agent V2 - BMC Uruguay Panel Quotation API"
+spec:
+  template:
+    metadata:
+      annotations:
+        # ---------------------------------------------------------------------
+        # Scaling Configuration
+        # ---------------------------------------------------------------------
+        # Minimum instances (prevents cold starts, incurs cost)
+        autoscaling.knative.dev/minScale: "1"
+        # Maximum instances (cost control)
+        autoscaling.knative.dev/maxScale: "100"
+        
+        # ---------------------------------------------------------------------
+        # CPU Configuration
+        # ---------------------------------------------------------------------
+        # CPU allocation: "always" keeps CPU even when idle (better for websockets/streaming)
+        # "request" only allocates during requests (more cost-effective)
+        run.googleapis.com/cpu-throttling: "true"
+        
+        # Startup CPU boost for faster cold starts
+        run.googleapis.com/startup-cpu-boost: "true"
+        
+        # ---------------------------------------------------------------------
+        # Execution Environment
+        # ---------------------------------------------------------------------
+        # gen2 for better performance, gen1 for compatibility
+        run.googleapis.com/execution-environment: gen2
+        
+        # ---------------------------------------------------------------------
+        # VPC & Networking
+        # ---------------------------------------------------------------------
+        # Uncomment for VPC connector (required for Cloud SQL, internal services)
+        # run.googleapis.com/vpc-access-connector: projects/PROJECT/locations/REGION/connectors/CONNECTOR
+        # run.googleapis.com/vpc-access-egress: all-traffic
+        
+    spec:
+      # -----------------------------------------------------------------------
+      # Concurrency & Timeout
+      # -----------------------------------------------------------------------
+      # Max concurrent requests per instance
+      containerConcurrency: 80
+      
+      # Request timeout (max 3600s for gen2)
+      timeoutSeconds: 300
+      
+      # -----------------------------------------------------------------------
+      # Service Account (Principle of Least Privilege)
+      # -----------------------------------------------------------------------
+      serviceAccountName: panelin-api-sa@PROJECT_ID.iam.gserviceaccount.com
+      
+      containers:
+        - name: panelin-api
+          image: us-central1-docker.pkg.dev/PROJECT_ID/panelin/panelin-api:latest
+          
+          # -----------------------------------------------------------------
+          # Resource Limits
+          # -----------------------------------------------------------------
+          resources:
+            limits:
+              # CPU: 1, 2, 4, 6, or 8 (gen2 supports up to 8)
+              cpu: "2"
+              # Memory: 128Mi to 32Gi
+              memory: "1Gi"
+          
+          # -----------------------------------------------------------------
+          # Port Configuration
+          # -----------------------------------------------------------------
+          ports:
+            - name: http1
+              containerPort: 8080
+          
+          # -----------------------------------------------------------------
+          # Health Probes
+          # -----------------------------------------------------------------
+          # Startup probe: allows slow startup before liveness kicks in
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 10  # 10 * 5s = 50s max startup time
+          
+          # Liveness probe: restarts container if unhealthy
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+          
+          # -----------------------------------------------------------------
+          # Environment Variables
+          # -----------------------------------------------------------------
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: API_BASE_URL
+              value: "https://panelin-api-xxxxx-uc.a.run.app"
+            # Cloud Run provides these automatically:
+            # - PORT
+            # - K_SERVICE
+            # - K_REVISION
+            # - K_CONFIGURATION
+          
+          # -----------------------------------------------------------------
+          # Secret Manager Integration
+          # -----------------------------------------------------------------
+          # Secrets are mounted as environment variables from Secret Manager
+          # Format: secretKeyRef mounts the secret at runtime
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: latest
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-uri
+                  key: latest
+            # Alternative: Mount secrets as files (for certificates, etc.)
+            # volumeMounts:
+            #   - name: secrets
+            #     mountPath: /secrets
+            #     readOnly: true
+      
+      # -----------------------------------------------------------------------
+      # Volumes (for secret files)
+      # -----------------------------------------------------------------------
+      # volumes:
+      #   - name: secrets
+      #     secret:
+      #       secretName: api-credentials
+      #       items:
+      #         - key: latest
+      #           path: credentials.json
+
+  # -------------------------------------------------------------------------
+  # Traffic Configuration
+  # -------------------------------------------------------------------------
+  traffic:
+    - percent: 100
+      latestRevision: true
+
+---
+# ============================================================================
+# Cloud Run Service (Staging Environment)
+# ============================================================================
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: panelin-api-staging
+  labels:
+    cloud.googleapis.com/location: us-central1
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "10"
+        run.googleapis.com/cpu-throttling: "true"
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 60
+      serviceAccountName: panelin-api-sa@PROJECT_ID.iam.gserviceaccount.com
+      containers:
+        - name: panelin-api
+          image: us-central1-docker.pkg.dev/PROJECT_ID/panelin/panelin-api:latest
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          ports:
+            - containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            timeoutSeconds: 3
+            failureThreshold: 10
+          env:
+            - name: ENVIRONMENT
+              value: "staging"
+            - name: LOG_LEVEL
+              value: "DEBUG"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: latest
+  traffic:
+    - percent: 100
+      latestRevision: true
