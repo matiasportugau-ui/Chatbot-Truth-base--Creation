@@ -1,0 +1,65 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        ".",
+      ]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+      ]
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE}",
+        "--image",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        "--region",
+        "${_REGION}",
+        "--platform",
+        "managed",
+        "--service-account",
+        "${_SERVICE_ACCOUNT}",
+        "--no-allow-unauthenticated",
+        "--cpu",
+        "${_CPU}",
+        "--memory",
+        "${_MEMORY}",
+        "--concurrency",
+        "${_CONCURRENCY}",
+        "--timeout",
+        "${_TIMEOUT}",
+        "--min-instances",
+        "${_MIN_INSTANCES}",
+        "--max-instances",
+        "${_MAX_INSTANCES}",
+      ]
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+
+  # Set this to: panelin-api-sa@YOUR_PROJECT.iam.gserviceaccount.com
+  _SERVICE_ACCOUNT: "CHANGE_ME"
+
+  # Sensible defaults; adjust per load profile
+  _CPU: "1"
+  _MEMORY: "512Mi"
+  _CONCURRENCY: "80"
+  _TIMEOUT: "60s"
+  _MIN_INSTANCES: "0"
+  _MAX_INSTANCES: "10"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
