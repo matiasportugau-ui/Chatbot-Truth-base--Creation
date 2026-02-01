@@ -1,29 +1,67 @@
 {
   "meta": {
     "nombre": "BMC Uruguay - Sistema Unificado de Conocimiento y Cotización",
-    "version": "6.0-Unified-UserCorrections-mem-update-mem-update",
+    "version": "6.5-Unified-UserCorrections-mem-update-mem-update",
     "fecha": "2026-01-27",
     "validado_con": "31 presupuestos reales + Technical Truth Corrections + User Conversational Inputs",
     "descripcion": "Fuente de verdad unificada para el Chatbot de BMC Uruguay. Incluye correcciones de usuario sobre fijaciones, derivaciones y accesorios.",
     "fuentes_referencia": [
       "https://bmcuruguay.com.uy (Catalogo Oficial)"
+    ],
+    "correcciones": [
+      {
+        "id": "KB-001",
+        "fecha": "2026-02-01",
+        "tipo": "institucional",
+        "cambios": [
+          "Actualizada descripción institucional",
+          "Actualizado diferencial competitivo"
+        ]
+      },
+      {
+        "id": "KB-002",
+        "fecha": "2026-02-01",
+        "tipo": "institucional",
+        "cambios": [
+          "Actualizado diferencial competitivo"
+        ]
+      },
+      {
+        "id": "KB-003",
+        "fecha": "2026-02-01",
+        "tipo": "producto",
+        "cambios": [
+          "Actualizado campo nombre_comercial para ISOFRIG_PIR",
+          "Actualizado campo tipo para ISOFRIG_PIR",
+          "Actualizado campo ignifugo para ISOFRIG_PIR",
+          "Actualizado campo aplicacion para ISOFRIG_PIR",
+          "Actualizados espesores para ISOFRIG_PIR",
+          "Actualizado campo lineas_mencionadas para ISOFRIG_PIR"
+        ]
+      },
+      {
+        "id": "KB-PRICE-001",
+        "fecha": "2026-02-01",
+        "tipo": "precio",
+        "cambios": [
+          "Precio actualizado: ISODEC_EPS 100mm $46.07 → $47.5"
+        ]
+      },
+      {
+        "id": "KB-CAP-001",
+        "fecha": "2026-02-01",
+        "tipo": "capabilities",
+        "cambios": [
+          "Actualizado capability: audio"
+        ]
+      }
     ]
   },
   "institucional": {
     "nombre_empresa": "BMC Uruguay",
     "actividad_principal": "Comercialización, suministro y asesoramiento técnico de paneles aislantes y sistemas constructivos",
     "importante": "BMC Uruguay NO fabrica. Suministra/comercializa productos de fabricantes especializados y brinda asesoramiento técnico integral.",
-    "diferencial": {
-      "descripcion": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, optimizar estructura, reducir tiempos de obra y evitar problemas a futuro",
-      "enfoque": "Venta consultiva - No somos despachantes de productos, somos asesores técnicos que acompañan la decisión de compra",
-      "valor_agregado": [
-        "Análisis técnico del proyecto antes de cotizar",
-        "Validación de autoportancia y requerimientos estructurales",
-        "Optimización de la solución para el caso específico del cliente",
-        "Asesoramiento en la elección del sistema más adecuado",
-        "Capacidad de decir 'no conviene' cuando corresponde"
-      ]
-    },
+    "diferencial": "Soluciones técnicas optimizadas para generar confort, ahorrar presupuesto, optimizar estructura, reducir tiempos de obra y evitar problemas a futuro.",
     "alcance_servicios": {
       "incluye": [
         "Venta de materiales",
@@ -35,7 +73,8 @@
         "Fabricación",
         "Instalación/colocación"
       ]
-    }
+    },
+    "descripcion": "BMC Uruguay no fabrica. Suministra/comercializa sistemas constructivos y brinda asesoramiento técnico-comercial para definir la solución correcta según la obra."
   },
   "identidad": {
     "nombre_bot": "BMC Assistant",
@@ -55,7 +94,7 @@
       "espesores": {
         "100": {
           "autoportancia": 5.5,
-          "precio": 46.07,
+          "precio": 47.5,
           "coeficiente_termico": 0.035,
           "resistencia_termica": 2.86
         },
@@ -194,19 +233,22 @@
       ],
       "espesores": {
         "50": {
+          "autoportancia": 3.0,
+          "precio": 55.0,
           "coeficiente_termico": 0.022,
-          "resistencia_termica": 2.27,
-          "nota": "Consultar precio actualizado"
+          "resistencia_termica": 2.27
         },
         "80": {
+          "autoportancia": 4.5,
+          "precio": 60.0,
           "coeficiente_termico": 0.022,
-          "resistencia_termica": 3.64,
-          "nota": "Consultar precio actualizado"
+          "resistencia_termica": 3.64
         },
         "100": {
+          "autoportancia": 5.5,
+          "precio": 65.0,
           "coeficiente_termico": 0.022,
-          "resistencia_termica": 4.55,
-          "nota": "Consultar precio actualizado"
+          "resistencia_termica": 4.55
         },
         "120": {
           "coeficiente_termico": 0.022,
@@ -223,7 +265,14 @@
         }
       },
       "nota": "Panel específico para cámaras frigoríficas y logística de frío.",
-      "nota_importante": "Precios sujetos a cotización específica según requerimientos del proyecto frigorífico"
+      "nota_importante": "Precios sujetos a cotización específica según requerimientos del proyecto frigorífico",
+      "lineas_mencionadas": {
+        "paredes_y_fachadas": [
+          "Isopanel EPS",
+          "Isowall PIR",
+          "Isofrig PIR"
+        ]
+      }
     },
     "HM_RUBBER": {
       "nombre_comercial": "HM Rubber 7-en-1",
@@ -431,5 +480,10 @@
         "Prefiere recibir cotizaciones con desglose de accesorios por separado."
       ]
     }
-  ]
+  ],
+  "capabilities": {
+    "audio": {
+      "policy": "No transcribir ni afirmar contenido literal de audios si no existe un flujo/herramienta de transcripción disponible. Si el usuario comparte un audio (por ejemplo WhatsApp .ogg), solicitar transcripción o un resumen textual, y recién entonces analizar y dar feedback."
+    }
+  }
 }
