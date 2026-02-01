@@ -1,0 +1,28 @@
+{
+  "correction_id": "KB-001",
+  "correction_type": "institucional",
+  "description": "Actualizar descripción institucional - BMC no fabrica",
+  "priority": "P0",
+  "timestamp": "2026-02-01T04:00:46.777787",
+  "affected_files": [
+    "BMC_Base_Conocimiento_GPT-2.json"
+  ],
+  "results": {
+    "BMC_Base_Conocimiento_GPT-2.json": {
+      "success": true,
+      "changes_applied": [
+        "Actualizada descripción institucional",
+        "Actualizado diferencial competitivo"
+      ],
+      "file_modified": "/home/runner/work/Chatbot-Truth-base--Creation/Chatbot-Truth-base--Creation/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "errors": [],
+  "backup_info": {
+    "backup_folder": "/home/runner/work/Chatbot-Truth-base--Creation/Chatbot-Truth-base--Creation/.corrections_backup/KB-001_20260201_040046",
+    "files": {
+      "BMC_Base_Conocimiento_GPT-2.json": "/home/runner/work/Chatbot-Truth-base--Creation/Chatbot-Truth-base--Creation/.corrections_backup/KB-001_20260201_040046/BMC_Base_Conocimiento_GPT-2.json"
+    }
+  },
+  "success": true
+}

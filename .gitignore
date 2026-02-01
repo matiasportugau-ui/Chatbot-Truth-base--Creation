@@ -77,3 +77,8 @@ temp/
 .temp/
 tmp/
 logs/
+
+# ========================================
+# Correction Backups
+# ========================================
+.corrections_backup/
