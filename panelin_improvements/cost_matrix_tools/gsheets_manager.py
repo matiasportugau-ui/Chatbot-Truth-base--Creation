@@ -1,19 +1,12 @@
 import json
-import gspread
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import gspread
-from google.oauth2.service_account import Credentials
+from oauth2client.service_account import ServiceAccountCredentials
 
 from .redesign_tool import CostMatrixRedesigner
-
-# Preferred auth (matches tests + modern google-auth)
-try:
-    from google.oauth2.service_account import Credentials  # type: ignore
-except Exception:  # pragma: no cover
-    Credentials = None  # type: ignore
 
 # Re-use ML lengths from excel_manager context
 LENGTHS_ML: List[str] = [
@@ -40,6 +33,7 @@ LENGTHS_ML: List[str] = [
     "13.0",
 ]
 
+
 def get_client(credentials_path: str):
     """Public wrapper for Google Sheets client authentication.
 
@@ -58,24 +52,7 @@ def _get_client(credentials_path: str):
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive",
     ]
-    if Credentials is None:
-        raise ImportError("google-auth is required for get_client()")
-    creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
-    return gspread.authorize(creds)
-
-def get_client(credentials_path: str):
-    """Public wrapper for Google Sheets client authentication."""
-    return _get_client(credentials_path)
-
-# Backwards-compatible alias
-def _get_client(credentials_path: str):
-    return get_client(credentials_path)
-
-    scopes = [
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive",
-    ]
-    creds = Credentials.from_service_account_file(credentials_path, scopes=scopes)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
     return gspread.authorize(creds)
 
 
@@ -122,7 +99,6 @@ def _build_headers() -> List[str]:
 def sync_up(json_path: str, credentials_path: str, spreadsheet_name: str):
     """Push local JSON Cost Matrix to Google Sheets."""
     client = get_client(credentials_path)
-    
 
     # Load JSON
     with open(json_path, "r", encoding="utf-8") as f:
