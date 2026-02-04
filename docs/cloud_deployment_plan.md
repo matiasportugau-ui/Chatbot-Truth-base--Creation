@@ -31,17 +31,18 @@ This is excellent for local dev but **not production-grade** because:
 ## Implementation Plan (Step-by-Step)
 
 ### 1) Containerize the API
-Create a `Dockerfile` in the repo root (or in `Copia de panelin_agent_v2` if that is the runtime context):
+Create a `Dockerfile` in the repo root. In this repo, the runtime context is `Copia de panelin_agent_v2` (the service is started as `uvicorn api:app` from that directory):
 
 ```Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY Copia\ de\ panelin_agent_v2/requirements-prod.txt /app/requirements-prod.txt
+RUN pip install --no-cache-dir -r /app/requirements-prod.txt
 
-COPY . /app
+COPY Copia\ de\ panelin_agent_v2 /app/Copia\ de\ panelin_agent_v2
+WORKDIR /app/Copia\ de\ panelin_agent_v2
 
 # Cloud Run provides $PORT
 ENV PORT=8000
@@ -54,7 +55,11 @@ CMD ["sh", "-c", "python -m uvicorn api:app --host 0.0.0.0 --port ${PORT}"]
 > Note: JSON-form CMD does **not** expand `${PORT}` unless you use a shell.
 
 ### 2) Pin dependencies
-Ensure `requirements.txt` uses pinned versions for reproducible builds (e.g., via `pip-compile`).
+Ensure you have pinned requirements for reproducible builds.
+
+Recommended in this repo:
+- `Copia de panelin_agent_v2/requirements-prod.txt` for runtime (Cloud Run)
+- `Copia de panelin_agent_v2/requirements-test.txt` for CI tests
 
 ### 3) Add a `.dockerignore`
 Avoid shipping large files (e.g., training data, analysis outputs).
@@ -80,7 +85,7 @@ steps:
     args: ["build", "-t", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA", "."]
   - name: "python:3.11-slim"
     entrypoint: sh
-    args: ["-c", "pip install -r requirements.txt && pytest -q"]
+    args: ["-c", "pip install -r Copia\\ de\\ panelin_agent_v2/requirements-test.txt && cd Copia\\ de\\ panelin_agent_v2 && pytest -q"]
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
