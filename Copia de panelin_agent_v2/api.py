@@ -95,8 +95,44 @@ class QuoteRequest(BaseModel):
 
 
 @app.get("/", tags=["Health"])
-def health_check():
+def root():
+    return {"status": "healthy", "service": "Panelin Agent V2 API", "version": "2.0.0"}
+
+
+@app.get("/health", tags=["Health"])
+def health():
+    """
+    Liveness probe for Cloud Run.
+    Returns 200 if the service is running.
+    """
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/ready", tags=["Health"])
+def ready():
+    """
+    Readiness probe for Cloud Run.
+    Returns 200 if the service is ready to accept traffic.
+    Checks that critical dependencies are loaded.
+    """
+    try:
+        # Verify that core modules are importable
+        from tools.quotation_calculator import calculate_panel_quote
+        from tools.product_lookup import find_product_by_query
+        
+        return {
+            "status": "ready",
+            "service": "Panelin Agent V2 API",
+            "checks": {
+                "quotation_calculator": "ok",
+                "product_lookup": "ok"
+            }
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Service not ready: {str(e)}"
+        )
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
