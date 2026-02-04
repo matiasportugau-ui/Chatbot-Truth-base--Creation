@@ -1,0 +1,121 @@
+# Cloud Build Configuration for Panelin Agent V2 API
+# ===================================================
+#
+# This configuration:
+# 1. Builds a Docker image
+# 2. Runs tests to validate the build
+# 3. Pushes the image to Artifact Registry
+# 4. Deploys to Cloud Run
+#
+# Usage:
+#   gcloud builds submit --config=cloudbuild.yaml
+#
+# For automated deployment, set up a Cloud Build trigger
+# connected to your GitHub repository.
+
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest'
+      - '.'
+    id: 'build-image'
+
+  # Step 2: Run tests (optional but recommended)
+  - name: '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cd /app && \
+        python -c "from tools.product_lookup import get_pricing_rules; print('✓ Product lookup OK')" && \
+        python -c "from tools.quotation_calculator import calculate_panel_quote; print('✓ Quotation calculator OK')" && \
+        echo "✓ All basic checks passed"
+    id: 'test-image'
+    waitFor: ['build-image']
+
+  # Step 3: Push the image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}'
+    id: 'push-sha-image'
+    waitFor: ['test-image']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest'
+    id: 'push-latest-image'
+    waitFor: ['test-image']
+
+  # Step 4: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE}'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--memory'
+      - '${_MEMORY}'
+      - '--cpu'
+      - '${_CPU}'
+      - '--timeout'
+      - '${_TIMEOUT}'
+      - '--concurrency'
+      - '${_CONCURRENCY}'
+      - '--min-instances'
+      - '${_MIN_INSTANCES}'
+      - '--max-instances'
+      - '${_MAX_INSTANCES}'
+      # Uncomment one of these based on your access control needs:
+      # - '--allow-unauthenticated'  # For public API
+      # - '--no-allow-unauthenticated'  # For IAM-authenticated access
+    id: 'deploy-cloud-run'
+    waitFor: ['push-sha-image', 'push-latest-image']
+
+# Substitution variables
+# Override these when triggering the build:
+#   gcloud builds submit --substitutions=_REGION=us-central1,...
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+  _MEMORY: 512Mi
+  _CPU: '1'
+  _TIMEOUT: '300'
+  _CONCURRENCY: '80'
+  _MIN_INSTANCES: '0'
+  _MAX_INSTANCES: '10'
+
+# Images to store in Artifact Registry
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest'
+
+# Build options
+options:
+  # Use high performance machine for faster builds
+  machineType: 'N1_HIGHCPU_8'
+  
+  # Logging options
+  logging: CLOUD_LOGGING_ONLY
+  
+  # Timeout for entire build (30 minutes)
+  timeout: '1800s'
+
+# Tags for organizing builds
+tags:
+  - 'panelin-api'
+  - 'cloud-run'
+  - 'fastapi'

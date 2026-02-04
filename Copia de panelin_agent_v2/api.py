@@ -20,8 +20,12 @@ app = FastAPI(
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": "https://panelin-api-XXXXXX-uc.a.run.app",
+            "description": "Cloud Run Production (replace XXXXXX with actual service hash)",
+        },
+        {
+            "url": "http://localhost:8080",
+            "description": "Local Development",
         }
     ],
 )
@@ -95,8 +99,62 @@ class QuoteRequest(BaseModel):
 
 
 @app.get("/", tags=["Health"])
-def health_check():
+def root():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def health_check():
+    """
+    Liveness probe endpoint for Cloud Run.
+    Returns 200 if the service is alive (basic check).
+    """
+    return {
+        "status": "healthy",
+        "service": "Panelin Agent V2 API",
+        "version": "2.0.0",
+    }
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    """
+    Readiness probe endpoint for Cloud Run.
+    Returns 200 if the service is ready to accept traffic.
+    Performs checks on critical dependencies.
+    """
+    try:
+        # Check if product catalog is accessible
+        from tools.product_lookup import get_pricing_rules
+        
+        rules = get_pricing_rules()
+        if not rules:
+            raise HTTPException(
+                status_code=503, detail="Pricing rules not available"
+            )
+        
+        # Check if quotation calculator is functional
+        from tools.quotation_calculator import calculate_panel_quote
+        
+        # Basic validation that the calculator is importable and has expected structure
+        if not callable(calculate_panel_quote):
+            raise HTTPException(
+                status_code=503, detail="Quotation calculator not available"
+            )
+        
+        return {
+            "status": "ready",
+            "service": "Panelin Agent V2 API",
+            "version": "2.0.0",
+            "checks": {
+                "pricing_rules": "ok",
+                "quotation_calculator": "ok",
+            },
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=503, detail=f"Service not ready: {str(e)}"
+        )
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
