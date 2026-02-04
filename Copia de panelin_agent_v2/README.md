@@ -120,6 +120,38 @@ python -m pytest tests/test_quotation_calculator.py -v
 python -m pytest tests/ --cov=. --cov-report=term-missing
 ```
 
+## Despliegue en Cloud Run
+
+La API est lista para desplegarse en Google Cloud Run. Esto proporciona:
+- **HTTPS automtico** - URLs estables y seguras
+- **Auto-scaling** - Escala a cero cuando no hay trfico
+- **Sin servidor** - No requiere administrar infraestructura
+
+### Despliegue Rpido
+
+```bash
+cd "Copia de panelin_agent_v2"
+gcloud run deploy panelin-api \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated
+```
+
+### Endpoints de Salud
+
+| Endpoint | Propsito | Cdigo de Respuesta |
+|----------|----------|-------------------|
+| `GET /health` | Liveness probe | 200 = vivo |
+| `GET /ready` | Readiness probe | 200 = listo, 503 = no listo |
+
+### Documentacin Completa
+
+Ver [CLOUD_DEPLOYMENT.md](./CLOUD_DEPLOYMENT.md) para:
+- Configuracin detallada
+- CI/CD con Cloud Build
+- Gestin de secretos
+- Monitoreo y alertas
+
 ## Sincronización con Shopify
 
 El sistema mantiene la KB sincronizada con Shopify mediante:

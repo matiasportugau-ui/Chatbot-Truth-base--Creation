@@ -1,3 +1,7 @@
+import os
+import time
+from datetime import datetime
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -14,14 +18,23 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# Application startup time for uptime tracking
+_startup_time = time.time()
+
+# Cloud Run URL - set via environment variable or use default
+CLOUD_RUN_URL = os.getenv(
+    "CLOUD_RUN_URL", 
+    "https://panelin-api-xxxxxxxx-uc.a.run.app"
+)
+
 app = FastAPI(
     title="Panelin Agent V2 API",
-    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
-    version="2.0.0",
+    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates. Optimized for Google Cloud Run deployment.",
+    version="2.1.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": CLOUD_RUN_URL,
+            "description": "Cloud Run Production",
         }
     ],
 )
@@ -91,12 +104,120 @@ class QuoteRequest(BaseModel):
     )
 
 
-# --- Endpoints ---
+# --- Health Check Response Models ---
 
 
-@app.get("/", tags=["Health"])
+class HealthResponse(BaseModel):
+    status: str
+    service: str
+    version: str
+    timestamp: str
+
+
+class ReadinessResponse(BaseModel):
+    status: str
+    checks: Dict[str, bool]
+    uptime_seconds: float
+    timestamp: str
+
+
+# --- Health & Readiness Endpoints ---
+
+
+@app.get("/", tags=["Health"], response_model=HealthResponse)
+def root():
+    """Root endpoint - basic service info."""
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.1.0",
+        timestamp=datetime.utcnow().isoformat() + "Z"
+    )
+
+
+@app.get("/health", tags=["Health"], response_model=HealthResponse)
 def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+    """
+    Liveness probe for Cloud Run / Kubernetes.
+    Returns 200 if the service is alive.
+    """
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.1.0",
+        timestamp=datetime.utcnow().isoformat() + "Z"
+    )
+
+
+@app.get("/ready", tags=["Health"], response_model=ReadinessResponse)
+def readiness_check():
+    """
+    Readiness probe for Cloud Run / Kubernetes.
+    Performs actual checks to verify the service can handle requests:
+    - Knowledge base loaded
+    - Pricing rules accessible
+    - Products catalog available
+    """
+    checks = {}
+    all_ok = True
+    
+    # Check 1: Pricing rules accessible
+    try:
+        rules = get_pricing_rules()
+        checks["pricing_rules"] = rules is not None
+    except Exception:
+        checks["pricing_rules"] = False
+        all_ok = False
+    
+    # Check 2: Products catalog accessible
+    try:
+        products = list_all_products()
+        checks["product_catalog"] = products is not None and len(products) > 0
+    except Exception:
+        checks["product_catalog"] = False
+        all_ok = False
+    
+    # Check 3: Core calculation works
+    try:
+        # Simple test calculation
+        from tools.quotation_calculator import calculate_panel_quote
+        test_result = calculate_panel_quote(
+            product_id="ISOPANEL_EPS_50mm",
+            length_m=2.0,
+            width_m=1.0,
+            quantity=1,
+            discount_percent=0,
+            include_accessories=False,
+            include_tax=False,
+            installation_type="techo"
+        )
+        checks["quotation_engine"] = test_result is not None
+    except Exception:
+        checks["quotation_engine"] = False
+        all_ok = False
+    
+    uptime = time.time() - _startup_time
+    
+    if not all_ok:
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "status": "unhealthy",
+                "checks": checks,
+                "uptime_seconds": uptime,
+                "timestamp": datetime.utcnow().isoformat() + "Z"
+            }
+        )
+    
+    return ReadinessResponse(
+        status="ready",
+        checks=checks,
+        uptime_seconds=uptime,
+        timestamp=datetime.utcnow().isoformat() + "Z"
+    )
+
+
+# --- Product Endpoints ---
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])

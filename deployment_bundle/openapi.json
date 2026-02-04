@@ -2,13 +2,13 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Panelin Agent V2 API",
-    "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
-    "version": "2.0.0"
+    "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates. Optimized for Google Cloud Run deployment.",
+    "version": "2.1.0"
   },
   "servers": [
     {
-      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-      "description": "Production Server"
+      "url": "https://panelin-api-xxxxxxxx-uc.a.run.app",
+      "description": "Cloud Run Production"
     }
   ],
   "paths": {
@@ -17,14 +17,71 @@
         "tags": [
           "Health"
         ],
-        "summary": "Health Check",
-        "operationId": "health_check__get",
+        "summary": "Root",
+        "description": "Root endpoint - basic service info.",
+        "operationId": "root__get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Check",
+        "description": "Liveness probe for Cloud Run / Kubernetes. Returns 200 if the service is alive.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Readiness Check",
+        "description": "Readiness probe for Cloud Run / Kubernetes. Performs actual checks to verify the service can handle requests.",
+        "operationId": "readiness_check_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
               }
             }
           }
@@ -420,6 +477,65 @@
           "stock_status"
         ],
         "title": "AvailabilityInfo"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "version",
+          "timestamp"
+        ],
+        "title": "HealthResponse"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "checks": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Checks"
+          },
+          "uptime_seconds": {
+            "type": "number",
+            "title": "Uptime Seconds"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "checks",
+          "uptime_seconds",
+          "timestamp"
+        ],
+        "title": "ReadinessResponse"
       },
       "HTTPValidationError": {
         "properties": {
