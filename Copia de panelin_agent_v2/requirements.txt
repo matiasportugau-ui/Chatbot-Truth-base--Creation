@@ -1,7 +1,8 @@
-# Panelin Agent V2 - Dependencies
-# ================================
+# Panelin Agent V2 - Dependencies (Production Pinned)
+# ====================================================
 # 
 # Core dependencies for the single-agent deterministic quotation system.
+# Pinned versions for reproducible builds.
 # Install with: pip install -r requirements.txt
 
 # Core - Always required
@@ -11,44 +12,44 @@
 # Python's built-in decimal module handles all precision arithmetic.
 
 # Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+pytest==8.0.0
+pytest-asyncio==0.23.3
 
-# Optional - LangGraph Agent
-# --------------------------
-# Uncomment these if you want to use the full LangGraph-based agent
-
-langgraph>=0.2.0
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-openai>=0.1.0
+# LangGraph Agent
+# ---------------
+langgraph==0.2.34
+langchain==0.3.7
+langchain-core==0.3.15
+langchain-openai==0.2.5
 
 # Optional - Alternative LLM Providers
 # ------------------------------------
-# langchain-anthropic>=0.1.0  # For Claude models
-# langchain-google-genai>=1.0.0  # For Gemini models
+# langchain-anthropic==0.1.0  # For Claude models
+# langchain-google-genai==1.0.0  # For Gemini models
 
 # Optional - Vector Search (for semantic product search)
 # ------------------------------------------------------
-# qdrant-client>=1.7.0  # Recommended: free tier, good filtering
-# weaviate-client>=4.0.0  # Alternative: better hybrid search
+# qdrant-client==1.7.0  # Recommended: free tier, good filtering
+# weaviate-client==4.0.0  # Alternative: better hybrid search
 
-# Optional - Sync Service
-# -----------------------
-aiohttp>=3.9.0  # For async webhook handling
-httpx>=0.25.0   # For Shopify API calls
+# Sync Service
+# ------------
+aiohttp==3.9.3
+httpx==0.26.0
 
-# API Wrapper
-fastapi>=0.100.0
-uvicorn>=0.23.0
+# API Wrapper (Production Required)
+# ----------------------------------
+fastapi==0.109.1
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
 
-# Optional - Observability
-# ------------------------
-# langsmith>=0.1.0  # LangChain observability
-# langfuse>=2.0.0   # Open-source alternative
+# Observability
+# -------------
+# langsmith==0.1.0  # LangChain observability
+# langfuse==2.0.0   # Open-source alternative
 
-# Development
-# -----------
-black>=23.0.0
-isort>=5.12.0
-mypy>=1.5.0
+# Development (not installed in production)
+# ------------------------------------------
+# black==24.1.1
+# isort==5.13.2
+# mypy==1.8.0
