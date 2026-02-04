@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
+import os
 from tools.quotation_calculator import (
     calculate_panel_quote,
     QuotationResult,
@@ -14,14 +15,18 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# Get server URL from environment variable or use default
+# In Cloud Run, set this to your actual service URL
+SERVER_URL = os.getenv("API_SERVER_URL", "https://panelin-api-xxxxx-uc.a.run.app")
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": SERVER_URL,
+            "description": "Cloud Run Production Server",
         }
     ],
 )
@@ -95,8 +100,27 @@ class QuoteRequest(BaseModel):
 
 
 @app.get("/", tags=["Health"])
-def health_check():
+def root():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def health_check():
+    """Liveness probe - returns healthy if the service is running."""
+    return {"status": "healthy", "service": "Panelin Agent V2 API", "version": "2.0.0"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    """Readiness probe - checks if the service can handle requests."""
+    # Add actual readiness checks here (e.g., database connectivity, dependencies)
+    # For now, we'll check if essential resources are loaded
+    try:
+        # Verify that the pricing rules can be loaded
+        _ = get_pricing_rules()
+        return {"status": "ready", "service": "Panelin Agent V2 API", "checks": {"pricing_rules": "ok"}}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Service not ready: {str(e)}")
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
