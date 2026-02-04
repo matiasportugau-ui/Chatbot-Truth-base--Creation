@@ -1,0 +1,67 @@
+steps:
+  # 1) Build container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        ".",
+      ]
+
+  # 2) Run deterministic tests (fast, scoped)
+  - name: "python:3.11-slim"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        python -m pip install --upgrade pip
+        pip install -r "Copia de panelin_agent_v2/requirements.txt"
+        pytest -q "Copia de panelin_agent_v2/tests"
+
+  # 3) Push image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+      ]
+
+  # 4) Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE}"
+      - "--image"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+      - "--region"
+      - "${_REGION}"
+      - "--platform"
+      - "managed"
+      - "--memory"
+      - "512Mi"
+      - "--cpu"
+      - "1"
+      - "--timeout"
+      - "300"
+      - "--concurrency"
+      - "80"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "10"
+      - "--set-env-vars"
+      - "PUBLIC_BASE_URL=${_PUBLIC_BASE_URL}"
+      # Choose one:
+      - "--allow-unauthenticated"
+      # - "--no-allow-unauthenticated"
+
+substitutions:
+  _REGION: "us-central1"
+  _REPO: "panelin"
+  _SERVICE: "panelin-api"
+  # Set this to the Cloud Run service URL to make the OpenAPI servers section absolute.
+  # Example: https://panelin-api-xxxxx-uc.a.run.app
+  _PUBLIC_BASE_URL: ""

@@ -1,0 +1,40 @@
+.git
+.github
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Large / irrelevant artifacts
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+wiki/
+docs/
+deployment_bundle/
+**/*.pdf
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.xlsx
+**/*.csv
+**/*.zip
+**/*.rtf
+
+# Local env
+.env
+tunnel_url.txt

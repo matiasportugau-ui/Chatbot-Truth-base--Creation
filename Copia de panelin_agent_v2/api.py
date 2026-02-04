@@ -1,3 +1,7 @@
+import os
+import json
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -14,16 +18,19 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").strip()
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
-    servers=[
-        {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
-        }
-    ],
+    # For Custom GPT Actions, set `PUBLIC_BASE_URL` to your Cloud Run URL
+    # (e.g. https://panelin-api-xxxxx-uc.a.run.app).
+    servers=(
+        [{"url": PUBLIC_BASE_URL, "description": "Public Base URL"}]
+        if PUBLIC_BASE_URL
+        else None
+    ),
 )
 
 # --- Response Models ---
@@ -97,6 +104,32 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def health():
+    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/ready", tags=["Health"])
+def ready():
+    """
+    Readiness probe.
+    Verifies the deterministic knowledge base is present and parseable.
+    """
+    kb_path = Path(__file__).parent / "config" / "panelin_truth_bmcuruguay.json"
+    if not kb_path.exists():
+        raise HTTPException(status_code=500, detail="Knowledge base file missing")
+    try:
+        data = json.loads(kb_path.read_text(encoding="utf-8"))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Knowledge base unreadable")
+
+    products = data.get("products", {})
+    if not isinstance(products, dict) or len(products) == 0:
+        raise HTTPException(status_code=500, detail="Knowledge base has no products")
+
+    return {"status": "ready", "products": len(products)}
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
