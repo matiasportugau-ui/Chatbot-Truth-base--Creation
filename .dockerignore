@@ -1,0 +1,137 @@
+# Cloud Deployment - Docker Ignore File
+# Exclude files that should not be in the container image
+
+# Training data and analysis outputs
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+.kb_update_cache/
+
+# Documentation and wikis
+wiki/
+docs/
+*.md
+!README.md
+
+# Large files
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+**/*.xlsx
+**/*.xls
+
+# Images (except if needed)
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+
+# Pricing and catalog data (if not needed at runtime)
+pricing/
+catalog/
+Files/
+
+# Development and testing
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+*.cover
+
+# Git
+.git/
+.gitignore
+.github/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.*
+*.env
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Backup files
+*.bak
+*.backup
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Reports (unless needed)
+panelin_reports/
+deployment_bundle/
+
+# Other agent directories (not needed for API)
+ai-project-files-organizer-agent/
+ai_architect_agent/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+kb_training_system/
+panelin_automation/
+panelin_improvements/
+panelin_persistence/
+panelin_hybrid_agent/
+panelin_agent_v2/
+panelin/
+architectures/
+gpt_configs/
+
+# Scripts (unless needed)
+scripts/
+*.sh
+
+# Config files
+tsconfig.json
+.code-workspace
+
+# HTML analysis files
+*.html
+
+# JSON analysis files (keep only necessary config)
+codex_*.json
+comparacion_*.json
+ingestion_*.json
+BMC_*.json
+
+# Python scripts (unless needed for API)
+agente_*.py
+analisis_*.py
+analyze_*.py
+buscar_*.py
+demo_*.py
+generate_*.py
+kb_*.py
+orquestador_*.py
+parse_*.py
+prueba_*.py
+setup_*.py
+training_*.py
+verificar_*.py
