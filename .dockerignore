@@ -1,0 +1,40 @@
+# Python / caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Git / CI
+.git/
+.github/
+
+# Large / non-runtime assets
+wiki/
+docs/
+architectures/
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+.kb_update_cache/
+deployment_bundle/
+catalog/out/
+
+# Media / exports
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+**/*.xlsx
+**/*.jpg
+**/*.jpeg
+**/*.png
+**/*.gif
+**/*.webp
+
+# OS / editor
+.DS_Store
