@@ -1,4 +1,7 @@
+import os
+
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from tools.quotation_calculator import (
@@ -14,17 +17,48 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+DEFAULT_PUBLIC_BASE_URL = "https://YOUR_CLOUD_RUN_URL.a.run.app"
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": os.getenv("PUBLIC_BASE_URL", DEFAULT_PUBLIC_BASE_URL),
+            "description": "Public base URL (set PUBLIC_BASE_URL in Cloud Run)",
         }
     ],
 )
+
+
+def custom_openapi():
+    """
+    Ensure OpenAPI 'servers' matches Cloud Run public URL.
+
+    - Set `PUBLIC_BASE_URL` in Cloud Run to something like:
+      https://<service>-<hash>-<region>.a.run.app
+    """
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+
+    public_base_url = os.getenv("PUBLIC_BASE_URL", DEFAULT_PUBLIC_BASE_URL)
+    schema["servers"] = [
+        {"url": public_base_url, "description": "Cloud Run / Public Base URL"}
+    ]
+
+    app.openapi_schema = schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 # --- Response Models ---
 
@@ -97,6 +131,26 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def liveness():
+    """Liveness probe for Cloud Run / load balancers."""
+    return {"status": "ok"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness():
+    """
+    Readiness probe for Cloud Run.
+
+    This validates that the app can load pricing rules (local KB) without errors.
+    """
+    try:
+        _ = get_pricing_rules()
+        return {"status": "ready"}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"not ready: {e}")
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
