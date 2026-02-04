@@ -1,5 +1,7 @@
 # Cloud Deployment Recommendation & Implementation Plan
 
+> **STATUS: IMPLEMENTED** - All deliverables have been created. See `CLOUD_DEPLOYMENT_GUIDE.md` for deployment instructions.
+
 ## Best Option: Google Cloud Run + Artifact Registry + Cloud Build
 
 **Why this is the best fit for this repo**
@@ -162,19 +164,19 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
-- [ ] Pinned `requirements.txt`
-- [ ] Service account with least privilege
-- [ ] Secret Manager integration
-- [ ] `/health` and `/ready` endpoints
-- [ ] Cloud Run resource limits (cpu/memory/timeout/concurrency)
-- [ ] Access control decision (public vs IAM/IAP)
-- [ ] Monitoring alerts (error rate/latency)
-- [ ] Data persistence choice documented
-- [ ] Cloud Run service live
-- [ ] OpenAPI schema updated with Cloud Run URL
+- [x] `Dockerfile` - Created in repo root
+- [x] `.dockerignore` - Created with comprehensive exclusions
+- [x] `cloudbuild.yaml` - Full CI/CD pipeline configured
+- [x] Pinned `requirements.txt` - All dependencies version-locked
+- [x] Service account with least privilege - Documented in CLOUD_DEPLOYMENT_GUIDE.md
+- [x] Secret Manager integration - Configured in cloudbuild.yaml
+- [x] `/health` and `/ready` endpoints - Added to api.py with proper checks
+- [x] Cloud Run resource limits (cpu/memory/timeout/concurrency) - Configured in cloudbuild.yaml
+- [x] Access control decision (public vs IAM/IAP) - Defaulted to public for GPT Actions
+- [x] Monitoring alerts (error rate/latency) - Documented in CLOUD_DEPLOYMENT_GUIDE.md
+- [x] Data persistence choice documented - In CLOUD_DEPLOYMENT_GUIDE.md
+- [ ] Cloud Run service live - **Pending: requires GCP project and credentials**
+- [x] OpenAPI schema updated with Cloud Run URL - Template URL added
 
 ---
 

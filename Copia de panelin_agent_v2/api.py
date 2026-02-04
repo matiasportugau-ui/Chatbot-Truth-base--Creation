@@ -1,3 +1,7 @@
+import os
+import time
+from datetime import datetime, timezone
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -14,14 +18,24 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# Track service start time for uptime reporting
+SERVICE_START_TIME = time.time()
+
+# Cloud Run URL (set via environment variable or use placeholder)
+CLOUD_RUN_URL = os.getenv("CLOUD_RUN_URL", "https://panelin-api-xxxxx-uc.a.run.app")
+
 app = FastAPI(
     title="Panelin Agent V2 API",
-    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
-    version="2.0.0",
+    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates. Deployed on Google Cloud Run.",
+    version="2.1.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": CLOUD_RUN_URL,
+            "description": "Cloud Run Production Server",
+        },
+        {
+            "url": "http://localhost:8080",
+            "description": "Local Development Server",
         }
     ],
 )
@@ -91,12 +105,102 @@ class QuoteRequest(BaseModel):
     )
 
 
-# --- Endpoints ---
+# --- Health Check Response Models ---
 
 
-@app.get("/", tags=["Health"])
+class HealthResponse(BaseModel):
+    """Health check response model for Cloud Run."""
+    status: str = Field(..., description="Service health status")
+    service: str = Field(..., description="Service name")
+    version: str = Field(..., description="API version")
+    uptime_seconds: float = Field(..., description="Time since service started")
+    timestamp: str = Field(..., description="Current UTC timestamp")
+
+
+class ReadyResponse(BaseModel):
+    """Readiness check response model for Cloud Run."""
+    ready: bool = Field(..., description="Whether the service is ready to accept traffic")
+    checks: Dict[str, bool] = Field(..., description="Individual readiness checks")
+    timestamp: str = Field(..., description="Current UTC timestamp")
+
+
+# --- Health Check Endpoints ---
+
+
+@app.get("/", tags=["Health"], response_model=HealthResponse)
+def root():
+    """Root endpoint - basic health check for quick verification."""
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.1.0",
+        uptime_seconds=round(time.time() - SERVICE_START_TIME, 2),
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
+
+
+@app.get("/health", tags=["Health"], response_model=HealthResponse)
 def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+    """
+    Liveness probe endpoint for Cloud Run.
+    
+    Returns 200 if the service is alive and running.
+    Used by Cloud Run to determine if the container should be restarted.
+    """
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.1.0",
+        uptime_seconds=round(time.time() - SERVICE_START_TIME, 2),
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
+
+
+@app.get("/ready", tags=["Health"], response_model=ReadyResponse)
+def readiness_check():
+    """
+    Readiness probe endpoint for Cloud Run.
+    
+    Returns 200 if the service is ready to accept traffic.
+    Checks that all required components are initialized and working.
+    """
+    checks = {
+        "api_initialized": True,
+        "knowledge_base_loaded": True,  # Will fail if knowledge base has issues
+        "pricing_rules_available": True,
+    }
+    
+    # Verify knowledge base is accessible by attempting to get pricing rules
+    try:
+        rules = get_pricing_rules()
+        checks["pricing_rules_available"] = rules is not None
+    except Exception:
+        checks["pricing_rules_available"] = False
+    
+    # Verify product lookup is working
+    try:
+        products = list_all_products()
+        checks["knowledge_base_loaded"] = len(products) > 0
+    except Exception:
+        checks["knowledge_base_loaded"] = False
+    
+    all_ready = all(checks.values())
+    
+    if not all_ready:
+        raise HTTPException(
+            status_code=503,
+            detail=ReadyResponse(
+                ready=False,
+                checks=checks,
+                timestamp=datetime.now(timezone.utc).isoformat()
+            ).model_dump()
+        )
+    
+    return ReadyResponse(
+        ready=True,
+        checks=checks,
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
