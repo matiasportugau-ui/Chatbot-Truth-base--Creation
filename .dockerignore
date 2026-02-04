@@ -1,0 +1,109 @@
+# Panelin Agent - Docker Ignore
+# ==============================
+# Exclude files not needed in production container
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+docs/
+wiki/
+*.md
+!README.md
+
+# Training and analysis data (large files)
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+.kb_update_cache/
+
+# Test files
+tests/
+pytest.ini
+**/*test*.py
+**/__pycache__/
+*.pyc
+
+# Development files
+.vscode/
+.idea/
+*.code-workspace
+
+# Local deployment scripts (not needed in cloud)
+scripts/deploy_thewolf.py
+tunnel_url.txt
+
+# Large binary files
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+**/*.xlsx
+**/*.xls
+
+# Images (except those needed for app)
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+
+# HTML analysis outputs
+**/*.html
+
+# JSON analysis outputs (keep knowledge base JSONs)
+codex_*.json
+prueba_*.json
+ingestion_*.json
+*_results.json
+*_output.json
+
+# Backup and temp files
+*.bak
+*.tmp
+*.temp
+*~
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Node modules (if any)
+node_modules/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment bundle (separate from container)
+deployment_bundle/
+
+# Other project directories not needed for API
+ai_architect_agent/
+ai-project-files-organizer-agent/
+architectures/
+catalog/
+config/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+image/
+kb_training_system/
+panelin/
+panelin_automation/
+panelin_hybrid_agent/
+panelin_improvements/
+panelin_persistence/
+panelin_reports/
+pricing/
+schemas/
+Files /
+Panelin_GPT/
