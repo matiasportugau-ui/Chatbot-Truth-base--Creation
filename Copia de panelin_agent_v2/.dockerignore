@@ -1,0 +1,96 @@
+# Panelin Agent V2 - Docker Ignore
+# =================================
+# Files to exclude from Docker build context
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+wheels/
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed at runtime)
+*.md
+docs/
+
+# Development tools
+.pre-commit-config.yaml
+.flake8
+.mypy_cache/
+.ruff_cache/
+
+# Logs and local data
+*.log
+logs/
+*.tmp
+*.temp
+
+# Test files (keep minimal for production)
+tests/
+
+# Large training/analysis data (not needed at runtime)
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+
+# PDF and document files
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (avoid recursive issues)
+Dockerfile*
+docker-compose*.yml
+.docker/
+
+# Environment files (secrets should use Secret Manager)
+.env
+.env.*
+*.env
+
+# Temporary and backup files
+*.bak
+*.backup
+*_backup/
