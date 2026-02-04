@@ -11,17 +11,17 @@
 # Python's built-in decimal module handles all precision arithmetic.
 
 # Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+pytest==9.0.2
+pytest-asyncio==1.3.0
 
 # Optional - LangGraph Agent
 # --------------------------
 # Uncomment these if you want to use the full LangGraph-based agent
 
-langgraph>=0.2.0
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-openai>=0.1.0
+langgraph==1.0.7
+langchain==1.2.8
+langchain-core==1.2.8
+langchain-openai==1.1.7
 
 # Optional - Alternative LLM Providers
 # ------------------------------------
@@ -35,12 +35,12 @@ langchain-openai>=0.1.0
 
 # Optional - Sync Service
 # -----------------------
-aiohttp>=3.9.0  # For async webhook handling
-httpx>=0.25.0   # For Shopify API calls
+aiohttp==3.13.3  # For async webhook handling
+httpx==0.28.1   # For Shopify API calls
 
 # API Wrapper
-fastapi>=0.100.0
-uvicorn>=0.23.0
+fastapi==0.128.1
+uvicorn==0.40.0
 
 # Optional - Observability
 # ------------------------
@@ -49,6 +49,6 @@ uvicorn>=0.23.0
 
 # Development
 # -----------
-black>=23.0.0
-isort>=5.12.0
-mypy>=1.5.0
+black==26.1.0
+isort==7.0.0
+mypy==1.19.1
