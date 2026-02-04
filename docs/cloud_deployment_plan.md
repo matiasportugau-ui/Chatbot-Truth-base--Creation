@@ -162,19 +162,19 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
-- [ ] Pinned `requirements.txt`
-- [ ] Service account with least privilege
-- [ ] Secret Manager integration
-- [ ] `/health` and `/ready` endpoints
-- [ ] Cloud Run resource limits (cpu/memory/timeout/concurrency)
-- [ ] Access control decision (public vs IAM/IAP)
-- [ ] Monitoring alerts (error rate/latency)
-- [ ] Data persistence choice documented
-- [ ] Cloud Run service live
-- [ ] OpenAPI schema updated with Cloud Run URL
+- [x] `Dockerfile` - Created at `Copia de panelin_agent_v2/Dockerfile`
+- [x] `.dockerignore` - Created at `Copia de panelin_agent_v2/.dockerignore`
+- [x] `cloudbuild.yaml` - Created at repository root
+- [x] Pinned `requirements.txt` - Updated with fixed versions
+- [ ] Service account with least privilege (configure in GCP)
+- [ ] Secret Manager integration (configure in GCP)
+- [x] `/health` and `/ready` endpoints - Added to api.py
+- [x] Cloud Run resource limits (cpu/memory/timeout/concurrency) - Configured in cloudbuild.yaml
+- [x] Access control decision (public vs IAM/IAP) - Set to public (--allow-unauthenticated)
+- [ ] Monitoring alerts (error rate/latency) (configure in GCP)
+- [x] Data persistence choice documented - Using embedded JSON knowledge base
+- [ ] Cloud Run service live (deploy to GCP)
+- [x] OpenAPI schema updated with Cloud Run URL - Updated in deployment_bundle/openapi.json
 
 ---
 
