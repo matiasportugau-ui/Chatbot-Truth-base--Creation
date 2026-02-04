@@ -1,0 +1,48 @@
+steps:
+  # Run API-focused tests (fast feedback) before building/pushing.
+  - name: "python:3.11-slim"
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        pip install --upgrade pip
+        pip install -r "Copia de panelin_agent_v2/requirements-test.txt"
+        cd "Copia de panelin_agent_v2"
+        pytest -q
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - build
+      - -t
+      - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+      - .
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - push
+      - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA
+      - --region
+      - ${_REGION}
+      - --platform
+      - managed
+      # Set this after the first deploy (or keep empty)
+      - --set-env-vars
+      - PUBLIC_BASE_URL=${_PUBLIC_BASE_URL}
+      # Choose one explicitly:
+      # - --allow-unauthenticated
+      - --no-allow-unauthenticated
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+  _PUBLIC_BASE_URL: ""

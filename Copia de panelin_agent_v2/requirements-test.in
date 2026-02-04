@@ -1,0 +1,3 @@
+-r requirements-prod.in
+pytest
+pytest-asyncio
