@@ -1,3 +1,6 @@
+import os
+import time
+from datetime import datetime
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -14,14 +17,24 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# Service startup time for uptime calculation
+SERVICE_START_TIME = time.time()
+
+# Cloud Run URL - set via environment variable or use default
+CLOUD_RUN_URL = os.getenv("CLOUD_RUN_URL", "https://panelin-api-xxxxx-uc.a.run.app")
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": CLOUD_RUN_URL,
+            "description": "Cloud Run Production",
+        },
+        {
+            "url": "http://localhost:8080",
+            "description": "Local Development",
         }
     ],
 )
@@ -94,9 +107,72 @@ class QuoteRequest(BaseModel):
 # --- Endpoints ---
 
 
-@app.get("/", tags=["Health"])
+@app.get("/", tags=["Info"])
+def root():
+    """Root endpoint with API information."""
+    return {
+        "service": "Panelin Agent V2 API",
+        "version": "2.0.0",
+        "docs": "/docs",
+        "openapi": "/openapi.json",
+    }
+
+
+@app.get("/health", tags=["Health"])
 def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+    """
+    Liveness probe - checks if the service is running.
+    Used by Cloud Run for health monitoring.
+    Returns 200 if the service is alive.
+    """
+    uptime_seconds = time.time() - SERVICE_START_TIME
+    return {
+        "status": "healthy",
+        "service": "Panelin Agent V2 API",
+        "version": "2.0.0",
+        "uptime_seconds": round(uptime_seconds, 2),
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+    }
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    """
+    Readiness probe - checks if the service is ready to receive traffic.
+    Validates that critical components are initialized and functional.
+    Returns 200 if ready, 503 if not ready.
+    """
+    checks = {
+        "knowledge_base": False,
+        "pricing_rules": False,
+    }
+    
+    try:
+        # Check if knowledge base is accessible
+        products = list_all_products()
+        checks["knowledge_base"] = len(products) > 0
+    except Exception:
+        pass
+    
+    try:
+        # Check if pricing rules are loaded
+        rules = get_pricing_rules()
+        checks["pricing_rules"] = rules is not None
+    except Exception:
+        pass
+    
+    all_ready = all(checks.values())
+    
+    response = {
+        "status": "ready" if all_ready else "not_ready",
+        "checks": checks,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+    }
+    
+    if not all_ready:
+        raise HTTPException(status_code=503, detail=response)
+    
+    return response
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])

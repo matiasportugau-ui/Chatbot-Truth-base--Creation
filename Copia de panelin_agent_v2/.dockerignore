@@ -1,0 +1,92 @@
+# Panelin Agent V2 - Docker Ignore
+# =================================
+# Exclude files not needed in production container
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+pytest.ini
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Development files
+.git/
+.gitignore
+.editorconfig
+Makefile
+
+# Training and analysis data (large files)
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+
+# Large file types
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+**/*.xlsx
+**/*.xls
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+.DS_Store
+Thumbs.db
+
+# Cloud Build config (not needed in container)
+cloudbuild.yaml
+
+# Test files
+tests/
+test_*.py
+*_test.py
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/

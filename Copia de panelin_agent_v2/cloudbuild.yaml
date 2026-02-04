@@ -1,0 +1,112 @@
+# Panelin Agent V2 - Cloud Build Configuration
+# =============================================
+# CI/CD pipeline for Google Cloud Run deployment
+#
+# Prerequisites:
+# 1. Create Artifact Registry repository:
+#    gcloud artifacts repositories create panelin --repository-format=docker --location=us-central1
+#
+# 2. Create service account:
+#    gcloud iam service-accounts create panelin-runner --display-name="Panelin API Runner"
+#
+# 3. Create secrets in Secret Manager:
+#    echo -n "your-api-key" | gcloud secrets create OPENAI_API_KEY --data-file=-
+#
+# 4. Grant access to secrets:
+#    gcloud secrets add-iam-policy-binding OPENAI_API_KEY \
+#      --member="serviceAccount:panelin-runner@${PROJECT_ID}.iam.gserviceaccount.com" \
+#      --role="roles/secretmanager.secretAccessor"
+
+steps:
+  # Step 1: Build the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    id: "build"
+    args:
+      - "build"
+      - "-t"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}"
+      - "-t"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
+      - "."
+
+  # Step 2: Run tests (optional - uncomment if you have tests)
+  # - name: "python:3.11-slim"
+  #   id: "test"
+  #   entrypoint: "sh"
+  #   args:
+  #     - "-c"
+  #     - "pip install -r requirements.txt && pytest -q tests/"
+
+  # Step 3: Push the image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push"
+    args:
+      - "push"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}"
+
+  # Step 4: Push latest tag
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-latest"
+    args:
+      - "push"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
+
+  # Step 5: Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "deploy"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE}"
+      - "--image"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}"
+      - "--region"
+      - "${_REGION}"
+      - "--platform"
+      - "managed"
+      - "--memory"
+      - "512Mi"
+      - "--cpu"
+      - "1"
+      - "--timeout"
+      - "300"
+      - "--concurrency"
+      - "80"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "10"
+      - "--service-account"
+      - "panelin-runner@${PROJECT_ID}.iam.gserviceaccount.com"
+      # Uncomment to inject secrets from Secret Manager:
+      # - "--set-secrets"
+      # - "OPENAI_API_KEY=OPENAI_API_KEY:latest"
+      # Choose one: public or IAM-authenticated
+      - "--allow-unauthenticated"
+      # - "--no-allow-unauthenticated"
+
+# Substitution variables (can be overridden at build time)
+substitutions:
+  _REGION: "us-central1"
+  _REPO: "panelin"
+  _SERVICE: "panelin-api"
+
+# Build options
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: "E2_MEDIUM"
+
+# Store build images
+images:
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${COMMIT_SHA}"
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
+
+# Build timeout (10 minutes)
+timeout: "600s"
+
+# Tags for organization
+tags:
+  - "panelin"
+  - "cloud-run"
+  - "production"
