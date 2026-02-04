@@ -1,0 +1,100 @@
+# Training data and analysis outputs
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+.kb_update_cache/
+prueba_*.json
+*_resultados.json
+analisis_*.html
+
+# Documentation and wiki
+wiki/
+docs/
+*.md
+!README.md
+!SECURITY.md
+
+# Testing
+tests/
+pytest.ini
+.pytest_cache/
+
+# Development files
+.git/
+.github/
+.vscode/
+.idea/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Large files and archives
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.tar.gz
+**/*.csv
+**/*.xlsx
+**/*.xls
+**/*.ods
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.crt
+credentials.json
+service-account*.json
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+tunnel_url.txt
+
+# Other project directories (only keep Copia de panelin_agent_v2)
+ai_architect_agent/
+ai-project-files-organizer-agent/
+architectures/
+catalog/
+deployment_bundle/
+gpt_configs/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+kb_training_system/
+panelin/
+panelin_agent_v2/
+panelin_automation/
+panelin_core/
+panelin_hybrid_agent/
+panelin_improvements/
+panelin_persistence/
+panelin_reports/
+pricing/
+scripts/
+Panelin_GPT/
+Files/
+
+# Python scripts not needed in container
+*.py
+!api.py
+!tools/*.py
+!agent/*.py
+!sync/*.py
+!config/*.py

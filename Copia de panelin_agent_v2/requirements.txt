@@ -1,8 +1,11 @@
-# Panelin Agent V2 - Dependencies
-# ================================
+# Panelin Agent V2 - Dependencies (Pinned for Production)
+# ========================================================
 # 
 # Core dependencies for the single-agent deterministic quotation system.
 # Install with: pip install -r requirements.txt
+#
+# Version pinning strategy: Use == for production stability
+# Last updated: 2026-02-04
 
 # Core - Always required
 # ----------------------
@@ -11,44 +14,42 @@
 # Python's built-in decimal module handles all precision arithmetic.
 
 # Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+pytest==8.0.0
+pytest-asyncio==0.23.3
 
-# Optional - LangGraph Agent
-# --------------------------
-# Uncomment these if you want to use the full LangGraph-based agent
-
-langgraph>=0.2.0
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-openai>=0.1.0
+# LangGraph Agent (required for production)
+# -----------------------------------------
+langgraph==0.2.28
+langchain==0.3.1
+langchain-core==0.3.8
+langchain-openai==0.2.1
 
 # Optional - Alternative LLM Providers
 # ------------------------------------
-# langchain-anthropic>=0.1.0  # For Claude models
-# langchain-google-genai>=1.0.0  # For Gemini models
+# langchain-anthropic==0.1.23  # For Claude models
+# langchain-google-genai==1.0.10  # For Gemini models
 
 # Optional - Vector Search (for semantic product search)
 # ------------------------------------------------------
-# qdrant-client>=1.7.0  # Recommended: free tier, good filtering
-# weaviate-client>=4.0.0  # Alternative: better hybrid search
+# qdrant-client==1.11.1  # Recommended: free tier, good filtering
+# weaviate-client==4.8.1  # Alternative: better hybrid search
 
-# Optional - Sync Service
-# -----------------------
-aiohttp>=3.9.0  # For async webhook handling
-httpx>=0.25.0   # For Shopify API calls
-
-# API Wrapper
-fastapi>=0.100.0
-uvicorn>=0.23.0
+# API & HTTP
+# ----------
+aiohttp==3.10.5  # For async webhook handling
+httpx==0.27.2    # For Shopify API calls
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pydantic==2.9.2
+pydantic-settings==2.5.2
 
 # Optional - Observability
 # ------------------------
-# langsmith>=0.1.0  # LangChain observability
-# langfuse>=2.0.0   # Open-source alternative
+# langsmith==0.1.125  # LangChain observability
+# langfuse==2.51.3    # Open-source alternative
 
-# Development
-# -----------
-black>=23.0.0
-isort>=5.12.0
-mypy>=1.5.0
+# Development (not needed in production container)
+# ------------------------------------------------
+# black==24.8.0
+# isort==5.13.2
+# mypy==1.11.2

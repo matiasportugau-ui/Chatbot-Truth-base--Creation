@@ -14,14 +14,22 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+import os
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            # Cloud Run URL - Update after deployment with actual URL
+            # Example: https://panelin-api-xxxxx-uc.a.run.app
+            "url": os.getenv("API_BASE_URL", "https://panelin-api.run.app"),
+            "description": "Production - Google Cloud Run",
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Development",
         }
     ],
 )
@@ -95,8 +103,55 @@ class QuoteRequest(BaseModel):
 
 
 @app.get("/", tags=["Health"])
+def root():
+    return {"status": "healthy", "service": "Panelin Agent V2 API", "version": "2.0.0"}
+
+
+@app.get("/health", tags=["Health"])
 def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+    """
+    Health check endpoint for container orchestration (liveness probe).
+    Returns 200 if the service is alive.
+    """
+    return {
+        "status": "healthy",
+        "service": "Panelin Agent V2 API",
+        "version": "2.0.0",
+    }
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    """
+    Readiness check endpoint for container orchestration (readiness probe).
+    Returns 200 if the service is ready to accept traffic.
+    Checks if required dependencies and data sources are available.
+    """
+    from pathlib import Path
+    
+    # Check if knowledge base file exists
+    kb_path = Path(__file__).parent / "config" / "panelin_truth_bmcuruguay.json"
+    kb_available = kb_path.exists()
+    
+    # Check if tools are importable (already done at top, but verify)
+    tools_available = True
+    try:
+        from tools.quotation_calculator import calculate_panel_quote
+        from tools.product_lookup import find_product_by_query
+    except ImportError:
+        tools_available = False
+    
+    ready = kb_available and tools_available
+    
+    return {
+        "status": "ready" if ready else "not_ready",
+        "service": "Panelin Agent V2 API",
+        "version": "2.0.0",
+        "checks": {
+            "knowledge_base": kb_available,
+            "tools": tools_available,
+        },
+    }
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
