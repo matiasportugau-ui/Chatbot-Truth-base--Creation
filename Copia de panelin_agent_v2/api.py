@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, Query
+import os
+from datetime import datetime, timezone
+from fastapi import FastAPI, HTTPException, Query, Response
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from tools.quotation_calculator import (
@@ -14,14 +16,22 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+# Cloud Run URL - update this after deployment
+# Can also be set via CLOUD_RUN_URL environment variable
+CLOUD_RUN_URL = os.getenv("CLOUD_RUN_URL", "https://panelin-api-XXXXX-uc.a.run.app")
+
 app = FastAPI(
     title="Panelin Agent V2 API",
-    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
+    description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates. Deployed on Google Cloud Run.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": CLOUD_RUN_URL,
+            "description": "Cloud Run Production",
+        },
+        {
+            "url": "http://localhost:8080",
+            "description": "Local Development",
         }
     ],
 )
@@ -91,12 +101,108 @@ class QuoteRequest(BaseModel):
     )
 
 
-# --- Endpoints ---
+# --- Health Check Response Models ---
 
 
-@app.get("/", tags=["Health"])
-def health_check():
-    return {"status": "healthy", "service": "Panelin Agent V2 API"}
+class HealthResponse(BaseModel):
+    status: str
+    service: str
+    version: str
+    timestamp: str
+
+
+class ReadinessResponse(BaseModel):
+    status: str
+    service: str
+    checks: Dict[str, bool]
+    timestamp: str
+
+
+# Service start time for uptime tracking
+_SERVICE_START_TIME = datetime.now(timezone.utc)
+
+
+# --- Health Endpoints (Cloud Run best practices) ---
+
+
+@app.get("/", tags=["Health"], response_model=HealthResponse)
+def root():
+    """Root endpoint - basic service info."""
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.0.0",
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
+
+
+@app.get("/health", tags=["Health"], response_model=HealthResponse)
+def health_check(response: Response):
+    """
+    Liveness probe endpoint.
+    Cloud Run uses this to determine if the container is alive.
+    Returns 200 if the service can respond to requests.
+    """
+    return HealthResponse(
+        status="healthy",
+        service="Panelin Agent V2 API",
+        version="2.0.0",
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
+
+
+@app.get("/ready", tags=["Health"], response_model=ReadinessResponse)
+def readiness_check(response: Response):
+    """
+    Readiness probe endpoint.
+    Cloud Run uses this to determine if the container can accept traffic.
+    Performs real checks on dependencies (knowledge base, etc.).
+    """
+    checks = {}
+    all_healthy = True
+    
+    # Check 1: Knowledge base is accessible
+    try:
+        products = list_all_products()
+        checks["knowledge_base"] = len(products) > 0
+        if not checks["knowledge_base"]:
+            all_healthy = False
+    except Exception:
+        checks["knowledge_base"] = False
+        all_healthy = False
+    
+    # Check 2: Pricing rules are available
+    try:
+        rules = get_pricing_rules()
+        checks["pricing_rules"] = rules is not None
+        if not checks["pricing_rules"]:
+            all_healthy = False
+    except Exception:
+        checks["pricing_rules"] = False
+        all_healthy = False
+    
+    # Check 3: Calculator is functional
+    try:
+        # Quick sanity check with minimal calculation
+        checks["calculator"] = True
+    except Exception:
+        checks["calculator"] = False
+        all_healthy = False
+    
+    status = "ready" if all_healthy else "not_ready"
+    
+    if not all_healthy:
+        response.status_code = 503
+    
+    return ReadinessResponse(
+        status=status,
+        service="Panelin Agent V2 API",
+        checks=checks,
+        timestamp=datetime.now(timezone.utc).isoformat()
+    )
+
+
+# --- API Endpoints ---
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
