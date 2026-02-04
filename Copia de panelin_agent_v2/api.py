@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -14,14 +16,21 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+OPENAPI_SERVER_URL = os.getenv(
+    "OPENAPI_SERVER_URL", "https://panelin-api-xxxxx-uc.a.run.app"
+)
+OPENAPI_SERVER_DESCRIPTION = os.getenv(
+    "OPENAPI_SERVER_DESCRIPTION", "Cloud Run Production"
+)
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": OPENAPI_SERVER_URL,
+            "description": OPENAPI_SERVER_DESCRIPTION,
         }
     ],
 )
@@ -97,6 +106,28 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def liveness_check():
+    return {"status": "ok"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    try:
+        pricing_rules = get_pricing_rules()
+        products = list_all_products()
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503, detail=f"Readiness check failed: {exc}"
+        )
+
+    return {
+        "status": "ready",
+        "products_loaded": len(products),
+        "pricing_rules_loaded": bool(pricing_rules),
+    }
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
