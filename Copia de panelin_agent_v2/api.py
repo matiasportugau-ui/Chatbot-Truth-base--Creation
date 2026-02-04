@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
@@ -7,11 +9,16 @@ from tools.quotation_calculator import (
     AccessoriesResult,
 )
 from tools.product_lookup import (
+    _load_knowledge_base,
     find_product_by_query,
     get_product_price,
     check_product_availability,
     list_all_products,
     get_pricing_rules,
+)
+
+PUBLIC_API_URL = os.getenv("PUBLIC_API_URL") or os.getenv(
+    "CLOUD_RUN_URL", "https://panelin-api-xxxxx-uc.a.run.app"
 )
 
 app = FastAPI(
@@ -20,8 +27,8 @@ app = FastAPI(
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": PUBLIC_API_URL,
+            "description": "Cloud Run Production",
         }
     ],
 )
@@ -97,6 +104,25 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def liveness_check():
+    return {"status": "ok"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    try:
+        kb = _load_knowledge_base()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Knowledge base not available")
+
+    return {
+        "status": "ready",
+        "products_loaded": len(kb.get("products", {})),
+        "pricing_rules_loaded": bool(kb.get("pricing_rules")),
+    }
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
