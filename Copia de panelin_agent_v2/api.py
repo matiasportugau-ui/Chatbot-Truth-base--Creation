@@ -1,4 +1,7 @@
+import os
+
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from tools.quotation_calculator import (
@@ -18,13 +21,40 @@ app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
-    servers=[
-        {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
-        }
-    ],
 )
+
+
+def _public_base_url() -> str | None:
+    """
+    Optional public base URL for OpenAPI `servers`.
+
+    In Cloud Run you can set `PUBLIC_BASE_URL` to the service URL
+    (e.g. https://panelin-api-xxxxx-uc.a.run.app) to keep the schema stable.
+    """
+    url = os.getenv("PUBLIC_BASE_URL", "").strip()
+    return url or None
+
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+
+    base_url = _public_base_url()
+    if base_url:
+        schema["servers"] = [{"url": base_url, "description": "Public base URL"}]
+
+    app.openapi_schema = schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 # --- Response Models ---
 
@@ -97,6 +127,26 @@ class QuoteRequest(BaseModel):
 @app.get("/", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/health", tags=["Health"])
+def liveness():
+    """Simple liveness probe for Cloud Run."""
+    return {"status": "ok"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness():
+    """Readiness probe: verifies the KB can be loaded."""
+    try:
+        # Import lazily to avoid slowing cold starts for non-probe traffic.
+        from tools.product_lookup import _load_knowledge_base  # type: ignore
+
+        kb = _load_knowledge_base()
+        products_count = len(kb.get("products", {}))
+        return {"status": "ready", "products_count": products_count}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Not ready: {e}")
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
