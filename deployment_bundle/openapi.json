@@ -5,12 +5,6 @@
     "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     "version": "2.0.0"
   },
-  "servers": [
-    {
-      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-      "description": "Production Server"
-    }
-  ],
   "paths": {
     "/": {
       "get": {
@@ -19,6 +13,46 @@
         ],
         "summary": "Health Check",
         "operationId": "health_check__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Liveness",
+        "description": "Liveness probe for Cloud Run / load balancers.",
+        "operationId": "liveness_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Readiness",
+        "description": "Readiness probe for Cloud Run.\n\nThis validates that the app can load pricing rules (local KB) without errors.",
+        "operationId": "readiness_ready_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -803,6 +837,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
@@ -814,5 +855,11 @@
         "title": "ValidationError"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://YOUR_CLOUD_RUN_URL.a.run.app",
+      "description": "Cloud Run / Public Base URL"
+    }
+  ]
 }

@@ -1,0 +1,41 @@
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+.git/
+.github/
+
+# Large / non-runtime assets
+docs/
+wiki/
+training_data/
+ingestion_analysis_output/
+.corrections_backup/
+.kb_update_cache/
+deployment_bundle/
+Panelin_GPT/
+panelin_reports/
+gpt_configs/
+image/
+Files /
+
+**/*.pdf
+**/*.rtf
+**/*.xlsx
+**/*.jpg
+**/*.jpeg
+**/*.png
+**/*.gif
+**/*.webp
+**/*.zip
+**/*.csv
+
+# Keep only the API runtime folder
+!Copia de panelin_agent_v2/

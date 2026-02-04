@@ -31,30 +31,37 @@ This is excellent for local dev but **not production-grade** because:
 ## Implementation Plan (Step-by-Step)
 
 ### 1) Containerize the API
-Create a `Dockerfile` in the repo root (or in `Copia de panelin_agent_v2` if that is the runtime context):
+Create a `Dockerfile` in the repo root (the runtime context for the HTTP API is `Copia de panelin_agent_v2/api.py` and it is executed as `uvicorn api:app` from that folder).
 
 ```Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY Copia\ de\ panelin_agent_v2/requirements-cloudrun.txt /app/requirements-cloudrun.txt
+RUN pip install --no-cache-dir -r /app/requirements-cloudrun.txt
 
-COPY . /app
+COPY "Copia de panelin_agent_v2" /app/panelin_api
+WORKDIR /app/panelin_api
 
 # Cloud Run provides $PORT
-ENV PORT=8000
+ENV PORT=8080
 
 # Use shell form so ${PORT} expands at runtime.
 CMD ["sh", "-c", "python -m uvicorn api:app --host 0.0.0.0 --port ${PORT}"]
 ```
 
-> If the API lives inside `Copia de panelin_agent_v2`, adjust the Docker build context accordingly.
-> Note: JSON-form CMD does **not** expand `${PORT}` unless you use a shell.
+Notes:
+- The repo already includes a `Dockerfile` and `.dockerignore` aligned with this approach.
+- `Copia de panelin_agent_v2` contains a space, so the Dockerfile copies it into a container path without spaces (`/app/panelin_api`).
+- JSON-form CMD does **not** expand `${PORT}` unless you use a shell.
 
 ### 2) Pin dependencies
-Ensure `requirements.txt` uses pinned versions for reproducible builds (e.g., via `pip-compile`).
+Ensure the Cloud Run runtime dependencies are pinned for reproducible builds.
+
+This repo includes:
+- `Copia de panelin_agent_v2/requirements-cloudrun.in` (minimal inputs)
+- `Copia de panelin_agent_v2/requirements-cloudrun.txt` (pinned lockfile)
 
 ### 3) Add a `.dockerignore`
 Avoid shipping large files (e.g., training data, analysis outputs).
@@ -105,6 +112,12 @@ substitutions:
 ```
 Add separate triggers for staging vs production and promote by tag.
 
+This repo includes a `cloudbuild.yaml` that:
+- Builds the Docker image
+- Runs `pytest -q Copia de panelin_agent_v2/tests`
+- Pushes to Artifact Registry
+- Deploys to Cloud Run
+
 ### 5) Create Artifact Registry Repo
 ```bash
 gcloud artifacts repositories create panelin \
@@ -129,6 +142,8 @@ If the service must be public, replace `--no-allow-unauthenticated` with `--allo
 ### 7) Health/readiness endpoints
 - Implement `/health` (liveness) and `/ready` (readiness) with real checks.
 - Configure timeouts/concurrency in Cloud Run to avoid cold-start surprises.
+
+This repo includes `/health` and `/ready` endpoints in `Copia de panelin_agent_v2/api.py`.
 
 ### 8) Monitoring & reliability
 - Enable Cloud Run logging (default) and add **Cloud Monitoring alerts**:
@@ -162,19 +177,19 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
-- [ ] Pinned `requirements.txt`
+- [x] `Dockerfile`
+- [x] `.dockerignore`
+- [x] `cloudbuild.yaml`
+- [x] Pinned Cloud Run runtime deps (`Copia de panelin_agent_v2/requirements-cloudrun.txt`)
 - [ ] Service account with least privilege
 - [ ] Secret Manager integration
-- [ ] `/health` and `/ready` endpoints
+- [x] `/health` and `/ready` endpoints
 - [ ] Cloud Run resource limits (cpu/memory/timeout/concurrency)
 - [ ] Access control decision (public vs IAM/IAP)
 - [ ] Monitoring alerts (error rate/latency)
 - [ ] Data persistence choice documented
 - [ ] Cloud Run service live
-- [ ] OpenAPI schema updated with Cloud Run URL
+- [x] OpenAPI schema updated (placeholder by default; set `PUBLIC_BASE_URL` in Cloud Run for the real URL)
 
 ---
 
