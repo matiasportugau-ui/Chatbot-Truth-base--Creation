@@ -31,17 +31,20 @@ This is excellent for local dev but **not production-grade** because:
 ## Implementation Plan (Step-by-Step)
 
 ### 1) Containerize the API
-Create a `Dockerfile` in the repo root (or in `Copia de panelin_agent_v2` if that is the runtime context):
+Create a `Dockerfile` in the repo root (runtime context is `Copia de panelin_agent_v2/api.py`):
 
 ```Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ["Copia de panelin_agent_v2/requirements.txt", "/app/requirements.txt"]
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-COPY . /app
+# Copy only the API service (avoid shipping the whole monorepo)
+COPY ["Copia de panelin_agent_v2", "/app/panelin_api"]
+
+WORKDIR /app/panelin_api
 
 # Cloud Run provides $PORT
 ENV PORT=8000
@@ -50,7 +53,6 @@ ENV PORT=8000
 CMD ["sh", "-c", "python -m uvicorn api:app --host 0.0.0.0 --port ${PORT}"]
 ```
 
-> If the API lives inside `Copia de panelin_agent_v2`, adjust the Docker build context accordingly.
 > Note: JSON-form CMD does **not** expand `${PORT}` unless you use a shell.
 
 ### 2) Pin dependencies
@@ -80,7 +82,11 @@ steps:
     args: ["build", "-t", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA", "."]
   - name: "python:3.11-slim"
     entrypoint: sh
-    args: ["-c", "pip install -r requirements.txt && pytest -q"]
+    args:
+      - "-c"
+      - |
+        pip install -r "Copia de panelin_agent_v2/requirements.txt"
+        pytest -q "Copia de panelin_agent_v2/tests"
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -95,6 +101,8 @@ steps:
       - ${_REGION}
       - --platform
       - managed
+      - --set-env-vars
+      - PUBLIC_BASE_URL=${_PUBLIC_BASE_URL}
       # Choose one: public or IAM-authenticated
       # - --allow-unauthenticated
       # - --no-allow-unauthenticated
@@ -102,6 +110,7 @@ substitutions:
   _REGION: us-central1
   _REPO: panelin
   _SERVICE: panelin-api
+  _PUBLIC_BASE_URL: ""
 ```
 Add separate triggers for staging vs production and promote by tag.
 

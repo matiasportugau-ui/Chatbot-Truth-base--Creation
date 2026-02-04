@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-      "description": "Production Server"
+      "url": "https://YOUR-CLOUD-RUN-URL.a.run.app",
+      "description": "Cloud Run Production"
     }
   ],
   "paths": {
@@ -19,6 +19,44 @@
         ],
         "summary": "Health Check",
         "operationId": "health_check__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Ready",
+        "operationId": "ready_ready_get",
         "responses": {
           "200": {
             "description": "Successful Response",
