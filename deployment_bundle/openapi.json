@@ -2,13 +2,17 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Panelin Agent V2 API",
-    "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
-    "version": "2.0.0"
+    "description": "Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates. Deployed on Google Cloud Run.",
+    "version": "2.1.0"
   },
   "servers": [
     {
-      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-      "description": "Production Server"
+      "url": "https://panelin-api-xxxxx-uc.a.run.app",
+      "description": "Cloud Run Production Server (replace xxxxx with your project hash)"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Local Development Server"
     }
   ],
   "paths": {
@@ -17,14 +21,71 @@
         "tags": [
           "Health"
         ],
-        "summary": "Health Check",
-        "operationId": "health_check__get",
+        "summary": "Root",
+        "description": "Root endpoint - basic health check for quick verification.",
+        "operationId": "root__get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Check",
+        "description": "Liveness probe endpoint for Cloud Run. Returns 200 if the service is alive and running.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Readiness Check",
+        "description": "Readiness probe endpoint for Cloud Run. Returns 200 if the service is ready to accept traffic.",
+        "operationId": "readiness_check_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadyResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable - Not ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadyResponse"
+                }
               }
             }
           }
@@ -297,6 +358,75 @@
   },
   "components": {
     "schemas": {
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Service health status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "description": "Service name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "API version"
+          },
+          "uptime_seconds": {
+            "type": "number",
+            "title": "Uptime Seconds",
+            "description": "Time since service started"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "Current UTC timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "version",
+          "uptime_seconds",
+          "timestamp"
+        ],
+        "title": "HealthResponse",
+        "description": "Health check response model for Cloud Run"
+      },
+      "ReadyResponse": {
+        "properties": {
+          "ready": {
+            "type": "boolean",
+            "title": "Ready",
+            "description": "Whether the service is ready to accept traffic"
+          },
+          "checks": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Checks",
+            "description": "Individual readiness checks"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "Current UTC timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ready",
+          "checks",
+          "timestamp"
+        ],
+        "title": "ReadyResponse",
+        "description": "Readiness check response model for Cloud Run"
+      },
       "AccessoriesResult": {
         "properties": {
           "panels_needed": {
