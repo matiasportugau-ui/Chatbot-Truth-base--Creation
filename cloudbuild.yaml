@@ -1,0 +1,58 @@
+steps:
+  # Build container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+        ".",
+      ]
+
+  # Run fast unit tests for the API runtime
+  - name: "python:3.11-slim"
+    entrypoint: sh
+    args:
+      [
+        "-c",
+        "pip install --no-cache-dir -r 'Copia de panelin_agent_v2/requirements-cloudrun.txt' pytest && pytest -q 'Copia de panelin_agent_v2/tests'",
+      ]
+
+  # Push image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA",
+      ]
+
+  # Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image
+      - ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA
+      - --region
+      - ${_REGION}
+      - --platform
+      - managed
+      - --port
+      - "8080"
+      # Choose one:
+      # - --allow-unauthenticated
+      # - --no-allow-unauthenticated
+      #
+      # Optional env var to make OpenAPI 'servers' correct:
+      # - --set-env-vars
+      # - PUBLIC_BASE_URL=https://<service>-<hash>-<region>.a.run.app
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+
+options:
+  logging: CLOUD_LOGGING_ONLY
