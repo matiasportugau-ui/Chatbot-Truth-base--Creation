@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, Query
+import os
+
+from fastapi import FastAPI, HTTPException, Query, status
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from tools.quotation_calculator import (
@@ -14,14 +16,18 @@ from tools.product_lookup import (
     get_pricing_rules,
 )
 
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").strip()
+if not PUBLIC_BASE_URL:
+    PUBLIC_BASE_URL = "https://panelin-api-xxxxx-uc.a.run.app"
+
 app = FastAPI(
     title="Panelin Agent V2 API",
     description="Deterministic API for BMC Uruguay panel quotations. LLM extracts parameters, Python calculates.",
     version="2.0.0",
     servers=[
         {
-            "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-            "description": "Production Server",
+            "url": PUBLIC_BASE_URL,
+            "description": "Cloud Run Production",
         }
     ],
 )
@@ -95,8 +101,40 @@ class QuoteRequest(BaseModel):
 
 
 @app.get("/", tags=["Health"])
+@app.get("/health", tags=["Health"])
 def health_check():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
+
+
+@app.get("/ready", tags=["Health"])
+def readiness_check():
+    try:
+        pricing_rules = get_pricing_rules()
+        required_pricing_keys = {
+            "tax_rate_uy_iva",
+            "currency",
+            "delivery_cost_per_m2",
+            "minimum_delivery_charge_usd",
+        }
+        if not pricing_rules or not required_pricing_keys.issubset(pricing_rules):
+            existing_keys = (
+                set(pricing_rules.keys())
+                if isinstance(pricing_rules, dict)
+                else set()
+            )
+            missing = required_pricing_keys.difference(existing_keys)
+            raise ValueError(f"Missing pricing rules: {', '.join(sorted(missing))}")
+
+        products = list_all_products()
+        if not products:
+            raise ValueError("No products loaded from knowledge base")
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Readiness check failed: {exc}",
+        )
+
+    return {"status": "ready", "service": "Panelin Agent V2 API"}
 
 
 @app.get("/products/search", response_model=List[ProductInfo], tags=["Products"])
