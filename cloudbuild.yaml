@@ -1,0 +1,37 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+      - "."
+  - name: "python:3.11-slim"
+    entrypoint: "sh"
+    env:
+      - "OPENAI_API_KEY=sk-cloudbuild"
+    args:
+      - "-c"
+      - "python -m pip install --no-cache-dir -r \"Copia de panelin_agent_v2/requirements.txt\" && pytest -q \"Copia de panelin_agent_v2/tests\""
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE}"
+      - "--image"
+      - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_SERVICE}:$COMMIT_SHA"
+      - "--region"
+      - "${_REGION}"
+      - "--platform"
+      - "managed"
+      # Choose one:
+      # - "--allow-unauthenticated"
+      # - "--no-allow-unauthenticated"
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api

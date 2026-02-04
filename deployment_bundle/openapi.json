@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "https://YOUR-PUBLIC-URL.ngrok-free.app",
-      "description": "Production Server"
+      "url": "https://panelin-api-xxxxx-uc.a.run.app",
+      "description": "Cloud Run Production"
     }
   ],
   "paths": {
