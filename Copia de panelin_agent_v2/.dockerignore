@@ -1,0 +1,68 @@
+# Panelin Agent V2 - Docker Ignore File
+# ======================================
+# Excludes files not needed in production container
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Test files and fixtures
+tests/
+pytest.ini
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Documentation
+*.md
+docs/
+
+# Development files
+.env.local
+.env.development
+*.log
+
+# Large/unnecessary files
+*.pdf
+*.rtf
+*.zip
+*.tar
+*.gz
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Docker files (not needed inside container)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Backup files
+*.bak
+*.backup
+
+# OS files
+.DS_Store
+Thumbs.db
