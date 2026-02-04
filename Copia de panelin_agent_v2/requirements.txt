@@ -1,54 +1,60 @@
-# Panelin Agent V2 - Dependencies
-# ================================
+# Panelin Agent V2 - Dependencies (Pinned for Cloud Deployment)
+# ==============================================================
 # 
 # Core dependencies for the single-agent deterministic quotation system.
+# Versions pinned for reproducible builds on Cloud Run.
 # Install with: pip install -r requirements.txt
 
-# Core - Always required
-# ----------------------
+# ======================
+# Core API Dependencies
+# ======================
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+starlette==0.36.3
 
-# No external dependencies for core calculation tools!
-# Python's built-in decimal module handles all precision arithmetic.
+# HTTP client for external API calls
+httpx==0.26.0
+aiohttp==3.9.3
 
-# Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+# ======================
+# LangChain Integration
+# ======================
+langgraph==0.2.6
+langchain==0.2.16
+langchain-core==0.2.38
+langchain-openai==0.1.23
 
-# Optional - LangGraph Agent
-# --------------------------
-# Uncomment these if you want to use the full LangGraph-based agent
+# ======================
+# Testing (excluded in production, but needed for CI)
+# ======================
+pytest==8.0.0
+pytest-asyncio==0.23.4
 
-langgraph>=0.2.0
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-openai>=0.1.0
+# ======================
+# Development Tools (optional, for local dev)
+# ======================
+# black==24.1.1
+# isort==5.13.2
+# mypy==1.8.0
 
-# Optional - Alternative LLM Providers
-# ------------------------------------
-# langchain-anthropic>=0.1.0  # For Claude models
-# langchain-google-genai>=1.0.0  # For Gemini models
+# ======================
+# Cloud Run Optimizations
+# ======================
+# gunicorn is optional - uvicorn is sufficient for Cloud Run
+# gunicorn==21.2.0
 
-# Optional - Vector Search (for semantic product search)
-# ------------------------------------------------------
-# qdrant-client>=1.7.0  # Recommended: free tier, good filtering
-# weaviate-client>=4.0.0  # Alternative: better hybrid search
+# ======================
+# Observability (recommended for production)
+# ======================
+# opentelemetry-api==1.22.0
+# opentelemetry-sdk==1.22.0
+# opentelemetry-exporter-gcp-trace==1.6.0
+# opentelemetry-instrumentation-fastapi==0.43b0
 
-# Optional - Sync Service
-# -----------------------
-aiohttp>=3.9.0  # For async webhook handling
-httpx>=0.25.0   # For Shopify API calls
-
-# API Wrapper
-fastapi>=0.100.0
-uvicorn>=0.23.0
-
-# Optional - Observability
-# ------------------------
-# langsmith>=0.1.0  # LangChain observability
-# langfuse>=2.0.0   # Open-source alternative
-
-# Development
-# -----------
-black>=23.0.0
-isort>=5.12.0
-mypy>=1.5.0
+# ======================
+# Notes:
+# - Use `pip-compile requirements.in > requirements.txt` to regenerate
+# - Cloud Run provides $PORT env var for the service port
+# - Secrets should be injected via GCP Secret Manager
+# ======================
