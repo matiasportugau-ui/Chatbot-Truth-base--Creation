@@ -77,3 +77,13 @@ temp/
 .temp/
 tmp/
 logs/
+
+# ========================================
+# Test Coverage
+# ========================================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+coverage.xml
+*.cover
