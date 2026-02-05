@@ -1,11 +1,28 @@
-# Credentials and secrets (keep local only)
+# ========================================
+# SECURITY: Environment & Secrets
+# ========================================
 .env
 .env.local
 .env.*.local
+*.key
+*.pem
+secrets/
+.secrets/
+*.secret
 **/credentials.json
 panelin_improvements/credentials.json
 
+# ========================================
+# SECURITY: Database Files
+# ========================================
+*.db
+*.sqlite
+*.sqlite3
+ingestion_database.db
+
+# ========================================
 # Python
+# ========================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -18,7 +35,7 @@ build/
 develop-eggs/
 dist/
 downloads/
-eggs/
+egos/
 .eggs/
 lib/
 lib64/
@@ -35,7 +52,24 @@ wheels/
 htmlcov/
 .pytest_cache/
 
-# macOS
+# ========================================
+# Virtual Environments
+# ========================================
+# (venv/env/.venv already above)
+
+# ========================================
+# IDEs
+# ========================================
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# ========================================
+# OS
+# ========================================
 .DS_Store
 **/.DS_Store
 .AppleDouble
@@ -46,14 +80,19 @@ Icon
 .Spotlight-V100
 .TemporaryItems
 .Trashes
+Thumbs.db
+desktop.ini
 
-# Cursor / IDE
-.cursor/debug.log
-.cursor/*.log
-.vscode/
-.idea/
-*.swp
-*.swo
+# ========================================
+# Temporary & Log Files
+# ========================================
+*.tmp
+*.log
+*.bak
+temp/
+.temp/
+tmp/
+logs/
 
 # Project specific
 node_modules/
@@ -63,9 +102,5 @@ panelin_reports/output/*.pdf
 .corrections_backup/
 .panelin_assistant_id
 *.hash
-*.log
-
-# Generated / large data (optional)
-*.log
 analisis_*.json
 tunnel_url.txt
