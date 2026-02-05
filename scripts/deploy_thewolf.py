@@ -24,9 +24,12 @@ def log(msg):
 def kill_port(port):
     log(f"Cleaning port {port}...")
     try:
-        # Use a more cross-platform way if possible, but keeping this for now
-        # Replacing shell=True with list for safety
-        if sys.platform != "win32":
+        if sys.platform == "win32":
+            subprocess.run(
+                ["powershell", "-Command", f"Get-NetTCPConnection -LocalPort {port} -ErrorAction SilentlyContinue | ForEach-Object {{ Stop-Process -Id $_.OwningProcess -Force }}"],
+                stderr=subprocess.DEVNULL
+            )
+        else:
             subprocess.run(
                 ["pkill", "-f", f":{port}"], stderr=subprocess.DEVNULL
             )
@@ -35,6 +38,13 @@ def kill_port(port):
 
 
 def main():
+    # Force UTF-8 for emoji support
+    try:
+        if sys.stdout.encoding.lower() != 'utf-8':
+            sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
     log("🐺 INITIALIZING DEPLOY THE WOLF 🐺")
 
     # 1. Kill old processes
@@ -64,27 +74,29 @@ def main():
         url_file.unlink()
 
     # Fixed security risk: shell=True removed
-    tunnel_proc = subprocess.Popen(
-        ["npx", "localtunnel", "--port", "8000"],
-        stdout=open(url_file, "w"),
-        stderr=subprocess.STDOUT
-    )
+    with open(url_file, "w") as f_out:
+        tunnel_proc = subprocess.Popen(
+            ["npx", "localtunnel", "--port", "8000"],
+            stdout=f_out,
+            stderr=subprocess.STDOUT,
+            shell=(sys.platform == "win32")
+        )
 
-    url = None
-    start_time = time.time()
-    while time.time() - start_time < 20:
-        if url_file.exists():
-            content = url_file.read_text()
-            if "your url is:" in content:
-                url = content.split("your url is:")[1].strip()
-                break
-        time.sleep(1)
+        url = None
+        start_time = time.time()
+        while time.time() - start_time < 20:
+            if url_file.exists():
+                content = url_file.read_text()
+                if "your url is:" in content:
+                    url = content.split("your url is:")[1].strip()
+                    break
+            time.sleep(1)
 
-    if not url:
-        log("CRITICAL ERROR: Could not get Localtunnel URL.")
-        api_proc.terminate()
-        tunnel_proc.terminate()
-        sys.exit(1)
+        if not url:
+            log("CRITICAL ERROR: Could not get Localtunnel URL.")
+            api_proc.terminate()
+            tunnel_proc.terminate()
+            sys.exit(1)
 
     # 4. Update Schema
     log(f"Updating Schema with URL: {url}")
@@ -121,11 +133,12 @@ def main():
     print("Parameter Name: X-API-Key")
     
     if not wolf_key:
-        masked_key = "NOT_SET (Check your keyring or .env file)"
+        display_key = "NOT_SET"
     else:
-        masked_key = f"{wolf_key[:4]}...{wolf_key[-4:]}" if len(wolf_key) > 8 else "****"
+        display_key = f"{wolf_key[:4]}...{wolf_key[-4:]}" if len(wolf_key) > 8 else "****"
     
-    print(f"API Key: {masked_key}")
+    # Use a simpler, more robust print format to ensure the suffix is always shown
+    print(f"API Key: {display_key} (Check your .env or secret manager)")
     print("\n3. PRIVACY POLICY URL:")
     print("https://bmcuruguay.com.uy/privacy")
     print("\n" + "=" * 50)

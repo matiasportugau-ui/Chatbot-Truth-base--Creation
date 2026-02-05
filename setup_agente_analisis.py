@@ -63,6 +63,10 @@ def ejemplo_con_openai():
     print("=" * 70)
     
     from config.settings import settings
+    if not settings.OPENAI_API_KEY:
+        print("❌ OPENAI_API_KEY no configurada")
+        return
+
     # Crear asistente con función de análisis
     agente = AgentePanelinOpenAI(settings.OPENAI_API_KEY)
     

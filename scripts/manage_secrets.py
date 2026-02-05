@@ -21,17 +21,17 @@ def set_secret(service_name, key_name):
     
     try:
         keyring.set_password(service_name, key_name, value)
-        print(f"✅ Secreto '{key_name}' guardado exitosamente en el Administrador de Credenciales.")
+        print(f"OK: Secreto '{key_name}' guardado exitosamente.")
         return True
     except Exception as e:
-        print(f"❌ Error al guardar el secreto: {e}")
+        print(f"ERROR al guardar el secreto: {e}")
         return False
 
 def main():
     SERVICE = KEYRING_SERVICE
     
     print("=" * 50)
-    print("🔐 GESTOR DE SECRETOS PANELIN WOLF 🔐")
+    print("GESTOR DE SECRETOS PANELIN WOLF")
     print("=" * 50)
     print(f"Este script guardará sus API Keys en el Administrador de Credenciales de Windows.")
     print(f"Servicio: {SERVICE}")
@@ -71,7 +71,7 @@ def main():
             print(f"Fallo en {secret}, continuando...")
             
     print("\n" + "=" * 50)
-    print("🎉 Proceso finalizado!")
+    print("Proceso finalizado!")
     print("Asegúrese de que USE_KEYRING=true esté en su archivo .env")
     print("=" * 50)
 

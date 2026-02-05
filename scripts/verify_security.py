@@ -36,7 +36,7 @@ def check_source(key):
 
 def main():
     print("=" * 60)
-    print("🛡️  PANELIN SECURITY DIAGNOSTIC 🛡️")
+    print("SECURITY DIAGNOSTIC")
     print("=" * 60)
     
     use_keyring = os.getenv("USE_KEYRING", "false").lower() == "true"
@@ -66,13 +66,13 @@ def main():
         print(f"{key:<25} | {source:<20} | {mask(val):<15}")
         
     print("-" * 60)
-    print("\n💡 Recommendation:")
+    print("\nRecommendation:")
     if not use_keyring:
         print("   Keyring is DISABLED. Set USE_KEYRING=true in .env to enable system-level security.")
     else:
         print("   Keyring is ENABLED. Run 'python scripts/manage_secrets.py' to add more keys.")
     
-    print("\n✅ Verification complete.")
+    print("\nVerification complete.")
 
 if __name__ == "__main__":
     main()

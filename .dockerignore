@@ -1,0 +1,72 @@
+# Git and IDE
+.git
+.gitignore
+.cursor
+.vscode
+*.code-workspace
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv
+env
+.env
+.env.*
+!.env.example
+
+# Tests and coverage (not needed in image)
+.pytest_cache
+.coverage
+htmlcov
+tests/
+**/tests/
+
+# Docs and wiki (not needed at runtime)
+wiki/
+docs/
+*.md
+!panelin_agent_v2/README.md
+
+# Training, ingestion, large assets
+training_data/
+ingestion_analysis_output/
+ingestion_analysis_output/
+.corrections_backup/
+**/*.pdf
+**/*.rtf
+**/*.zip
+**/*.csv
+image/
+architectures/
+
+# Other agents and non-API code
+ai_architect_agent/
+ai-project-files-organizer-agent/
+gpt_consolidation_agent/
+gpt_kb_config_agent/
+gpt_simulation_agent/
+panelin_improvements/
+panelin_hybrid_agent/
+panelin_automation/
+panelin_persistence/
+panelin_reports/
+kb_training_system/
+catalog/
+pricing/
+
+# Deployment artifacts and local dev
+tunnel_url.txt
+deployment_bundle/
+scripts/
+.github/
+*.yaml
+!panelin_agent_v2/panelin_improvement_guide.yaml
+
+# Misc
+node_modules/
+*.log
+.DS_Store

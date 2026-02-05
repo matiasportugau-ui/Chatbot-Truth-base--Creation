@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-01-19T22:15:19.136462",
-  "workspace": "/Users/matias/Chatbot Truth base  Creation ",
+  "timestamp": "2026-01-30T23:36:33.396718",
+  "workspace": "C:\\Users\\usuario\\Panelin\\Chatbot-Truth-base--Creation",
   "analysis": {
     "intelligence": {
       "natural_language_understanding": {
@@ -40,6 +40,7 @@
           ],
           "level_2_validation": [],
           "level_3_dynamic": [
+            "panelin_truth_bmcuruguay.json",
             "panelin_truth_bmcuruguay_web_only_v2.json"
           ],
           "level_4_support": [
@@ -47,7 +48,7 @@
           ]
         },
         "retrieval_strategy": "Hierarchical source of truth with conflict resolution",
-        "files_count": 4,
+        "files_count": 7,
         "conflict_resolution": "Level 1 always wins, conflicts reported"
       },
       "context_management": {
@@ -214,17 +215,17 @@
             "DMs"
           ],
           "ingestion_method": "API-based",
-          "available": true
+          "available": false
         },
         "quotes": {
           "source": "Historical quotations",
           "format": "JSON",
-          "available": true
+          "available": false
         },
         "interactions": {
           "source": "General user interactions",
           "format": "JSON",
-          "available": true
+          "available": false
         }
       },
       "processing_pipeline": {
@@ -304,7 +305,7 @@
         "layer_2_knowledge_base": {
           "purpose": "Structured information storage",
           "hierarchy_levels": 4,
-          "files_count": 4
+          "files_count": 7
         },
         "layer_3_retrieval": {
           "purpose": "Efficient information finding",
@@ -329,9 +330,9 @@
         }
       },
       "knowledge_base_structure": {
-        "total_files": 4,
+        "total_files": 7,
         "file_types": {
-          "json": 3,
+          "json": 6,
           "markdown": 1,
           "rtf": 0,
           "csv": 0
@@ -380,7 +381,7 @@
         "response_time": "API-dependent, typically 2-10 seconds"
       },
       "knowledge_capacity": {
-        "knowledge_base_files": 4,
+        "knowledge_base_files": 7,
         "product_coverage": "ISODEC, ISOPANEL, ISOROOF, ISOWALL lines",
         "formula_coverage": "Complete quotation formulas",
         "business_rules": "IVA, shipping, technical rules",

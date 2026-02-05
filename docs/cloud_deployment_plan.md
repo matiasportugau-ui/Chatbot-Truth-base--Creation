@@ -162,19 +162,19 @@ Replace the temporary Localtunnel URL with the Cloud Run URL:
 ---
 
 ## Deliverables Checklist
-- [ ] `Dockerfile`
-- [ ] `.dockerignore`
-- [ ] `cloudbuild.yaml`
-- [ ] Pinned `requirements.txt`
-- [ ] Service account with least privilege
-- [ ] Secret Manager integration
-- [ ] `/health` and `/ready` endpoints
-- [ ] Cloud Run resource limits (cpu/memory/timeout/concurrency)
-- [ ] Access control decision (public vs IAM/IAP)
+- [x] `Dockerfile` (repo root; see also `requirements-cloudrun.txt`)
+- [x] `.dockerignore`
+- [x] `cloudbuild.yaml` (build, test, push, deploy)
+- [x] Pinned `requirements-cloudrun.txt` for Cloud Run image
+- [ ] Service account with least privilege (see `docs/CLOUD_RUN_DEPLOY.md`)
+- [ ] Secret Manager integration (WOLF_API_KEY; see `docs/CLOUD_RUN_DEPLOY.md`)
+- [x] `/health` and `/ready` endpoints
+- [x] Cloud Run resource limits (cpu/memory/timeout/concurrency in `cloudbuild.yaml`)
+- [x] Access control decision (default: `--no-allow-unauthenticated` in deploy)
 - [ ] Monitoring alerts (error rate/latency)
 - [ ] Data persistence choice documented
-- [ ] Cloud Run service live
-- [ ] OpenAPI schema updated with Cloud Run URL
+- [ ] Cloud Run service live (after first deploy)
+- [ ] OpenAPI schema updated with Cloud Run URL (after first deploy)
 
 ---
 

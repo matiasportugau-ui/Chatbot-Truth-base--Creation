@@ -1,0 +1,81 @@
+# Cloud Build: build, test, push, deploy Panelin Wolf API to Cloud Run
+# Set up: gcloud builds submit --config=cloudbuild.yaml
+# Or connect repo to Cloud Build and use trigger with _SERVICE=panelin-api, _REGION=us-central1
+
+substitutions:
+  _REGION: us-central1
+  _REPO: panelin
+  _SERVICE: panelin-api
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # 1. Build container image
+  - name: "gcr.io/cloud-builders/docker"
+    id: build
+    args:
+      - "build"
+      - "-t"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}"
+      - "-t"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
+      - "."
+
+  # 2. Run unit tests from source (no pytest in runtime image)
+  - name: "python:3.11-slim"
+    id: test
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        pip install -q -r panelin_agent_v2/requirements.txt
+        pip install -q -r requirements-cloudrun.txt
+        pytest panelin_agent_v2/tests -q --ignore=panelin_agent_v2/tests/test_agent_integration.py
+    waitFor: ["-"]
+
+  # 3. Push to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    id: push
+    args:
+      - "push"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}"
+    waitFor: ["build"]
+
+  # 4. Deploy to Cloud Run
+  # Add Secret Manager and SA for production (see docs/CLOUD_RUN_DEPLOY.md):
+  #   - "--service-account"
+  #   - "panelin-runner@${PROJECT_ID}.iam.gserviceaccount.com"
+  #   - "--set-secrets"
+  #   - "WOLF_API_KEY=projects/${PROJECT_ID}/secrets/WOLF_API_KEY:latest"
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: deploy
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE}"
+      - "--image"
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}"
+      - "--region"
+      - "${_REGION}"
+      - "--platform"
+      - "managed"
+      - "--memory"
+      - "512Mi"
+      - "--cpu"
+      - "1"
+      - "--timeout"
+      - "300"
+      - "--concurrency"
+      - "80"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "10"
+      - "--no-allow-unauthenticated"
+    waitFor: ["push", "test"]
+
+images:
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${SHORT_SHA}"
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
