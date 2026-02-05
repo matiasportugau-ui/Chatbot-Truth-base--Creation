@@ -1,0 +1,111 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Panelin Wolf API",
+    "description": "Secure API for BMC Uruguay panel quotations. All authenticated endpoints require X-API-Key.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://panelin-api-q74zutv7dq-uc.a.run.app",
+      "description": "Cloud Run Production"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key (same value as WOLF_API_KEY in Secret Manager)"
+      }
+    },
+    "schemas": {
+      "QuoteRequest": {
+        "type": "object",
+        "required": ["product_id", "length_m", "width_m"],
+        "properties": {
+          "product_id": { "type": "string", "description": "e.g. ISOPANEL_EPS_50mm" },
+          "length_m": { "type": "number", "minimum": 0.5, "maximum": 14 },
+          "width_m": { "type": "number", "minimum": 0.5, "maximum": 50 },
+          "quantity": { "type": "integer", "minimum": 1, "default": 1 },
+          "discount_percent": { "type": "number", "minimum": 0, "maximum": 30, "default": 0 },
+          "include_accessories": { "type": "boolean", "default": false },
+          "include_tax": { "type": "boolean", "default": true },
+          "installation_type": { "type": "string", "enum": ["techo", "pared"], "default": "techo" }
+        }
+      },
+      "ProductSearchRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": { "type": "string", "minLength": 3 },
+          "max_results": { "type": "integer", "minimum": 1, "maximum": 20, "default": 5 }
+        }
+      },
+      "ProductPriceRequest": {
+        "type": "object",
+        "required": ["product_id"],
+        "properties": { "product_id": { "type": "string" } }
+      }
+    }
+  },
+  "security": [{ "ApiKeyAuth": [] }],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health_check",
+        "summary": "Liveness check (no auth)",
+        "security": [],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "object", "properties": { "status": { "type": "string" } } } } } }
+      }
+    },
+    "/ready": {
+      "get": {
+        "operationId": "ready_check",
+        "summary": "Readiness check (no auth)",
+        "security": [],
+        "responses": { "200": { "description": "Ready" }, "503": { "description": "Not ready" } }
+      }
+    },
+    "/": {
+      "get": {
+        "operationId": "root",
+        "summary": "API status (requires X-API-Key)",
+        "responses": { "200": { "description": "Active" }, "403": { "description": "Invalid or missing API key" } }
+      }
+    },
+    "/calculate_quote": {
+      "post": {
+        "operationId": "calculate_quote",
+        "summary": "Calculate panel quote",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/QuoteRequest" } } },
+        "responses": { "200": { "description": "Quotation result" }, "400": { "description": "Bad request" }, "403": { "description": "Invalid API key" } }
+      }
+    },
+    "/find_products": {
+      "post": {
+        "operationId": "find_products",
+        "summary": "Search products by natural language",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductSearchRequest" } } },
+        "responses": { "200": { "description": "List of matching products" }, "403": { "description": "Invalid API key" } }
+      }
+    },
+    "/product_price": {
+      "post": {
+        "operationId": "product_price",
+        "summary": "Get price for a product by ID",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductPriceRequest" } } },
+        "responses": { "200": { "description": "Price info" }, "404": { "description": "Product not found" }, "403": { "description": "Invalid API key" } }
+      }
+    },
+    "/check_availability": {
+      "post": {
+        "operationId": "check_availability",
+        "summary": "Check product availability by ID",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductPriceRequest" } } },
+        "responses": { "200": { "description": "Availability" }, "404": { "description": "Product not found" }, "403": { "description": "Invalid API key" } }
+      }
+    }
+  }
+}

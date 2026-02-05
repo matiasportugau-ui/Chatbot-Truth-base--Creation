@@ -241,3 +241,16 @@ To have Cloud Build also inject secrets, add to the deploy step in `cloudbuild.y
 
 - `--service-account panelin-runner@PROJECT_ID.iam.gserviceaccount.com`
 - `--set-secrets "WOLF_API_KEY=WOLF_API_KEY:latest"`
+
+---
+
+## Next steps after deploy (Cloud Run live)
+
+| Step | Action |
+|------|--------|
+| **1. GPT Action** | In your GPT (e.g. Panelin – BMC Assistant), add an Action. Use **OpenAPI URL** or paste the schema from `deployment_bundle/openapi.json` (servers URL is already set to your Cloud Run URL). Set **Authentication** to API Key, **Header name** `X-API-Key`, **Value** = same as `WOLF_API_KEY` in Secret Manager (and `.env`). |
+| **2. Test the GPT** | In the GPT, trigger a quote or product search and confirm the Action calls your Cloud Run API and returns data. |
+| **3. Privacy / terms** | If required, set the GPT’s **Privacy policy URL** (e.g. `https://bmcuruguay.com.uy/privacy`) in the GPT configuration. |
+| **4. Future deploys** | From repo root: `gcloud run deploy panelin-api --source . --region us-central1 ...` (same command as Step 5), or set up **Cloud Build** with `gcloud builds submit --config=cloudbuild.yaml .` and add `--set-secrets` in `cloudbuild.yaml` so CI/CD injects the key. |
+| **5. Monitoring (optional)** | In [Cloud Console → Cloud Run → panelin-api → Metrics](https://console.cloud.google.com/run/detail/us-central1/panelin-api/metrics?project=chatbot-bmc-live), watch requests, latency, and errors. Optionally add alerts for error rate or latency. |
+| **6. OpenAPI schema** | `deployment_bundle/openapi.json` already has `servers[].url` = your Cloud Run URL. If you use a different schema for the GPT (e.g. from `scripts/deploy_thewolf.py` output), ensure its **servers** URL and **X-API-Key** match. |
