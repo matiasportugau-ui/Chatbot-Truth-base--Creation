@@ -65,7 +65,7 @@ This builds the image, runs tests, pushes to Artifact Registry, and deploys to C
 **Note:** The default `cloudbuild.yaml` does not inject secrets. Add to the deploy step for first run:
 
 - `--service-account panelin-runner@PROJECT_ID.iam.gserviceaccount.com`
-- `--set-secrets "WOLF_API_KEY=projects/PROJECT_ID/secrets/WOLF_API_KEY:latest"`
+- `--set-secrets "WOLF_API_KEY=WOLF_API_KEY:latest"`
 
 Edit `cloudbuild.yaml` and add those args to the `gcloud run deploy` step, or use Option B for the first deploy.
 
@@ -84,7 +84,7 @@ gcloud run deploy panelin-api \
   --service-account $SA_EMAIL \
   --memory 512Mi --cpu 1 --timeout 300 --concurrency 80 \
   --min-instances 0 --max-instances 10 \
-  --set-secrets "WOLF_API_KEY=projects/${PROJECT_ID}/secrets/WOLF_API_KEY:latest" \
+  --set-secrets "WOLF_API_KEY=WOLF_API_KEY:latest" \
   --no-allow-unauthenticated
 ```
 
@@ -98,7 +98,7 @@ If you already built and pushed the image:
 gcloud run deploy panelin-api \
   --image us-central1-docker.pkg.dev/PROJECT_ID/panelin/panelin-api:SHA \
   --region us-central1 \
-  --set-secrets "WOLF_API_KEY=projects/PROJECT_ID/secrets/WOLF_API_KEY:latest" \
+  --set-secrets "WOLF_API_KEY=WOLF_API_KEY:latest" \
   --no-allow-unauthenticated
 ```
 
