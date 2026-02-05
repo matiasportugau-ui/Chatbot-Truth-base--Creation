@@ -12,11 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(PROJECT_ROOT))
 
 from config.settings import settings
-from panelin_agent_v2.tools.quotation_calculator import (
-    calculate_panel_quote,
-    QuotationResult,
-    AccessoriesResult
-)
+from panelin_agent_v2.tools.quotation_calculator import calculate_panel_quote
 from panelin_agent_v2.tools.product_lookup import (
     find_product_by_query,
     get_product_price,
@@ -101,7 +97,7 @@ async def ready_check():
         )
     return {"status": "ready"}
 
-@app.post("/calculate_quote", response_model=QuotationResult, dependencies=[Security(get_api_key)])
+@app.post("/calculate_quote", dependencies=[Security(get_api_key)])
 async def api_calculate_quote(request: QuoteRequest):
     try:
         result = calculate_panel_quote(
