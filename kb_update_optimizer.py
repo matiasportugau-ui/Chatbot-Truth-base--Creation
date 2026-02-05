@@ -22,9 +22,11 @@ from functools import lru_cache
 from openai import OpenAI
 from loguru import logger
 
+from config.settings import settings
+
 # Configuration
-API_KEY = os.getenv("OPENAI_API_KEY")
-ASSISTANT_ID = os.getenv("OPENAI_ASSISTANT_ID", "asst_7LdhJMasW5HHGZh0cgchTGkX")
+API_KEY = settings.OPENAI_API_KEY
+ASSISTANT_ID = settings.OPENAI_ASSISTANT_ID
 
 # Paths
 # Directory name is "Files " (with trailing space)

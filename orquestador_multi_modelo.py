@@ -145,8 +145,9 @@ class OrquestadorMultiModelo:
     
     def _inicializar_agentes(self):
         """Inicializa agentes según disponibilidad de API keys"""
+        from config.settings import settings
         # OpenAI
-        openai_key = os.getenv("OPENAI_API_KEY")
+        openai_key = settings.OPENAI_API_KEY
         if openai_key:
             try:
                 self.openai_agente = AgentePanelinOpenAI(openai_key)
@@ -154,7 +155,7 @@ class OrquestadorMultiModelo:
                 print(f"⚠️  OpenAI no disponible: {e}")
         
         # Claude
-        claude_key = os.getenv("ANTHROPIC_API_KEY")
+        claude_key = settings.ANTHROPIC_API_KEY
         if claude_key:
             try:
                 self.claude_agente = AgentePanelinClaude(claude_key)
@@ -162,7 +163,7 @@ class OrquestadorMultiModelo:
                 print(f"⚠️  Claude no disponible: {e}")
         
         # Gemini
-        gemini_key = os.getenv("GOOGLE_API_KEY")
+        gemini_key = settings.GOOGLE_API_KEY
         if gemini_key:
             try:
                 self.gemini_agente = AgentePanelinGemini(gemini_key)

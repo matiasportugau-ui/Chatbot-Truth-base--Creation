@@ -5,9 +5,14 @@ import subprocess
 import time
 from pathlib import Path
 
-# Setup paths
+# Add project root to sys.path to allow importing from config
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-AGENT_V2_DIR = PROJECT_ROOT / "Copia de panelin_agent_v2"
+sys.path.append(str(PROJECT_ROOT))
+
+from config.settings import settings
+
+# Setup paths
+AGENT_V2_DIR = PROJECT_ROOT / "panelin_agent_v2"
 OPENAPI_PATH = PROJECT_ROOT / "deployment_bundle" / "openapi.json"
 
 
@@ -19,10 +24,13 @@ def log(msg):
 def kill_port(port):
     log(f"Cleaning port {port}...")
     try:
-        subprocess.run(
-            f"lsof -ti:{port} | xargs kill -9", shell=True, stderr=subprocess.DEVNULL
-        )
-    except:
+        # Use a more cross-platform way if possible, but keeping this for now
+        # Replacing shell=True with list for safety
+        if sys.platform != "win32":
+            subprocess.run(
+                ["pkill", "-f", f":{port}"], stderr=subprocess.DEVNULL
+            )
+    except Exception:
         pass
 
 
@@ -51,13 +59,15 @@ def main():
 
     # 3. Start Tunnel
     log("Starting Localtunnel...")
-    # Use a file to capture the URL because reading from pipe can be tricky
     url_file = PROJECT_ROOT / "tunnel_url.txt"
     if url_file.exists():
         url_file.unlink()
 
+    # Fixed security risk: shell=True removed
     tunnel_proc = subprocess.Popen(
-        f"npx localtunnel --port 8000 > {url_file}", shell=True
+        ["npx", "localtunnel", "--port", "8000"],
+        stdout=open(url_file, "w"),
+        stderr=subprocess.STDOUT
     )
 
     url = None
@@ -80,7 +90,24 @@ def main():
     log(f"Updating Schema with URL: {url}")
     with open(OPENAPI_PATH, "r", encoding="utf-8") as f:
         schema = json.load(f)
+    
     schema["servers"] = [{"url": url, "description": "Localtunnel Development Server"}]
+    
+    # Add Security Scheme (API Key)
+    if "components" not in schema:
+        schema["components"] = {}
+    
+    schema["components"]["securitySchemes"] = {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        }
+    }
+    
+    schema["security"] = [{"ApiKeyAuth": []}]
+
+    wolf_key = settings.WOLF_API_KEY
 
     print("\n" + "=" * 50)
     print("🚀 DEPLOYMENT DATA READY 🚀")
@@ -90,7 +117,15 @@ def main():
     print(json.dumps(schema, indent=2))
     print("-" * 30)
     print("\n2. AUTHENTICATION SETUP:")
-    print("Type: None (Ninguno)")
+    print("Type: API Key")
+    print("Parameter Name: X-API-Key")
+    
+    if not wolf_key:
+        masked_key = "NOT_SET (Check your keyring or .env file)"
+    else:
+        masked_key = f"{wolf_key[:4]}...{wolf_key[-4:]}" if len(wolf_key) > 8 else "****"
+    
+    print(f"API Key: {masked_key}")
     print("\n3. PRIVACY POLICY URL:")
     print("https://bmcuruguay.com.uy/privacy")
     print("\n" + "=" * 50)

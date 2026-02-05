@@ -6,6 +6,11 @@
 
 # Core - Always required
 # ----------------------
+keyring>=24.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+python-multipart>=0.0.6
+python-dotenv>=1.0.0
 
 # No external dependencies for core calculation tools!
 # Python's built-in decimal module handles all precision arithmetic.

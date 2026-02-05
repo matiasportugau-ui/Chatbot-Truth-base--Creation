@@ -6,9 +6,12 @@ Test completo del sistema con todos los modelos
 import os
 import sys
 
-# Configurar API keys
-os.environ['ANTHROPIC_API_KEY'] = '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'
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
+# Cargar API keys desde variables de entorno (.env o export)
+# NO hardcodear credenciales. Ejemplo: export ANTHROPIC_API_KEY=sk-ant-...
+from dotenv import load_dotenv
+load_dotenv()
+if not os.environ.get('ANTHROPIC_API_KEY') or not os.environ.get('GOOGLE_API_KEY'):
+    print("⚠️  Configure ANTHROPIC_API_KEY y GOOGLE_API_KEY en .env o variables de entorno")
 
 from motor_cotizacion_panelin import MotorCotizacionPanelin
 from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo

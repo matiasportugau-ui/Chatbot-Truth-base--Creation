@@ -3,16 +3,16 @@
 Análisis Completo del Sistema
 """
 
+import json
 import os
-import sys
 
-# Configurar API keys
-os.environ['ANTHROPIC_API_KEY'] = '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'
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyAg_TTib1roBgzqoumJZ-SEWu8SyUwa-X0'
-
+from dotenv import load_dotenv
 from agente_analisis_inteligente import AgenteAnalisisInteligente
 from agente_orquestador_multi_modelo import AgenteOrquestadorMultiModelo
-import json
+
+load_dotenv()
+if not os.environ.get('ANTHROPIC_API_KEY') or not os.environ.get('GOOGLE_API_KEY'):
+    print("⚠️  Configure ANTHROPIC_API_KEY y GOOGLE_API_KEY en .env")
 
 print("=" * 70)
 print("📊 ANÁLISIS COMPLETO DEL SISTEMA")

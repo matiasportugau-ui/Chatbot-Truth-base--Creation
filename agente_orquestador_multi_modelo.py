@@ -65,9 +65,10 @@ class AgenteOrquestadorMultiModelo:
     
     def _configurar_modelos(self):
         """Configura acceso a los modelos"""
-        self.openai_key = os.getenv("OPENAI_API_KEY")
-        self.claude_key = os.getenv("ANTHROPIC_API_KEY")
-        self.gemini_key = os.getenv("GOOGLE_API_KEY")
+        from config.settings import settings
+        self.openai_key = settings.OPENAI_API_KEY
+        self.claude_key = settings.ANTHROPIC_API_KEY
+        self.gemini_key = settings.GOOGLE_API_KEY
         
         self.modelos_disponibles = {
             ModeloIA.OPENAI: self.openai_key is not None,

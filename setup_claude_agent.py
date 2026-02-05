@@ -18,7 +18,8 @@ except ImportError:
 
 from agente_cotizacion_panelin import calcular_cotizacion_agente, crear_config_claude
 
-API_KEY = os.getenv("ANTHROPIC_API_KEY")
+from config.settings import settings
+API_KEY = settings.ANTHROPIC_API_KEY
 if not API_KEY:
     print("❌ ANTHROPIC_API_KEY no configurada")
     print("   Obtén tu key en: https://console.anthropic.com/")

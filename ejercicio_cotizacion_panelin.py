@@ -16,11 +16,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from motor_cotizacion_panelin import MotorCotizacionPanelin
 
+from config.settings import settings
+
 # Configuración
-API_KEY = os.getenv("OPENAI_API_KEY")
-if not API_KEY:
-    raise ValueError("OPENAI_API_KEY environment variable is required. Please set it before running this script.")
-ASSISTANT_ID = "asst_7LdhJMasW5HHGZh0cgchTGkX"
+API_KEY = settings.OPENAI_API_KEY
+ASSISTANT_ID = settings.OPENAI_ASSISTANT_ID
 
 def cotizar_con_panelin(consulta: str, cliente: str = None):
     """Hace una cotización usando Panelin"""

@@ -19,7 +19,8 @@ except ImportError:
 
 from agente_cotizacion_panelin import calcular_cotizacion_agente
 
-API_KEY = os.getenv("GOOGLE_API_KEY")
+from config.settings import settings
+API_KEY = settings.GOOGLE_API_KEY
 if not API_KEY:
     print("❌ GOOGLE_API_KEY no configurada")
     print("   Obtén tu key en: https://makersuite.google.com/app/apikey")

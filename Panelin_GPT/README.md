@@ -27,6 +27,10 @@ Panelin_GPT/
 
 ---
 
+## Required Files
+
+See **REQUIRED_FILES.md** for the minimal list of files needed to run this GPT. Unnecessary files have been removed.
+
 ## Quick Start Upload Checklist
 
 ### Step 1: Upload Core Files to GPT Editor

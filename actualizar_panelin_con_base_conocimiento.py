@@ -6,12 +6,10 @@ Actualizar Panelin con Base de Conocimiento
 Actualiza el asistente Panelin para usar los archivos de Files/ como base de conocimiento.
 """
 
-import os
-from openai import OpenAI
-from pathlib import Path
+from config.settings import settings
 
-API_KEY = os.getenv("OPENAI_API_KEY", "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")
-ASSISTANT_ID = "asst_7LdhJMasW5HHGZh0cgchTGkX"
+API_KEY = settings.OPENAI_API_KEY
+ASSISTANT_ID = settings.OPENAI_ASSISTANT_ID
 
 # Archivos de conocimiento a subir
 ARCHIVOS_CONOCIMIENTO = [

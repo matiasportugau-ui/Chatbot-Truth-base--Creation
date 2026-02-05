@@ -1,0 +1,13 @@
+---
+description: Security rules for preventing credential leaks and ensuring safe code execution
+globs: **/*.py, **/*.sh, **/*.js, **/*.ts
+---
+
+# Security Rules
+
+- **NEVER** hardcode API keys, secrets, or tokens in the codebase.
+- Use `os.getenv()` or `python-dotenv` to load secrets from a `.env` file.
+- Ensure `.env` is always included in `.gitignore`.
+- Avoid using `os.system()` or `shell=True` in `subprocess` calls with unsanitized input.
+- Always use absolute paths or securely constructed relative paths for file operations.
+- Review any external communication scripts (webhooks, API calls) for proper authentication and verification (e.g., HMAC).

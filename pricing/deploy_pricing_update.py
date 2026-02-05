@@ -20,7 +20,7 @@ def run_step(script_path, description):
     # When python runs `os.system("python3 relative/path.py")`, it should work regardless of CWD name.
     # The issue was likely how I constructed the absolute path in previous attempts.
     
-    cmd = f'python3 "{script_path}"'
+    cmd = f'"{sys.executable}" "{script_path}"'
     ret = os.system(cmd)
     if ret != 0:
         print(f"❌ Error during: {description}")

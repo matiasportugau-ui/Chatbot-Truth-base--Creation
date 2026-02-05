@@ -27,7 +27,8 @@ def setup_openai_agent():
     try:
         from openai import OpenAI
         
-        api_key = os.getenv("OPENAI_API_KEY")
+        from config.settings import settings
+        api_key = settings.OPENAI_API_KEY
         if not api_key:
             print("❌ OPENAI_API_KEY no encontrada en variables de entorno")
             return None

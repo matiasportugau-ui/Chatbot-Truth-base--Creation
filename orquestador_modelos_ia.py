@@ -45,7 +45,8 @@ class OrquestadorModelos:
         # OpenAI
         try:
             from openai import OpenAI
-            api_key = os.getenv("OPENAI_API_KEY")
+            from config.settings import settings
+            api_key = settings.OPENAI_API_KEY
             disponibles[ModeloIA.OPENAI] = api_key is not None
         except ImportError:
             disponibles[ModeloIA.OPENAI] = False
@@ -53,7 +54,8 @@ class OrquestadorModelos:
         # Claude
         try:
             import anthropic
-            api_key = os.getenv("ANTHROPIC_API_KEY")
+            from config.settings import settings
+            api_key = settings.ANTHROPIC_API_KEY
             disponibles[ModeloIA.CLAUDE] = api_key is not None
         except ImportError:
             disponibles[ModeloIA.CLAUDE] = False
@@ -61,7 +63,8 @@ class OrquestadorModelos:
         # Gemini
         try:
             import google.generativeai as genai
-            api_key = os.getenv("GOOGLE_API_KEY")
+            from config.settings import settings
+            api_key = settings.GOOGLE_API_KEY
             disponibles[ModeloIA.GEMINI] = api_key is not None
         except ImportError:
             disponibles[ModeloIA.GEMINI] = False

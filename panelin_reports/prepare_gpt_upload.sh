@@ -19,7 +19,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Base directory
-BASE_DIR="/Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1"
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PANELIN_REPORTS="$BASE_DIR/panelin_reports"
 ASSETS_DIR="$PANELIN_REPORTS/assets"
 OUTPUT_DIR="$PANELIN_REPORTS/gpt_upload_package"
@@ -51,7 +51,7 @@ else
     
     # Try to find logo in common locations
     echo "Searching for logo files in your system..."
-    FOUND_LOGOS=$(find /Users/matias/Downloads -name "*bmc*.png" -o -name "*logo*.png" 2>/dev/null | head -5)
+    FOUND_LOGOS=$(find ~/Downloads -name "*bmc*.png" -o -name "*logo*.png" 2>/dev/null | head -5)
     
     if [ -n "$FOUND_LOGOS" ]; then
         echo ""

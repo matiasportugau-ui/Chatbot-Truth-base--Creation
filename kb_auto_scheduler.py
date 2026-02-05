@@ -23,9 +23,11 @@ import sys
 from kb_update_optimizer import KBUpdateOptimizer
 from training_data_optimizer import TrainingDataOptimizer
 
+from config.settings import settings
+
 # Configuration
-API_KEY = os.getenv("OPENAI_API_KEY")
-ASSISTANT_ID = os.getenv("OPENAI_ASSISTANT_ID", "asst_7LdhJMasW5HHGZh0cgchTGkX")
+API_KEY = settings.OPENAI_API_KEY
+ASSISTANT_ID = settings.OPENAI_ASSISTANT_ID
 
 # Logging setup
 LOG_DIR = Path("logs")

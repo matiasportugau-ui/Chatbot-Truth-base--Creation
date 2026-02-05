@@ -30,6 +30,9 @@ click>=8.1.0
 # PDF Generation
 reportlab>=4.0.0
 
+# Security & Secrets
+keyring>=24.0.0
+
 # Optional / Advanced (Uncomment if needed)
 # numpy>=1.24.0
 # scikit-learn>=1.3.0

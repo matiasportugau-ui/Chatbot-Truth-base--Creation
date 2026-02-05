@@ -62,16 +62,12 @@ def ejemplo_con_openai():
     print("🤖 AGENTE DE ANÁLISIS INTELIGENTE - CON OPENAI")
     print("=" * 70)
     
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        print("❌ OPENAI_API_KEY no configurada")
-        return
-    
+    from config.settings import settings
     # Crear asistente con función de análisis
-    agente = AgentePanelinOpenAI(api_key)
+    agente = AgentePanelinOpenAI(settings.OPENAI_API_KEY)
     
-    # Crear o usar asistente existente
-    assistant_id = "asst_7LdhJMasW5HHGZh0cgchTGkX"  # O crear nuevo
+    # Usar asistente configurado
+    assistant_id = settings.OPENAI_ASSISTANT_ID
     agente.assistant_id = assistant_id
     
     # Crear thread

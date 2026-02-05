@@ -160,7 +160,8 @@ def get_api_key(api_key_arg: Optional[str] = None) -> str:
     if api_key_arg:
         return api_key_arg
     
-    api_key = os.getenv("OPENAI_API_KEY")
+    from config.settings import settings
+    api_key = settings.OPENAI_API_KEY
     if api_key:
         return api_key
     

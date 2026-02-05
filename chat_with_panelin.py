@@ -128,7 +128,8 @@ def main():
     args = parser.parse_args()
     
     # Get API key
-    api_key = args.api_key or os.getenv("OPENAI_API_KEY")
+    from config.settings import settings
+    api_key = args.api_key or settings.OPENAI_API_KEY
     if not api_key:
         print("❌ OpenAI API key required.")
         print("   Set OPENAI_API_KEY environment variable or use --api-key")

@@ -31,7 +31,8 @@ def setup_openai_kb_agent(api_key: Optional[str] = None) -> Optional[dict]:
     Returns:
         Assistant configuration dict
     """
-    api_key = api_key or os.getenv("OPENAI_API_KEY")
+    from config.settings import settings
+    api_key = api_key or settings.OPENAI_API_KEY
     if not api_key:
         print("❌ OpenAI API key required. Set OPENAI_API_KEY env var or pass as argument.")
         return None

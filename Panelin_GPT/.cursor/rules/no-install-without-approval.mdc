@@ -1,0 +1,12 @@
+---
+description: Block installing packages or auto-downloading files without explicit user approval
+alwaysApply: true
+---
+
+# No Install or Auto-Download Without Approval
+
+- **Do not** run `npm install`, `pip install`, `pip install -r requirements.txt`, or any package manager install unless the user has explicitly asked you to.
+- **Do not** download files from the internet (wget, curl, fetch, etc.) unless the user has explicitly requested it.
+- **Do not** add or recommend new dependencies, extensions, or tools that would require installation without the user approving first.
+- If something requires installing a package or downloading a file, **stop and ask**: "This requires installing X / downloading Y. Do you approve?"
+- Only proceed with installs or downloads after the user confirms (e.g. "yes", "ok", "approve", "go ahead").

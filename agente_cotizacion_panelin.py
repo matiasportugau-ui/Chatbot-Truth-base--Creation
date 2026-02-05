@@ -569,16 +569,16 @@ resultado = calculate_panel_quote_agente(
 
 def ejemplo_uso_openai():
     """Ejemplo usando OpenAI"""
-    import os
-    api_key = os.getenv("OPENAI_API_KEY")
+    from config.settings import settings
+    api_key = settings.OPENAI_API_KEY
     if not api_key:
         print("⚠️  OPENAI_API_KEY no configurada")
         return
     
     agente = AgentePanelinOpenAI(api_key)
     
-    # Crear o usar asistente existente
-    assistant_id = "asst_7LdhJMasW5HHGZh0cgchTGkX"  # O crear nuevo
+    # Usar asistente configurado
+    assistant_id = settings.OPENAI_ASSISTANT_ID
     agente.assistant_id = assistant_id
     
     # Crear thread

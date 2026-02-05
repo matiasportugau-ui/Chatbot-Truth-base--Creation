@@ -27,8 +27,9 @@ class MongoDBClient:
             connection_string: MongoDB connection string (mongodb://...)
             database_name: Database name
         """
-        self.connection_string = connection_string or os.getenv("MONGODB_CONNECTION_STRING")
-        self.database_name = database_name or os.getenv("MONGODB_DATABASE_NAME", "panelin")
+        from config.settings import settings
+        self.connection_string = connection_string or settings.MONGODB_URI
+        self.database_name = database_name or settings.MONGODB_DB
         self.client = None
         self.db = None
         

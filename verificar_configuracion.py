@@ -23,8 +23,9 @@ else:
 
 # MongoDB
 print("\n📊 MongoDB:")
-mongodb_conn = os.getenv("MONGODB_CONNECTION_STRING")
-mongodb_db = os.getenv("MONGODB_DATABASE_NAME", "panelin")
+    from config.settings import settings
+    mongodb_conn = settings.MONGODB_URI
+    mongodb_db = settings.MONGODB_DB
 
 if mongodb_conn:
     print(f"   ✅ MONGODB_CONNECTION_STRING configurado")
@@ -54,9 +55,10 @@ else:
 
 # Facebook
 print("\n📘 Facebook:")
-fb_app_id = os.getenv("FACEBOOK_APP_ID")
-fb_token = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN")
-fb_page_id = os.getenv("FACEBOOK_PAGE_ID")
+    from config.settings import settings
+    fb_app_id = os.getenv("FACEBOOK_APP_ID")
+    fb_token = settings.FB_PAGE_ACCESS_TOKEN
+    fb_page_id = os.getenv("FACEBOOK_PAGE_ID")
 
 if fb_app_id and fb_token and fb_page_id:
     print(f"   ✅ Facebook API configurado")
@@ -71,9 +73,9 @@ else:
 
 # Instagram
 print("\n📷 Instagram:")
-ig_app_id = os.getenv("INSTAGRAM_APP_ID")
-ig_token = os.getenv("INSTAGRAM_ACCESS_TOKEN")
-ig_account_id = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
+    ig_app_id = os.getenv("INSTAGRAM_APP_ID")
+    ig_token = settings.INSTAGRAM_ACCESS_TOKEN
+    ig_account_id = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 if ig_app_id and ig_token and ig_account_id:
     print(f"   ✅ Instagram API configurado")
