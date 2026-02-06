@@ -1380,7 +1380,7 @@
           }
         },
         {
-          "sku": "BBAL",
+          "sku": "BBAL-ATN",
           "name": "Babeta de Atornillar Lateral",
           "familia": "ISOROOF",
           "sub_familia": "BABETAS PREPINTADOS",
@@ -1400,7 +1400,7 @@
           }
         },
         {
-          "sku": "BBAL_1",
+          "sku": "BBAL-EMP",
           "name": "Babeta de Empotrar Lateral",
           "familia": "ISOROOF",
           "sub_familia": "BABETAS PREPINTADOS",
@@ -3481,7 +3481,7 @@
       }
     },
     {
-      "sku": "BBAL",
+      "sku": "BBAL-ATN",
       "name": "Babeta de Atornillar Lateral",
       "familia": "ISOROOF",
       "sub_familia": "BABETAS PREPINTADOS",
@@ -3501,7 +3501,7 @@
       }
     },
     {
-      "sku": "BBAL_1",
+      "sku": "BBAL-EMP",
       "name": "Babeta de Empotrar Lateral",
       "familia": "ISOROOF",
       "sub_familia": "BABETAS PREPINTADOS",

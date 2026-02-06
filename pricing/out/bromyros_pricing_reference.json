@@ -589,8 +589,8 @@
       "production_type": "standard_stock"
     },
     {
-      "id": "BBAL",
-      "sku": "BBAL",
+      "id": "BBAL-ATN",
+      "sku": "BBAL-ATN",
       "name": "Babeta de Atornillar Lateral",
       "description": "Babeta de Atornillar Lateral",
       "stock_status": "Check Availability",
@@ -606,8 +606,8 @@
       "production_type": "standard_stock"
     },
     {
-      "id": "BBAL_1",
-      "sku": "BBAL",
+      "id": "BBAL-EMP",
+      "sku": "BBAL-EMP",
       "name": "Babeta de Empotrar Lateral",
       "description": "Babeta de Empotrar Lateral",
       "stock_status": "Check Availability",
