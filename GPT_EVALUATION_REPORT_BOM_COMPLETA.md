@@ -144,7 +144,7 @@ Cambios principales:
 
 ## 3. DATOS DEL CSV NORMALIZADO ANALIZADO
 
-### 3.1 Composicion del dataset (512 items)
+### 3.1 Composición del dataset (512 items)
 
 | Segmento | Items | Con precio |
 |----------|-------|-----------|
@@ -153,10 +153,10 @@ Cambios principales:
 | Accesorios | 12 | 12 |
 | Fijaciones | 8 | 8 |
 | Goteros frontales | 7 | 7 |
-| Items sin categoria | 379 | 370 |
+| Items sin categoría | 379 | 370 |
 | **TOTAL** | **512** | **497** |
 
-### 3.2 Items sin categoria (379) - Desglose
+### 3.2 Items sin categoría (379) - Desglose
 
 | Tipo inferido | Items |
 |--------------|-------|
