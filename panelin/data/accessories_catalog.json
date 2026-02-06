@@ -575,10 +575,19 @@
         "supplier": "BROMYROS"
       },
       {
+        "sku": "CUMROOF3M-COL",
+        "name": "Cumbrera Roof COLONIAL - 2,2 m (2 piezas de 1,1m)",
+        "largo_std_m": 2.2,
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 119.39,
+        "supplier": "BROMYROS"
+      },
+      {
         "sku": "6847",
         "name": "Perfil Cumbrera ISODEC (3.03m)",
         "largo_std_m": 3.03,
-        "unidad": "unit",
+"unidad": "unit",
         "compatibilidad": ["ISODEC", "ISOPANEL"],
         "precio_venta_iva_inc": 28.75,
         "precio_web_iva_inc": 33.55,
