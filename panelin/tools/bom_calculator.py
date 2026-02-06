@@ -32,7 +32,10 @@ from panelin.models.schemas import (
 # Constants
 DECIMAL_PLACES = Decimal('0.01')
 DATA_DIR = Path(__file__).parent.parent / "data"
-DEFAULT_KB_PATH = DATA_DIR / "panelin_truth_bmcuruguay.json"
+# Primary KB with espesores/autoportancia structure
+_PRIMARY_KB = Path(__file__).parent.parent.parent / "BMC_Base_Conocimiento_GPT-2.json"
+_FALLBACK_KB = DATA_DIR / "panelin_truth_bmcuruguay.json"
+DEFAULT_KB_PATH = _PRIMARY_KB if _PRIMARY_KB.exists() else _FALLBACK_KB
 ACCESSORIES_PATH = DATA_DIR / "accessories_catalog.json"
 BOM_RULES_PATH = DATA_DIR / "bom_rules.json"
 
@@ -53,11 +56,23 @@ def _round_currency(value: Decimal) -> Decimal:
 
 
 def _load_json(path: Path) -> Dict[str, Any]:
-    """Carga un archivo JSON."""
-    if not path.exists():
-        raise FileNotFoundError(f"File not found: {path}")
-    with open(path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    """Carga un archivo JSON, trying multiple paths."""
+    if path.exists():
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    # Try alternate locations
+    alt_paths = [
+        Path(__file__).parent.parent / "data" / path.name,
+        Path(__file__).parent.parent.parent / path.name,
+        Path(__file__).parent.parent / path.name,
+    ]
+    for alt in alt_paths:
+        if alt.exists():
+            with open(alt, 'r', encoding='utf-8') as f:
+                return json.load(f)
+
+    raise FileNotFoundError(f"File not found: {path} (also tried {alt_paths})")
 
 
 def _generate_checksum(data: Dict[str, Any]) -> str:
@@ -214,11 +229,33 @@ def lookup_accessory_price(
             if espesor_mm and item.get("espesor_panel_mm") == espesor_mm:
                 return item
 
-    # Strategy 4: Broader match
+    # Strategy 4: Broader match by tipo
     for item in all_items:
         item_tipo = item.get("tipo", "")
         item_compat = item.get("compatibilidad", [])
         if item_tipo == tipo and familia in item_compat:
+            return item
+
+    # Strategy 5: Match by name/sku containing the tipo keyword and family compatibility
+    # Normalize accents for matching
+    import unicodedata
+    def _strip_accents(s: str) -> str:
+        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
+    tipo_norm = _strip_accents(tipo.lower())
+    for item in all_items:
+        item_name_norm = _strip_accents(item.get("name", "").lower())
+        item_compat = item.get("compatibilidad", [])
+        if familia in item_compat and tipo_norm in item_name_norm:
+            # Check thickness if available
+            if espesor_mm and item.get("espesor_panel_mm") == espesor_mm:
+                return item
+
+    # Strategy 6: Name match without thickness filter
+    for item in all_items:
+        item_name_norm = _strip_accents(item.get("name", "").lower())
+        item_compat = item.get("compatibilidad", [])
+        if familia in item_compat and tipo_norm in item_name_norm:
             return item
 
     return None
@@ -288,19 +325,53 @@ def calculate_full_quote(
         available = list(bom_rules.get("sistemas", {}).keys())
         raise ValueError(f"Sistema '{bom_preset}' no encontrado. Disponibles: {available}")
 
-    # Get product from KB
-    product = kb.get("products", {}).get(product_id)
+    # Get product from KB - try multiple key formats
+    products = kb.get("products", {})
+    product = products.get(product_id)
+
+    # Try alternate key formats if not found
     if not product:
-        raise ValueError(f"Producto '{product_id}' no encontrado en KB")
+        # Try with thickness in key: ISODEC_EPS -> isodec_eps_100mm
+        alt_key = f"{product_id.lower()}_{thickness_mm}mm"
+        product = products.get(alt_key)
 
-    espesor_data = product.get("espesores", {}).get(str(thickness_mm))
-    if not espesor_data:
-        available_esp = list(product.get("espesores", {}).keys())
-        raise ValueError(f"Espesor {thickness_mm}mm no disponible para {product_id}. Disponibles: {available_esp}")
+    if not product:
+        # Try uppercase without thickness
+        for key, val in products.items():
+            if product_id.lower().replace("_", "") in key.lower().replace("_", ""):
+                if str(thickness_mm) in key:
+                    product = val
+                    break
 
-    precio_panel_m2 = espesor_data.get("precio")
-    if precio_panel_m2 is None or isinstance(precio_panel_m2, str):
+    if not product:
+        # Try matching by nombre_comercial
+        for key, val in products.items():
+            nombre = val.get("nombre_comercial", "").lower()
+            if product_id.lower().replace("_", " ") in nombre:
+                product = val
+                break
+
+    if not product:
+        available = list(products.keys())
+        raise ValueError(f"Producto '{product_id}' no encontrado en KB. Disponibles: {available}")
+
+    # Get pricing - try espesores structure first, then direct price_per_m2
+    espesor_data = product.get("espesores", {}).get(str(thickness_mm), {})
+    precio_panel_m2 = espesor_data.get("precio") or espesor_data.get("price_per_m2")
+
+    if precio_panel_m2 is None:
+        # Try direct price_per_m2 on product (for flat KB structure)
+        precio_panel_m2 = product.get("price_per_m2")
+
+    if precio_panel_m2 is None:
+        # Check if espesores exist but thickness not available
+        if product.get("espesores"):
+            available_esp = list(product.get("espesores", {}).keys())
+            raise ValueError(f"Espesor {thickness_mm}mm no disponible para {product_id}. Disponibles: {available_esp}")
         raise ValueError(f"Precio no disponible para {product_id} {thickness_mm}mm. Consultar con ventas.")
+
+    if isinstance(precio_panel_m2, str):
+        raise ValueError(f"Precio no disponible para {product_id} {thickness_mm}mm: '{precio_panel_m2}'. Consultar con ventas.")
 
     # Calculate basic dimensions
     ancho_util = _to_decimal(str(sistema.get("ancho_util_m", product.get("ancho_util", 1.0))))
@@ -388,6 +459,10 @@ def calculate_full_quote(
             if not incluir_canalon:
                 return
             qty = math.ceil(float(ancho) / largo_std)
+            # Override tipo_accesorio for canalon name-based search
+            if not rule.get("tipo_accesorio"):
+                rule = dict(rule)
+                rule["tipo_accesorio"] = "canalón"
         elif "soporte_canalon" in key:
             if not incluir_canalon:
                 return
