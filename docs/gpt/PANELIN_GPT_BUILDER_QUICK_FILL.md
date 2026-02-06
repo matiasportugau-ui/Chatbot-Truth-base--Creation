@@ -1,7 +1,7 @@
 # Panelin GPT Builder — Copy/Paste Quick Fill Guide
 
-**Version**: 1.0 (Full Capabilities)
-**Date**: 2026-01-25
+**Version**: 1.1 (Full Capabilities)
+**Date**: 2026-02-06
 **Estimated Time**: 15-20 minutes
 
 ---
@@ -72,29 +72,33 @@ Internal assistant for BMC Uruguay quotations and technical-sales guidance. Uses
 
 **Click "Cargar archivos" and upload IN THIS EXACT ORDER**:
 
-### Upload Sequence (11 files)
+### Upload Sequence (13 files)
 
 **Priority 1 — Level 1 Master (FIRST)**
 
 1. ✅ `BMC_Base_Conocimiento_GPT-2.json`
 
-**Priority 2 — Catalog (NEW)**
-2. ✅ `catalog/out/shopify_catalog_v1.json`
+**Priority 2 — BOM Pricing (NEW)**
+2. ✅ `accessories_catalog.json` (ensure prices/units are populated)
+3. ✅ `bom_rules.json` (ensure rules are populated)
 
-**Priority 3 — Validation/Dynamic**
-3. ✅ `Files /BMC_Base_Unificada_v4.json`
-4. ✅ `panelin_truth_bmcuruguay_web_only_v2.json` (Root version ONLY, not `Files /`)
+**Priority 3 — Catalog**
+4. ✅ `catalog/out/shopify_catalog_v1.json`
 
-**Priority 4 — Process Anchors**
-5. ✅ `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
-6. ✅ `PANELIN_QUOTATION_PROCESS.md`
-7. ✅ `PANELIN_TRAINING_GUIDE.md`
-8. ✅ `panelin_context_consolidacion_sin_backend.md`
+**Priority 4 — Validation/Dynamic**
+5. ✅ `Files /BMC_Base_Unificada_v4.json`
+6. ✅ `panelin_truth_bmcuruguay_web_only_v2.json` (Root version ONLY, not `Files /`)
 
-**Priority 5 — Support/Indexes**
-9. ✅ `Files /Aleros -2.rtf` (if Builder rejects: convert to `.md` first)
-10. ✅ `catalog/out/shopify_catalog_index_v1.csv`
-11. ⚠️ `BMC_Catalogo_Completo_Shopify (1).json` (Optional, legacy)
+**Priority 5 — Process Anchors**
+7. ✅ `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
+8. ✅ `PANELIN_QUOTATION_PROCESS.md`
+9. ✅ `PANELIN_TRAINING_GUIDE.md`
+10. ✅ `panelin_context_consolidacion_sin_backend.md`
+
+**Priority 6 — Support/Indexes**
+11. ✅ `Files /Aleros -2.rtf` (if Builder rejects: convert to `.md` first)
+12. ✅ `catalog/out/shopify_catalog_index_v1.csv`
+13. ⚠️ `BMC_Catalogo_Completo_Shopify (1).json` (Optional, legacy)
 
 **Wait 2-3 minutes after upload** for GPT to reindex files.
 
@@ -195,7 +199,7 @@ Before marking as "ready for production":
 
 - [ ] All Knowledge files uploaded in correct order
 - [ ] Code Interpreter enabled
-- [ ] All 5 test suites pass (see `PANELIN_GPT_TEST_PLAN.md`)
+- [ ] All 6 test suites pass (see `PANELIN_GPT_TEST_PLAN.md`)
 - [ ] Client data collection activates for quotes
 - [ ] Phone validation works (09X format)
 - [ ] No hallucinated prices
