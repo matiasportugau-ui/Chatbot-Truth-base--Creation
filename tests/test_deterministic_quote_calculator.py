@@ -5,21 +5,32 @@ from panelin.tools.quotation_calculator import calculate_panel_quote, validate_q
 
 class TestDeterministicQuoteCalculator:
     def test_basic_isopanel_quote(self):
+        """Test que paneles menores al mínimo se ajustan a longitud mínima."""
         result = calculate_panel_quote(
             panel_type="Isopanel",
             thickness_mm=50,
-            length_m=2.0,
+            length_m=2.0,  # Below minimum of 2.3m
             width_m=1.0,
             quantity=10,
         )
-        # area: 2m², unit: 2 * 41.88 = 83.76, subtotal: 837.60
-        assert result["area_m2"] == 2.0
-        assert result["unit_price_usd"] == 83.76
-        assert result["subtotal_usd"] == 837.60
-        assert result["discount_usd"] == 0.0
-        assert result["total_usd"] == 837.60
+        
+        # Should quote for 2.3m panels (minimum length), not 2.0m
+        # area: 2.3m², unit: 2.3 * 41.88 = 96.324 -> 96.32
+        # subtotal: 96.32 * 10 = 963.20
+        line_item = result["line_items"][0]
+        assert line_item["area_m2"] == 2.3
+        assert line_item["unit_price_usd"] == 96.32
+        assert result["subtotal_usd"] == 963.20
+        assert result["discount_amount_usd"] == 0.0
+        assert result["total_usd"] == 963.20
         assert result["calculation_verified"] is True
-        assert validate_quotation(result) is True
+        validation = validate_quotation(result)
+        assert validation["is_valid"] is True
+        
+        # Should include note about cutting
+        assert "notes" in result
+        assert len(result["notes"]) > 0
+        assert any("cortar en obra" in note.lower() for note in result["notes"])
 
     def test_discount_application(self):
         result = calculate_panel_quote(
@@ -34,13 +45,15 @@ class TestDeterministicQuoteCalculator:
         # subtotal: 165.85 * 50 = 8292.50
         # discount: 10% = 829.25
         # total: 7463.25
-        assert result["area_m2"] == pytest.approx(3.6)
-        assert result["unit_price_usd"] == 165.85
+        line_item = result["line_items"][0]
+        assert line_item["area_m2"] == pytest.approx(3.6)
+        assert line_item["unit_price_usd"] == 165.85
         assert result["subtotal_usd"] == 8292.50
-        assert result["discount_usd"] == 829.25
+        assert result["discount_amount_usd"] == 829.25
         assert result["total_usd"] == 7463.25
         assert result["calculation_verified"] is True
-        assert validate_quotation(result) is True
+        validation = validate_quotation(result)
+        assert validation["is_valid"] is True
 
     def test_invalid_product_raises(self):
         with pytest.raises(ValueError):

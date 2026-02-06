@@ -147,8 +147,8 @@ def calculate_panel_quote(
     
     product = products[panel_key]
     
-    # Validate parameters
-    _validate_dimensions(length_m, width_m, product)
+    # Validate dimensions and get adjusted length for cut-to-length
+    adjusted_length, cutting_notes = _validate_dimensions(length_m, width_m, product)
     _validate_quantity(quantity)
     _validate_discount(discount_percent)
     
@@ -156,8 +156,8 @@ def calculate_panel_quote(
     price_per_m2 = _to_decimal(product["price_per_m2"])
     pricing_rules = catalog.get("pricing_rules", {})
     
-    # Calculate with Decimal precision
-    area = _to_decimal(length_m) * _to_decimal(width_m)
+    # Calculate with Decimal precision using adjusted length
+    area = _to_decimal(adjusted_length) * _to_decimal(width_m)
     area = _round_currency(area)
     
     unit_price = area * price_per_m2
@@ -166,15 +166,16 @@ def calculate_panel_quote(
     line_total = unit_price * _to_decimal(quantity)
     line_total = _round_currency(line_total)
     
-    # Create line item
+    # Create line item with both requested and actual dimensions
     line_item: QuotationLineItem = {
         "product_id": panel_key,
         "product_name": product.get("name", panel_key),
         "panel_type": panel_type,
         "thickness_mm": thickness_mm,
-        "length_m": float(length_m),
+        "length_m": float(length_m),  # Requested length
+        "actual_length_m": float(adjusted_length),  # Actual panel length delivered
         "width_m": float(width_m),
-        "area_m2": float(area),
+        "area_m2": float(area),  # Area based on actual panel
         "quantity": quantity,
         "unit_price_usd": float(unit_price),
         "line_total_usd": float(line_total),
@@ -229,7 +230,7 @@ def calculate_panel_quote(
     timestamp = datetime.utcnow().isoformat() + "Z"
     
     # Build notes
-    notes = []
+    notes = cutting_notes.copy()  # Start with cutting notes if any
     if discount_amount > 0:
         notes.append(f"Descuento aplicado: {float(discount_pct)}%")
     if total_area >= bulk_threshold:
@@ -306,9 +307,12 @@ def calculate_multi_panel_quote(
         
         product = products[panel_key]
         
-        # Calculate line item
+        # Validate dimensions and get adjusted length
+        adjusted_length, item_notes = _validate_dimensions(length_m, width_m, product)
+        
+        # Calculate line item using adjusted length
         price_per_m2 = _to_decimal(product["price_per_m2"])
-        area = _round_currency(_to_decimal(length_m) * _to_decimal(width_m))
+        area = _round_currency(_to_decimal(adjusted_length) * _to_decimal(width_m))
         unit_price = _round_currency(area * price_per_m2)
         line_total = _round_currency(unit_price * _to_decimal(quantity))
         
@@ -318,6 +322,7 @@ def calculate_multi_panel_quote(
             "panel_type": panel_type,
             "thickness_mm": thickness_mm,
             "length_m": float(length_m),
+            "actual_length_m": float(adjusted_length),
             "width_m": float(width_m),
             "area_m2": float(area),
             "quantity": quantity,
@@ -579,18 +584,50 @@ def _fuzzy_match_product(
     return None
 
 
-def _validate_dimensions(length_m: float, width_m: float, product: Dict[str, Any]) -> None:
-    """Valida que las dimensiones estén dentro de rangos permitidos."""
-    min_length = product.get("largo_min_m", 0.5)
-    max_length = product.get("largo_max_m", 14.0)
+def _validate_dimensions(
+    length_m: float, 
+    width_m: float, 
+    product: Dict[str, Any]
+) -> tuple[float, List[str]]:
+    """
+    Valida dimensiones y ajusta para paneles que requieren corte.
     
-    if length_m < min_length or length_m > max_length:
-        raise ValueError(
-            f"Largo {length_m}m fuera de rango permitido ({min_length}m - {max_length}m)"
-        )
+    Returns:
+        Tuple of (adjusted_length, notes)
+    """
+    min_length = product.get("largo_min_m", 2.3)
+    max_length = product.get("largo_max_m", 14.0)
+    notes = []
+    adjusted_length = length_m
+    
+    # If length is below minimum, calculate cut-to-length solution
+    if length_m < min_length:
+        # Calculate how many minimum panels can be cut from one panel
+        cutting_waste_per_cut = 0.01  # 1cm waste per cut
+        usable_length_per_panel = min_length - cutting_waste_per_cut
+        panels_per_stock = int(usable_length_per_panel / length_m)
+        
+        if panels_per_stock > 0:
+            adjusted_length = min_length
+            notes.append(
+                f"Largo solicitado {length_m}m es menor al mínimo de producción ({min_length}m). "
+                f"Se entregarán paneles de {min_length}m para cortar en obra. "
+                f"De cada panel se pueden obtener {panels_per_stock} piezas de {length_m}m "
+                f"(considerando 1cm de desperdicio por corte)."
+            )
+        else:
+            raise ValueError(
+                f"Largo {length_m}m demasiado corto. "
+                f"Mínimo recomendado: {min_length / 2}m para corte en obra."
+            )
+    
+    if length_m > max_length:
+        raise ValueError(f"Largo {length_m}m excede máximo de {max_length}m")
     
     if width_m <= 0 or width_m > 2.0:
         raise ValueError(f"Ancho {width_m}m inválido (debe ser entre 0 y 2m)")
+    
+    return adjusted_length, notes
 
 
 def _validate_quantity(quantity: int) -> None:

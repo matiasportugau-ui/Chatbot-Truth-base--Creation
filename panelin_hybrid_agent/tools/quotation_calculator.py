@@ -29,7 +29,8 @@ class QuotationResult(TypedDict):
     product_name: str
     panel_type: str
     thickness_mm: int
-    length_m: float
+    length_m: float  # Requested length
+    actual_length_m: float  # Actual panel length delivered
     width_m: float
     area_m2: float
     unit_price_usd: float
@@ -136,8 +137,6 @@ def calculate_panel_quote(
     # Validación de rangos
     if thickness_mm <= 0:
         raise ValueError(f"Espesor debe ser positivo: {thickness_mm}")
-    if length_m < 0.5 or length_m > 14.0:
-        raise ValueError(f"Largo debe estar entre 0.5 y 14.0 metros: {length_m}")
     if width_m <= 0 or width_m > 2.0:
         raise ValueError(f"Ancho debe estar entre 0 y 2.0 metros: {width_m}")
     if quantity < 1:
@@ -170,10 +169,9 @@ def calculate_panel_quote(
             break
     
     if not product:
-        raise ValueError(
-            f"Producto no encontrado: {panel_type} {thickness_mm}mm {insulation_type}. "
-            f"Verifique catálogo disponible."
-        )
+        raise ValueError(f"Producto no encontrado: {panel_type} {thickness_mm}mm {insulation_type}")
+    
+    # Validate length and adjust for cut-to-length
     
     # Obtener precio según tipo
     if price_type == "empresa":
@@ -186,8 +184,8 @@ def calculate_panel_quote(
     if price_per_m2 <= 0:
         raise ValueError(f"Precio no válido para {matched_key}: {price_per_m2}")
     
-    # Cálculos con precisión Decimal
-    area = _to_decimal(length_m) * _to_decimal(width_m)
+    # Cálculos con precisión Decimal (use adjusted length for pricing)
+    area = _to_decimal(adjusted_length) * _to_decimal(width_m)
     unit_price = _round_currency(area * price_per_m2)
     subtotal = _round_currency(unit_price * quantity)
     discount_amount = _round_currency(subtotal * _to_decimal(discount_percent) / 100)
@@ -207,7 +205,8 @@ def calculate_panel_quote(
         product_name=product.get("name", panel_type),
         panel_type=panel_type,
         thickness_mm=thickness_mm,
-        length_m=length_m,
+        length_m=length_m,  # Requested length
+        actual_length_m=adjusted_length,  # Actual panel length delivered
         width_m=width_m,
         area_m2=float(area),
         unit_price_usd=float(unit_price),
