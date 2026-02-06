@@ -293,6 +293,112 @@
           }
         }
       }
+    },
+    "/quotes/full": {
+      "post": {
+        "tags": [
+          "Quotations"
+        ],
+        "summary": "Create Full Quote with BOM",
+        "description": "Calcula cotización COMPLETA con BOM valorizado (paneles + perfilería + fijaciones + selladores). Una sola llamada devuelve todo el desglose con precios. Incluye validación de autoportancia.",
+        "operationId": "create_full_quote_quotes_full_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FullQuoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cotización completa con BOM valorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FullQuotationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/autoportancia/validate": {
+      "get": {
+        "tags": [
+          "Technical"
+        ],
+        "summary": "Validate Autoportancia",
+        "description": "Valida si un panel cumple con autoportancia para la luz dada. Devuelve cumple/no cumple, margen de seguridad y recomendación.",
+        "operationId": "validate_autoportancia_get",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID del producto (ej: ISODEC_EPS)",
+              "title": "Product ID"
+            }
+          },
+          {
+            "name": "thickness_mm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Espesor del panel en mm",
+              "title": "Thickness MM"
+            }
+          },
+          {
+            "name": "luz_m",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "Distancia entre apoyos en metros",
+              "title": "Luz M"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado de validación de autoportancia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoportanciaResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -812,6 +918,244 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "FullQuoteRequest": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "title": "Product ID",
+            "description": "ID del producto base (ej: ISODEC_EPS, ISOROOF_3G, ISOPANEL_EPS)",
+            "enum": ["ISODEC_EPS", "ISODEC_PIR", "ISOROOF_3G", "ISOPANEL_EPS", "ISOWALL_PIR"]
+          },
+          "length_m": {
+            "type": "number",
+            "title": "Length M",
+            "description": "Largo total del techo/pared en metros",
+            "minimum": 0.5,
+            "maximum": 14.0
+          },
+          "width_m": {
+            "type": "number",
+            "title": "Width M",
+            "description": "Ancho total del techo/pared en metros"
+          },
+          "thickness_mm": {
+            "type": "integer",
+            "title": "Thickness MM",
+            "description": "Espesor del panel en mm"
+          },
+          "bom_preset": {
+            "type": "string",
+            "title": "BOM Preset",
+            "description": "Sistema constructivo a usar",
+            "enum": ["techo_isodec_eps", "techo_isodec_pir", "techo_isoroof_3g", "pared_isopanel_eps", "pared_isowall_pir"]
+          },
+          "tipo_fijacion": {
+            "type": "string",
+            "title": "Tipo Fijacion",
+            "description": "Tipo de fijación",
+            "enum": ["metal", "hormigon", "madera"],
+            "default": "metal"
+          },
+          "luz_m": {
+            "type": "number",
+            "title": "Luz M",
+            "description": "Distancia entre apoyos en metros (para validación de autoportancia)"
+          },
+          "incluir_canalon": {
+            "type": "boolean",
+            "title": "Incluir Canalon",
+            "description": "Incluir canalón en la cotización",
+            "default": false
+          },
+          "incluir_cumbrera": {
+            "type": "boolean",
+            "title": "Incluir Cumbrera",
+            "description": "Incluir cumbrera en la cotización",
+            "default": false
+          },
+          "discount_percent": {
+            "type": "number",
+            "title": "Discount Percent",
+            "description": "Porcentaje de descuento (0-30)",
+            "minimum": 0,
+            "maximum": 30,
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": ["product_id", "length_m", "width_m", "thickness_mm", "bom_preset"],
+        "title": "FullQuoteRequest"
+      },
+      "BOMLineItem": {
+        "properties": {
+          "sku": {
+            "type": "string",
+            "title": "SKU"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria"
+          },
+          "unidad": {
+            "type": "string",
+            "title": "Unidad",
+            "enum": ["m2", "ml", "unit", "kit"]
+          },
+          "cantidad": {
+            "type": "number",
+            "title": "Cantidad"
+          },
+          "precio_unit_iva_inc": {
+            "type": "number",
+            "title": "Precio Unit IVA Inc"
+          },
+          "total_iva_inc": {
+            "type": "number",
+            "title": "Total IVA Inc"
+          },
+          "nota": {
+            "anyOf": [{"type": "string"}, {"type": "null"}],
+            "title": "Nota"
+          }
+        },
+        "type": "object",
+        "required": ["sku", "name", "categoria", "unidad", "cantidad", "precio_unit_iva_inc", "total_iva_inc"],
+        "title": "BOMLineItem"
+      },
+      "AutoportanciaResult": {
+        "properties": {
+          "cumple": {
+            "type": "boolean",
+            "title": "Cumple"
+          },
+          "luz_m": {
+            "type": "number",
+            "title": "Luz M"
+          },
+          "autoportancia_m": {
+            "type": "number",
+            "title": "Autoportancia M"
+          },
+          "espesor_mm": {
+            "type": "integer",
+            "title": "Espesor MM"
+          },
+          "margen_seguridad_pct": {
+            "type": "number",
+            "title": "Margen Seguridad Pct"
+          },
+          "recomendacion": {
+            "anyOf": [{"type": "string"}, {"type": "null"}],
+            "title": "Recomendacion"
+          }
+        },
+        "type": "object",
+        "required": ["cumple", "luz_m", "autoportancia_m", "espesor_mm", "margen_seguridad_pct"],
+        "title": "AutoportanciaResult"
+      },
+      "FullQuotationResult": {
+        "properties": {
+          "quotation_id": {
+            "type": "string",
+            "title": "Quotation ID"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "calculation_verified": {
+            "type": "boolean",
+            "title": "Calculation Verified"
+          },
+          "largo_m": {
+            "type": "number",
+            "title": "Largo M"
+          },
+          "ancho_m": {
+            "type": "number",
+            "title": "Ancho M"
+          },
+          "area_m2": {
+            "type": "number",
+            "title": "Area M2"
+          },
+          "panels_needed": {
+            "type": "integer",
+            "title": "Panels Needed"
+          },
+          "autoportancia": {
+            "$ref": "#/components/schemas/AutoportanciaResult"
+          },
+          "line_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BOMLineItem"
+            },
+            "title": "Line Items"
+          },
+          "subtotal_paneles": {
+            "type": "number",
+            "title": "Subtotal Paneles"
+          },
+          "subtotal_perfileria": {
+            "type": "number",
+            "title": "Subtotal Perfileria"
+          },
+          "subtotal_fijaciones": {
+            "type": "number",
+            "title": "Subtotal Fijaciones"
+          },
+          "subtotal_selladores": {
+            "type": "number",
+            "title": "Subtotal Selladores"
+          },
+          "subtotal_usd": {
+            "type": "number",
+            "title": "Subtotal USD"
+          },
+          "discount_percent": {
+            "type": "number",
+            "title": "Discount Percent"
+          },
+          "discount_amount_usd": {
+            "type": "number",
+            "title": "Discount Amount USD"
+          },
+          "total_iva_inc": {
+            "type": "number",
+            "title": "Total IVA Inc"
+          },
+          "sistema": {
+            "type": "string",
+            "title": "Sistema"
+          },
+          "espesor_mm": {
+            "type": "integer",
+            "title": "Espesor MM"
+          },
+          "tipo_fijacion": {
+            "type": "string",
+            "title": "Tipo Fijacion"
+          },
+          "notes": {
+            "type": "array",
+            "items": {"type": "string"},
+            "title": "Notes"
+          },
+          "items_sin_precio": {
+            "type": "array",
+            "items": {"type": "string"},
+            "title": "Items Sin Precio"
+          }
+        },
+        "type": "object",
+        "required": ["quotation_id", "timestamp", "calculation_verified", "area_m2", "panels_needed", "autoportancia", "line_items", "subtotal_usd", "total_iva_inc"],
+        "title": "FullQuotationResult"
       }
     }
   }
