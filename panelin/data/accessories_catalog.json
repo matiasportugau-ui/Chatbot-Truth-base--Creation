@@ -1,0 +1,1199 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-02-06",
+  "description": "Catálogo de accesorios, perfilería, fijaciones y selladores para sistemas constructivos BMC Uruguay. Precios reales extraídos del catálogo maestro normalizado.",
+  "currency": "USD",
+  "iva_incluido": true,
+  "iva_rate": 0.22,
+  "notes": [
+    "Todos los precios son venta IVA incluido (22%) salvo donde se indique",
+    "Largos estándar: perfiles típicos 3.00 m o 3.03 m",
+    "Unidades: ml (metro lineal), unit (unidad/pieza), tubo, rollo, caja",
+    "Los precios de perfilería BROMYROS son por pieza del largo indicado"
+  ],
+  "suppliers": {
+    "BROMYROS": {
+      "name": "Bromyros S.A.",
+      "country": "Uruguay",
+      "is_primary": true
+    },
+    "MONTFRIO": {
+      "name": "Montfrío",
+      "country": "Uruguay",
+      "is_primary": false
+    },
+    "BECAM": {
+      "name": "Becam",
+      "country": "Uruguay",
+      "is_primary": false
+    }
+  },
+
+  "perfileria": {
+    "_description": "Goteros frontales, laterales, babetas, cumbreras, canalones, perfiles U, etc.",
+
+    "goteros_frontales": {
+      "isoroof_3g": [
+        {
+          "sku": "GFS30",
+          "name": "Gotero Frontal Simple 30mm Prep.",
+          "espesor_compatible_mm": 30,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "composicion": "GOTERO FRONTAL PREPINTADO",
+          "precio_venta_iva_inc": 19.31,
+          "precio_web_iva_inc": 22.53,
+          "precio_por_ml_iva_inc": 6.37,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFS50",
+          "name": "Gotero Frontal Simple 50mm Prep.",
+          "espesor_compatible_mm": 50,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "composicion": "GOTERO FRONTAL PREPINTADO",
+          "precio_venta_iva_inc": 20.45,
+          "precio_web_iva_inc": 23.86,
+          "precio_por_ml_iva_inc": 6.75,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFS80",
+          "name": "Gotero Frontal Simple 80mm Prep.",
+          "espesor_compatible_mm": 80,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "composicion": "GOTERO FRONTAL PREPINTADO",
+          "precio_venta_iva_inc": 21.51,
+          "precio_web_iva_inc": 25.09,
+          "precio_por_ml_iva_inc": 7.10,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFCGR30",
+          "name": "Gotero Frontal con Greca 30-100mm",
+          "espesor_compatible_mm": [30, 40, 50, 80, 100],
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "composicion": "GOTERO FRONTAL PREPINTADO",
+          "precio_venta_iva_inc": 21.95,
+          "precio_web_iva_inc": 23.64,
+          "precio_por_ml_iva_inc": 7.24,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isoroof_superior": [
+        {
+          "sku": "GFSUP30",
+          "name": "Gotero Superior 30mm Prep.",
+          "espesor_compatible_mm": 30,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 34.42,
+          "precio_web_iva_inc": 40.16,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFSUP40",
+          "name": "Gotero Superior 40mm Prep.",
+          "espesor_compatible_mm": 40,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 31.18,
+          "precio_web_iva_inc": 36.38,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFSUP50",
+          "name": "Gotero Superior 50mm Prep.",
+          "espesor_compatible_mm": 50,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 35.47,
+          "precio_web_iva_inc": 41.38,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GFSUP80",
+          "name": "Gotero Superior 80mm Prep.",
+          "espesor_compatible_mm": 80,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 37.62,
+          "precio_web_iva_inc": 43.90,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isodec_eps": [
+        {
+          "sku": "6838",
+          "name": "Gotero Frontal ISODEC 100mm (3.03m)",
+          "espesor_compatible_mm": 100,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "composicion": "EPS/PIR",
+          "precio_venta_iva_inc": 19.12,
+          "precio_web_iva_inc": 22.31,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6839",
+          "name": "Gotero Frontal ISODEC 150mm (3.03m)",
+          "espesor_compatible_mm": 150,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "composicion": "EPS",
+          "precio_venta_iva_inc": 27.63,
+          "precio_web_iva_inc": 32.23,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6840",
+          "name": "Gotero Frontal ISODEC 200mm (3.03m)",
+          "espesor_compatible_mm": 200,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "composicion": "EPS",
+          "precio_venta_iva_inc": 28.75,
+          "precio_web_iva_inc": 33.55,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6841",
+          "name": "Gotero Frontal ISODEC 250mm (3.03m)",
+          "espesor_compatible_mm": 250,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "composicion": "EPS",
+          "precio_venta_iva_inc": 29.03,
+          "precio_web_iva_inc": 33.87,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isodec_pir": [
+        {
+          "sku": "GF50DC",
+          "name": "Gotero Frontal ISODEC PIR 50mm (3.03m)",
+          "espesor_compatible_mm": 50,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "composicion": "PIR",
+          "precio_venta_iva_inc": 24.36,
+          "precio_web_iva_inc": 28.42,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GF80DC",
+          "name": "Gotero Frontal ISODEC PIR 80mm (3.03m)",
+          "espesor_compatible_mm": 80,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "composicion": "PIR",
+          "precio_venta_iva_inc": 25.46,
+          "precio_web_iva_inc": 29.70,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GF120DC",
+          "name": "Gotero Frontal ISODEC PIR 120mm (3.03m)",
+          "espesor_compatible_mm": 120,
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "composicion": "PIR",
+          "precio_venta_iva_inc": 30.12,
+          "precio_web_iva_inc": 35.14,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "montfrio": [
+        {
+          "sku": "GFI100",
+          "name": "Gotero Frontal p/panel 100mm (3m)",
+          "espesor_compatible_mm": 100,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 23.23,
+          "precio_por_ml_iva_inc": 5.29,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GFI150",
+          "name": "Gotero Frontal p/panel 150mm (3m)",
+          "espesor_compatible_mm": 150,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 26.09,
+          "precio_por_ml_iva_inc": 5.94,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GFI200",
+          "name": "Gotero Frontal p/panel 200mm (3m)",
+          "espesor_compatible_mm": 200,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 26.89,
+          "precio_por_ml_iva_inc": 6.19,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GFI250",
+          "name": "Gotero Frontal p/panel 250mm (3m)",
+          "espesor_compatible_mm": 250,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 31.80,
+          "precio_por_ml_iva_inc": 6.86,
+          "supplier": "MONTFRIO"
+        }
+      ]
+    },
+
+    "goteros_laterales": {
+      "isoroof": [
+        {
+          "sku": "GL30",
+          "name": "Gotero Lateral 30mm Prep. (3m)",
+          "espesor_compatible_mm": 30,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 26.63,
+          "precio_web_iva_inc": 31.07,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GL40",
+          "name": "Gotero Lateral 40mm Prep. (3m)",
+          "espesor_compatible_mm": 40,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 27.67,
+          "precio_web_iva_inc": 32.28,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GL50",
+          "name": "Gotero Lateral 50mm Prep. (3m)",
+          "espesor_compatible_mm": 50,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 28.75,
+          "precio_web_iva_inc": 33.55,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GL80",
+          "name": "Gotero Lateral 80mm Prep. (3m)",
+          "espesor_compatible_mm": 80,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 30.88,
+          "precio_web_iva_inc": 36.02,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isodec_eps": [
+        {
+          "sku": "6842",
+          "name": "Gotero Lateral ISODEC 100mm (3m)",
+          "espesor_compatible_mm": 100,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 25.34,
+          "precio_web_iva_inc": 29.57,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6843",
+          "name": "Gotero Lateral ISODEC 150mm (3m)",
+          "espesor_compatible_mm": 150,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 35.46,
+          "precio_web_iva_inc": 41.37,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6844",
+          "name": "Gotero Lateral ISODEC 200mm (3m)",
+          "espesor_compatible_mm": 200,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 38.74,
+          "precio_web_iva_inc": 45.19,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6845",
+          "name": "Gotero Lateral ISODEC 250mm (3m)",
+          "espesor_compatible_mm": 250,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 38.97,
+          "precio_web_iva_inc": 45.47,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isodec_pir": [
+        {
+          "sku": "GL50DC",
+          "name": "Gotero Lateral ISODEC PIR 50mm (3m)",
+          "espesor_compatible_mm": 50,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "precio_venta_iva_inc": 32.34,
+          "precio_web_iva_inc": 37.73,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GL80DC",
+          "name": "Gotero Lateral ISODEC PIR 80mm (3m)",
+          "espesor_compatible_mm": 80,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "precio_venta_iva_inc": 32.34,
+          "precio_web_iva_inc": 37.73,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "GL120DC",
+          "name": "Gotero Lateral ISODEC PIR 120mm (3m)",
+          "espesor_compatible_mm": 120,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC PIR"],
+          "precio_venta_iva_inc": 37.92,
+          "precio_web_iva_inc": 44.24,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "montfrio": [
+        {
+          "sku": "GLI100",
+          "name": "Gotero Lateral p/panel 100mm (3m)",
+          "espesor_compatible_mm": 100,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 28.28,
+          "precio_por_ml_iva_inc": 6.44,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GLI150",
+          "name": "Gotero Lateral p/panel 150mm (3m)",
+          "espesor_compatible_mm": 150,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 31.18,
+          "precio_por_ml_iva_inc": 7.10,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GLI200",
+          "name": "Gotero Lateral p/panel 200mm (3m)",
+          "espesor_compatible_mm": 200,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 36.60,
+          "precio_por_ml_iva_inc": 7.34,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "GLI250",
+          "name": "Gotero Lateral p/panel 250mm (3m)",
+          "espesor_compatible_mm": 250,
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 37.05,
+          "precio_por_ml_iva_inc": 8.02,
+          "supplier": "MONTFRIO"
+        }
+      ]
+    },
+
+    "babetas": {
+      "isoroof": [
+        {
+          "sku": "BBAS3G",
+          "name": "Babeta de Atornillar Superior 3G (3.03m)",
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 28.96,
+          "precio_web_iva_inc": 33.78,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "BBESUP",
+          "name": "Babeta de Empotrar Superior 3G (3.03m)",
+          "largo_std_m": 3.03,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 27.90,
+          "precio_web_iva_inc": 32.55,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "BBAL-ATN",
+          "name": "Babeta de Atornillar Lateral (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 17.57,
+          "precio_web_iva_inc": 20.50,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "BBAL-EMP",
+          "name": "Babeta de Empotrar Lateral (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOROOF"],
+          "precio_venta_iva_inc": 15.43,
+          "precio_web_iva_inc": 18.00,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "isodec": [
+        {
+          "sku": "6828",
+          "name": "Babeta ISODEC de Adosar (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 14.87,
+          "precio_web_iva_inc": 17.35,
+          "supplier": "BROMYROS"
+        },
+        {
+          "sku": "6865",
+          "name": "Babeta ISODEC de Empotrar (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISODEC", "ISOPANEL"],
+          "precio_venta_iva_inc": 14.87,
+          "precio_web_iva_inc": 17.35,
+          "supplier": "BROMYROS"
+        }
+      ],
+      "montfrio": [
+        {
+          "sku": "BEI3M",
+          "name": "Babeta Estándar (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 23.23,
+          "precio_por_ml_iva_inc": 5.29,
+          "supplier": "MONTFRIO"
+        },
+        {
+          "sku": "BAI3M",
+          "name": "Babeta de Amure (3m)",
+          "largo_std_m": 3.0,
+          "unidad": "unit",
+          "compatibilidad": ["ISOPANEL", "ISODEC"],
+          "precio_venta_iva_inc": 22.40,
+          "precio_por_ml_iva_inc": 5.10,
+          "supplier": "MONTFRIO"
+        }
+      ],
+      "becam": [
+        {
+          "sku": "BBLM26AL",
+          "name": "Babeta Lisa a Medida 0.41mm Aluzinc (por ml)",
+          "largo_std_m": null,
+          "unidad": "ml",
+          "compatibilidad": ["BC-18", "BC-30", "BC-35", "BC-120"],
+          "precio_venta_iva_inc_por_ml": 6.37,
+          "supplier": "BECAM"
+        },
+        {
+          "sku": "BBLM41PP",
+          "name": "Babeta Lisa a Medida 0.41mm Prepintada (por ml)",
+          "largo_std_m": null,
+          "unidad": "ml",
+          "compatibilidad": ["BC-18", "BC-30", "BC-35", "BC-120"],
+          "precio_venta_iva_inc_por_ml": 7.06,
+          "supplier": "BECAM"
+        },
+        {
+          "sku": "BBLCCAL",
+          "name": "Babeta Lisa con Cresta Aluzinc (pieza)",
+          "largo_std_m": null,
+          "unidad": "unit",
+          "compatibilidad": ["BC-18", "BC-30", "BC-35", "BC-120"],
+          "precio_venta_iva_inc": 10.57,
+          "supplier": "BECAM"
+        }
+      ]
+    },
+
+    "cumbreras": [
+      {
+        "sku": "CUMROOF3M",
+        "name": "Cumbrera Roof 3G (3m)",
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 42.97,
+        "precio_web_iva_inc": 50.13,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "6847",
+        "name": "Perfil Cumbrera ISODEC (3.03m)",
+        "largo_std_m": 3.03,
+        "unidad": "unit",
+        "compatibilidad": ["ISODEC", "ISOPANEL"],
+        "precio_venta_iva_inc": 28.75,
+        "precio_web_iva_inc": 33.55,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "CUEX3",
+        "name": "Cumbrera Exterior (3m)",
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL", "ISODEC"],
+        "precio_venta_iva_inc": 27.36,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "canalones": [
+      {
+        "sku": "CD30",
+        "name": "Canalón Doble Roof 30mm + tapas + agujero + bajada (3.03m)",
+        "espesor_compatible_mm": 30,
+        "largo_std_m": 3.03,
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 87.64,
+        "precio_web_iva_inc": 102.24,
+        "supplier": "BROMYROS",
+        "incluye": ["tapas", "agujero", "bajada"]
+      },
+      {
+        "sku": "CD50",
+        "name": "Canalón Doble Roof 50mm + tapas + agujero + bajada (3.03m)",
+        "espesor_compatible_mm": 50,
+        "largo_std_m": 3.03,
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 89.29,
+        "precio_web_iva_inc": 104.17,
+        "supplier": "BROMYROS",
+        "incluye": ["tapas", "agujero", "bajada"]
+      },
+      {
+        "sku": "6801",
+        "name": "Canalón Estándar ISODEC 100mm (3.03m)",
+        "espesor_compatible_mm": 100,
+        "largo_std_m": 3.03,
+        "unidad": "unit",
+        "compatibilidad": ["ISODEC", "ISOPANEL"],
+        "precio_venta_iva_inc": 84.84,
+        "precio_web_iva_inc": 98.98,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "6802",
+        "name": "Canalón Estándar ISODEC 150mm (3.03m)",
+        "espesor_compatible_mm": 150,
+        "largo_std_m": 3.03,
+        "unidad": "unit",
+        "compatibilidad": ["ISODEC", "ISOPANEL"],
+        "precio_venta_iva_inc": 97.66,
+        "precio_web_iva_inc": 113.94,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "CAN100",
+        "name": "Canalón p/panel 100mm + bandeja + 2 tapas (3m)",
+        "espesor_compatible_mm": 100,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL", "ISODEC"],
+        "precio_venta_iva_inc": 64.61,
+        "supplier": "MONTFRIO"
+      },
+      {
+        "sku": "CAN150",
+        "name": "Canalón p/panel 150mm + bandeja + 2 tapas (3m)",
+        "espesor_compatible_mm": 150,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL", "ISODEC"],
+        "precio_venta_iva_inc": 70.76,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "perfiles_u": [
+      {
+        "sku": "PU50MM",
+        "name": "Perfil Ch. Blanco U 50mm x 35mm (3m) - ISOWALL/ISOPANEL",
+        "espesor_compatible_mm": 50,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOWALL", "ISOPANEL"],
+        "precio_venta_iva_inc": 12.20,
+        "precio_web_iva_inc": 14.23,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "PU100MM",
+        "name": "Perfil Ch. Blanco U 100mm x 35mm (3m)",
+        "espesor_compatible_mm": 100,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL", "ISODEC", "ISOFRIG"],
+        "precio_venta_iva_inc": 15.15,
+        "precio_web_iva_inc": 17.68,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "PU150MM",
+        "name": "Perfil Ch. Blanco U 150mm x 35mm (3m)",
+        "espesor_compatible_mm": 150,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 17.04,
+        "precio_web_iva_inc": 19.88,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "PU200MM",
+        "name": "Perfil Ch. Blanco U 200mm x 35mm (3m)",
+        "espesor_compatible_mm": 200,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 21.26,
+        "precio_web_iva_inc": 24.80,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "PU250MM",
+        "name": "Perfil Ch. Blanco U 250mm x 35mm (3m)",
+        "espesor_compatible_mm": 250,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 25.55,
+        "precio_web_iva_inc": 29.80,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "PUI50",
+        "name": "Perfil U p/panel 50mm (3m) - MONTFRIO",
+        "espesor_compatible_mm": 50,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 16.12,
+        "supplier": "MONTFRIO"
+      },
+      {
+        "sku": "PUI100",
+        "name": "Perfil U p/panel 100mm (3m) - MONTFRIO",
+        "espesor_compatible_mm": 100,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 18.97,
+        "supplier": "MONTFRIO"
+      },
+      {
+        "sku": "PUI150",
+        "name": "Perfil U p/panel 150mm (3m) - MONTFRIO",
+        "espesor_compatible_mm": 150,
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOPANEL"],
+        "precio_venta_iva_inc": 21.87,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "soportes_canales": [
+      {
+        "sku": "SOPCAN3M",
+        "name": "Soporte para Canalón Isoroof (3m)",
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 16.00,
+        "precio_web_iva_inc": 18.67,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "6805",
+        "name": "Soporte de Canalón ISODEC (3m)",
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISODEC", "ISOPANEL"],
+        "precio_venta_iva_inc": 19.44,
+        "precio_web_iva_inc": 22.68,
+        "supplier": "BROMYROS"
+      }
+    ],
+
+    "vainas": [
+      {
+        "sku": "6825",
+        "name": "Vaina ISODEC Sist 2000 (3m)",
+        "largo_std_m": 3.0,
+        "unidad": "unit",
+        "compatibilidad": ["ISODEC"],
+        "precio_venta_iva_inc": 11.07,
+        "precio_web_iva_inc": 12.91,
+        "supplier": "BROMYROS"
+      }
+    ]
+  },
+
+  "fijaciones": {
+    "_description": "Tornillos, varillas, tuercas, arandelas, tacos, remaches",
+
+    "tornillos_paneles": [
+      {
+        "sku": "TMOME",
+        "name": "Tornillo para madera o metal - Unidad",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.98,
+        "precio_web_iva_inc": 1.24,
+        "supplier": "BECAM",
+        "compatibilidad": ["todos_los_paneles"]
+      }
+    ],
+
+    "caballetes_arandelas": [
+      {
+        "sku": "Cab.Roj",
+        "name": "Caballete Rojo/Gris/Blanco (Arandela Trapezoidal) - ISOROOF",
+        "unidad": "unit",
+        "compatibilidad": ["ISOROOF"],
+        "precio_venta_iva_inc": 0.60,
+        "precio_web_iva_inc": 0.56,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "ARATRAP",
+        "name": "Arandela Trapezoidal - Todos los paneles - Unidad",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 1.09,
+        "precio_web_iva_inc": 1.38,
+        "supplier": "BECAM"
+      },
+      {
+        "sku": "TORTPVCBL",
+        "name": "Tortugas PVC Blanco - Unidad",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 3.00,
+        "supplier": "MONTFRIO"
+      },
+      {
+        "sku": "TORTGRIS",
+        "name": "Tortugas PVC Gris - Unidad",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 3.07,
+        "precio_web_iva_inc": 3.50,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "varillas_roscadas": [
+      {
+        "sku": "VR-3/8-1M",
+        "name": "Varilla Roscada BSW 3/8 de 1m",
+        "largo_m": 1.0,
+        "unidad": "unit",
+        "precio_venta_iva_inc": 3.81,
+        "precio_web_iva_inc": 4.44,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "VR20CM",
+        "name": "Varilla Roscada 20cm completa",
+        "largo_m": 0.2,
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.37,
+        "precio_web_iva_inc": 0.46,
+        "supplier": "BECAM"
+      },
+      {
+        "sku": "VR30CM",
+        "name": "Varilla Roscada 30cm completa",
+        "largo_m": 0.3,
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.49,
+        "precio_web_iva_inc": 0.62,
+        "supplier": "BECAM"
+      },
+      {
+        "sku": "VR40CM",
+        "name": "Varilla Roscada 40cm completa",
+        "largo_m": 0.4,
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.57,
+        "precio_web_iva_inc": 0.73,
+        "supplier": "BECAM"
+      }
+    ],
+
+    "tuercas": [
+      {
+        "sku": "TUERCA-3/8",
+        "name": "Tuerca BSW 3/8 Galv.",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.15,
+        "precio_web_iva_inc": 0.09,
+        "supplier": "BROMYROS"
+      }
+    ],
+
+    "arandelas": [
+      {
+        "sku": "ARAN-CARR-3/8",
+        "name": "Arandela Carrocero 3/8 Galv.",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 2.05,
+        "precio_web_iva_inc": 0.79,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "TORT-BCA",
+        "name": "Arandela Polipropileno (Tortuga Blanca)",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 1.55,
+        "precio_web_iva_inc": 1.81,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "TORT-GRIS",
+        "name": "Arandela Polipropileno Gris (Tortuga Gris)",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 1.67,
+        "precio_web_iva_inc": 1.95,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "ARAN-PLANA-3/8",
+        "name": "Arandela Plana Hierro Galv. 3/8",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.35,
+        "precio_web_iva_inc": 0.41,
+        "supplier": "BROMYROS"
+      }
+    ],
+
+    "tacos": [
+      {
+        "sku": "TACO-SOREX-3/8",
+        "name": "Taco Expansivo Sorex 3/8",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 1.17,
+        "precio_web_iva_inc": 1.37,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "ANCNO10",
+        "name": "Taco plástico nro8 + Tornillo nro10x1.5 + Arandela 3/16",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 0.11,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "remaches": [
+      {
+        "sku": "RPOP",
+        "name": "Remache POP 5/32 x 1/2 - Unidad (desde caja 1000u.)",
+        "unidad": "unit",
+        "precio_por_unidad_iva_inc": 0.04,
+        "precio_caja_1000_iva_inc": 73.20,
+        "supplier": "MONTFRIO"
+      },
+      {
+        "sku": "CAG100U",
+        "name": "Clavos Acero Galv c/capuchón - 100u. Color",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 9.65,
+        "precio_web_iva_inc": 12.25,
+        "supplier": "BECAM"
+      }
+    ],
+
+    "autoperforantes": [
+      {
+        "sku": "APERG1-100U",
+        "name": "Autoperforantes 1/4\" x 1\" con goma - 100u.",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 27.07,
+        "precio_web_iva_inc": 34.38,
+        "supplier": "BECAM"
+      },
+      {
+        "sku": "APERG3-100U",
+        "name": "Autoperforantes 1/4\" x 3\" con goma - 100u.",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 53.48,
+        "precio_web_iva_inc": 67.92,
+        "supplier": "BECAM"
+      }
+    ],
+
+    "tirafondos": [
+      {
+        "sku": "TFJ65100U",
+        "name": "Tirafondo J 65 - 100u.",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 48.95,
+        "precio_web_iva_inc": 62.15,
+        "supplier": "BECAM"
+      },
+      {
+        "sku": "TFJ150100U",
+        "name": "Tirafondo J 150 - 100u.",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 55.44,
+        "precio_web_iva_inc": 70.40,
+        "supplier": "BECAM"
+      }
+    ],
+
+    "tornillos_costura": [
+      {
+        "sku": "TC100U",
+        "name": "Tornillo de Costura - 100u.",
+        "unidad": "caja",
+        "cantidad_por_caja": 100,
+        "precio_venta_iva_inc": 34.95,
+        "precio_web_iva_inc": 44.38,
+        "supplier": "BECAM"
+      }
+    ],
+
+    "anclaje_z": [
+      {
+        "sku": "Z",
+        "name": "Anclaje Z",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 3.07,
+        "precio_web_iva_inc": 3.50,
+        "supplier": "MONTFRIO"
+      }
+    ]
+  },
+
+  "selladores": {
+    "_description": "Siliconas, cintas, membranas, poliuretano",
+
+    "siliconas": [
+      {
+        "sku": "Bromplast",
+        "name": "Bromplast 8 - Silicona Neutra x 600ml",
+        "unidad": "tubo",
+        "contenido_ml": 600,
+        "rendimiento_ml_por_tubo": 600,
+        "precio_venta_iva_inc": 11.58,
+        "precio_web_iva_inc": 13.51,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "TSNB280",
+        "name": "Silicona Neutra Blanca 280ml",
+        "unidad": "tubo",
+        "contenido_ml": 280,
+        "rendimiento_ml_por_tubo": 280,
+        "precio_venta_iva_inc": 9.10,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "pistolas": [
+      {
+        "sku": "PIST-SIL-BROM",
+        "name": "Pistola de Silicona - BROMYROS",
+        "unidad": "unit",
+        "precio_venta_iva_inc": 45.90,
+        "precio_web_iva_inc": 51.40,
+        "supplier": "BROMYROS"
+      }
+    ],
+
+    "cintas": [
+      {
+        "sku": "C.But.",
+        "name": "Cinta Butilo 2mm x 15mm x 22.5m lineales",
+        "unidad": "rollo",
+        "largo_m": 22.5,
+        "precio_venta_iva_inc": 18.17,
+        "precio_web_iva_inc": 22.12,
+        "supplier": "BROMYROS"
+      }
+    ],
+
+    "membranas": [
+      {
+        "sku": "MEMB-AUTOAD",
+        "name": "Rollo Membrana Autoadhesiva 30cm x 10m (DENVERFITA)",
+        "unidad": "rollo",
+        "largo_m": 10.0,
+        "ancho_m": 0.30,
+        "precio_venta_iva_inc": 20.28,
+        "precio_web_iva_inc": 23.66,
+        "supplier": "BROMYROS"
+      },
+      {
+        "sku": "MAAG10M",
+        "name": "Membrana Asfáltica c/Aluminio Gofrado 4mm - 10m",
+        "unidad": "rollo",
+        "largo_m": 10.0,
+        "precio_venta_iva_inc": 81.76,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "poliuretano": [
+      {
+        "sku": "PP750",
+        "name": "Pomo de Poliuretano 750ml",
+        "unidad": "tubo",
+        "contenido_ml": 750,
+        "precio_venta_iva_inc": 37.89,
+        "supplier": "MONTFRIO"
+      }
+    ],
+
+    "compriban": [
+      {
+        "sku": "COMP1M",
+        "name": "Compriban 1.00m (todas las chapas)",
+        "unidad": "unit",
+        "largo_m": 1.0,
+        "precio_venta_iva_inc": 4.75,
+        "precio_web_iva_inc": 6.03,
+        "supplier": "BECAM",
+        "compatibilidad": ["BC-18", "BC-30", "BC-35", "Chapateja", "Panel_Cubierta"]
+      }
+    ]
+  },
+
+  "embudo_bajadas": [
+    {
+      "sku": "EMBUDO-BROM",
+      "name": "Embudo ISODEC",
+      "unidad": "unit",
+      "precio_venta_iva_inc": 30.00,
+      "supplier": "BROMYROS"
+    },
+    {
+      "sku": "EMBISO",
+      "name": "Embudo MONTFRIO",
+      "unidad": "unit",
+      "precio_venta_iva_inc": 35.14,
+      "supplier": "MONTFRIO"
+    }
+  ],
+
+  "indices": {
+    "by_sku": {
+      "GFS30": "perfileria.goteros_frontales.isoroof_3g[0]",
+      "GFS50": "perfileria.goteros_frontales.isoroof_3g[1]",
+      "GFS80": "perfileria.goteros_frontales.isoroof_3g[2]",
+      "6838": "perfileria.goteros_frontales.isodec_eps[0]",
+      "6839": "perfileria.goteros_frontales.isodec_eps[1]",
+      "6840": "perfileria.goteros_frontales.isodec_eps[2]",
+      "6841": "perfileria.goteros_frontales.isodec_eps[3]",
+      "GL30": "perfileria.goteros_laterales.isoroof[0]",
+      "GL50": "perfileria.goteros_laterales.isoroof[2]",
+      "GL80": "perfileria.goteros_laterales.isoroof[3]",
+      "6842": "perfileria.goteros_laterales.isodec_eps[0]",
+      "6843": "perfileria.goteros_laterales.isodec_eps[1]",
+      "BBAS3G": "perfileria.babetas.isoroof[0]",
+      "6828": "perfileria.babetas.isodec[0]",
+      "CUMROOF3M": "perfileria.cumbreras[0]",
+      "6847": "perfileria.cumbreras[1]",
+      "CD30": "perfileria.canalones[0]",
+      "CD50": "perfileria.canalones[1]",
+      "6801": "perfileria.canalones[2]",
+      "PU100MM": "perfileria.perfiles_u[1]",
+      "PU150MM": "perfileria.perfiles_u[2]",
+      "TMOME": "fijaciones.tornillos_paneles[0]",
+      "ARATRAP": "fijaciones.caballetes_arandelas[1]",
+      "TORTPVCBL": "fijaciones.caballetes_arandelas[2]",
+      "Bromplast": "selladores.siliconas[0]"
+    },
+
+    "by_sistema": {
+      "techo_isoroof": {
+        "gotero_frontal": "perfileria.goteros_frontales.isoroof_3g",
+        "gotero_lateral": "perfileria.goteros_laterales.isoroof",
+        "babeta_superior": "perfileria.babetas.isoroof[0]",
+        "babeta_lateral": "perfileria.babetas.isoroof[2]",
+        "cumbrera": "perfileria.cumbreras[0]",
+        "canal": "perfileria.canalones[0]"
+      },
+      "techo_isodec_eps": {
+        "gotero_frontal": "perfileria.goteros_frontales.isodec_eps",
+        "gotero_lateral": "perfileria.goteros_laterales.isodec_eps",
+        "babeta": "perfileria.babetas.isodec",
+        "cumbrera": "perfileria.cumbreras[1]",
+        "canal": "perfileria.canalones[2]"
+      },
+      "techo_isodec_pir": {
+        "gotero_frontal": "perfileria.goteros_frontales.isodec_pir",
+        "gotero_lateral": "perfileria.goteros_laterales.isodec_pir",
+        "babeta": "perfileria.babetas.isodec",
+        "cumbrera": "perfileria.cumbreras[1]"
+      },
+      "pared_isopanel": {
+        "perfil_u": "perfileria.perfiles_u",
+        "babeta": "perfileria.babetas.isodec"
+      }
+    }
+  }
+}
