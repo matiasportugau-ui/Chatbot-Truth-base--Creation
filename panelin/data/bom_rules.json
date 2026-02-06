@@ -14,6 +14,7 @@
     "unidades_permitidas": ["m2", "ml", "unit", "kit", "tubo", "rollo", "caja"],
     "redondeo_paneles": "CEIL",
     "redondeo_perfiles": "CEIL_to_largo_std",
+    "redondeo_perfiles_nota": "CEIL_to_largo_std se implementa como CEIL(longitud_requerida_m / largo_perfil_std_m) en las fórmulas individuales",
     "redondeo_fijaciones": "CEIL",
     "iva_incluido": true,
     "iva_rate": 0.22,
