@@ -458,6 +458,7 @@
 
   "ejemplo_calculo": {
     "_descripcion": "Ejemplo: Techo ISODEC EPS 100mm, 5m largo x 11m ancho",
+    "_nota_precios": "IMPORTANTE: Los precios mostrados en este ejemplo son referenciales y corresponden a la fecha last_updated (2026-02-06). Para cotizaciones actuales, siempre consultar los precios vigentes en accessories_catalog.json.",
     "input": {
       "sistema": "techo_isodec_eps",
       "product_id": "ISODEC_EPS_100mm",
