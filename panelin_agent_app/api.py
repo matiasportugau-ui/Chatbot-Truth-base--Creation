@@ -106,7 +106,7 @@ def health_check():
 
 
 @app.get("/health", tags=["Health"])
-def health_check_detailed():
+def health_check_alias():
     return {"status": "healthy", "service": "Panelin Agent V2 API"}
 
 
