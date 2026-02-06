@@ -317,3 +317,92 @@ VALIDATE_QUOTATION_TOOL_SCHEMA = {
         "required": ["quotation"]
     }
 }
+
+CALCULATE_FULL_QUOTE_TOOL_SCHEMA = {
+    "name": "calculate_full_quote",
+    "description": "Calcula cotización COMPLETA con BOM valorizado. Una sola llamada devuelve paneles + perfilería + fijaciones + selladores, todos con precio unitario, cantidad y total. Incluye validación de autoportancia. USAR SIEMPRE para cotizaciones completas.",
+    "strict": True,
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "product_id": {
+                "type": "string",
+                "enum": ["ISODEC_EPS", "ISODEC_PIR", "ISOROOF_3G", "ISOPANEL_EPS", "ISOWALL_PIR"],
+                "description": "ID del producto base"
+            },
+            "length_m": {
+                "type": "number",
+                "minimum": 0.5,
+                "maximum": 14.0,
+                "description": "Largo total del techo/pared en metros"
+            },
+            "width_m": {
+                "type": "number",
+                "description": "Ancho total del techo/pared en metros"
+            },
+            "thickness_mm": {
+                "type": "integer",
+                "description": "Espesor del panel en mm"
+            },
+            "bom_preset": {
+                "type": "string",
+                "enum": ["techo_isodec_eps", "techo_isodec_pir", "techo_isoroof_3g",
+                         "pared_isopanel_eps", "pared_isowall_pir"],
+                "description": "Sistema constructivo a usar"
+            },
+            "tipo_fijacion": {
+                "type": "string",
+                "enum": ["metal", "hormigon", "madera"],
+                "default": "metal",
+                "description": "Tipo de soporte/fijación"
+            },
+            "luz_m": {
+                "type": "number",
+                "description": "Distancia entre apoyos en metros (para autoportancia)"
+            },
+            "incluir_canalon": {
+                "type": "boolean",
+                "default": False,
+                "description": "Incluir canalón en cotización"
+            },
+            "incluir_cumbrera": {
+                "type": "boolean",
+                "default": False,
+                "description": "Incluir cumbrera en cotización"
+            },
+            "discount_percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 30,
+                "default": 0,
+                "description": "Porcentaje de descuento (0-30%)"
+            }
+        },
+        "required": ["product_id", "length_m", "width_m", "thickness_mm", "bom_preset"]
+    }
+}
+
+VALIDATE_AUTOPORTANCIA_TOOL_SCHEMA = {
+    "name": "validate_autoportancia",
+    "description": "Valida si un panel cumple con autoportancia para la luz (distancia entre apoyos) dada. Devuelve cumple/no cumple, margen de seguridad y recomendación de espesor alternativo.",
+    "strict": True,
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "product_id": {
+                "type": "string",
+                "enum": ["ISODEC_EPS", "ISODEC_PIR", "ISOROOF_3G", "ISOPANEL_EPS", "ISOWALL_PIR"],
+                "description": "ID del producto base"
+            },
+            "thickness_mm": {
+                "type": "integer",
+                "description": "Espesor del panel en mm"
+            },
+            "luz_m": {
+                "type": "number",
+                "description": "Distancia entre apoyos en metros"
+            }
+        },
+        "required": ["product_id", "thickness_mm", "luz_m"]
+    }
+}
