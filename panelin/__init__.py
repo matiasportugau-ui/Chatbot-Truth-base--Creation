@@ -1,10 +1,13 @@
 """
-Panelin Quotation Agent v2 - Hybrid Architecture
+Panelin package
+===============
 
-Este paquete implementa la arquitectura híbrida recomendada para el sistema de 
-cotización de paneles aislantes de BMC Uruguay:
-- LLM orquesta (comprensión de lenguaje natural)
-- Código Python calcula (aritmética determinista con Decimal)
+This package contains the deterministic building blocks for the quotation system.
+
+Design principles:
+- The LLM orchestrates (NLU + routing) but NEVER performs arithmetic.
+- All financial math is executed deterministically in Python (Decimal).
+"""
 
 Principios fundamentales:
 1. LLM_NEVER_CALCULATES: Todo cálculo matemático en funciones Python con Decimal

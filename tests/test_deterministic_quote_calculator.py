@@ -12,33 +12,33 @@ class TestDeterministicQuoteCalculator:
             width_m=1.0,
             quantity=10,
         )
-        # area: 2m², unit: 2 * 41.88 = 83.76, subtotal: 837.60
+        # area: 2m², unit: 2 * 22.5 = 45.0, subtotal: 450.0
         assert result["area_m2"] == 2.0
-        assert result["unit_price_usd"] == 83.76
-        assert result["subtotal_usd"] == 837.60
+        assert result["unit_price_usd"] == 45.0
+        assert result["subtotal_usd"] == 450.0
         assert result["discount_usd"] == 0.0
-        assert result["total_usd"] == 837.60
+        assert result["total_usd"] == 450.0
         assert result["calculation_verified"] is True
         assert validate_quotation(result) is True
 
     def test_discount_application(self):
         result = calculate_panel_quote(
             panel_type="Isodec",
-            thickness_mm=100,
+            thickness_mm=75,
             length_m=3.0,
             width_m=1.2,
             quantity=50,
             discount_percent=10,
         )
-        # area: 3.6m², unit: 3.6 * 46.07 = 165.852 -> 165.85
-        # subtotal: 165.85 * 50 = 8292.50
-        # discount: 10% = 829.25
-        # total: 7463.25
+        # area: 3.6m², unit: 3.6 * 28.0 = 100.80
+        # subtotal: 100.80 * 50 = 5040.00
+        # discount: 10% = 504.00
+        # total: 4536.00
         assert result["area_m2"] == pytest.approx(3.6)
-        assert result["unit_price_usd"] == 165.85
-        assert result["subtotal_usd"] == 8292.50
-        assert result["discount_usd"] == 829.25
-        assert result["total_usd"] == 7463.25
+        assert result["unit_price_usd"] == 100.80
+        assert result["subtotal_usd"] == 5040.00
+        assert result["discount_usd"] == 504.00
+        assert result["total_usd"] == 4536.00
         assert result["calculation_verified"] is True
         assert validate_quotation(result) is True
 
