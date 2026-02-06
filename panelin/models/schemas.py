@@ -3,9 +3,11 @@ Panelin Schemas - TypedDict definitions for strict typing.
 
 Todos los modelos usan TypedDict para garantizar tipado estricto
 y compatibilidad con Structured Outputs de OpenAI/LangChain.
+
+v2.0 - Extended with BOM line items, autoportancia, and full quotation support.
 """
 
-from typing import TypedDict, Literal, Optional, List
+from typing import TypedDict, Literal, Optional, List, Dict, Any
 from datetime import datetime
 
 
@@ -53,6 +55,66 @@ class QuotationLineItem(TypedDict):
     line_total_usd: float
 
 
+class BOMLineItem(TypedDict):
+    """Un item de línea en el BOM (Bill of Materials) de accesorios."""
+    sku: str
+    name: str
+    categoria: Literal["panel", "gotero_frontal", "gotero_lateral", "gotero_superior",
+                        "babeta", "vaina", "canalon", "cumbrera", "soporte_canalon",
+                        "perfil_u", "perfil_g2", "perfil_k2", "perfil_especial",
+                        "varilla", "tuerca", "taco", "arandela", "tortuga",
+                        "caballete", "fijacion_perfileria", "silicona", "sellador",
+                        "membrana", "otro"]
+    unidad: Literal["m2", "ml", "unit", "kit"]
+    cantidad: float
+    precio_unit_iva_inc: float
+    total_iva_inc: float
+    nota: Optional[str]
+
+
+class AutoportanciaResult(TypedDict):
+    """Resultado de validación de autoportancia."""
+    cumple: bool
+    luz_m: float
+    autoportancia_m: float
+    espesor_mm: int
+    margen_seguridad_pct: float
+    recomendacion: Optional[str]
+
+
+class FullQuotationResult(TypedDict):
+    """Resultado de cotización completa con BOM valorizado."""
+    quotation_id: str
+    timestamp: str
+    calculation_verified: bool
+    verification_checksum: str
+    # Dimensiones
+    largo_m: float
+    ancho_m: float
+    area_m2: float
+    panels_needed: int
+    # Autoportancia
+    autoportancia: AutoportanciaResult
+    # Desglose por categoría
+    line_items: List[BOMLineItem]
+    # Subtotales por categoría
+    subtotal_paneles: float
+    subtotal_perfileria: float
+    subtotal_fijaciones: float
+    subtotal_selladores: float
+    # Totales
+    subtotal_usd: float
+    discount_percent: float
+    discount_amount_usd: float
+    total_iva_inc: float
+    # Metadata
+    sistema: str
+    espesor_mm: int
+    tipo_fijacion: Literal["metal", "hormigon", "madera"]
+    notes: List[str]
+    items_sin_precio: List[str]
+
+
 class QuotationResult(TypedDict):
     """Resultado de una cotización calculada deterministicamente."""
     quotation_id: str
@@ -92,6 +154,21 @@ class QuotationRequest(TypedDict):
     include_delivery: bool
     include_tax: bool
     customer_type: Literal["retail", "wholesale", "contractor"]
+
+
+class FullQuotationRequest(TypedDict):
+    """Request de cotización completa con BOM."""
+    product_id: str
+    length_m: float
+    width_m: float
+    thickness_mm: int
+    bom_preset: Literal["techo_isodec_eps", "techo_isodec_pir", "techo_isoroof_3g",
+                         "pared_isopanel_eps", "pared_isowall_pir"]
+    tipo_fijacion: Literal["metal", "hormigon", "madera"]
+    luz_m: Optional[float]
+    incluir_canalon: bool
+    incluir_cumbrera: bool
+    discount_percent: Optional[float]
 
 
 class ValidationResult(TypedDict):
@@ -238,5 +315,94 @@ VALIDATE_QUOTATION_TOOL_SCHEMA = {
             }
         },
         "required": ["quotation"]
+    }
+}
+
+CALCULATE_FULL_QUOTE_TOOL_SCHEMA = {
+    "name": "calculate_full_quote",
+    "description": "Calcula cotización COMPLETA con BOM valorizado. Una sola llamada devuelve paneles + perfilería + fijaciones + selladores, todos con precio unitario, cantidad y total. Incluye validación de autoportancia. USAR SIEMPRE para cotizaciones completas.",
+    "strict": True,
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "product_id": {
+                "type": "string",
+                "enum": ["ISODEC_EPS", "ISODEC_PIR", "ISOROOF_3G", "ISOPANEL_EPS", "ISOWALL_PIR"],
+                "description": "ID del producto base"
+            },
+            "length_m": {
+                "type": "number",
+                "minimum": 0.5,
+                "maximum": 14.0,
+                "description": "Largo total del techo/pared en metros"
+            },
+            "width_m": {
+                "type": "number",
+                "description": "Ancho total del techo/pared en metros"
+            },
+            "thickness_mm": {
+                "type": "integer",
+                "description": "Espesor del panel en mm"
+            },
+            "bom_preset": {
+                "type": "string",
+                "enum": ["techo_isodec_eps", "techo_isodec_pir", "techo_isoroof_3g",
+                         "pared_isopanel_eps", "pared_isowall_pir"],
+                "description": "Sistema constructivo a usar"
+            },
+            "tipo_fijacion": {
+                "type": "string",
+                "enum": ["metal", "hormigon", "madera"],
+                "default": "metal",
+                "description": "Tipo de soporte/fijación"
+            },
+            "luz_m": {
+                "type": "number",
+                "description": "Distancia entre apoyos en metros (para autoportancia)"
+            },
+            "incluir_canalon": {
+                "type": "boolean",
+                "default": False,
+                "description": "Incluir canalón en cotización"
+            },
+            "incluir_cumbrera": {
+                "type": "boolean",
+                "default": False,
+                "description": "Incluir cumbrera en cotización"
+            },
+            "discount_percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 30,
+                "default": 0,
+                "description": "Porcentaje de descuento (0-30%)"
+            }
+        },
+        "required": ["product_id", "length_m", "width_m", "thickness_mm", "bom_preset"]
+    }
+}
+
+VALIDATE_AUTOPORTANCIA_TOOL_SCHEMA = {
+    "name": "validate_autoportancia",
+    "description": "Valida si un panel cumple con autoportancia para la luz (distancia entre apoyos) dada. Devuelve cumple/no cumple, margen de seguridad y recomendación de espesor alternativo.",
+    "strict": True,
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "product_id": {
+                "type": "string",
+                "enum": ["ISODEC_EPS", "ISODEC_PIR", "ISOROOF_3G", "ISOPANEL_EPS", "ISOWALL_PIR"],
+                "description": "ID del producto base"
+            },
+            "thickness_mm": {
+                "type": "integer",
+                "description": "Espesor del panel en mm"
+            },
+            "luz_m": {
+                "type": "number",
+                "description": "Distancia entre apoyos en metros"
+            }
+        },
+        "required": ["product_id", "thickness_mm", "luz_m"]
     }
 }

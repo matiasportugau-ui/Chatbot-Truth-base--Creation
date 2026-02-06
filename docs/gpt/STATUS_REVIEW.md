@@ -12,6 +12,19 @@ All required documentation files exist. However, there are **multiple instructio
 
 ---
 
+## 🆕 Addendum (2026-02-06)
+
+**New requirements identified**:
+- Add **accessories catalog** (`accessories_catalog.json`) for accessory pricing/units.
+- Add **BOM rules** (`bom_rules.json`) for deterministic quantities + rounding.
+- Update Actions spec to return **valued line items**.
+
+**Impact**:
+- Knowledge upload list increases from **11 → 13 files**.
+- Test plan now includes an Actions + BOM valuation suite (see `PANELIN_GPT_TEST_PLAN.md`).
+
+---
+
 ## ⚠️ CRITICAL FINDING: Multiple Instruction Files
 
 ### Instruction Files Found
@@ -90,21 +103,23 @@ All required documentation files exist. However, there are **multiple instructio
 
 ## 📁 KNOWLEDGE BASE FILES STATUS
 
-### Ready for Upload (11 files)
+### Ready for Upload (13 files)
 
 | Priority | Level | File | Location | Status |
 |----------|-------|------|----------|--------|
 | 1 | Level 1 (Master) | `BMC_Base_Conocimiento_GPT-2.json` | Root | ✅ Ready |
-| 2 | Level 1.5 (Catalog) | `shopify_catalog_v1.json` | `catalog/out/` | ✅ Ready |
-| 3 | Level 4 (Process) | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Root | ✅ Ready |
-| 4 | Level 4 (Process) | `PANELIN_QUOTATION_PROCESS.md` | Root | ✅ Ready |
-| 5 | Level 4 (Process) | `PANELIN_TRAINING_GUIDE.md` | Root | ✅ Ready |
-| 6 | Level 4 (Process) | `panelin_context_consolidacion_sin_backend.md` | Root | ✅ Ready |
-| 7 | Level 2 (Validation) | `BMC_Base_Unificada_v4.json` | `Files /` | ✅ Ready |
-| 8 | Level 3 (Dynamic) | `panelin_truth_bmcuruguay_web_only_v2.json` | Root | ✅ Ready |
-| 9 | Level 4 (Support) | `Aleros -2.rtf` | `Files /` | ⚠️ May need conversion |
-| 10 | Level 4 (Index) | `shopify_catalog_index_v1.csv` | `catalog/out/` | ✅ Ready |
-| 11 | Optional | `BMC_Catalogo_Completo_Shopify (1).json` | Root | ✅ Optional |
+| 2 | Level 1B (Accessories) | `accessories_catalog.json` | Root | ⚠️ Populate |
+| 3 | Level 1C (BOM Rules) | `bom_rules.json` | Root | ⚠️ Populate |
+| 4 | Level 1.5 (Catalog) | `shopify_catalog_v1.json` | `catalog/out/` | ✅ Ready |
+| 5 | Level 4 (Process) | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Root | ✅ Ready |
+| 6 | Level 4 (Process) | `PANELIN_QUOTATION_PROCESS.md` | Root | ✅ Ready |
+| 7 | Level 4 (Process) | `PANELIN_TRAINING_GUIDE.md` | Root | ✅ Ready |
+| 8 | Level 4 (Process) | `panelin_context_consolidacion_sin_backend.md` | Root | ✅ Ready |
+| 9 | Level 2 (Validation) | `BMC_Base_Unificada_v4.json` | `Files /` | ✅ Ready |
+| 10 | Level 3 (Dynamic) | `panelin_truth_bmcuruguay_web_only_v2.json` | Root | ✅ Ready |
+| 11 | Level 4 (Support) | `Aleros -2.rtf` | `Files /` | ⚠️ May need conversion |
+| 12 | Level 4 (Index) | `shopify_catalog_index_v1.csv` | `catalog/out/` | ✅ Ready |
+| 13 | Optional | `BMC_Catalogo_Completo_Shopify (1).json` | Root | ✅ Optional |
 
 **Note**: File #9 (`Aleros -2.rtf`) may need conversion to `.txt` or `.md` if GPT Builder rejects RTF format.
 
@@ -157,7 +172,7 @@ All required documentation files exist. However, there are **multiple instructio
 - [x] All 17 documentation files exist in `docs/gpt/`
 - [x] Canonical instructions include capability policy
 - [x] Canonical instructions include client data collection
-- [x] Knowledge manifest has correct upload order (11 files)
+- [x] Knowledge manifest has correct upload order (13 files)
 - [x] Builder config references canonical instructions
 - [x] Test plan has comprehensive test suites (5 suites)
 - [x] Maintenance guide has update procedures
@@ -196,7 +211,7 @@ All required documentation files exist. However, there are **multiple instructio
 
 3. **✅ Follow Upload Order**
    - Use: `PANELIN_KNOWLEDGE_MANIFEST.md`
-   - Upload 11 files in exact order specified
+   - Upload 13 files in exact order specified
    - Wait 2-3 minutes after upload for reindexing
 
 4. **⚠️ Handle RTF File**
@@ -221,12 +236,12 @@ All required documentation files exist. However, there are **multiple instructio
 
 ### Step 3: Upload Knowledge Files ⏭️
 - Follow: `docs/gpt/PANELIN_KNOWLEDGE_MANIFEST.md`
-- Upload 11 files in exact order
+- Upload 13 files in exact order
 - Verify all files uploaded successfully
 
 ### Step 4: Run Tests ⏭️
 - Follow: `docs/gpt/PANELIN_GPT_TEST_PLAN.md`
-- Run all 5 test suites
+- Run all 6 test suites
 - Mark pass/fail in test plan
 - Fix any failures
 

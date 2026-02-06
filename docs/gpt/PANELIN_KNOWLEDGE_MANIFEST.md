@@ -1,6 +1,6 @@
 # Panelin Knowledge Manifest
-**Version**: 1.1
-**Last Updated**: 2026-01-25
+**Version**: 1.2
+**Last Updated**: 2026-02-06
 
 This document defines the **authoritative list of files** to be uploaded to the Panelin GPT Knowledge Base, their priority order, and purpose.
 
@@ -8,22 +8,27 @@ This document defines the **authoritative list of files** to be uploaded to the 
 
 ## 📂 Upload Manifest
 
-**Total Files**: 11
+**Total Files**: 13
 **Upload Strategy**: Strict priority order (Level 1 first).
+
+**Note**: `accessories_catalog.json` and `bom_rules.json` must be populated with
+real data before production use.
 
 | Priority | Level | Filename | Path in Repo | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | **Level 1 (MASTER)** | `BMC_Base_Conocimiento_GPT-2.json` | `BMC_Base_Conocimiento_GPT-2.json` | **Source of Truth**. Prices, formulas, specs. |
-| **2** | **Level 1.5 (Catalog)** | `shopify_catalog_v1.json` | `catalog/out/shopify_catalog_v1.json` | Product descriptions, variants, images. **NO prices.** |
-| **3** | **Level 2 (Validation)** | `BMC_Base_Unificada_v4.json` | `Files /BMC_Base_Unificada_v4.json` | Historical cross-reference. |
-| **4** | **Level 3 (Dynamic)** | `panelin_truth_bmcuruguay_web_only_v2.json` | `panelin_truth_bmcuruguay_web_only_v2.json` | Web snapshot for price verification. |
-| **5** | **Level 4 (Process)** | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Guide to the KB structure itself. |
-| **6** | **Level 4 (Process)** | `PANELIN_QUOTATION_PROCESS.md` | `PANELIN_QUOTATION_PROCESS.md` | 5-phase quotation workflow rules. |
-| **7** | **Level 4 (Process)** | `PANELIN_TRAINING_GUIDE.md` | `PANELIN_TRAINING_GUIDE.md` | Sales training and evaluation rubrics. |
-| **8** | **Level 4 (Process)** | `panelin_context_consolidacion_sin_backend.md` | `panelin_context_consolidacion_sin_backend.md` | SOP commands (`/estado`, `/consolidar`). |
-| **9** | **Level 4 (Support)** | `Aleros -2.rtf` | `Files /Aleros -2.rtf` | Technical rules for overhangs (Aleros). |
-| **10** | **Level 4 (Index)** | `shopify_catalog_index_v1.csv` | `catalog/out/shopify_catalog_index_v1.csv` | CSV index for Code Interpreter lookups. |
-| **11** | **Level 4 (Support)** | `BMC_Catalogo_Completo_Shopify (1).json` | `BMC_Catalogo_Completo_Shopify (1).json` | Legacy catalog backup. |
+| **2** | **Level 1B (Accessories)** | `accessories_catalog.json` | `accessories_catalog.json` | Accessory pricing + units (ml/unid/kit) for BOM. |
+| **3** | **Level 1C (BOM Rules)** | `bom_rules.json` | `bom_rules.json` | Parametric rules for BOM by system. |
+| **4** | **Level 1.5 (Catalog)** | `shopify_catalog_v1.json` | `catalog/out/shopify_catalog_v1.json` | Product descriptions, variants, images. **NO prices.** |
+| **5** | **Level 2 (Validation)** | `BMC_Base_Unificada_v4.json` | `Files /BMC_Base_Unificada_v4.json` | Historical cross-reference. |
+| **6** | **Level 3 (Dynamic)** | `panelin_truth_bmcuruguay_web_only_v2.json` | `panelin_truth_bmcuruguay_web_only_v2.json` | Web snapshot for price verification. |
+| **7** | **Level 4 (Process)** | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | `PANELIN_KNOWLEDGE_BASE_GUIDE.md` | Guide to the KB structure itself. |
+| **8** | **Level 4 (Process)** | `PANELIN_QUOTATION_PROCESS.md` | `PANELIN_QUOTATION_PROCESS.md` | 5-phase quotation workflow rules. |
+| **9** | **Level 4 (Process)** | `PANELIN_TRAINING_GUIDE.md` | `PANELIN_TRAINING_GUIDE.md` | Sales training and evaluation rubrics. |
+| **10** | **Level 4 (Process)** | `panelin_context_consolidacion_sin_backend.md` | `panelin_context_consolidacion_sin_backend.md` | SOP commands (`/estado`, `/consolidar`). |
+| **11** | **Level 4 (Support)** | `Aleros -2.rtf` | `Files /Aleros -2.rtf` | Technical rules for overhangs (Aleros). |
+| **12** | **Level 4 (Index)** | `shopify_catalog_index_v1.csv` | `catalog/out/shopify_catalog_index_v1.csv` | CSV index for Code Interpreter lookups. |
+| **13** | **Level 4 (Support)** | `BMC_Catalogo_Completo_Shopify (1).json` | `BMC_Catalogo_Completo_Shopify (1).json` | Legacy catalog backup. |
 
 ---
 
@@ -43,6 +48,8 @@ The following files contain sensitive data or secrets and **MUST NOT** be upload
 ## 🔄 Refresh Cadence
 
 - **Level 1 (Master)**: Update manually when BMC official prices change. Requires re-upload and version bump.
+- **Level 1B (Accessories)**: Refresh with accessory price updates or SKU changes.
+- **Level 1C (BOM Rules)**: Update when rules/standards change (rounding, overlap, waste).
 - **Level 1.5 (Catalog)**: Refresh weekly or after major Shopify updates:
   ```bash
   python3 catalog/export_shopify_catalog.py path/to/products_export.csv --quality-report
@@ -69,3 +76,8 @@ The following files contain sensitive data or secrets and **MUST NOT** be upload
    - Step 1: Use Code Interpreter to search `shopify_catalog_index_v1.csv` or `indexes.sku_to_handle` in JSON
    - Step 2: Resolve SKU → handle → product description
    - Step 3: For pricing → always use `BMC_Base_Conocimiento_GPT-2.json`
+
+4. **User asks for accessories or BOM totals**
+   - Step 1: Calculate quantities via `bom_rules.json`
+   - Step 2: Price items via `accessories_catalog.json`
+   - Step 3: Return line items with `unidad`, `cant`, `precio_unit`, `total`

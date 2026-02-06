@@ -1,5 +1,5 @@
 # Panelin GPT Builder — Execution Summary
-**Date**: 2026-01-25  
+**Date**: 2026-02-06  
 **Status**: ✅ **READY FOR GPT BUILDER CONFIGURATION**
 
 ---
@@ -13,10 +13,10 @@
 1. **[`README.md`](README.md)** — Index of all docs + file map
 2. **[`PANELIN_GPT_BUILDER_QUICK_FILL.md`](PANELIN_GPT_BUILDER_QUICK_FILL.md)** — Step-by-step copy/paste guide ⭐
 3. **[`PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md`](PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md)** — Canonical instructions (paste into Builder)
-4. **[`PANELIN_KNOWLEDGE_MANIFEST.md`](PANELIN_KNOWLEDGE_MANIFEST.md)** — 11 files to upload + order
+4. **[`PANELIN_KNOWLEDGE_MANIFEST.md`](PANELIN_KNOWLEDGE_MANIFEST.md)** — 13 files to upload + order
 5. **[`PANELIN_GPT_BUILDER_CONFIG.md`](PANELIN_GPT_BUILDER_CONFIG.md)** — Complete field specs
 6. **[`PANELIN_CAPABILITIES_POLICY.md`](PANELIN_CAPABILITIES_POLICY.md)** — Web/Code/Image/Canvas rules
-7. **[`PANELIN_GPT_TEST_PLAN.md`](PANELIN_GPT_TEST_PLAN.md)** — 5 test suites (20+ tests)
+7. **[`PANELIN_GPT_TEST_PLAN.md`](PANELIN_GPT_TEST_PLAN.md)** — 6 test suites (20+ tests)
 8. **[`PANELIN_GPT_SECURITY_POLICY.md`](PANELIN_GPT_SECURITY_POLICY.md)** — Data classification + exclude list
 9. **[`PANELIN_ACTIONS_SPEC.md`](PANELIN_ACTIONS_SPEC.md)** — Optional backend Actions (future)
 10. **[`PANELIN_GPT_MAINTENANCE.md`](PANELIN_GPT_MAINTENANCE.md)** — Maintenance runbook
@@ -62,7 +62,7 @@
 3. Fill "Descripción" field
 4. **Copy/paste canonical instructions** from `PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md`
 5. Add 8 conversation starters
-6. **Upload 11 Knowledge files** in exact order (see manifest)
+6. **Upload 13 Knowledge files** in exact order (see manifest)
 7. Select **GPT-4** or **GPT-4 Turbo** model
 8. **Enable all 4 capabilities** (especially Code Interpreter — currently OFF)
 9. Save as "Only me" (internal)

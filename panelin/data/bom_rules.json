@@ -1,0 +1,508 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "fecha": "2026-02-06",
+    "descripcion": "Reglas paramétricas de BOM (Bill of Materials) por sistema constructivo BMC Uruguay",
+    "notas": [
+      "Cada sistema define qué accesorios necesita y cómo calcular cantidades",
+      "Las fórmulas usan variables: largo_m, ancho_m, panels_needed, area_m2, perimetro_ml",
+      "Reglas de redondeo: ceil para paneles, round_up_to_largo_std para perfiles",
+      "Precios se buscan en accessories_catalog.json por SKU o tipo+espesor"
+    ]
+  },
+  "sistemas": {
+    "techo_isodec_eps": {
+      "nombre": "Techo con ISODEC EPS (cubierta pesada)",
+      "producto_base": "ISODEC_EPS",
+      "ancho_util_m": 1.12,
+      "sistema_fijacion": "varilla_tuerca",
+      "espesores_disponibles": [100, 150, 200, 250],
+      "bom": {
+        "paneles": {
+          "formula": "ceil(ancho_m / ancho_util_m)",
+          "unidad": "m2",
+          "calculo_area": "panels_needed * largo_m * ancho_util_m",
+          "redondeo": "ceil"
+        },
+        "apoyos": {
+          "formula": "ceil((largo_m / autoportancia) + 1)",
+          "descripcion": "Cantidad de apoyos transversales necesarios"
+        },
+        "gotero_frontal": {
+          "formula": "ceil((panels_needed * ancho_util_m) / largo_std_m)",
+          "largo_std_m": 3.03,
+          "tipo_accesorio": "gotero_frontal",
+          "familia_accesorio": "ISODEC",
+          "unidad": "unit",
+          "descripcion": "Gotero frontal - se busca por espesor del panel"
+        },
+        "gotero_lateral": {
+          "formula": "ceil((largo_m * 2) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "gotero_lateral",
+          "familia_accesorio": "ISODEC",
+          "unidad": "unit",
+          "descripcion": "Gotero lateral - 2 lados del techo"
+        },
+        "babeta_adosar": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "6828",
+          "unidad": "unit",
+          "descripcion": "Babeta de adosar ISODEC - encuentro a muro superior",
+          "uso": "encuentro_muro"
+        },
+        "babeta_empotrar": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "6865",
+          "unidad": "unit",
+          "descripcion": "Babeta de empotrar ISODEC - alternativa a babeta de adosar",
+          "uso": "encuentro_muro",
+          "nota": "Usar adosar O empotrar, no ambas"
+        },
+        "vaina_isodec": {
+          "formula": "panels_needed - 1",
+          "sku_default": "6825",
+          "unidad": "unit",
+          "descripcion": "Vaina ISODEC Sist 2000 - junta entre paneles"
+        },
+        "varilla_roscada": {
+          "formula": "ceil(puntos_fijacion / 4)",
+          "sku_default": "6805",
+          "unidad": "unit",
+          "descripcion": "Varilla Roscada BSW 3/8 de 1m",
+          "largo_std_m": 1.0,
+          "sub_formula_puntos": "ceil(((panels_needed * apoyos) * 2) + (largo_m * 2 / 2.5))"
+        },
+        "tuerca": {
+          "formula_metal": "puntos_fijacion * 2",
+          "formula_hormigon": "puntos_fijacion * 1",
+          "unidad": "unit",
+          "descripcion": "Tuerca BSW 3/8 Galv."
+        },
+        "taco_expansivo": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit",
+          "condicion": "solo_hormigon",
+          "descripcion": "Taco Expansivo Sorex 3/8 - solo si fijación a hormigón"
+        },
+        "arandela_carrocero": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit",
+          "descripcion": "Arandela Carrocero 3/8 Galv."
+        },
+        "arandela_plana": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit",
+          "descripcion": "Arandela Plana Hierro Galv. 3/8"
+        },
+        "tortuga_pvc": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit",
+          "descripcion": "Arandela de Polipropileno (Tortuga) - sella fijación"
+        },
+        "fijaciones_perfileria": {
+          "formula": "ceil(perimetro_perfileria_ml / 0.30)",
+          "sub_formula_perimetro": "(gotero_frontal_piezas * largo_std_gotero_frontal) + (gotero_lateral_piezas * largo_std_gotero_lateral) + (babeta_piezas * largo_std_babeta)",
+          "unidad": "unit",
+          "descripcion": "Remaches o T1 cada 30cm para perfilería perimetral"
+        },
+        "silicona": {
+          "formula": "ceil(perimetro_perfileria_ml / 8)",
+          "unidad": "unit",
+          "descripcion": "Pomo de silicona neutra - rendimiento ~8ml por tubo"
+        },
+        "canalon": {
+          "formula": "opcional - según proyecto",
+          "unidad": "unit",
+          "descripcion": "Canalón Estándar - según espesor",
+          "nota": "Incluir solo si el proyecto requiere desagüe"
+        },
+        "soporte_canalon": {
+          "formula": "ceil(ancho_m / 1.0)",
+          "sku_default": "6805",
+          "unidad": "unit",
+          "descripcion": "Soporte de canalón cada 1m",
+          "condicion": "solo_si_canalon"
+        }
+      },
+      "autoportancia": {
+        "tabla": {
+          "100": {"autoportancia_m": 5.5, "carga_max_kg_m2": null},
+          "150": {"autoportancia_m": 7.5, "carga_max_kg_m2": null},
+          "200": {"autoportancia_m": 9.1, "carga_max_kg_m2": null},
+          "250": {"autoportancia_m": 10.4, "carga_max_kg_m2": null}
+        },
+        "validacion": "luz_m <= autoportancia_m",
+        "accion_si_no_cumple": "sugerir_espesor_mayor_o_apoyo_adicional"
+      }
+    },
+    "techo_isodec_pir": {
+      "nombre": "Techo con ISODEC PIR (cubierta pesada ignífuga)",
+      "producto_base": "ISODEC_PIR",
+      "ancho_util_m": 1.12,
+      "sistema_fijacion": "varilla_tuerca",
+      "espesores_disponibles": [50, 80, 120],
+      "bom": {
+        "paneles": {
+          "formula": "ceil(ancho_m / ancho_util_m)",
+          "unidad": "m2",
+          "redondeo": "ceil"
+        },
+        "gotero_frontal": {
+          "formula": "ceil((panels_needed * ancho_util_m) / largo_std_m)",
+          "largo_std_m": 3.03,
+          "tipo_accesorio": "gotero_frontal",
+          "familia_accesorio": "ISODEC",
+          "unidad": "unit"
+        },
+        "gotero_lateral": {
+          "formula": "ceil((largo_m * 2) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "gotero_lateral",
+          "familia_accesorio": "ISODEC",
+          "unidad": "unit"
+        },
+        "babeta_adosar": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "6828",
+          "unidad": "unit"
+        },
+        "vaina_isodec": {
+          "formula": "panels_needed - 1",
+          "sku_default": "6825",
+          "unidad": "unit"
+        },
+        "varilla_roscada": {
+          "formula": "ceil(puntos_fijacion / 4)",
+          "unidad": "unit"
+        },
+        "tuerca": {
+          "formula_metal": "puntos_fijacion * 2",
+          "formula_hormigon": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "taco_expansivo": {
+          "formula": "puntos_fijacion * 1",
+          "condicion": "solo_hormigon",
+          "unidad": "unit"
+        },
+        "arandela_carrocero": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "tortuga_pvc": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "fijaciones_perfileria": {
+          "formula": "ceil(perimetro_perfileria_ml / 0.30)",
+          "unidad": "unit"
+        },
+        "silicona": {
+          "formula": "ceil(perimetro_perfileria_ml / 8)",
+          "unidad": "unit"
+        }
+      },
+      "autoportancia": {
+        "tabla": {
+          "50": {"autoportancia_m": 3.5},
+          "80": {"autoportancia_m": 5.5},
+          "120": {"autoportancia_m": 7.6}
+        },
+        "validacion": "luz_m <= autoportancia_m"
+      }
+    },
+    "techo_isoroof_3g": {
+      "nombre": "Techo con ISOROOF 3G (cubierta liviana)",
+      "producto_base": "ISOROOF_3G",
+      "ancho_util_m": 1.0,
+      "sistema_fijacion": "caballete_tornillo",
+      "espesores_disponibles": [30, 50, 80],
+      "bom": {
+        "paneles": {
+          "formula": "ceil(ancho_m / ancho_util_m)",
+          "unidad": "m2",
+          "redondeo": "ceil"
+        },
+        "gotero_frontal_simple": {
+          "formula": "ceil((panels_needed * ancho_util_m) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "gotero_frontal",
+          "familia_accesorio": "ISOROOF",
+          "unidad": "unit"
+        },
+        "gotero_lateral": {
+          "formula": "ceil((largo_m * 2) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "gotero_lateral",
+          "familia_accesorio": "ISOROOF",
+          "unidad": "unit"
+        },
+        "gotero_superior": {
+          "formula": "ceil((panels_needed * ancho_util_m) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "gotero_superior",
+          "familia_accesorio": "ISOROOF",
+          "unidad": "unit",
+          "condicion": "si_hay_muro_superior"
+        },
+        "babeta_atornillar_superior": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "BBAS3G",
+          "unidad": "unit",
+          "uso": "encuentro_muro_superior"
+        },
+        "babeta_atornillar_lateral": {
+          "formula": "ceil((largo_m * 2) / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "BBAL",
+          "unidad": "unit",
+          "uso": "cierre_lateral"
+        },
+        "caballete": {
+          "formula": "panels_needed * apoyos",
+          "unidad": "unit",
+          "descripcion": "Caballete con arandela trapezoidal - fijación a madera"
+        },
+        "cumbrera": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "sku_default": "CUMROOF3M",
+          "unidad": "unit",
+          "condicion": "si_hay_cumbrera"
+        },
+        "fijaciones_perfileria": {
+          "formula": "ceil(perimetro_perfileria_ml / 0.30)",
+          "unidad": "unit"
+        },
+        "silicona": {
+          "formula": "ceil(perimetro_perfileria_ml / 8)",
+          "unidad": "unit"
+        },
+        "canalon": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.03,
+          "tipo_accesorio": "canalon",
+          "familia_accesorio": "ISOROOF",
+          "unidad": "unit",
+          "condicion": "si_requiere_desague"
+        },
+        "soporte_canalon": {
+          "formula": "ceil(ancho_m / 1.0)",
+          "sku_default": "SOPCAN3M",
+          "unidad": "unit",
+          "condicion": "solo_si_canalon"
+        }
+      },
+      "autoportancia": {
+        "tabla": {
+          "30": {"autoportancia_m": 2.8},
+          "50": {"autoportancia_m": 3.3},
+          "80": {"autoportancia_m": 4.0}
+        },
+        "validacion": "luz_m <= autoportancia_m"
+      },
+      "notas": [
+        "A madera NO usa varilla ni tuercas",
+        "Fijación con caballete + tornillo aguja 5 + tornillo T1"
+      ]
+    },
+    "pared_isopanel_eps": {
+      "nombre": "Pared con ISOPANEL EPS",
+      "producto_base": "ISOPANEL_EPS",
+      "ancho_util_m": 1.14,
+      "sistema_fijacion": "varilla_tuerca",
+      "espesores_disponibles": [50, 100, 150, 200],
+      "bom": {
+        "paneles": {
+          "formula": "ceil(ancho_m / ancho_util_m)",
+          "unidad": "m2",
+          "redondeo": "ceil"
+        },
+        "perfil_u_inferior": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_u",
+          "familia_accesorio": "ISOPANEL",
+          "unidad": "unit",
+          "descripcion": "Perfil U inferior - guía de paneles"
+        },
+        "perfil_u_superior": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_u",
+          "familia_accesorio": "ISOPANEL",
+          "unidad": "unit",
+          "descripcion": "Perfil U superior - cierre de paneles"
+        },
+        "perfil_g2": {
+          "formula": "ceil(esquinas * largo_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_g2",
+          "familia_accesorio": "ISOPANEL",
+          "unidad": "unit",
+          "descripcion": "Perfil G2 - cubrimiento de juntas exteriores"
+        },
+        "perfil_k2": {
+          "formula": "ceil(esquinas_interiores * largo_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_k2",
+          "unidad": "unit",
+          "descripcion": "Perfil K2 - ángulo interior para siliconar"
+        },
+        "varilla_roscada": {
+          "formula": "ceil(puntos_fijacion / 4)",
+          "unidad": "unit"
+        },
+        "tuerca": {
+          "formula_metal": "puntos_fijacion * 2",
+          "formula_hormigon": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "taco_expansivo": {
+          "formula": "puntos_fijacion * 1",
+          "condicion": "solo_hormigon",
+          "unidad": "unit"
+        },
+        "arandela_carrocero": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "tortuga_pvc": {
+          "formula": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "fijaciones_perfileria": {
+          "formula": "ceil(perimetro_perfileria_ml / 0.30)",
+          "unidad": "unit"
+        },
+        "silicona": {
+          "formula": "ceil(perimetro_perfileria_ml / 8)",
+          "unidad": "unit"
+        }
+      }
+    },
+    "pared_isowall_pir": {
+      "nombre": "Pared con ISOWALL PIR (ignífuga)",
+      "producto_base": "ISOWALL_PIR",
+      "ancho_util_m": 1.1,
+      "sistema_fijacion": "varilla_tuerca",
+      "espesores_disponibles": [50, 80],
+      "bom": {
+        "paneles": {
+          "formula": "ceil(ancho_m / ancho_util_m)",
+          "unidad": "m2",
+          "redondeo": "ceil"
+        },
+        "perfil_u_inferior": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_u",
+          "familia_accesorio": "ISOWALL",
+          "unidad": "unit"
+        },
+        "perfil_u_superior": {
+          "formula": "ceil(ancho_m / largo_std_m)",
+          "largo_std_m": 3.0,
+          "tipo_accesorio": "perfil_u",
+          "familia_accesorio": "ISOWALL",
+          "unidad": "unit"
+        },
+        "varilla_roscada": {
+          "formula": "ceil(puntos_fijacion / 4)",
+          "unidad": "unit"
+        },
+        "tuerca": {
+          "formula_metal": "puntos_fijacion * 2",
+          "formula_hormigon": "puntos_fijacion * 1",
+          "unidad": "unit"
+        },
+        "fijaciones_perfileria": {
+          "formula": "ceil(perimetro_perfileria_ml / 0.30)",
+          "unidad": "unit"
+        },
+        "silicona": {
+          "formula": "ceil(perimetro_perfileria_ml / 8)",
+          "unidad": "unit"
+        }
+      }
+    }
+  },
+  "precios_fijaciones_referencia": {
+    "varilla_roscada_3_8_1m": {
+      "precio_iva_inc": 3.81,
+      "unidad": "unit",
+      "nombre": "Varilla Roscada BSW 3/8 de 1m"
+    },
+    "tuerca_3_8": {
+      "precio_iva_inc": 0.15,
+      "unidad": "unit",
+      "nombre": "Tuerca BSW 3/8 Galv."
+    },
+    "taco_expansivo_3_8": {
+      "precio_iva_inc": 1.17,
+      "unidad": "unit",
+      "nombre": "Taco Expansivo Sorex 3/8"
+    },
+    "arandela_carrocero_3_8": {
+      "precio_iva_inc": 2.05,
+      "unidad": "unit",
+      "nombre": "Arandela Carrocero 3/8 Galv."
+    },
+    "arandela_plana_3_8": {
+      "precio_iva_inc": 0.35,
+      "unidad": "unit",
+      "nombre": "Arandela Plana Hierro Galv. 3/8"
+    },
+    "tortuga_pvc_blanca": {
+      "precio_iva_inc": 1.55,
+      "unidad": "unit",
+      "nombre": "Arandela Polipropileno (Tortuga Blanca)"
+    },
+    "tortuga_pvc_gris": {
+      "precio_iva_inc": 1.67,
+      "unidad": "unit",
+      "nombre": "Arandela Polipropileno (Tortuga Gris)"
+    },
+    "caballete_isoroof": {
+      "precio_iva_inc": 0.60,
+      "unidad": "unit",
+      "nombre": "Caballete con Arandela Trapezoidal"
+    },
+    "silicona_neutra_600": {
+      "precio_iva_inc": 11.58,
+      "unidad": "unit",
+      "nombre": "Bromplast 8 - Silicona Neutra x 600"
+    },
+    "cinta_butilo": {
+      "precio_iva_inc": 18.17,
+      "unidad": "unit",
+      "nombre": "Cinta Butilo 2mm x 15mm x 22.5m"
+    },
+    "membrana_autoadhesiva": {
+      "precio_iva_inc": 20.28,
+      "unidad": "unit",
+      "nombre": "Rollo Membrana Autoadhesiva 30cm x 10m DENVERFITA"
+    }
+  },
+  "reglas_generales": {
+    "redondeo_paneles": "ceil (siempre redondear hacia arriba)",
+    "redondeo_perfiles": "ceil (redondear hacia arriba por largo estándar de pieza)",
+    "solape_perfileria_cm": 5,
+    "desperdicio_perfileria_pct": 3,
+    "fijacion_perfileria_paso_cm": 30,
+    "rendimiento_silicona_ml": 8,
+    "varilla_por_metro_puntos": 4,
+    "pendiente_minima_techo_pct": 7
+  },
+  "convenciones": {
+    "iva_incluido": true,
+    "moneda": "USD",
+    "unidades_validas": ["m2", "ml", "unit", "kit"],
+    "nota_iva": "Todos los precios del catálogo YA incluyen IVA 22%. NO sumar IVA adicional."
+  }
+}

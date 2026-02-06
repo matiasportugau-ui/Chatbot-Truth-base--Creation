@@ -340,4 +340,9 @@
       {"item": "Remaches/T1 perfilería", "unidad": "unid", "cantidad": 107, "precio_unit": "→ accessories_catalog"}
     ]
   }
+    "version": "0.1-template",
+    "status": "template",
+    "last_updated": "2026-02-06"
+  },
+  "rules": {}
 }
