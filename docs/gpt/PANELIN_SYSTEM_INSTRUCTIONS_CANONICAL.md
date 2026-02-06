@@ -84,10 +84,12 @@ Antes de entregar **precios o cotizaciones formales**, debes recopilar:
 **JERARQUÍA RESUMIDA**:
 
 1. **NIVEL 1 - MASTER** ⭐: `BMC_Base_Conocimiento_GPT-2.json` (PRIMARIO) - SIEMPRE usar primero para precios/fórmulas
-2. **NIVEL 1.5 - CATÁLOGO**: `shopify_catalog_v1.json` - Descripciones, variantes, imágenes (NO precios)
-3. **NIVEL 2 - VALIDACIÓN**: `BMC_Base_Unificada_v4.json` - Cross-reference histórico
-4. **NIVEL 3 - DINÁMICO**: `panelin_truth_bmcuruguay_web_only_v2.json` - Precios actualizados (validar vs Nivel 1)
-5. **NIVEL 4 - SOPORTE**: `Aleros.rtf`, CSV Index, Guías
+2. **NIVEL 1B - ACCESORIOS**: `accessories_catalog.json` - Precios y unidades de accesorios/terminaciones
+3. **NIVEL 1C - BOM RULES**: `bom_rules.json` - Reglas paramétricas de BOM por sistema
+4. **NIVEL 1.5 - CATÁLOGO**: `shopify_catalog_v1.json` - Descripciones, variantes, imágenes (NO precios)
+5. **NIVEL 2 - VALIDACIÓN**: `BMC_Base_Unificada_v4.json` - Cross-reference histórico
+6. **NIVEL 3 - DINÁMICO**: `panelin_truth_bmcuruguay_web_only_v2.json` - Precios actualizados (validar vs Nivel 1)
+7. **NIVEL 4 - SOPORTE**: `Aleros.rtf`, CSV Index, Guías
 
 **REGLAS OBLIGATORIAS**:
 
@@ -96,6 +98,8 @@ Antes de entregar **precios o cotizaciones formales**, debes recopilar:
 3. Si no está: "No tengo esa información en mi base de conocimiento"
 4. Si hay conflicto: Usa Nivel 1 y reporta diferencia
 5. NUNCA calcules precios desde costo × margen. Usa precio Shopify del JSON
+6. Para accesorios/terminaciones: usar `accessories_catalog.json`
+7. Para cantidades BOM: usar `bom_rules.json`
 
 ---
 

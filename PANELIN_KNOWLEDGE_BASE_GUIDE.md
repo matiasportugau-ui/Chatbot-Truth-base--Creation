@@ -1,6 +1,6 @@
 # Panelin - Guía Completa de Knowledge Base
-**Versión:** 2.0 Ultimate  
-**Fecha:** 2026-01-20
+**Versión:** 2.1 Ultimate  
+**Fecha:** 2026-02-06
 
 **Doc canónico (merge):** `KNOWLEDGE_ANALYSIS_PLAN_MERGED.md` (knowledge + analysis + plan)
 
@@ -36,6 +36,45 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 - **SIEMPRE** para validación de autoportancia
 
 **Regla de oro**: Si hay conflicto con otros archivos, este gana.
+
+---
+
+### NIVEL 1B - ACCESORIOS (BOM Pricing)
+
+**Propósito**: Catálogo de accesorios y terminaciones con precio unitario y unidades normalizadas.
+
+#### Archivo:
+- **`accessories_catalog.json`**
+
+**Contenido**:
+- SKU, nombre y unidad (`ml`, `unid`, `kit`)
+- Precio unitario con IVA incluido
+- Largo estándar (para perfiles)
+- Reglas de corte/solape y desperdicio
+- Compatibilidad por familia y uso
+
+**Cuándo usar:**
+- Para cotizar **accesorios** y **terminaciones**
+- Para valorizar BOM con desglose por ítem
+
+---
+
+### NIVEL 1C - BOM RULES (Paramétricas por sistema)
+
+**Propósito**: Reglas determinísticas de BOM por sistema (techo/pared/etc).
+
+#### Archivo:
+- **`bom_rules.json`**
+
+**Contenido**:
+- Fórmulas paramétricas (paneles, perfiles, fijaciones, sellos)
+- Redondeos estándar
+- Reglas de corte/solape
+- Tabla de autoportancia (lookup)
+
+**Cuándo usar:**
+- Para **calcular cantidades** de accesorios y perfiles
+- Para integrar autoportancia al cálculo
 
 ---
 
@@ -114,6 +153,8 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 
 ### Archivos Obligatorios (Nivel 1):
 - [ ] `BMC_Base_Conocimiento_GPT-2.json` ⭐ (PRIMARIO - OBLIGATORIO)
+- [ ] `accessories_catalog.json`
+- [ ] `bom_rules.json`
 
 ### Archivos Recomendados (Nivel 2):
 - [ ] `BMC_Base_Unificada_v4.json`
@@ -141,6 +182,11 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 ### Para Fórmulas:
 1. **SIEMPRE**: Usar fórmulas de `formulas_cotizacion` en `BMC_Base_Conocimiento_GPT-2.json`
 2. **NUNCA**: Inventar o modificar fórmulas
+
+### Para BOM y Accesorios:
+1. **CANTIDADES**: Usar reglas de `bom_rules.json`
+2. **PRECIOS**: Usar `accessories_catalog.json`
+3. **UNIDADES**: Normalizar a `m2`, `ml`, `unid`, `kit`
 
 ### Para Validación Técnica (Autoportancia):
 1. **SIEMPRE**: Consultar autoportancia en `BMC_Base_Conocimiento_GPT-2.json`
@@ -214,6 +260,41 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 }
 ```
 
+### En `accessories_catalog.json`:
+*(Ejemplo de estructura; reemplazar con precios reales)*
+```json
+{
+  "items": [
+    {
+      "sku": "PERF-BABETA-LAT-0.5-GP-B",
+      "name": "Babeta lateral 0.5 GP Blanco",
+      "unidad": "ml",
+      "largo_std_m": 3.0,
+      "precio_unit_iva_inc": 0.0,
+      "terminaciones": [{"color": "Blanco", "recargo_percent": 0}],
+      "reglas_corte": {"solape_ml": 0.05, "desperdicio_percent": 3},
+      "compatibilidad": {"familia": "ISODEC", "uso": "techo"}
+    }
+  ]
+}
+```
+
+### En `bom_rules.json`:
+*(Ejemplo de estructura; adaptar a reglas reales)*
+```json
+{
+  "techo_isodec": {
+    "panels_needed": "ceil(ancho / ancho_util)",
+    "babeta_lateral_ml": "2 * largo",
+    "frente_inferior_ml": "ancho",
+    "encuentro_muro_ml": "ancho",
+    "fijaciones_unid": "panels_needed * fij_per_panel",
+    "remaches_unid": "round_up(babeta_total_ml / paso_remache_ml)",
+    "silicona_tubos": "ceil(perimetro_expuesto_ml / rendimiento_tubo_ml)"
+  }
+}
+```
+
 ---
 
 ## 🔄 Proceso de Actualización
@@ -233,6 +314,8 @@ Cuando se actualiza un archivo en Knowledge Base:
 Antes de considerar la Knowledge Base completa:
 
 - [ ] `BMC_Base_Conocimiento_GPT-2.json` está subido (Nivel 1)
+- [ ] `accessories_catalog.json` está subido (Nivel 1B)
+- [ ] `bom_rules.json` está subido (Nivel 1C)
 - [ ] `BMC_Base_Unificada_v4.json` está subido (Nivel 2)
 - [ ] `panelin_truth_bmcuruguay_web_only_v2.json` está subido (Nivel 3)
 - [ ] `panelin_context_consolidacion_sin_backend.md` está subido (Nivel 4)
@@ -265,5 +348,5 @@ Antes de considerar la Knowledge Base completa:
 
 ---
 
-**Última actualización**: 2026-01-20  
-**Versión**: 2.0 Ultimate
+**Última actualización**: 2026-02-06  
+**Versión**: 2.1 Ultimate

@@ -1,5 +1,5 @@
 # Panelin GPT Test Plan
-**Version**: 1.1
+**Version**: 1.2
 **Objective**: Verify Panelin adheres to Source-of-Truth, capabilities policies, and client data collection rules.
 
 Run these tests in the GPT "Preview" mode after configuration.
@@ -48,6 +48,19 @@ Run these tests in the GPT "Preview" mode after configuration.
 
 ---
 
+## 🧪 Test Suite 6: Actions + BOM Valuation (IF ENABLED)
+
+> Run this suite only if Actions are enabled and the new BOM/accessory catalogs are loaded.
+
+| ID | Prompt | Expected Outcome | Pass/Fail |
+| :--- | :--- | :--- | :--- |
+| **T6.1** | `Cotizar ISODEC EPS 100mm para 11m x 5m con finish GP0.5 Blanco` | Uses Action (calculate_quote). Response includes `line_items` with **sku, unidad, cant, precio_unit, total**. | |
+| **T6.2** | `Incluye accesorios y fijaciones` | Accessory line items are **valued** (no "pendiente de precio"). | |
+| **T6.3** | `Luz 4.5m, correas cada 1.2m` | Action returns `autoportancia` with `cumple` and recommendation if not. | |
+| **T6.4** | `Revisa unidades` | Units are normalized: **m2, ml, unid, kit** (no variants). | |
+
+---
+
 ## 📝 Regression Checklist (Maintenance)
 
 - [ ] Level 1 JSON matches current ERP prices.
@@ -57,3 +70,5 @@ Run these tests in the GPT "Preview" mode after configuration.
 - [ ] Personalization triggers correctly.
 - [ ] Client data collection activates for quotes (PRODUCTION MODE).
 - [ ] Phone validation accepts valid Uruguay formats (09X).
+- [ ] Accessories catalog has unit + price per unit.
+- [ ] BOM rules cover panel count + standard length rounding.
