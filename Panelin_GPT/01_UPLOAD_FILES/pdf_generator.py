@@ -88,15 +88,18 @@ class QuotationDataFormatter:
     def _process_items(items: List[Dict]) -> List[Dict]:
         """
         Process items to ensure they have NET prices for display.
-        Assumes input 'unit_price_usd' is VAT INCLUSIVE (from KB).
+        Prioritizes canonical 'sale_sin_iva' (NET) field.
+        Fallbacks to 'unit_price_usd' (VAT INC) / 1.22 only if necessary.
         """
         processed = []
         for item in items:
-            # Get the price (KB default is VAT Inc)
-            price_vat_inc = item.get("unit_price_usd", 0)
+            # 1. Try canonical NET price first (already without VAT)
+            price_net = item.get("sale_sin_iva", 0)
 
-            # Calculate NET price
-            price_net = price_vat_inc / (1 + QuotationConstants.IVA_RATE)
+            # 2. If no NET price, derive from VAT-inclusive price
+            if price_net == 0:
+                price_vat_inc = item.get("unit_price_usd", 0)
+                price_net = price_vat_inc / (1 + QuotationConstants.IVA_RATE)
 
             # Calculate total NET based on unit base
             quantity = item.get("quantity", 0)
