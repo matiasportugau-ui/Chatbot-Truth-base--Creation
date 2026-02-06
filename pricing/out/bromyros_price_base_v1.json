@@ -952,7 +952,7 @@
     },
     {
       "row_index": 46,
-      "sku": "BBAL",
+      "sku": "BBAL-ATN",
       "name": "Babeta de Atornillar Lateral",
       "thickness_mm": null,
       "length_m": null,
@@ -980,7 +980,7 @@
     },
     {
       "row_index": 47,
-      "sku": "BBAL",
+      "sku": "BBAL-EMP",
       "name": "Babeta de Empotrar Lateral",
       "thickness_mm": null,
       "length_m": null,
