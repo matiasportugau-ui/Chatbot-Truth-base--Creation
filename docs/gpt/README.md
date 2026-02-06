@@ -1,6 +1,7 @@
 # Panelin GPT Builder — Documentation Pack
 **Version**: 1.0 (Full Capabilities)  
 **Created**: 2026-01-25  
+**Updated**: 2026-02-06  
 **Status**: Ready for GPT Builder configuration
 
 ---
@@ -29,14 +30,14 @@ It contains step-by-step copy/paste instructions for every GPT Builder field.
 - **[`PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md`](PANELIN_SYSTEM_INSTRUCTIONS_CANONICAL.md)**: Canonical system prompt (paste into Builder "Instrucciones" field)
 
 ### 3. Knowledge Base
-- **[`PANELIN_KNOWLEDGE_MANIFEST.md`](PANELIN_KNOWLEDGE_MANIFEST.md)**: Authoritative list of 11 files to upload, with priority order
+- **[`PANELIN_KNOWLEDGE_MANIFEST.md`](PANELIN_KNOWLEDGE_MANIFEST.md)**: Authoritative list of 13 files to upload, with priority order
 
 ### 4. Policies
 - **[`PANELIN_CAPABILITIES_POLICY.md`](PANELIN_CAPABILITIES_POLICY.md)**: Rules for web/code/image/canvas usage
 - **[`PANELIN_GPT_SECURITY_POLICY.md`](PANELIN_GPT_SECURITY_POLICY.md)**: Data classification, do-not-upload list, access control
 
 ### 5. Testing
-- **[`PANELIN_GPT_TEST_PLAN.md`](PANELIN_GPT_TEST_PLAN.md)**: 5 test suites with pass/fail criteria (20+ tests)
+- **[`PANELIN_GPT_TEST_PLAN.md`](PANELIN_GPT_TEST_PLAN.md)**: 6 test suites with pass/fail criteria (20+ tests)
 
 ### 6. Operations
 - **[`PANELIN_GPT_MAINTENANCE.md`](PANELIN_GPT_MAINTENANCE.md)**: Maintenance runbook (KB updates, versioning, reindex waits)
@@ -57,6 +58,8 @@ It contains step-by-step copy/paste instructions for every GPT Builder field.
 
 ### Source of Truth Model
 - **Level 1**: `BMC_Base_Conocimiento_GPT-2.json` (prices, formulas, specs) — **ALWAYS WINS**
+- **Level 1B**: `accessories_catalog.json` (accessories pricing + units)
+- **Level 1C**: `bom_rules.json` (parametric BOM rules)
 - **Level 1.5**: `shopify_catalog_v1.json` (descriptions, variants, images) — **NO PRICES**
 - **Level 2-4**: Validation, dynamic snapshots, support docs
 
@@ -81,7 +84,7 @@ It contains step-by-step copy/paste instructions for every GPT Builder field.
 ### For Testing
 1. Open the GPT Preview
 2. Run tests from [`PANELIN_GPT_TEST_PLAN.md`](PANELIN_GPT_TEST_PLAN.md)
-3. Check all 5 test suites (20+ tests)
+3. Check all 6 test suites (20+ tests)
 4. Mark pass/fail in the table
 5. Fix failures by updating instructions or KB files
 
@@ -112,8 +115,10 @@ Chatbot-Truth-base--Creation-1/
 │   └── PANELIN_ACTIONS_SPEC.md
 │
 ├── BMC_Base_Conocimiento_GPT-2.json   ← Level 1 Master (upload FIRST)
+├── accessories_catalog.json          ← Level 1B Accessories (upload 2nd)
+├── bom_rules.json                    ← Level 1C BOM rules (upload 3rd)
 ├── catalog/out/
-│   ├── shopify_catalog_v1.json        ← Level 1.5 Catalog (upload 2nd)
+│   ├── shopify_catalog_v1.json        ← Level 1.5 Catalog
 │   ├── shopify_catalog_index_v1.csv   ← CSV Index
 │   └── shopify_catalog_quality.md     ← Quality report
 │

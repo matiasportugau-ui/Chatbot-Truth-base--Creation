@@ -1,6 +1,6 @@
 # Panelin GPT Builder Configuration
-**Version**: 1.0 (Full Capabilities)
-**Last Updated**: 2026-01-25
+**Version**: 1.1 (Full Capabilities)
+**Last Updated**: 2026-02-06
 
 Use these exact values when configuring the GPT in the [OpenAI GPT Builder](https://chatgpt.com/gpts/editor).
 
@@ -33,16 +33,18 @@ Use these exact values when configuring the GPT in the [OpenAI GPT Builder](http
 **Upload in this exact order** (see [`PANELIN_KNOWLEDGE_MANIFEST.md`](PANELIN_KNOWLEDGE_MANIFEST.md) for file paths):
 
 1. `BMC_Base_Conocimiento_GPT-2.json`
-2. `catalog/out/shopify_catalog_v1.json`
-3. `Files /BMC_Base_Unificada_v4.json`
-4. `panelin_truth_bmcuruguay_web_only_v2.json` (Root version)
-5. `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
-6. `PANELIN_QUOTATION_PROCESS.md`
-7. `PANELIN_TRAINING_GUIDE.md`
-8. `panelin_context_consolidacion_sin_backend.md`
-9. `Files /Aleros -2.rtf`
-10. `catalog/out/shopify_catalog_index_v1.csv`
-11. `BMC_Catalogo_Completo_Shopify (1).json` (Optional)
+2. `accessories_catalog.json` (new, BOM accessories pricing)
+3. `bom_rules.json` (new, parametric BOM rules)
+4. `catalog/out/shopify_catalog_v1.json`
+5. `Files /BMC_Base_Unificada_v4.json`
+6. `panelin_truth_bmcuruguay_web_only_v2.json` (Root version)
+7. `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
+8. `PANELIN_QUOTATION_PROCESS.md`
+9. `PANELIN_TRAINING_GUIDE.md`
+10. `panelin_context_consolidacion_sin_backend.md`
+11. `Files /Aleros -2.rtf`
+12. `catalog/out/shopify_catalog_index_v1.csv`
+13. `BMC_Catalogo_Completo_Shopify (1).json` (Optional)
 
 ### Capabilities
 - ✅ **Web Browsing**: ON
@@ -51,7 +53,8 @@ Use these exact values when configuring the GPT in the [OpenAI GPT Builder](http
 - ✅ **Canvas**: ON
 
 ### Actions
-*None for initial setup.* (See `PANELIN_ACTIONS_SPEC.md` if implementing later).
+*None for initial setup.* (See `PANELIN_ACTIONS_SPEC.md` if implementing later; ensure
+`calculate_quote` returns valued `line_items` using `accessories_catalog.json` + `bom_rules.json`.)
 
 ---
 

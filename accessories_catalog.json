@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "version": "0.1-template",
+    "currency": "USD",
+    "iva_included": true,
+    "status": "template",
+    "required_fields": [
+      "sku",
+      "name",
+      "unidad",
+      "precio_unit_iva_inc",
+      "largo_std_m",
+      "terminaciones",
+      "reglas_corte",
+      "compatibilidad"
+    ],
+    "unit_conventions": ["m2", "ml", "unid", "kit"],
+    "last_updated": "2026-02-06"
+  },
+  "items": []
+}

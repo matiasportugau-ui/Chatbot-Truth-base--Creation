@@ -1,5 +1,5 @@
 # Panelin GPT Files - Final Status Summary
-**Generated**: 2026-01-25  
+**Generated**: 2026-02-06  
 **Status**: ✅ **ALL FILES COMPLETE**
 
 ---
@@ -101,7 +101,7 @@ This will walk you through:
 1. Name and description
 2. Instructions (copy from canonical)
 3. Conversation starters
-4. Knowledge upload (11 files in order)
+4. Knowledge upload (13 files in order)
 5. Capabilities (all ON)
 6. Visibility settings
 
@@ -114,7 +114,13 @@ All Knowledge Base files are ready for upload:
 ### Level 1 - Master (Upload FIRST) ⭐
 - ✅ `BMC_Base_Conocimiento_GPT-2.json`
 
-### Level 1.5 - Catalog (Upload SECOND)
+### Level 1B - Accessories (Upload SECOND)
+- ✅ `accessories_catalog.json`
+
+### Level 1C - BOM Rules (Upload THIRD)
+- ✅ `bom_rules.json`
+
+### Level 1.5 - Catalog (Upload FOURTH)
 - ✅ `catalog/out/shopify_catalog_v1.json` (NEW)
 
 ### Level 4 - Process Docs
@@ -134,7 +140,7 @@ All Knowledge Base files are ready for upload:
 - ✅ `catalog/out/shopify_catalog_index_v1.csv` (NEW)
 - ✅ `BMC_Catalogo_Completo_Shopify (1).json` (optional)
 
-**Total**: 11 files ready for upload
+**Total**: 13 files ready for upload
 
 ---
 
@@ -142,6 +148,8 @@ All Knowledge Base files are ready for upload:
 
 ### ✅ Source of Truth Model
 - Level 1 Master: Prices, formulas, specs (always wins)
+- Level 1B Accessories: Pricing + units for BOM
+- Level 1C BOM Rules: Parametric quantities + rounding
 - Level 1.5 Catalog: Descriptions, variants, images (no prices)
 - Level 2-4: Validation, dynamic snapshots, support
 

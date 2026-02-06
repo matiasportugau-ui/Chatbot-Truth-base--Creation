@@ -1,5 +1,5 @@
 # Panelin Actions Specification
-**Version**: 1.0 (Optional)  
+**Version**: 1.1 (Optional)  
 **Status**: Not yet implemented  
 **Purpose**: Future integration for deterministic backend operations
 
@@ -20,7 +20,12 @@ Actions are **optional** for the Panelin GPT. The initial setup uses Knowledge +
 
 ### 1. `calculate_quote` (Deterministic Quotation)
 
-**Purpose**: Call the Python quotation engine directly for guaranteed accuracy.
+**Purpose**: Call the quotation engine directly for guaranteed accuracy, **returning
+valued line items** (panels + accessories + fixings) using BOM rules.
+
+**Dependencies**:
+- `accessories_catalog.json` for accessory pricing + units
+- `bom_rules.json` for deterministic BOM quantities
 
 **Endpoint**: `POST https://internal-api.bmc.uy/api/v1/quote`
 
@@ -29,38 +34,64 @@ Actions are **optional** for the Panelin GPT. The initial setup uses Knowledge +
 **Request Schema**:
 ```json
 {
-  "producto": "ISODEC EPS",
-  "espesor": "100",
-  "largo": 10.0,
-  "ancho": 5.0,
-  "luz": 4.5,
-  "tipo_fijacion": "hormigon",
-  "alero_1": 0,
-  "alero_2": 0
+  "product_id": "ISODEC_EPS_100mm",
+  "length_m": 5.0,
+  "width_m": 11.0,
+  "bom_preset": "techo_isodec",
+  "finish": {
+    "material": "GP",
+    "esp": "0.5",
+    "color": "Blanco"
+  },
+  "correas": {
+    "separacion_m": 1.2,
+    "tipo": "C"
+  },
+  "cargas": {
+    "nieve_kg_m2": 0,
+    "viento_categoria": "C3"
+  },
+  "iva_incluido": true
 }
 ```
 
 **Response Schema**:
 ```json
 {
-  "success": true,
-  "cotizacion": {
-    "producto": "ISODEC EPS",
-    "espesor": "100",
-    "validacion": {
-      "cumple_autoportancia": true,
-      "autoportancia": 5.5,
-      "luz_efectiva": 4.5
+  "calculation_verified": true,
+  "area_m2": 56.0,
+  "panels_needed": 10,
+  "autoportancia": {
+    "cumple": true,
+    "margen_seguridad": "OK"
+  },
+  "line_items": [
+    {
+      "sku": "PANEL-ISODEC-EPS-100",
+      "name": "ISODEC EPS 100 mm",
+      "unidad": "m2",
+      "cant": 56.0,
+      "precio_unit": 46.07,
+      "total": 2579.92
     },
-    "materiales": [...],
-    "costos": {
-      "subtotal": 1234.56,
-      "iva": 271.60,
-      "total": 1506.16
+    {
+      "sku": "PERF-BABETA-LAT-0.5-GP-B",
+      "name": "Babeta lateral 0.5 GP Blanco",
+      "unidad": "ml",
+      "cant": 10.0,
+      "precio_unit": 12.5,
+      "total": 125.0
     }
-  }
+  ],
+  "subtotales": {
+    "paneles": 2579.92,
+    "perfileria": 0.0,
+    "fijaciones": 0.0
+  },
+  "total_final_iva_inc": 2579.92
 }
 ```
+*Note: Example values only (not real prices).*
 
 **Safety Rules**:
 - Rate limit: 10 requests/minute
@@ -141,7 +172,7 @@ paths:
   /quote:
     post:
       operationId: calculate_quote
-      summary: Calculate deterministic quotation
+      summary: Calculate deterministic quotation with valued line items
       requestBody:
         required: true
         content:
@@ -149,33 +180,64 @@ paths:
             schema:
               type: object
               properties:
-                producto:
+                product_id:
                   type: string
-                  enum: ["ISODEC EPS", "ISODEC PIR", "ISOPANEL EPS", "ISOROOF 3G", "ISOWALL PIR"]
-                espesor:
+                length_m:
+                  type: number
+                width_m:
+                  type: number
+                bom_preset:
                   type: string
-                largo:
-                  type: number
-                ancho:
-                  type: number
-                luz:
-                  type: number
-                tipo_fijacion:
-                  type: string
-                  enum: ["hormigon", "metal", "madera"]
-              required: [producto, espesor, largo, ancho, luz, tipo_fijacion]
+                finish:
+                  type: object
+                  properties:
+                    material:
+                      type: string
+                    esp:
+                      type: string
+                    color:
+                      type: string
+                correas:
+                  type: object
+                  properties:
+                    separacion_m:
+                      type: number
+                    tipo:
+                      type: string
+                cargas:
+                  type: object
+                  properties:
+                    nieve_kg_m2:
+                      type: number
+                    viento_categoria:
+                      type: string
+                iva_incluido:
+                  type: boolean
+              required: [product_id, length_m, width_m, bom_preset]
       responses:
         '200':
-          description: Quotation result
+          description: Quotation result with line items
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  success:
+                  calculation_verified:
                     type: boolean
-                  cotizacion:
+                  area_m2:
+                    type: number
+                  panels_needed:
+                    type: integer
+                  autoportancia:
                     type: object
+                  line_items:
+                    type: array
+                    items:
+                      type: object
+                  subtotales:
+                    type: object
+                  total_final_iva_inc:
+                    type: number
   /kb/search:
     post:
       operationId: search_kb

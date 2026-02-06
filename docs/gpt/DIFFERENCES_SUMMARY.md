@@ -3,6 +3,14 @@
 
 ---
 
+## 🆕 Addendum (2026-02-06)
+
+This report is **historical**. Current configuration includes:
+- Knowledge upload list updated to **13 files** (adds `accessories_catalog.json` + `bom_rules.json`)
+- Documentation pack is complete (see `STATUS_REVIEW.md` for current status)
+
+Use this file only as a record of the initial gap analysis.
+
 ## 🎯 KEY FINDINGS
 
 ### ✅ GOOD NEWS: Most Files Ready
@@ -11,8 +19,8 @@
 - All Process Documentation exists
 - New Catalog files successfully created
 
-### ⚠️ NEEDS ATTENTION: Missing Documentation
-- **11 files missing** (all in `docs/gpt/` folder)
+### ⚠️ NEEDS ATTENTION: Missing Documentation (Historical)
+- **11 files missing** (snapshot at generation time; see addendum)
 - Instructions file exists but needs capability policy addendum
 - Builder configuration docs don't exist yet
 
