@@ -63,7 +63,8 @@ class QuotationResult(TypedDict):
     product_name: str
     
     # Dimensions
-    length_m: float
+    length_m: float  # Requested length
+    actual_length_m: float  # Actual panel length delivered
     width_m: float
     area_m2: float
     
@@ -90,6 +91,7 @@ class QuotationResult(TypedDict):
     calculation_verified: bool
     calculation_method: str
     currency: str
+    notes: List[str]  # Notes including cutting instructions
 
 
 def _load_knowledge_base() -> dict:
@@ -347,11 +349,35 @@ def calculate_panel_quote(
     if length_m <= 0 or width_m <= 0:
         raise ValueError("Dimensions must be greater than 0")
     
-    if length_m < product["largo_min_m"]:
-        raise ValueError(f"Length {length_m}m is below minimum {product['largo_min_m']}m")
+    # Validate dimensions and adjust for cut-to-length
+    largo_min = product["largo_min_m"]
+    largo_max = product["largo_max_m"]
+    adjusted_length = length_m
+    cutting_notes = []
     
-    if length_m > product["largo_max_m"]:
-        raise ValueError(f"Length {length_m}m exceeds maximum {product['largo_max_m']}m")
+    # If length is below minimum, calculate cut-to-length solution
+    if length_m < largo_min:
+        # Calculate how many minimum panels can be cut from one panel
+        cutting_waste_per_cut = 0.01  # 1cm waste per cut
+        usable_length_per_panel = largo_min - cutting_waste_per_cut
+        panels_per_stock = int(usable_length_per_panel / length_m)
+        
+        if panels_per_stock > 0:
+            adjusted_length = largo_min
+            cutting_notes.append(
+                f"Largo solicitado {length_m}m es menor al mínimo de producción ({largo_min}m). "
+                f"Se entregarán paneles de {largo_min}m para cortar en obra. "
+                f"De cada panel se pueden obtener {panels_per_stock} piezas de {length_m}m "
+                f"(considerando 1cm de desperdicio por corte)."
+            )
+        else:
+            raise ValueError(
+                f"Largo {length_m}m demasiado corto. "
+                f"Mínimo recomendado: {largo_min / 2}m para corte en obra."
+            )
+    
+    if length_m > largo_max:
+        raise ValueError(f"Length {length_m}m exceeds maximum {largo_max}m")
     
     if discount_percent < 0 or discount_percent > product["calculation_rules"]["max_discount_percent"]:
         raise ValueError(f"Discount must be between 0 and {product['calculation_rules']['max_discount_percent']}%")
@@ -361,8 +387,8 @@ def calculate_panel_quote(
     
     # === DETERMINISTIC CALCULATIONS WITH DECIMAL ===
     
-    # Convert to Decimal for precision
-    length_d = Decimal(str(length_m))
+    # Convert to Decimal for precision (use adjusted length for pricing)
+    length_d = Decimal(str(adjusted_length))
     width_d = Decimal(str(width_m))
     price_per_m2_d = Decimal(str(product["price_per_m2"]))
     discount_d = Decimal(str(discount_percent))
@@ -436,7 +462,8 @@ def calculate_panel_quote(
         product_id=product_id,
         product_name=product["name"],
         
-        length_m=float(length_d),
+        length_m=float(length_m),  # Requested length
+        actual_length_m=float(adjusted_length),  # Actual panel length
         width_m=float(width_d),
         area_m2=float(effective_area),
         
@@ -458,7 +485,8 @@ def calculate_panel_quote(
         # CRITICAL: This flag indicates calculation was done by Python, not LLM
         calculation_verified=True,
         calculation_method="python_decimal_deterministic",
-        currency="USD"
+        currency="USD",
+        notes=cutting_notes  # Include cutting notes
     )
 
 

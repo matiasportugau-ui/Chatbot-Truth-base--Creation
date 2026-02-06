@@ -29,7 +29,8 @@ class QuotationResult(TypedDict):
     product_name: str
     panel_type: str
     thickness_mm: int
-    length_m: float
+    length_m: float  # Requested length
+    actual_length_m: float  # Actual panel length delivered
     width_m: float
     area_m2: float
     unit_price_usd: float
@@ -136,8 +137,6 @@ def calculate_panel_quote(
     # Validación de rangos
     if thickness_mm <= 0:
         raise ValueError(f"Espesor debe ser positivo: {thickness_mm}")
-    if length_m < 0.5 or length_m > 14.0:
-        raise ValueError(f"Largo debe estar entre 0.5 y 14.0 metros: {length_m}")
     if width_m <= 0 or width_m > 2.0:
         raise ValueError(f"Ancho debe estar entre 0 y 2.0 metros: {width_m}")
     if quantity < 1:
@@ -170,6 +169,38 @@ def calculate_panel_quote(
             break
     
     if not product:
+        raise ValueError(f"Producto no encontrado: {panel_type} {thickness_mm}mm {insulation_type}")
+    
+    # Validate length and adjust for cut-to-length
+    largo_min = product.get("largo_min_m", 2.3)
+    largo_max = product.get("largo_max_m", 14.0)
+    adjusted_length = length_m
+    
+    # If length is below minimum, calculate cut-to-length solution
+    if length_m < largo_min:
+        # Calculate how many minimum panels can be cut from one panel
+        cutting_waste_per_cut = 0.01  # 1cm waste per cut
+        usable_length_per_panel = largo_min - cutting_waste_per_cut
+        panels_per_stock = int(usable_length_per_panel / length_m)
+        
+        if panels_per_stock > 0:
+            adjusted_length = largo_min
+            notes.append(
+                f"Largo solicitado {length_m}m es menor al mínimo de producción ({largo_min}m). "
+                f"Se entregarán paneles de {largo_min}m para cortar en obra. "
+                f"De cada panel se pueden obtener {panels_per_stock} piezas de {length_m}m "
+                f"(considerando 1cm de desperdicio por corte)."
+            )
+        else:
+            raise ValueError(
+                f"Largo {length_m}m demasiado corto. "
+                f"Mínimo recomendado: {largo_min / 2}m para corte en obra."
+            )
+    
+    if length_m > largo_max:
+        raise ValueError(f"Largo {length_m}m excede máximo de {largo_max}m")
+    
+    if not product:
         raise ValueError(
             f"Producto no encontrado: {panel_type} {thickness_mm}mm {insulation_type}. "
             f"Verifique catálogo disponible."
@@ -186,8 +217,8 @@ def calculate_panel_quote(
     if price_per_m2 <= 0:
         raise ValueError(f"Precio no válido para {matched_key}: {price_per_m2}")
     
-    # Cálculos con precisión Decimal
-    area = _to_decimal(length_m) * _to_decimal(width_m)
+    # Cálculos con precisión Decimal (use adjusted length for pricing)
+    area = _to_decimal(adjusted_length) * _to_decimal(width_m)
     unit_price = _round_currency(area * price_per_m2)
     subtotal = _round_currency(unit_price * quantity)
     discount_amount = _round_currency(subtotal * _to_decimal(discount_percent) / 100)
@@ -207,7 +238,8 @@ def calculate_panel_quote(
         product_name=product.get("name", panel_type),
         panel_type=panel_type,
         thickness_mm=thickness_mm,
-        length_m=length_m,
+        length_m=length_m,  # Requested length
+        actual_length_m=adjusted_length,  # Actual panel length delivered
         width_m=width_m,
         area_m2=float(area),
         unit_price_usd=float(unit_price),

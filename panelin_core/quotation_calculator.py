@@ -78,14 +78,34 @@ def calculate_panel_quote(
     # Validations
     warnings = []
     
-    # Validate dimensions against limits
-    largo_min = product_data.get('largo_min_m')
-    largo_max = product_data.get('largo_max_m')
+    # Validate dimensions against limits and adjust for cut-to-length
+    largo_min = product_data.get('largo_min_m', 2.3)
+    largo_max = product_data.get('largo_max_m', 14.0)
+    adjusted_length = length_m
     
-    if largo_min and length_m < largo_min:
-        warnings.append(f"Largo {length_m}m es menor al mínimo recomendado ({largo_min}m)")
-    if largo_max and length_m > largo_max:
-        warnings.append(f"Largo {length_m}m es mayor al máximo recomendado ({largo_max}m)")
+    # If length is below minimum, calculate cut-to-length solution
+    if length_m < largo_min:
+        # Calculate how many minimum panels can be cut from one panel
+        cutting_waste_per_cut = 0.01  # 1cm waste per cut
+        usable_length_per_panel = largo_min - cutting_waste_per_cut
+        panels_per_stock = int(usable_length_per_panel / length_m)
+        
+        if panels_per_stock > 0:
+            adjusted_length = largo_min
+            warnings.append(
+                f"Largo solicitado {length_m}m es menor al mínimo de producción ({largo_min}m). "
+                f"Se entregarán paneles de {largo_min}m para cortar en obra. "
+                f"De cada panel se pueden obtener {panels_per_stock} piezas de {length_m}m "
+                f"(considerando 1cm de desperdicio por corte)."
+            )
+        else:
+            raise ValueError(
+                f"Largo {length_m}m demasiado corto. "
+                f"Mínimo recomendado: {largo_min / 2}m para corte en obra."
+            )
+    
+    if length_m > largo_max:
+        raise ValueError(f"Largo {length_m}m excede máximo de {largo_max}m")
         
     # Validation rules from KB
     rules = product_data.get('calculation_rules', {})
@@ -93,7 +113,7 @@ def calculate_panel_quote(
     
     # Calculation with Decimal
     # Ensure inputs are treated as strings for Decimal conversion to avoid float precision issues
-    d_length = Decimal(str(length_m))
+    d_length = Decimal(str(adjusted_length))  # Use adjusted length for pricing
     d_width = Decimal(str(width_m))
     d_qty = Decimal(str(quantity))
     d_price = Decimal(str(product_data['price_per_m2']))
