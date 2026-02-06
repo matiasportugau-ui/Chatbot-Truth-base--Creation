@@ -7,11 +7,11 @@ steps:
       - "."
   - name: "python:3.11-slim"
     entrypoint: "sh"
-    env:
-      - "OPENAI_API_KEY=sk-cloudbuild"
+    secretEnv:
+      - "OPENAI_API_KEY"
     args:
       - "-c"
-      - "python -m pip install --no-cache-dir -r \"Copia de panelin_agent_v2/requirements.txt\" && pytest -q \"Copia de panelin_agent_v2/tests\""
+      - "python -m pip install --no-cache-dir -r \"panelin_agent_v2/requirements.txt\" && pytest -q \"panelin_agent_v2/tests\""
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "push"
@@ -35,3 +35,7 @@ substitutions:
   _REGION: us-central1
   _REPO: panelin
   _SERVICE: panelin-api
+availableSecrets:
+  secretManager:
+    - versionName: projects/${PROJECT_ID}/secrets/OPENAI_API_KEY/versions/latest
+      env: "OPENAI_API_KEY"

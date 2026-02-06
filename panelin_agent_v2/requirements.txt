@@ -38,6 +38,10 @@ langchain-openai==1.1.7
 aiohttp==3.13.3  # For async webhook handling
 httpx==0.28.1   # For Shopify API calls
 
+# API Wrapper
+fastapi==0.128.1
+uvicorn==0.40.0
+
 # Optional - Observability
 # ------------------------
 # langsmith==0.6.8  # LangChain observability
