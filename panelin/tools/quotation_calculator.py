@@ -584,7 +584,11 @@ def _fuzzy_match_product(
     return None
 
 
-def _validate_dimensions(length_m: float, width_m: float, product: Dict[str, Any]):
+def _validate_dimensions(
+    length_m: float, 
+    width_m: float, 
+    product: Dict[str, Any]
+) -> tuple[float, List[str]]:
     """
     Valida dimensiones y ajusta para paneles que requieren corte.
     

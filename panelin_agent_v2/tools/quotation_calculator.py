@@ -463,7 +463,7 @@ def calculate_panel_quote(
         product_name=product["name"],
         
         length_m=float(length_m),  # Requested length
-        actual_length_m=float(adjusted_length),  # Actual panel length
+        actual_length_m=float(adjusted_length),  # Actual panel length delivered
         width_m=float(width_d),
         area_m2=float(effective_area),
         
