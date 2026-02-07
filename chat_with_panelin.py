@@ -16,8 +16,54 @@ import argparse
 from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
+import requests
+from datetime import datetime
 
 load_dotenv()
+
+BACKEND_URL = os.getenv("PANELIN_BACKEND_URL", "http://localhost:8000")
+
+
+def log_conversation_create(thread_id: str, assistant_id: str, user_name: str = None):
+    """Log conversation creation to backend"""
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/api/conversations",
+            json={
+                "thread_id": thread_id,
+                "assistant_id": assistant_id,
+                "user_name": user_name,
+                "user_type": "customer"
+            },
+            timeout=5
+        )
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Warning: Failed to log conversation: {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Warning: Failed to log conversation: {e}")
+        return None
+
+
+def log_message(conversation_id: str, message_id: str, thread_id: str, 
+               role: str, content: str, created_at):
+    """Log message to backend"""
+    try:
+        requests.post(
+            f"{BACKEND_URL}/api/conversations/{conversation_id}/messages",
+            json={
+                "message_id": message_id,
+                "thread_id": thread_id,
+                "role": role,
+                "content": content,
+                "created_at": created_at.isoformat()
+            },
+            timeout=5
+        )
+    except Exception as e:
+        print(f"Warning: Failed to log message: {e}")
 
 
 def get_assistant_id(assistant_id_arg: str = None) -> str:
@@ -40,15 +86,22 @@ def get_assistant_id(assistant_id_arg: str = None) -> str:
 
 
 def chat_with_panelin(client: OpenAI, assistant_id: str):
-    """Interactive chat with Panelin"""
+    """Interactive chat with Panelin with conversation logging"""
     print("\n" + "=" * 60)
     print("💬 Chat with Panelin - BMC Assistant Pro")
     print("=" * 60)
     print("Type 'exit' or 'quit' to end the conversation\n")
     
+    # Get user name for logging
+    user_name = input("Your name (optional, for logging): ").strip() or None
+    
     # Create a thread
     thread = client.beta.threads.create()
     print(f"✅ Thread created: {thread.id}\n")
+    
+    # Log conversation creation
+    conversation = log_conversation_create(thread.id, assistant_id, user_name)
+    conversation_id = conversation.get("id") if conversation else None
     
     while True:
         # Get user input
@@ -68,6 +121,17 @@ def chat_with_panelin(client: OpenAI, assistant_id: str):
                 role="user",
                 content=user_message
             )
+            
+            # Log user message
+            if conversation_id:
+                log_message(
+                    conversation_id, 
+                    message.id, 
+                    thread.id, 
+                    "user", 
+                    user_message,
+                    datetime.now()
+                )
             
             # Run assistant
             print("\n🤔 Panelin is thinking...")
@@ -96,6 +160,17 @@ def chat_with_panelin(client: OpenAI, assistant_id: str):
                 if assistant_message.role == "assistant":
                     content = assistant_message.content[0].text.value
                     print(f"\nPanelin: {content}\n")
+                    
+                    # Log assistant message
+                    if conversation_id:
+                        log_message(
+                            conversation_id,
+                            assistant_message.id,
+                            thread.id,
+                            "assistant",
+                            content,
+                            datetime.now()
+                        )
                 else:
                     print("\n⚠️  No response from assistant\n")
             else:
