@@ -184,5 +184,5 @@ Si el cliente no especifica estructura, cotizar situación estándar según pane
 
 ---
 
-**Última actualización**: 2026-01-20  
-**Versión**: 2.0
+**Última actualización**: 2026-02-07  
+**Versión**: 3.0

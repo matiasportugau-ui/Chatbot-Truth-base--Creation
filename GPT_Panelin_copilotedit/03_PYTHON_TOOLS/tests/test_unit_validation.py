@@ -3,6 +3,10 @@ Unit Tests: Validation Functions
 =================================
 
 Tests for autoportancia validation and other validation functions.
+
+NOTE: These tests accept mock_bom_rules fixture but don't inject it into validate_autoportancia().
+The function internally loads real BOM rules via _load_bom_rules(). 
+TODO: Add dependency injection or monkeypatch _load_bom_rules to use mock_bom_rules for true unit testing.
 """
 
 import pytest

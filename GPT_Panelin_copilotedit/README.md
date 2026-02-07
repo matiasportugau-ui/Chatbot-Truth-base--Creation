@@ -168,5 +168,4 @@ For questions about:
 
 ---
 
-**Next Steps**: See implementation plan at:
-`/Users/matias/.copilot/session-state/5f859bb3-3165-4832-85af-3e6b41c96451/plan.md`
+**Next Steps**: See the project's implementation plan and planning documents in this repository.
