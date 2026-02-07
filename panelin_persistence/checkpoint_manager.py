@@ -9,7 +9,6 @@ message-based and time-based triggers.
 
 import json
 import time
-import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Optional, Any, Callable, List
