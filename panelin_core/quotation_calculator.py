@@ -112,8 +112,9 @@ def calculate_panel_quote(
     min_order = rules.get('minimum_order_m2', 0)
     
     # Calculation with Decimal
-    # Ensure inputs are treated as strings for Decimal conversion to avoid float precision issues
-    d_length = Decimal(str(length_m))  # Use requested length for pricing
+    # Use requested dimensions for pricing and area calculations
+    # (adjusted_length is only used for warnings about cut-to-length)
+    d_length = Decimal(str(length_m))
     d_width = Decimal(str(width_m))
     d_qty = Decimal(str(quantity))
     d_price = Decimal(str(product_data['price_per_m2']))
@@ -153,7 +154,7 @@ def calculate_panel_quote(
     return QuotationResult(
         product_id=selected_key,
         product_name=product_data['name'],
-        area_m2=float(Decimal(str(length_m)) * Decimal(str(width_m)) * Decimal(str(quantity))),
+        area_m2=float(total_area),
         unit_price_usd=float(unit_price),
         quantity=quantity,
         subtotal_usd=float(subtotal),
