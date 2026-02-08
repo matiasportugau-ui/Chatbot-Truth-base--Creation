@@ -31,6 +31,7 @@ from typing import TypedDict, Optional, List, Literal
 from pathlib import Path
 import json
 import math
+import os
 
 # Type definitions for structured outputs
 class ProductSpecs(TypedDict):
@@ -126,14 +127,50 @@ class QuotationResult(TypedDict):
     notes: List[str]  # Notes including cutting instructions
 
 
+def _is_valid_knowledge_base(kb: dict) -> bool:
+    """Return True if KB matches expected product schema."""
+    products = kb.get("products")
+    if not isinstance(products, dict) or not products:
+        return False
+    required_fields = {"family", "sub_family", "thickness_mm", "price_per_m2"}
+    for product in products.values():
+        if isinstance(product, dict) and required_fields.issubset(product.keys()):
+            return True
+    return False
+
+
 def _load_knowledge_base() -> dict:
-    """Load the single source of truth knowledge base"""
-    kb_path = Path(__file__).parent.parent / "config" / "panelin_truth_bmcuruguay.json"
-    if not kb_path.exists():
-        raise FileNotFoundError(f"Knowledge base not found at {kb_path}")
-    
-    with open(kb_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    """Load the single source of truth knowledge base."""
+    env_path = os.getenv("PANELIN_KB_PATH")
+    if env_path:
+        kb_path = Path(env_path).expanduser()
+        if not kb_path.exists():
+            raise FileNotFoundError(f"Knowledge base not found at {kb_path}")
+        with open(kb_path, 'r', encoding='utf-8') as f:
+            kb = json.load(f)
+        if not _is_valid_knowledge_base(kb):
+            raise ValueError(f"Knowledge base at {kb_path} does not match expected schema")
+        return kb
+
+    project_root = Path(__file__).parent.parent
+    repo_root = project_root.parent
+    candidate_paths = [
+        project_root / "01_KNOWLEDGE_BASE" / "Level_1_Master" / "panelin_truth_bmcuruguay.json",
+        repo_root / "panelin_agent_v2" / "config" / "panelin_truth_bmcuruguay.json",
+        repo_root / "panelin_core" / "knowledge_base" / "panelin_truth_bmcuruguay.json",
+        repo_root / "panelin_truth_bmcuruguay.json",
+    ]
+
+    for kb_path in candidate_paths:
+        if not kb_path.exists():
+            continue
+        with open(kb_path, 'r', encoding='utf-8') as f:
+            kb = json.load(f)
+        if _is_valid_knowledge_base(kb):
+            return kb
+
+    checked = ", ".join(str(path) for path in candidate_paths)
+    raise FileNotFoundError(f"Knowledge base not found or invalid. Checked: {checked}")
 
 
 # V3 ENHANCEMENT: Catalog caching
@@ -204,7 +241,8 @@ def validate_autoportancia(
     product_family: str,
     thickness_mm: int,
     span_m: float,
-    safety_margin: float = 0.15
+    safety_margin: float = 0.15,
+    bom_rules: Optional[dict] = None
 ) -> AutoportanciaValidationResult:
     """
     Validate if requested span is within panel autoportancia limits.
@@ -218,6 +256,7 @@ def validate_autoportancia(
         thickness_mm: Panel thickness in millimeters (50, 80, 100, 150, 200, 250)
         span_m: Requested distance between supports in meters
         safety_margin: Safety factor as decimal (default 0.15 = 15% margin)
+        bom_rules: Optional BOM rules override for testing
     
     Returns:
         AutoportanciaValidationResult with validation status and recommendations
@@ -232,7 +271,8 @@ def validate_autoportancia(
         >>> print(result['recommendation'])  # Suggests 150mm or 200mm thickness
     """
     # Load autoportancia table from BOM rules
-    bom_rules = _load_bom_rules()
+    if bom_rules is None:
+        bom_rules = _load_bom_rules()
     autoportancia_tablas = bom_rules.get("autoportancia", {}).get("tablas", {})
     
     # Extract family base name (handle both "ISODEC_EPS" and "ISODEC_EPS_100mm" formats)
@@ -530,15 +570,47 @@ def calculate_accessories_pricing(
     accesorios = catalog.get('accesorios', [])
     indices = catalog.get('indices', {})
     by_tipo = indices.get('by_tipo', {})
-    
+    by_compatibilidad = indices.get('by_compatibilidad', {})
+    bom_rules = _load_bom_rules()
+
     line_items = []
-    
+
+    def _resolve_compatibility_keys(system_name: str) -> List[str]:
+        compat_keys = []
+        system_config = bom_rules.get("sistemas", {}).get(system_name, {})
+        product_ref = system_config.get("producto_ref")
+        if product_ref:
+            compat_keys.append(product_ref.split("_")[0].upper())
+        system_lower = system_name.lower() if system_name else ""
+        compat_map = {
+            "isodec": "ISODEC",
+            "isoroof": "ISOROOF",
+            "isopanel": "ISOPANEL",
+            "isowall": "ISOWALL",
+            "isofrig": "ISOFRIG",
+        }
+        for token, compat in compat_map.items():
+            if token in system_lower and compat not in compat_keys:
+                compat_keys.append(compat)
+        if "UNIVERSAL" not in compat_keys:
+            compat_keys.append("UNIVERSAL")
+        return compat_keys
+
+    compat_indices = set()
+    for compat_key in _resolve_compatibility_keys(sistema):
+        compat_indices.update(by_compatibilidad.get(compat_key, []))
+
     def find_accessory(tipo: str) -> Optional[dict]:
-        """Find first accessory by type"""
+        """Find an accessory by type, preferring system compatibility."""
         items_indices = by_tipo.get(tipo, [])
-        if items_indices and len(accesorios) > 0:
-            # indices are array positions, not SKUs
-            idx = items_indices[0]
+        if not items_indices:
+            return None
+        candidate_indices = items_indices
+        if compat_indices:
+            filtered = [idx for idx in items_indices if idx in compat_indices]
+            if filtered:
+                candidate_indices = filtered
+        for idx in candidate_indices:
             if idx < len(accesorios):
                 return accesorios[idx]
         return None
@@ -547,49 +619,61 @@ def calculate_accessories_pricing(
     if accessories_quantities['front_drip_edge_units'] > 0:
         acc = find_accessory('gotero_frontal')
         if acc:
-            qty = accessories_quantities['front_drip_edge_units']
-            price = Decimal(str(acc['precio_unit_iva_inc']))
-            subtotal = _decimal_round(Decimal(str(qty)) * price)
-            line_items.append(QuotationLineItem(
-                product_id=acc['sku'], name=acc['name'], quantity=qty,
-                area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
-            ))
+            price_value = acc.get('precio_unit_iva_inc')
+            if price_value is not None:
+                qty = accessories_quantities['front_drip_edge_units']
+                price = Decimal(str(price_value))
+                subtotal = _decimal_round(Decimal(str(qty)) * price)
+                acc_name = acc.get("name") or acc.get("nombre") or acc.get("sku", "")
+                line_items.append(QuotationLineItem(
+                    product_id=acc['sku'], name=acc_name, quantity=qty,
+                    area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
+                ))
     
     # Gotero lateral
     if accessories_quantities['lateral_drip_edge_units'] > 0:
         acc = find_accessory('gotero_lateral')
         if acc:
-            qty = accessories_quantities['lateral_drip_edge_units']
-            price = Decimal(str(acc['precio_unit_iva_inc']))
-            subtotal = _decimal_round(Decimal(str(qty)) * price)
-            line_items.append(QuotationLineItem(
-                product_id=acc['sku'], name=acc['name'], quantity=qty,
-                area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
-            ))
+            price_value = acc.get('precio_unit_iva_inc')
+            if price_value is not None:
+                qty = accessories_quantities['lateral_drip_edge_units']
+                price = Decimal(str(price_value))
+                subtotal = _decimal_round(Decimal(str(qty)) * price)
+                acc_name = acc.get("name") or acc.get("nombre") or acc.get("sku", "")
+                line_items.append(QuotationLineItem(
+                    product_id=acc['sku'], name=acc_name, quantity=qty,
+                    area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
+                ))
     
     # Silicona
     if accessories_quantities['silicone_tubes'] > 0:
         acc = find_accessory('silicona')
         if acc:
-            qty = accessories_quantities['silicone_tubes']
-            price = Decimal(str(acc['precio_unit_iva_inc']))
-            subtotal = _decimal_round(Decimal(str(qty)) * price)
-            line_items.append(QuotationLineItem(
-                product_id=acc['sku'], name=acc['name'], quantity=qty,
-                area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
-            ))
+            price_value = acc.get('precio_unit_iva_inc')
+            if price_value is not None:
+                qty = accessories_quantities['silicone_tubes']
+                price = Decimal(str(price_value))
+                subtotal = _decimal_round(Decimal(str(qty)) * price)
+                acc_name = acc.get("name") or acc.get("nombre") or acc.get("sku", "")
+                line_items.append(QuotationLineItem(
+                    product_id=acc['sku'], name=acc_name, quantity=qty,
+                    area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
+                ))
     
     # Varillas
     if accessories_quantities['rod_quantity'] > 0:
         acc = find_accessory('varilla')
         if acc:
-            qty = accessories_quantities['rod_quantity']
-            price = Decimal(str(acc['precio_unit_iva_inc']))
-            subtotal = _decimal_round(Decimal(str(qty)) * price)
-            line_items.append(QuotationLineItem(
-                product_id=acc['sku'], name=acc['name'], quantity=qty,
-                area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
-            ))
+            price_value = acc.get('precio_unit_iva_inc')
+            if price_value is not None:
+                qty = accessories_quantities['rod_quantity']
+                price = Decimal(str(price_value))
+                subtotal = _decimal_round(Decimal(str(qty)) * price)
+                acc_name = acc.get("name") or acc.get("nombre") or acc.get("sku", "")
+                line_items.append(QuotationLineItem(
+                    product_id=acc['sku'], name=acc_name, quantity=qty,
+                    area_m2=0.0, unit_price_usd=float(price), line_total_usd=float(subtotal)
+                ))
     
     # Calculate total
     total = sum(Decimal(str(item['line_total_usd'])) for item in line_items)

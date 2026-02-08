@@ -11,6 +11,14 @@ Output: 04_DATA/indices/perfileria_index.json
 import json
 from pathlib import Path
 from decimal import Decimal
+import unicodedata
+
+def _normalize_token(value: str) -> str:
+    """Normalize text to ASCII lowercase for reliable matching."""
+    if not value:
+        return ""
+    normalized = unicodedata.normalize("NFKD", value)
+    return "".join(ch for ch in normalized if not unicodedata.combining(ch)).lower()
 
 def build_perfileria_index():
     """Build perfilería pricing index from accessories catalog"""
@@ -30,11 +38,21 @@ def build_perfileria_index():
     accesorios = catalog.get('accesorios', [])
     print(f"   - Total accessories: {len(accesorios)}")
     
-    # Filter perfilería items
+    # Filter perfileria items (normalize types to avoid accent mismatches)
+    perfileria_types = {
+        "perfil",
+        "gotero_frontal",
+        "gotero_lateral",
+        "gotero_superior",
+        "babeta_adosar",
+        "babeta_empotrar",
+        "canalon",
+        "cumbrera",
+    }
+    perfileria_types_norm = {_normalize_token(tipo) for tipo in perfileria_types}
     perfileria_items = [
-        acc for acc in accesorios 
-        if acc.get('tipo') in ['perfil', 'gotero_frontal', 'gotero_lateral', 'gotero_superior', 
-                                'babeta_adosar', 'babeta_empotrar', 'canalon', 'cumbrera']
+        acc for acc in accesorios
+        if _normalize_token(acc.get("tipo", "")) in perfileria_types_norm
     ]
     
     print(f"   - Perfilería items found: {len(perfileria_items)}")
@@ -53,7 +71,9 @@ def build_perfileria_index():
     
     for acc in perfileria_items:
         sku = acc['sku']
-        tipo = acc['tipo']
+        tipo = acc.get("tipo", "")
+        tipo_norm = _normalize_token(tipo)
+        name = acc.get("name") or acc.get("nombre") or ""
         
         # Calculate price per ML
         precio_unit = acc.get('precio_unit_iva_inc', 0)
@@ -66,8 +86,9 @@ def build_perfileria_index():
         
         item_data = {
             "sku": sku,
-            "name": acc['name'],
+            "name": name,
             "tipo": tipo,
+            "tipo_norm": tipo_norm,
             "precio_unit_iva_inc": precio_unit,
             "largo_std_m": largo_std,
             "precio_por_ml": round(precio_por_ml, 4),
@@ -79,9 +100,12 @@ def build_perfileria_index():
         index["items"][sku] = item_data
         
         # Index by tipo
-        if tipo not in index["by_tipo"]:
-            index["by_tipo"][tipo] = []
-        index["by_tipo"][tipo].append(sku)
+        for tipo_key in {tipo_norm, tipo}:
+            if not tipo_key:
+                continue
+            if tipo_key not in index["by_tipo"]:
+                index["by_tipo"][tipo_key] = []
+            index["by_tipo"][tipo_key].append(sku)
     
     # Save index
     output_path = project_root / "04_DATA" / "indices" / "perfileria_index.json"
