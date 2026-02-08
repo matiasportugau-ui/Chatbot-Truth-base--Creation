@@ -82,6 +82,20 @@ When contributing to this repository:
 - Repository-specific: `PANELIN_KNOWLEDGE_BASE_GUIDE.md`
 - Security policy: `SECURITY.md`
 
+## 📖 Tutorial: Your First Custom Instructions
+
+If you're new to GitHub Copilot custom instructions, check out our hands-on tutorial:
+
+👉 **[Custom Instructions Tutorial Example](../examples/custom-instructions-tutorial/)**
+
+This tutorial demonstrates:
+- How custom instructions improve code generation
+- Before/after comparison of generated code
+- Working JavaScript examples you can run
+- Step-by-step guide to testing custom instructions
+
+Perfect for understanding the power of custom instructions before diving into our comprehensive repository instructions!
+
 ## 📝 Maintaining These Instructions
 
 The Copilot instructions should be kept up-to-date when:
