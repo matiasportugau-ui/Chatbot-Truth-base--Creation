@@ -8,15 +8,42 @@ Designed for deployment on Google Cloud Run.
 ENDPOINTS:
 - POST /v3/quote - Calculate panel quotation
 - GET /health - Health check endpoint
-- GET / - API documentation
+- GET / - API info (interactive docs at /docs and /redoc)
 """
 
 import sys
 from pathlib import Path
+import logging
 
-# Add the 03_PYTHON_TOOLS directory to Python path
-tools_path = Path(__file__).parent.parent.parent / "03_PYTHON_TOOLS"
-sys.path.insert(0, str(tools_path))
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Add the 03_PYTHON_TOOLS directory to Python path, searching from this file and CWD
+def _find_tools_path():
+    """
+    Locate the 03_PYTHON_TOOLS directory in a way that works both locally and in-container.
+
+    We search starting from:
+    - The directory containing this file (__file__)
+    - The current working directory
+    and walk up their parents looking for a child directory named '03_PYTHON_TOOLS'.
+    """
+    search_roots = [Path(__file__).resolve().parent, Path.cwd()]
+    for root in search_roots:
+        for parent in (root, *root.parents):
+            candidate = parent / "03_PYTHON_TOOLS"
+            if candidate.is_dir():
+                return candidate
+    return None
+
+tools_path = _find_tools_path()
+if tools_path is not None:
+    tools_path_str = str(tools_path)
+    if tools_path_str not in sys.path:
+        sys.path.insert(0, tools_path_str)
+else:
+    logger.warning("Could not locate 03_PYTHON_TOOLS directory")
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -40,7 +67,7 @@ class QuoteRequest(BaseModel):
     length_m: float = Field(..., gt=0, description="Panel length in meters")
     width_m: float = Field(..., gt=0, description="Total width to cover in meters")
     quantity: int = Field(1, ge=1, description="Number of panels/installations")
-    discount_percent: float = Field(0.0, ge=0, le=30, description="Discount percentage")
+    discount_percent: float = Field(0.0, ge=0, le=15, description="Discount percentage (max 15% per KB rules)")
     include_accessories: bool = Field(False, description="Include accessories in calculation")
     include_tax: bool = Field(True, description="Include IVA (22%)")
     installation_type: Literal["techo", "pared"] = Field("techo", description="Installation type")
@@ -56,7 +83,7 @@ class QuoteResponse(BaseModel):
 
 @app.get("/")
 async def root():
-    """API documentation and welcome message"""
+    """API info payload (interactive docs at /docs and /redoc)"""
     return {
         "service": "Panelin V3 API",
         "version": "3.1.0",
@@ -116,7 +143,9 @@ async def calculate_quote(request: QuoteRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+        # Log the full exception for debugging but return generic message to client
+        logger.exception("Internal server error during quotation calculation")
+        raise HTTPException(status_code=500, detail="Internal server error. Please contact support.")
 
 
 def _convert_decimals_to_float(obj):

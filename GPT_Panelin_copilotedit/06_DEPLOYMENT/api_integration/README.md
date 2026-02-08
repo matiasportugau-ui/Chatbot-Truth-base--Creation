@@ -17,7 +17,7 @@ FastAPI application that wraps the `quotation_calculator_v3.py` module with a RE
 **Endpoints**:
 - `POST /v3/quote` - Calculate panel quotation
 - `GET /health` - Health check for Cloud Run
-- `GET /` - API documentation
+- `GET /` - API info payload (interactive API docs at `/docs` and `/redoc`)
 
 ### `Dockerfile`
 Container image definition for Google Cloud Run.

@@ -50,7 +50,7 @@ Successfully created a complete automated deployment pipeline for the Panelin V3
 **Location**: `GPT_Panelin_copilotedit/06_DEPLOYMENT/api_integration/requirements.txt`
 
 ```
-fastapi==0.109.0
+fastapi==0.109.1
 uvicorn[standard]==0.27.0
 pydantic==2.5.3
 ```

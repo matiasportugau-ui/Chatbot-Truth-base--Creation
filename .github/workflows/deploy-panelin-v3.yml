@@ -34,7 +34,7 @@ jobs:
 
       - name: Configure Docker for GCR
         run: |
-          gcloud auth configure-docker
+          gcloud auth configure-docker --quiet
 
       - name: Build Docker image
         run: |
