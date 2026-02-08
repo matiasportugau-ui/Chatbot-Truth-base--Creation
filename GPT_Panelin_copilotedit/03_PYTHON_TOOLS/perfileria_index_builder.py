@@ -66,7 +66,7 @@ def build_perfileria_index():
         
         item_data = {
             "sku": sku,
-            "name": acc['name'],
+            "name": acc.get('name') or acc.get('nombre', ''),
             "tipo": tipo,
             "precio_unit_iva_inc": precio_unit,
             "largo_std_m": largo_std,
