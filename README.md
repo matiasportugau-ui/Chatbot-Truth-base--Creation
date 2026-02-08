@@ -36,7 +36,7 @@ Repositorio central para el sistema de cotización y soporte técnico de Panelin
 ## Jerarquía de la base de conocimiento
 Nivel 1 es la fuente maestra y siempre tiene prioridad:
 1. **Level 1 - Master**: `BMC_Base_Conocimiento_GPT-2.json`, `accessories_catalog.json`, `bom_rules.json`
-2. **Level 2 - Validación**: `BMC_Base_Unificada_v4.json`
+2. **Level 2 - Validación**: archivo unificado de referencia (`BMC_Base_Unificada_v4.json` o `BMC_Base_Conocimiento_Unified_v6.json`)
 3. **Level 3 - Dinámico**: `panelin_truth_bmcuruguay_web_only_v2.json`
 4. **Level 4 - Soporte**: documentación de referencia y archivos auxiliares
 
@@ -52,4 +52,3 @@ Nivel 1 es la fuente maestra y siempre tiene prioridad:
 - Los cambios en archivos protegidos (por ejemplo, `*.json`, `/config/`, `/panelin_core/`, `/gpt_configs/`, `.github/`) requieren revisión según `CODEOWNERS`.
 - Mantén el uso de `Decimal` para cálculos financieros y respeta la jerarquía de la KB en toda la documentación.
 - Preferir PRs pequeños y bien descritos; incluye enlaces a las guías relevantes cuando añadas nueva documentación.
-
