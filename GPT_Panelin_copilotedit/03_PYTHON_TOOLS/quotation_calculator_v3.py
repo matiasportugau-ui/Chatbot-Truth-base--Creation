@@ -222,7 +222,8 @@ def validate_autoportancia(
     product_family: str,
     thickness_mm: int,
     span_m: float,
-    safety_margin: float = 0.15
+    safety_margin: float = 0.15,
+    bom_rules: Optional[dict] = None
 ) -> AutoportanciaValidationResult:
     """
     Validate if requested span is within panel autoportancia limits.
@@ -236,6 +237,7 @@ def validate_autoportancia(
         thickness_mm: Panel thickness in millimeters (50, 80, 100, 150, 200, 250)
         span_m: Requested distance between supports in meters
         safety_margin: Safety factor as decimal (default 0.15 = 15% margin)
+        bom_rules: Optional BOM rules dict for testing (default: load from file)
     
     Returns:
         AutoportanciaValidationResult with validation status and recommendations
@@ -250,7 +252,8 @@ def validate_autoportancia(
         >>> print(result['recommendation'])  # Suggests 150mm or 200mm thickness
     """
     # Load autoportancia table from BOM rules
-    bom_rules = _load_bom_rules()
+    if bom_rules is None:
+        bom_rules = _load_bom_rules()
     autoportancia_tablas = bom_rules.get("autoportancia", {}).get("tablas", {})
     
     # Extract family base name (handle both "ISODEC_EPS" and "ISODEC_EPS_100mm" formats)
