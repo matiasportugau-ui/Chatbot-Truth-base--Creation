@@ -122,9 +122,9 @@ class TestAutoportanciaValidation:
 class TestAutoportanciaParameterized:
     """Parameterized tests for all product families"""
     
-    def test_validation_result(self, family, thickness, span, expected_valid):
+    def test_validation_result(self, mock_bom_rules, family, thickness, span, expected_valid):
         """Test validation across all families and thicknesses"""
-        result = validate_autoportancia(family, thickness, span)
+        result = validate_autoportancia(family, thickness, span, bom_rules=mock_bom_rules)
         assert result['is_valid'] == expected_valid
 
 
