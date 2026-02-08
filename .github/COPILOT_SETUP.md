@@ -44,13 +44,19 @@ This follows [GitHub's recommended location](https://docs.github.com/en/copilot/
 - Spanish terminology preservation
 - Self-supporting span validation (`autoportancia`)
 
-### 5. **Development Workflow**
+### 5. **Multi-Agent Task Distribution**
+- Copilot vs Claude role assignment
+- Task-specific responsibilities (code, reasoning, analysis)
+- RAG configuration reference parameters
+- Shared responsibilities matrix
+
+### 6. **Development Workflow**
 - Git branch naming conventions
 - PR requirements and review process
 - Test-driven development approach
 - CODEOWNERS for sensitive files
 
-### 6. **Troubleshooting**
+### 7. **Troubleshooting**
 - Common Decimal precision errors
 - Knowledge base loading issues
 - Calculator choice guidance

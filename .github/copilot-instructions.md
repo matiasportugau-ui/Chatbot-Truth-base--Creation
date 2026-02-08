@@ -408,6 +408,61 @@ When working with agents:
 - Log agent interactions for debugging
 - Maintain clear boundaries between agent responsibilities
 
+### Task Distribution: Copilot vs Claude
+
+Tasks are distributed between **GitHub Copilot** (coding agent) and **Claude** (reasoning/analysis agent) based on their strengths:
+
+#### GitHub Copilot — Code & Infrastructure Tasks
+| Task | Description |
+|------|-------------|
+| Code implementation | Write and modify Python modules, calculators, and tools |
+| Test creation | Create and update `pytest` tests following existing patterns |
+| Bug fixes | Fix code issues, type errors, and calculation bugs |
+| Dependency management | Update `requirements*.txt`, install packages |
+| CI/CD workflows | Maintain `.github/workflows/` and GitHub Actions |
+| Code refactoring | Rename variables, extract functions, restructure modules |
+| Security fixes | Address CodeQL alerts, credential leaks, input validation |
+| Documentation updates | Update inline docstrings and markdown docs alongside code changes |
+
+#### Claude — Reasoning & Analysis Tasks
+| Task | Description |
+|------|-------------|
+| Knowledge base analysis | Analyze KB structure, detect conflicts, validate hierarchy |
+| RAG pipeline design | Design retrieval strategy, chunk sizing (300–800 words), embedding configuration |
+| System prompt engineering | Craft and iterate system prompts for GPT agents |
+| Business logic validation | Verify quotation rules, autoportancia formulas, BOM logic |
+| Architecture decisions | Evaluate trade-offs (RAG vs fine-tuning, vector store selection) |
+| Gap analysis | Identify missing KB content, incomplete coverage, data quality issues |
+| Training data preparation | Clean documents, structure content, optimize for embeddings |
+| Complex debugging | Reason through multi-step calculation errors and edge cases |
+
+#### Shared Responsibilities
+| Task | Copilot Role | Claude Role |
+|------|-------------|-------------|
+| Quotation calculator changes | Implement code changes | Validate business logic and formulas |
+| KB file updates | Edit JSON files, validate syntax | Review content accuracy and hierarchy compliance |
+| New agent creation | Scaffold code structure and tests | Design agent prompt, define scope and behavior |
+| PR reviews | Check code quality, style, tests | Review logic, domain correctness, edge cases |
+
+### RAG Configuration Reference
+
+The chatbot uses RAG (Retrieval-Augmented Generation) to connect the model with the knowledge base. Key configuration parameters:
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Model | `gpt-4-turbo` | Best comprehension for Spanish |
+| Temperature | `0.2` | Low for precise, factual responses |
+| Top P | `0.9` | Balanced diversity |
+| Embedding model | `text-embedding-3-small` (or `ada-002`) | For semantic search; prefer v3 models for new projects |
+| Vector store | Pinecone / Chroma / FAISS | Based on volume and resources |
+| Language | `es-ES` | Spanish primary, multilingual support |
+| Chunk size | 300–800 words | With overlap for context continuity |
+| Document format | Text / Markdown (single column) | Avoids multi-column PDF parsing issues |
+
+**System prompt principle**: The LLM acts as an expert assistant, responding in Spanish, based **only** on KB data. It must cite sources when possible, never fabricate data, and request clarification when information is insufficient.
+
+**Critical rule**: The LLM **NEVER** calculates — it only extracts parameters. All arithmetic is performed by deterministic Python functions (see the [Calculator Decision Matrix](#calculator-decision-matrix) above for choosing between calculator variants).
+
 ## 🔄 Continuous Integration
 
 ### GitHub Actions
