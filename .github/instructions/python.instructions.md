@@ -19,11 +19,11 @@ This repository is an AI-powered chatbot system for construction panel quotation
 ```python
 # Avoid
 d = new_data()
-x = users.filter(u: u.active)
+x = [u for u in users if u.active]
 
 # Prefer
 calculation_data = new_data()
-active_users = users.filter(user: user.is_active)
+active_users = [user for user in users if user.is_active]
 ```
 
 ## Financial Calculations
