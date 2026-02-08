@@ -1,0 +1,58 @@
+# Panelin V3 API - Docker Build Ignore
+# Exclude unnecessary files from Docker build context
+
+# Development and testing
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (not needed in runtime)
+*.md
+*.pdf
+*.txt
+!requirements.txt
+!06_DEPLOYMENT/api_integration/requirements.txt
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Data and analysis directories (not needed for API)
+02_GPT_CONFIGURATION/
+04_DATA/
+05_ANALYSIS/
+
+# Tests (not needed in production)
+03_PYTHON_TOOLS/tests/
+03_PYTHON_TOOLS/test_*.py
+03_PYTHON_TOOLS/pytest.ini
+
+# Temporary files
+*.log
+*.tmp
+.cache/
+tmp/
