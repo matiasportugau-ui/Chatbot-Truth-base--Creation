@@ -29,8 +29,9 @@ This module implements all quotation calculations for BMC Uruguay panel products
 from decimal import Decimal, ROUND_HALF_UP, ROUND_CEILING
 from typing import TypedDict, Optional, List, Literal
 from pathlib import Path
+from datetime import datetime
 import json
-import math
+import uuid
 
 # Type definitions for structured outputs
 class ProductSpecs(TypedDict):
@@ -190,13 +191,30 @@ def _load_bom_rules() -> dict:
 
 
 def _decimal_round(value: Decimal, places: int = 2) -> Decimal:
-    """Round decimal to specified places using banker's rounding"""
+    """
+    Round decimal to specified places using banker's rounding.
+    
+    Args:
+        value: Decimal value to round
+        places: Number of decimal places (default: 2 for currency)
+    
+    Returns:
+        Rounded Decimal value
+    """
     quantizer = Decimal(10) ** -places
     return value.quantize(quantizer, rounding=ROUND_HALF_UP)
 
 
 def _decimal_ceil(value: Decimal) -> int:
-    """Ceiling function for Decimal values"""
+    """
+    Ceiling function for Decimal values.
+    
+    Args:
+        value: Decimal value to ceiling
+    
+    Returns:
+        Integer ceiling value
+    """
     return int(value.to_integral_value(rounding=ROUND_CEILING))
 
 
@@ -782,8 +800,6 @@ def calculate_panel_quote(
     grand_total = _decimal_round(total + accessories_total)
     
     # Generate quotation ID
-    import uuid
-    from datetime import datetime
     quotation_id = f"QT-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
     
     return QuotationResult(
