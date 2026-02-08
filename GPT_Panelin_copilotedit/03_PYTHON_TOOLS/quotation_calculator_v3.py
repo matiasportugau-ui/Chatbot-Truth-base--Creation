@@ -128,18 +128,41 @@ class QuotationResult(TypedDict):
 
 
 def _load_knowledge_base() -> dict:
-    """Load the single source of truth knowledge base"""
-    kb_path = Path(__file__).parent.parent / "config" / "panelin_truth_bmcuruguay.json"
-    if not kb_path.exists():
-        raise FileNotFoundError(f"Knowledge base not found at {kb_path}")
+    """Load the single source of truth knowledge base.
     
-    with open(kb_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    Searches for panelin_truth_bmcuruguay.json in multiple locations:
+    1. Level_1_Master KB directory (preferred for GPT_Panelin_copilotedit)
+    2. config/ directory (legacy path)
+    3. Repository root panelin_agent_v2/config/ (fallback)
+    """
+    search_paths = [
+        Path(__file__).parent.parent / "01_KNOWLEDGE_BASE" / "Level_1_Master" / "panelin_truth_bmcuruguay.json",
+        Path(__file__).parent.parent / "config" / "panelin_truth_bmcuruguay.json",
+        Path(__file__).resolve().parent.parent.parent / "panelin_agent_v2" / "config" / "panelin_truth_bmcuruguay.json",
+    ]
+    
+    for kb_path in search_paths:
+        if kb_path.exists():
+            with open(kb_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    
+    searched = ", ".join(str(p) for p in search_paths)
+    raise FileNotFoundError(f"Knowledge base not found. Searched: {searched}")
 
 
 # V3 ENHANCEMENT: Catalog caching
 _ACCESSORIES_CATALOG_CACHE = None
 _BOM_RULES_CACHE = None
+
+# Mapping from sistema parameter to catalog compatibilidad prefix
+_SISTEMA_TO_COMPAT = {
+    "techo_isodec_eps": "ISODEC",
+    "techo_isodec_pir": "ISODEC",
+    "techo_isoroof_3g": "ISOROOF",
+    "pared_isopanel_eps": "ISOPANEL",
+    "pared_isowall_pir": "ISOWALL",
+    "pared_isofrig_pir": "ISOFRIG",
+}
 
 
 def _load_accessories_catalog() -> dict:
@@ -222,7 +245,8 @@ def validate_autoportancia(
     product_family: str,
     thickness_mm: int,
     span_m: float,
-    safety_margin: float = 0.15
+    safety_margin: float = 0.15,
+    bom_rules: Optional[dict] = None
 ) -> AutoportanciaValidationResult:
     """
     Validate if requested span is within panel autoportancia limits.
@@ -250,7 +274,8 @@ def validate_autoportancia(
         >>> print(result['recommendation'])  # Suggests 150mm or 200mm thickness
     """
     # Load autoportancia table from BOM rules
-    bom_rules = _load_bom_rules()
+    if bom_rules is None:
+        bom_rules = _load_bom_rules()
     autoportancia_tablas = bom_rules.get("autoportancia", {}).get("tablas", {})
     
     # Extract family base name (handle both "ISODEC_EPS" and "ISODEC_EPS_100mm" formats)
@@ -551,14 +576,34 @@ def calculate_accessories_pricing(
     
     line_items = []
     
+    compat_prefix = _SISTEMA_TO_COMPAT.get(sistema, "")
+    
     def find_accessory(tipo: str) -> Optional[dict]:
-        """Find first accessory by type"""
+        """Find best-matching accessory by type and system compatibility.
+        
+        Priority: system-specific match > UNIVERSAL match > first available.
+        """
         items_indices = by_tipo.get(tipo, [])
-        if items_indices and len(accesorios) > 0:
-            # indices are array positions, not SKUs
-            idx = items_indices[0]
+        if not items_indices or len(accesorios) == 0:
+            return None
+        
+        universal_match = None
+        for idx in items_indices:
             if idx < len(accesorios):
-                return accesorios[idx]
+                acc = accesorios[idx]
+                acc_compat = acc.get('compatibilidad', [])
+                if compat_prefix and compat_prefix in acc_compat:
+                    return acc
+                if universal_match is None and 'UNIVERSAL' in acc_compat:
+                    universal_match = acc
+        
+        if universal_match is not None:
+            return universal_match
+        
+        # Fallback: return first available item if no compatibility match
+        idx = items_indices[0]
+        if idx < len(accesorios):
+            return accesorios[idx]
         return None
     
     # Gotero frontal
