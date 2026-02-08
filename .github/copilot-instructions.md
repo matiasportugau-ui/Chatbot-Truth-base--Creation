@@ -19,6 +19,53 @@ This repository contains the Panelin/BMC chatbot system for construction panel q
 - `kb_training_system/`: Knowledge base training and optimization
 - `tests/`: Comprehensive test suite
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.10 or higher
+- pip package manager
+- Git
+
+### Setup
+```bash
+# Clone the repository
+git clone https://github.com/matiasportugau-ui/Chatbot-Truth-base--Creation.git
+cd Chatbot-Truth-base--Creation
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt        # Core dependencies
+pip install -r requirements-dev.txt    # Development dependencies (includes pytest)
+```
+
+### Environment Variables
+Create a `.env` file in the root directory (use `.env.example` as template):
+```bash
+# Required variables
+OPENAI_API_KEY=your_openai_api_key_here
+MONGODB_URI=mongodb://localhost:27017/panelin
+GOOGLE_CREDENTIALS_PATH=path/to/service-account.json
+
+# Optional variables
+KB_PATH=./GPT_Panelin_copilotedit/01_KNOWLEDGE_BASE/
+LOG_LEVEL=INFO
+```
+
+### Build & Test
+```bash
+# Run all tests
+python3 -m pytest tests/ -v
+
+# Run specific test file
+python3 -m pytest tests/test_quotation_calculations.py -v
+
+# Run with coverage
+python3 -m pytest tests/ --cov=panelin --cov-report=html
+```
+
 ## 🐍 Python Coding Standards
 
 ### Financial Calculations
@@ -132,11 +179,61 @@ Be aware of two different quotation calculators with different behaviors:
 
 Choose the appropriate calculator based on requirements.
 
+### Calculator Decision Matrix
+| Scenario | Calculator to Use | Reason |
+|----------|------------------|---------|
+| Customer requests quote for custom dimensions | `panelin_core.quotation_calculator` | Prices exactly what customer requested |
+| Need to enforce minimum panel lengths | `panelin.tools.quotation_calculator` | Automatically adjusts to minimum viable length |
+| Showing "what you'll actually pay" | `panelin.tools.quotation_calculator` | Reflects actual material costs |
+| Preliminary quote / estimation | `panelin_core.quotation_calculator` | Shows requested dimensions without adjustments |
+| BOM generation with real material | `panelin.tools.quotation_calculator` | Generates accurate BOM for procurement |
+
 ### Validation Rules
 - Always validate `autoportancia` (self-supporting span) using safety margins
 - Check product/thickness combinations exist before quoting
 - Verify minimum quantities and dimensions
 - Use `validate_quotation()` to verify calculation integrity
+
+### Expected Output Examples
+**Quotation Response Structure**:
+```python
+{
+    "quotation_id": "Q-20260208-abc123",
+    "panel_type": "Isopanel",
+    "thickness_mm": 50,
+    "dimensions": {
+        "length_m": 2.0,
+        "width_m": 1.0,
+        "quantity": 10
+    },
+    "pricing": {
+        "price_per_m2": Decimal("41.88"),
+        "total_area_m2": Decimal("20.0"),
+        "total_usd": Decimal("837.60")
+    },
+    "validation": {
+        "autoportancia_ok": True,
+        "calculation_verified": True
+    },
+    "bom": [
+        {"item": "Panel Isopanel 50mm", "quantity": 10, "unit": "panels"},
+        {"item": "Tornillos autoperforantes", "quantity": 120, "unit": "units"}
+    ],
+    "warnings": []
+}
+```
+
+**BOM Item Structure**:
+```python
+{
+    "sku": "ISO-050-2M",
+    "item": "Panel Isopanel 50mm x 2.0m",
+    "quantity": 10,
+    "unit": "panels",
+    "price_usd": Decimal("83.76"),
+    "category": "panel"
+}
+```
 
 ## 🔒 Security and Sensitive Data
 
@@ -249,6 +346,28 @@ grep -r "from decimal import" --include="*.py"
 - Reference issue numbers when applicable
 - Use imperative mood ("Add feature" not "Added feature")
 
+### Git Workflow and PR Process
+**Branch Naming**:
+- `feature/description` - New features
+- `fix/description` - Bug fixes
+- `docs/description` - Documentation updates
+- `refactor/description` - Code refactoring
+- `test/description` - Test additions/updates
+
+**Pull Request Requirements**:
+- All tests must pass
+- Code must follow PEP 8 style guidelines
+- Update documentation if changing APIs or behavior
+- Add tests for new functionality
+- CODEOWNERS approval required for sensitive files (see `.github/CODEOWNERS`)
+- No secrets or credentials in code
+
+**Review Process**:
+- PRs require approval from @matiasportugau-ui for protected files
+- Automated tests run via GitHub Actions
+- Address all review comments before merge
+- Squash commits for cleaner history when appropriate
+
 ## 📚 Documentation
 
 ### Key Documentation Files
@@ -310,6 +429,45 @@ python3 -m pytest tests/ -v --tb=short
 5. **Spanish technical terms**: Preserve Spanish terminology for domain-specific concepts
 6. **Security first**: Never commit credentials or sensitive business data
 7. **Minimal changes**: Make surgical, targeted changes rather than broad refactors
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Decimal Precision Errors**:
+```python
+# ❌ Problem: Mixing float and Decimal
+price = Decimal('41.88')
+quantity = 10  # This is an int, which is OK
+area = 2.5  # ❌ float causes precision issues
+total = price * Decimal(str(area)) * quantity  # ✅ Convert float to Decimal via string
+
+# ✅ Better: Use Decimal from the start
+area = Decimal('2.5')
+total = price * area * quantity
+```
+
+**Knowledge Base Loading Failures**:
+- Verify KB file paths exist and are accessible
+- Check JSON syntax is valid (use `python -m json.tool <file>` to validate)
+- Ensure file permissions allow reading
+- For large KB files, increase memory limits if needed
+
+**Test Failures with Mock Data**:
+- Use dependency injection to pass test data: `function(param, bom_rules=mock_rules)`
+- Ensure mock data structure matches production KB structure
+- Check that Decimal values in tests are strings: `Decimal('41.88')` not `Decimal(41.88)`
+
+**Google Sheets Authentication**:
+- Use `google.oauth2.service_account.Credentials` (not oauth2client)
+- Verify service account JSON file path is correct
+- Ensure service account has access to the target spreadsheet
+- Check required scopes: `['https://www.googleapis.com/auth/spreadsheets']`
+
+**Calculator Choice Issues**:
+- Use `panelin.tools.quotation_calculator` for adjusted minimum length pricing
+- Use `panelin_core.quotation_calculator` for requested dimension pricing
+- Check `adjusted_length` vs `length_m` in results to understand which was used
 
 ## 📞 Getting Help
 
