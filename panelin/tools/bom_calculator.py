@@ -176,6 +176,78 @@ def validate_autoportancia(
     )
 
 
+def _flatten_accessories_catalog(acc_catalog: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Flatten the nested accessories catalog into a list of items.
+
+    The catalog can have various structures:
+    - Nested under 'perfileria' with sub-categories (goteros_frontales, etc.)
+    - Top-level sections (fijaciones, selladores, etc.)
+    - Each section can have items nested by system (isoroof_3g, isodec_eps, etc.)
+    """
+    all_items: List[Dict[str, Any]] = []
+
+    def _extract_items(obj: Any, depth: int = 0) -> None:
+        """Recursively extract items from nested structures."""
+        if isinstance(obj, list):
+            for item in obj:
+                if isinstance(item, dict) and 'sku' in item:
+                    all_items.append(item)
+                elif isinstance(item, dict):
+                    _extract_items(item, depth + 1)
+        elif isinstance(obj, dict):
+            # Skip metadata keys
+            if 'sku' in obj and ('precio_venta_iva_inc' in obj or 'precio_unit_iva_inc' in obj):
+                all_items.append(obj)
+            else:
+                for key, value in obj.items():
+                    if key.startswith('_') or key in ('version', 'last_updated', 'description',
+                                                        'currency', 'iva_incluido', 'iva_rate',
+                                                        'notes', 'suppliers', 'indices', 'meta'):
+                        continue
+                    _extract_items(value, depth + 1)
+
+    _extract_items(acc_catalog)
+    return all_items
+
+
+def _check_compatibility(item_compat: List[str], familia: str) -> bool:
+    """
+    Check if an item is compatible with the given familia (system).
+
+    Handles variations like 'ISOROOF', 'ISOROOF 3G', 'ISODEC', 'ISODEC EPS', etc.
+    Also handles 'UNIVERSAL' compatibility.
+    """
+    if not item_compat:
+        return False
+
+    # Normalize familia for comparison
+    familia_upper = familia.upper().strip()
+
+    for compat in item_compat:
+        compat_upper = compat.upper().strip()
+
+        # UNIVERSAL matches everything
+        if compat_upper == "UNIVERSAL":
+            return True
+
+        # Exact match
+        if compat_upper == familia_upper:
+            return True
+
+        # Partial match (e.g., "ISOROOF" matches "ISOROOF 3G" or "ISOROOF_3G")
+        if compat_upper in familia_upper or familia_upper in compat_upper:
+            return True
+
+        # Handle underscore/space variations
+        compat_normalized = compat_upper.replace("_", " ").replace("-", " ")
+        familia_normalized = familia_upper.replace("_", " ").replace("-", " ")
+        if compat_normalized in familia_normalized or familia_normalized in compat_normalized:
+            return True
+
+    return False
+
+
 def lookup_accessory_price(
     tipo: str,
     familia: str,
@@ -188,74 +260,101 @@ def lookup_accessory_price(
 
     Search priority:
     1. Exact SKU match
-    2. Type + family + thickness match
+    2. Type + family (compatibilidad) + thickness match
     3. Type + family match (any thickness)
+    4. Name-based match with family compatibility
 
-    Returns dict with sku, name, precio_unit_iva_inc, largo_std_m, unidad
+    Args:
+        tipo: Accessory type (e.g., "gotero_frontal", "babeta", "cumbrera")
+        familia: System/family for compatibility filtering (e.g., "ISOROOF", "ISODEC")
+        espesor_mm: Panel thickness in mm for matching specific accessories
+        sku: Exact SKU to look up (highest priority)
+        accessories_path: Optional path to accessories catalog
+
+    Returns:
+        Dict with accessory info (sku, name, precio_unit_iva_inc, etc.) or None
     """
+    import unicodedata
+
+    def _strip_accents(s: str) -> str:
+        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
     acc_catalog = _load_json(accessories_path or ACCESSORIES_PATH)
 
-    # Build a flat list of all accessories
-    all_items = []
-    for section_key in ['perfileria_goterones', 'babetas', 'canalones', 'cumbreras',
-                        'perfiles_u', 'perfiles_especiales', 'fijaciones',
-                        'selladores', 'accesorios_varios', 'montantes']:
-        for item in acc_catalog.get(section_key, []):
-            all_items.append(item)
+    # Build a flat list of all accessories from the nested structure
+    all_items = _flatten_accessories_catalog(acc_catalog)
 
-    # Strategy 1: Exact SKU match
+    # Strategy 1: Exact SKU match (always return if found, regardless of compatibility)
     if sku:
         for item in all_items:
             if item.get("sku") == sku:
                 return item
 
-    # Strategy 2: Type + family + thickness
+    # Normalize tipo for matching
+    tipo_norm = _strip_accents(tipo.lower().replace("_", " ").replace("-", " "))
+
+    # Strategy 2: Type + family + thickness (exact match)
     if espesor_mm:
         for item in all_items:
             item_tipo = item.get("tipo", "")
             item_compat = item.get("compatibilidad", [])
-            item_espesor = item.get("espesor_panel_mm")
+            # Check espesor_compatible_mm which can be int or list
+            item_espesor = item.get("espesor_compatible_mm") or item.get("espesor_panel_mm")
 
-            if item_tipo == tipo and familia in item_compat and item_espesor == espesor_mm:
+            # Handle espesor as int or list
+            espesor_matches = False
+            if isinstance(item_espesor, list):
+                espesor_matches = espesor_mm in item_espesor
+            elif item_espesor is not None:
+                espesor_matches = item_espesor == espesor_mm
+
+            if item_tipo == tipo and _check_compatibility(item_compat, familia) and espesor_matches:
                 return item
 
-    # Strategy 3: Type + family (any thickness)
+    # Strategy 3: Type + family match (any thickness) - prioritize matching espesor
+    best_match = None
     for item in all_items:
         item_tipo = item.get("tipo", "")
         item_compat = item.get("compatibilidad", [])
 
-        if item_tipo == tipo and familia in item_compat:
+        if item_tipo == tipo and _check_compatibility(item_compat, familia):
             # If espesor matters, prefer matching espesor
-            if espesor_mm and item.get("espesor_panel_mm") == espesor_mm:
-                return item
+            item_espesor = item.get("espesor_compatible_mm") or item.get("espesor_panel_mm")
+            espesor_matches = False
+            if isinstance(item_espesor, list):
+                espesor_matches = espesor_mm in item_espesor if espesor_mm else False
+            elif item_espesor is not None and espesor_mm:
+                espesor_matches = item_espesor == espesor_mm
 
-    # Strategy 4: Broader match by tipo
-    for item in all_items:
-        item_tipo = item.get("tipo", "")
-        item_compat = item.get("compatibilidad", [])
-        if item_tipo == tipo and familia in item_compat:
-            return item
+            if espesor_matches:
+                return item  # Best match: tipo + familia + espesor
+            elif best_match is None:
+                best_match = item  # First match with tipo + familia
 
-    # Strategy 5: Match by name/sku containing the tipo keyword and family compatibility
-    # Normalize accents for matching
-    import unicodedata
-    def _strip_accents(s: str) -> str:
-        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+    if best_match:
+        return best_match
 
-    tipo_norm = _strip_accents(tipo.lower())
+    # Strategy 4: Match by name containing the tipo keyword + family compatibility
     for item in all_items:
         item_name_norm = _strip_accents(item.get("name", "").lower())
         item_compat = item.get("compatibilidad", [])
-        if familia in item_compat and tipo_norm in item_name_norm:
+        if _check_compatibility(item_compat, familia) and tipo_norm in item_name_norm:
             # Check thickness if available
-            if espesor_mm and item.get("espesor_panel_mm") == espesor_mm:
-                return item
+            item_espesor = item.get("espesor_compatible_mm") or item.get("espesor_panel_mm")
+            if espesor_mm:
+                espesor_matches = False
+                if isinstance(item_espesor, list):
+                    espesor_matches = espesor_mm in item_espesor
+                elif item_espesor is not None:
+                    espesor_matches = item_espesor == espesor_mm
+                if espesor_matches:
+                    return item
 
-    # Strategy 6: Name match without thickness filter
+    # Strategy 5: Name match without thickness filter
     for item in all_items:
         item_name_norm = _strip_accents(item.get("name", "").lower())
         item_compat = item.get("compatibilidad", [])
-        if familia in item_compat and tipo_norm in item_name_norm:
+        if _check_compatibility(item_compat, familia) and tipo_norm in item_name_norm:
             return item
 
     return None
