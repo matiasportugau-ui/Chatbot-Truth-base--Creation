@@ -14,9 +14,13 @@ This repository has Copilot instructions that help the AI coding agent understan
 ## 📍 Location
 
 Copilot instructions are stored in:
-- **`.github/copilot-instructions.md`** - Main instructions file
+- **`.github/copilot-instructions.md`** - Repository-wide instructions
+- **`.github/instructions/python.instructions.md`** - Python-specific instructions
+- **`.github/instructions/typescript.instructions.md`** - TypeScript/JavaScript-specific instructions
 
 This follows [GitHub's recommended location](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results) for repository-specific Copilot instructions.
+
+For a comprehensive guide on writing effective custom instructions, see [Custom Instructions Code Review Tutorial](../docs/CUSTOM_INSTRUCTIONS_CODE_REVIEW_TUTORIAL.md).
 
 ## 🎯 What the Instructions Cover
 
@@ -60,10 +64,22 @@ This follows [GitHub's recommended location](https://docs.github.com/en/copilot/
 
 When working with GitHub Copilot in this repository:
 
-1. **Copilot will automatically read** `.github/copilot-instructions.md`
-2. **Follow the coding standards** outlined in the instructions
-3. **Use the examples** provided for common patterns
-4. **Respect the boundaries** defined in CODEOWNERS
+1. **Copilot will automatically read** `.github/copilot-instructions.md` for general standards
+2. **Path-specific instructions** are applied based on file type:
+   - Python files (`*.py`) get Python-specific guidance
+   - TypeScript/JavaScript files get TypeScript-specific guidance
+3. **Follow the coding standards** outlined in the instructions
+4. **Use the examples** provided for common patterns
+5. **Respect the boundaries** defined in CODEOWNERS
+
+### Path-Specific Instructions
+
+This repository uses path-specific instruction files to provide language-appropriate guidance:
+
+| File Pattern | Instruction File | Key Focus |
+|--------------|------------------|-----------|
+| `**/*.py` | `python.instructions.md` | Decimal for financials, PEP 8, type hints |
+| `**/*.{ts,tsx,js,jsx}` | `typescript.instructions.md` | Type safety, modern patterns, React |
 
 ## 🔧 For Contributors
 
