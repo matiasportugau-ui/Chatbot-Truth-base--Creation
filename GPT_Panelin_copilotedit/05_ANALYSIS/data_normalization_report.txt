@@ -1,0 +1,166 @@
+======================================================================
+DATA NORMALIZATION REPORT
+======================================================================
+
+Input: GPT_Panelin_copilotedit/04_DATA/raw/normalized_full.csv
+Output: GPT_Panelin_copilotedit/04_DATA/cleaned/normalized_full_cleaned.csv
+Rows loaded: 512
+
+
+1. DUPLICATE SKUs: 49
+Duplicate SKU 'IROOF80-PLS' found at rows: [8, 9, 10]
+  - Removing duplicate at row 9
+  - Removing duplicate at row 10
+Duplicate SKU 'Bromplast' found at rows: [13, 14]
+  - Removing duplicate at row 14
+Duplicate SKU 'BBAL' found at rows: [33, 34]
+  - Removing duplicate at row 34
+Duplicate SKU 'CUMROOF3M' found at rows: [39, 40]
+  - Removing duplicate at row 40
+Duplicate SKU 'IW50' found at rows: [41, 42, 43]
+  - Removing duplicate at row 42
+  - Removing duplicate at row 43
+Duplicate SKU 'ISD100EPS' found at rows: [52, 76]
+  - Removing duplicate at row 76
+Duplicate SKU 'ISD150EPS' found at rows: [53, 77]
+  - Removing duplicate at row 77
+Duplicate SKU 'ISD200EPS' found at rows: [54, 78]
+  - Removing duplicate at row 78
+Duplicate SKU 'ISD250EPS' found at rows: [55, 79]
+  - Removing duplicate at row 79
+Duplicate SKU 'PU50MM' found at rows: [56, 57, 58, 59]
+  - Removing duplicate at row 57
+  - Removing duplicate at row 58
+  - Removing duplicate at row 59
+Duplicate SKU 'PU250MM' found at rows: [63, 64, 65, 66, 67, 68, 69, 70, 71]
+  - Removing duplicate at row 64
+  - Removing duplicate at row 65
+  - Removing duplicate at row 66
+  - Removing duplicate at row 67
+  - Removing duplicate at row 68
+  - Removing duplicate at row 69
+  - Removing duplicate at row 70
+  - Removing duplicate at row 71
+Duplicate SKU 'PLECHU98' found at rows: [73, 74, 75]
+  - Removing duplicate at row 74
+  - Removing duplicate at row 75
+Duplicate SKU 'ISD80PIR' found at rows: [81, 82]
+  - Removing duplicate at row 82
+Duplicate SKU 'GF120DC' found at rows: [84, 86]
+  - Removing duplicate at row 86
+Duplicate SKU 'GL80DC' found at rows: [90, 91]
+  - Removing duplicate at row 91
+Duplicate SKU '6845' found at rows: [96, 97, 98, 99, 100]
+  - Removing duplicate at row 97
+  - Removing duplicate at row 98
+  - Removing duplicate at row 99
+  - Removing duplicate at row 100
+Duplicate SKU 'CAN.ISDC120' found at rows: [105, 106, 108]
+  - Removing duplicate at row 106
+  - Removing duplicate at row 108
+Duplicate SKU '6805' found at rows: [112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129]
+  - Removing duplicate at row 113
+  - Removing duplicate at row 114
+  - Removing duplicate at row 115
+  - Removing duplicate at row 116
+  - Removing duplicate at row 117
+  - Removing duplicate at row 118
+  - Removing duplicate at row 119
+  - Removing duplicate at row 120
+  - Removing duplicate at row 121
+  - Removing duplicate at row 122
+  - Removing duplicate at row 123
+  - Removing duplicate at row 124
+  - Removing duplicate at row 125
+  - Removing duplicate at row 126
+  - Removing duplicate at row 127
+  - Removing duplicate at row 128
+  - Removing duplicate at row 129
+Duplicate SKU 'ARATRAP' found at rows: [142, 229]
+  - Removing duplicate at row 229
+Duplicate SKU 'CHLIC22' found at rows: [165, 175]
+  - Removing duplicate at row 175
+Duplicate SKU 'CHLIGC20' found at rows: [166, 170]
+  - Removing duplicate at row 170
+Duplicate SKU 'CHLIGC19' found at rows: [167, 168, 169, 171]
+  - Removing duplicate at row 168
+  - Removing duplicate at row 169
+  - Removing duplicate at row 171
+Duplicate SKU 'CUMLSA' found at rows: [182, 183]
+  - Removing duplicate at row 183
+Duplicate SKU 'COMP1MBC30' found at rows: [224, 225]
+  - Removing duplicate at row 225
+Duplicate SKU 'MON3543260' found at rows: [260, 349]
+  - Removing duplicate at row 349
+Duplicate SKU 'MON3543300' found at rows: [261, 350]
+  - Removing duplicate at row 350
+Duplicate SKU 'MON7043260' found at rows: [262, 351]
+  - Removing duplicate at row 351
+Duplicate SKU 'MON7043300' found at rows: [263, 352]
+  - Removing duplicate at row 352
+Duplicate SKU 'MON7050260' found at rows: [264, 266, 353]
+  - Removing duplicate at row 266
+  - Removing duplicate at row 353
+Duplicate SKU 'MON7050300' found at rows: [265, 267, 268, 354]
+  - Removing duplicate at row 267
+  - Removing duplicate at row 268
+  - Removing duplicate at row 354
+Duplicate SKU 'SOL3543300' found at rows: [269, 355]
+  - Removing duplicate at row 355
+Duplicate SKU 'SOL3550260' found at rows: [270, 357]
+  - Removing duplicate at row 357
+Duplicate SKU 'SOL3550300' found at rows: [271, 358]
+  - Removing duplicate at row 358
+Duplicate SKU 'SOL7050260' found at rows: [272, 359]
+  - Removing duplicate at row 359
+Duplicate SKU 'SOL7050300' found at rows: [273, 360]
+  - Removing duplicate at row 360
+Duplicate SKU 'OMG43260' found at rows: [276, 361]
+  - Removing duplicate at row 361
+Duplicate SKU 'OMG43300' found at rows: [277, 280, 281]
+  - Removing duplicate at row 280
+  - Removing duplicate at row 281
+Duplicate SKU 'OMG50260' found at rows: [278, 282]
+  - Removing duplicate at row 282
+Duplicate SKU 'MONC3543260' found at rows: [284, 285]
+  - Removing duplicate at row 285
+Duplicate SKU 'MONC3543300' found at rows: [286, 287]
+  - Removing duplicate at row 287
+Duplicate SKU 'ENPIR50' found at rows: [374, 378]
+  - Removing duplicate at row 378
+Duplicate SKU 'ENPIR80' found at rows: [375, 379]
+  - Removing duplicate at row 379
+Duplicate SKU 'ENPIR100' found at rows: [376, 380]
+  - Removing duplicate at row 380
+Duplicate SKU 'ENPIR120' found at rows: [377, 381]
+  - Removing duplicate at row 381
+Duplicate SKU 'Codigo' found at rows: [382, 436]
+  - Removing duplicate at row 436
+Duplicate SKU 'CUEX3' found at rows: [401, 402, 403]
+  - Removing duplicate at row 402
+  - Removing duplicate at row 403
+Duplicate SKU 'ANINT40' found at rows: [414, 435]
+  - Removing duplicate at row 435
+Duplicate SKU 'ANEA575' found at rows: [417, 418]
+  - Removing duplicate at row 418
+Duplicate SKU 'EEPSPK1X1' found at rows: [426, 427, 428, 429]
+  - Removing duplicate at row 427
+  - Removing duplicate at row 428
+  - Removing duplicate at row 429
+
+2. UNIT STANDARDIZATION: 388 changes
+   -  -> N/A: 342 times
+   - Unit -> unit: 33 times
+   - m2  -> m2: 13 times
+
+3. THICKNESS CLEANING: 359 changes
+
+4. TRAILING SPACES REMOVED: 151
+
+======================================================================
+SUMMARY
+======================================================================
+Original rows: 512
+Cleaned rows: 422
+Rows removed: 90
+Total changes: 898
