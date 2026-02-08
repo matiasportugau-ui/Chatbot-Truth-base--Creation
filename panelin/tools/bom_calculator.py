@@ -19,6 +19,7 @@ import hashlib
 import uuid
 import unicodedata
 from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+from functools import lru_cache
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 from datetime import datetime
@@ -46,8 +47,9 @@ _JSON_CACHE: Dict[str, Dict[str, Any]] = {}
 _ACCESSORIES_FLAT_CACHE: Optional[List[Dict[str, Any]]] = None
 
 
+@lru_cache(maxsize=256)
 def _strip_accents(s: str) -> str:
-    """Strip accents from string for fuzzy matching."""
+    """Strip accents from string for fuzzy matching. Cached for repeated calls."""
     return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
 
 
@@ -98,10 +100,13 @@ def _get_flat_accessories(accessories_path: Optional[Path] = None) -> List[Dict[
     """Get flattened list of all accessories with caching."""
     global _ACCESSORIES_FLAT_CACHE
     
-    # Only cache for default path
-    if accessories_path is None or accessories_path == ACCESSORIES_PATH:
-        if _ACCESSORIES_FLAT_CACHE is not None:
-            return _ACCESSORIES_FLAT_CACHE
+    # Determine if we should use cache (only for default path)
+    use_cache = accessories_path is None or (
+        accessories_path.resolve() == ACCESSORIES_PATH.resolve()
+    )
+    
+    if use_cache and _ACCESSORIES_FLAT_CACHE is not None:
+        return _ACCESSORIES_FLAT_CACHE
     
     acc_catalog = _load_json(accessories_path or ACCESSORIES_PATH)
     all_items = []
@@ -110,7 +115,7 @@ def _get_flat_accessories(accessories_path: Optional[Path] = None) -> List[Dict[
                         'selladores', 'accesorios_varios', 'montantes']:
         all_items.extend(acc_catalog.get(section_key, []))
     
-    if accessories_path is None or accessories_path == ACCESSORIES_PATH:
+    if use_cache:
         _ACCESSORIES_FLAT_CACHE = all_items
     
     return all_items

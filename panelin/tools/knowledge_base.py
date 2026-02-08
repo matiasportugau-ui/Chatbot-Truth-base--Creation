@@ -13,8 +13,7 @@ Funciones:
 
 import json
 import re
-from functools import lru_cache
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any
 from pathlib import Path
 from datetime import datetime
 
