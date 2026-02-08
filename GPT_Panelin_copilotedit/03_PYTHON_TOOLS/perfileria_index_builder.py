@@ -34,7 +34,7 @@ def build_perfileria_index():
     perfileria_items = [
         acc for acc in accesorios 
         if acc.get('tipo') in ['perfil', 'gotero_frontal', 'gotero_lateral', 'gotero_superior', 
-                                'babeta_adosar', 'babeta_empotrar', 'canalón', 'cumbrera']
+                                'babeta_adosar', 'babeta_empotrar', 'canalon', 'cumbrera']
     ]
     
     print(f"   - Perfilería items found: {len(perfileria_items)}")

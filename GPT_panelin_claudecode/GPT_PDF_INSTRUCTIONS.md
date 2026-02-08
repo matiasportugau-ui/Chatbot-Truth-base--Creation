@@ -56,11 +56,13 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
-            'length_m': [LENGTH],
+            'Thickness_mm': 50,
+            'Length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
-            'total_m2': [AREA]
+            'total_m2': [AREA],
+            'unit_base': 'm²'
         },
         # ... more products from your calculation
     ],
@@ -74,6 +76,8 @@ quotation_data = {
 }
 
 # 2. Generate PDF
+client_name = quotation_data["client_name"]
+date = quotation_data.get("date", "2026-02-07")
 pdf_path = generate_quotation_pdf(
     quotation_data,
     f'cotizacion_{client_name}_{date}.pdf'
@@ -105,16 +109,21 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
+**Pricing Basis**:
+- **IMPORTANT**: All line item prices (`unit_price_usd`) should use **IVA-excluded prices** (`sale_sin_iva`)
+- The PDF generator will automatically add IVA 22% to the subtotal
+- For accessories from `accessories_catalog.json`, convert from IVA-included prices: `sale_sin_iva = precio_unit_iva_inc / 1.22`
+
 **Automatic Calculations**:
 - The PDF generator automatically calculates:
-  - Subtotal (based on `unit_base` logic - see below)
-  - IVA 22%
-  - Materials total
-  - Grand total (includes shipping)
+  - Subtotal (based on `unit_base` logic - see below, using IVA-excluded prices)
+  - IVA 22% (applied to subtotal)
+  - Materials total (subtotal + IVA)
+  - Grand total (materials total + shipping)
 
 ### 🧮 Unit Base Calculation Logic
 
-**CRITICAL**: Subtotal calculation varies by `unit_base`:
+**CRITICAL**: Subtotal calculation varies by `unit_base` (always use `sale_sin_iva` for line calculations):
 
 | `unit_base` | Formula | Example |
 |-------------|---------|---------|
@@ -123,9 +132,10 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
-- Calculating product totals
+- Calculating product totals (always with IVA-excluded prices)
 - Validating subtotals
 - Generating PDF line items
+- The PDF generator will add 22% IVA to the final subtotal
 
 ### Important Notes
 

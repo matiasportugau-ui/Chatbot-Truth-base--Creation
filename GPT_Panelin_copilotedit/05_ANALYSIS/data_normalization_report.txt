@@ -2,8 +2,8 @@
 DATA NORMALIZATION REPORT
 ======================================================================
 
-Input: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/GPT_Panelin_copilotedit/04_DATA/raw/normalized_full.csv
-Output: /Users/matias/Chatbot Truth base Creation/Chatbot-Truth-base--Creation-1/GPT_Panelin_copilotedit/04_DATA/cleaned/normalized_full_cleaned.csv
+Input: GPT_Panelin_copilotedit/04_DATA/raw/normalized_full.csv
+Output: GPT_Panelin_copilotedit/04_DATA/cleaned/normalized_full_cleaned.csv
 Rows loaded: 512
 
 
