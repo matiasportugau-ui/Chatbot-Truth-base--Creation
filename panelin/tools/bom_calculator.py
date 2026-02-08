@@ -115,15 +115,21 @@ def validate_autoportancia(
         producto_base: ID del producto (ej: ISODEC_EPS)
         kb_path: Path a la KB principal
         bom_rules_path: Path a las reglas BOM
-        safety_margin: Safety factor as decimal (default 0.0 = no margin, use exact specs)
+        safety_margin: Safety factor as decimal fraction (0.0-1.0). Default 0.0 uses 100% 
+                      of technical specs. Example: 0.15 applies 15% margin, using 85% of 
+                      specs (5.5m becomes 4.675m safe limit)
 
     Returns:
         AutoportanciaResult con cumple/no cumple y recomendación
         
     Example:
-        >>> result = validate_autoportancia("ISODEC_EPS", 100, 5.0)
-        >>> print(result['is_valid'])  # True
-        >>> print(result['span_max_safe_m'])  # 5.5 (exact technical spec)
+        >>> result = validate_autoportancia(
+        ...     espesor_mm=100,
+        ...     luz_m=5.0,
+        ...     producto_base='ISODEC_EPS'
+        ... )
+        >>> print(result['cumple'])  # True
+        >>> print(result['autoportancia_m'])  # 5.5 (exact technical spec)
     """
     kb = _load_json(kb_path or DEFAULT_KB_PATH)
     bom_rules = _load_json(bom_rules_path or BOM_RULES_PATH)
