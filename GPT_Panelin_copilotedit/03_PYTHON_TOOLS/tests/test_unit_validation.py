@@ -4,9 +4,8 @@ Unit Tests: Validation Functions
 
 Tests for autoportancia validation and other validation functions.
 
-NOTE: These tests accept mock_bom_rules fixture but don't inject it into validate_autoportancia().
-The function internally loads real BOM rules via _load_bom_rules(). 
-TODO: Add dependency injection or monkeypatch _load_bom_rules to use mock_bom_rules for true unit testing.
+These tests use dependency injection to provide mock_bom_rules to validate_autoportancia(),
+ensuring true unit testing without relying on external files.
 """
 
 import pytest
@@ -24,7 +23,7 @@ class TestAutoportanciaValidation:
     
     def test_valid_span_well_within_limit(self, mock_bom_rules):
         """Test with span well within safe limit"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is True
         assert result['span_requested_m'] == 4.0
@@ -35,7 +34,7 @@ class TestAutoportanciaValidation:
     
     def test_invalid_span_exceeds_limit(self, mock_bom_rules):
         """Test with span exceeding safe limit"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 8.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 8.0, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is False
         assert result['span_requested_m'] == 8.0
@@ -47,21 +46,21 @@ class TestAutoportanciaValidation:
     def test_span_at_safe_limit(self, mock_bom_rules):
         """Test with span exactly at safe limit"""
         safe_limit = 5.5 * 0.85  # 4.675m
-        result = validate_autoportancia("ISODEC_EPS", 100, safe_limit)
+        result = validate_autoportancia("ISODEC_EPS", 100, safe_limit, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is True
         assert abs(result['span_max_safe_m'] - 4.675) < 0.01
     
     def test_span_just_above_safe_limit(self, mock_bom_rules):
         """Test with span just above safe limit"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.7)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.7, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is False
         assert result['excess_pct'] > 0
     
     def test_unknown_thickness(self, mock_bom_rules):
         """Test with thickness not in table"""
-        result = validate_autoportancia("ISODEC_EPS", 999, 5.0)
+        result = validate_autoportancia("ISODEC_EPS", 999, 5.0, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is True  # Neutral validation
         assert "No autoportancia data" in result['recommendation']
@@ -69,7 +68,7 @@ class TestAutoportanciaValidation:
     
     def test_alternative_suggestions(self, mock_bom_rules):
         """Test that alternative thicknesses are suggested correctly"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 8.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 8.0, bom_rules=mock_bom_rules)
         
         # For 8.0m span, should suggest 250mm (max 10.4m)
         assert 250 in result['alternative_thicknesses']
@@ -77,7 +76,7 @@ class TestAutoportanciaValidation:
     
     def test_safety_margin_calculation(self, mock_bom_rules):
         """Test that safety margin is correctly applied"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 5.0, safety_margin=0.15)
+        result = validate_autoportancia("ISODEC_EPS", 100, 5.0, safety_margin=0.15, bom_rules=mock_bom_rules)
         
         # Absolute max: 5.5m, Safe max with 15% margin: 4.675m
         assert abs(result['span_max_safe_m'] - 4.675) < 0.01
@@ -85,7 +84,7 @@ class TestAutoportanciaValidation:
     
     def test_custom_safety_margin(self, mock_bom_rules):
         """Test with custom safety margin"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.5, safety_margin=0.20)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.5, safety_margin=0.20, bom_rules=mock_bom_rules)
         
         # With 20% margin: 5.5 × 0.80 = 4.4m safe limit
         assert abs(result['span_max_safe_m'] - 4.4) < 0.01
@@ -134,20 +133,20 @@ class TestValidationRecommendations:
     
     def test_recommendation_for_valid_span(self, mock_bom_rules):
         """Test that valid spans get positive recommendation"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         
         assert "✓" in result['recommendation'] or "PASSED" in result['recommendation']
     
     def test_recommendation_for_invalid_span(self, mock_bom_rules):
         """Test that invalid spans get warning recommendation"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 8.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 8.0, bom_rules=mock_bom_rules)
         
         assert "⚠️" in result['recommendation'] or "EXCEEDS" in result['recommendation']
         assert "250mm" in result['recommendation']  # Should suggest alternative
     
     def test_recommendation_includes_metrics(self, mock_bom_rules):
         """Test that recommendations include specific metrics"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         
         assert "4.0m" in result['recommendation']
         assert "5.5m" in result['recommendation']  # Absolute max
@@ -158,17 +157,17 @@ class TestFamilyNameParsing:
     
     def test_short_family_name(self, mock_bom_rules):
         """Test with short family name (ISODEC_EPS)"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         assert result['is_valid'] is True
     
     def test_long_family_name(self, mock_bom_rules):
         """Test with long family name (ISODEC_EPS_100mm)"""
-        result = validate_autoportancia("ISODEC_EPS_100mm", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS_100mm", 100, 4.0, bom_rules=mock_bom_rules)
         assert result['is_valid'] is True
     
     def test_unknown_family(self, mock_bom_rules):
         """Test with unknown product family"""
-        result = validate_autoportancia("UNKNOWN_FAMILY", 100, 4.0)
+        result = validate_autoportancia("UNKNOWN_FAMILY", 100, 4.0, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is True  # Neutral validation
         assert "No autoportancia data" in result['recommendation']
@@ -179,12 +178,12 @@ class TestExcessCalculation:
     
     def test_no_excess_when_valid(self, mock_bom_rules):
         """Test that excess is 0 when span is valid"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         assert result['excess_pct'] == 0.0
     
     def test_excess_calculation_when_invalid(self, mock_bom_rules):
         """Test excess percentage calculation"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 8.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 8.0, bom_rules=mock_bom_rules)
         
         # Safe limit: 4.675m, Requested: 8.0m
         # Excess: (8.0 - 4.675) / 4.675 × 100 ≈ 71.1%
@@ -198,17 +197,17 @@ class TestValidationEdgeCases:
     
     def test_zero_span(self, mock_bom_rules):
         """Test with zero span (should still validate)"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 0.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 0.0, bom_rules=mock_bom_rules)
         assert result['is_valid'] is True  # Zero is within limit
     
     def test_negative_span(self, mock_bom_rules):
         """Test with negative span (should still validate)"""
-        result = validate_autoportancia("ISODEC_EPS", 100, -1.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, -1.0, bom_rules=mock_bom_rules)
         assert result['is_valid'] is True  # Negative is within limit
     
     def test_very_large_span(self, mock_bom_rules):
         """Test with very large span"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 100.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 100.0, bom_rules=mock_bom_rules)
         
         assert result['is_valid'] is False
         assert result['excess_pct'] > 1000  # Massive excess
@@ -219,7 +218,7 @@ class TestAlternativeThicknesses:
     
     def test_suggests_next_thickness(self, mock_bom_rules):
         """Test that next working thickness is suggested"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 6.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 6.0, bom_rules=mock_bom_rules)
         
         # For 6.0m span:
         # - 100mm: max 5.5m (safe 4.675m) ✗
@@ -228,12 +227,12 @@ class TestAlternativeThicknesses:
     
     def test_multiple_alternatives_sorted(self, mock_bom_rules):
         """Test that alternatives are sorted by thickness"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 8.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 8.0, bom_rules=mock_bom_rules)
         
         alts = result['alternative_thicknesses']
         assert alts == sorted(alts)  # Should be sorted
     
     def test_no_alternatives_when_valid(self, mock_bom_rules):
         """Test that no alternatives suggested when span is valid"""
-        result = validate_autoportancia("ISODEC_EPS", 100, 4.0)
+        result = validate_autoportancia("ISODEC_EPS", 100, 4.0, bom_rules=mock_bom_rules)
         assert len(result['alternative_thicknesses']) == 0
