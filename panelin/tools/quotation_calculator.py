@@ -576,10 +576,11 @@ def _fuzzy_match_product(
             if thickness_mm is None or f"{thickness_mm}mm" in key:
                 return key
     
-    # Try without thickness
-    for key in products:
-        if normalized.replace(" ", "_") in key.lower():
-            return key
+    # Try without thickness only if thickness was not specified
+    if thickness_mm is None:
+        for key in products:
+            if normalized.replace(" ", "_") in key.lower():
+                return key
     
     return None
 
