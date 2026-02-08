@@ -25,7 +25,7 @@ import os
 from decimal import Decimal
 
 # Import the calculator after path is set
-from quotation_calculator_v3 import calculate_panel_quote, QuotationResult
+from quotation_calculator_v3 import calculate_panel_quote
 
 app = FastAPI(
     title="Panelin V3 API",
