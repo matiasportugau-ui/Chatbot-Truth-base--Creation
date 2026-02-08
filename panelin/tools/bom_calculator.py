@@ -187,17 +187,25 @@ def _flatten_accessories_catalog(acc_catalog: Dict[str, Any]) -> List[Dict[str, 
     """
     all_items: List[Dict[str, Any]] = []
 
+    def _is_valid_product(item: Dict[str, Any]) -> bool:
+        """Check if a dict is a valid product item with SKU and pricing."""
+        return (
+            'sku' in item and
+            ('precio_venta_iva_inc' in item or 'precio_unit_iva_inc' in item or
+             'precio_web_iva_inc' in item or 'precio_por_ml_iva_inc' in item)
+        )
+
     def _extract_items(obj: Any, depth: int = 0) -> None:
         """Recursively extract items from nested structures."""
         if isinstance(obj, list):
             for item in obj:
-                if isinstance(item, dict) and 'sku' in item:
+                if isinstance(item, dict) and _is_valid_product(item):
                     all_items.append(item)
                 elif isinstance(item, dict):
                     _extract_items(item, depth + 1)
         elif isinstance(obj, dict):
-            # Skip metadata keys
-            if 'sku' in obj and ('precio_venta_iva_inc' in obj or 'precio_unit_iva_inc' in obj):
+            # Check if this dict is a valid product item
+            if _is_valid_product(obj):
                 all_items.append(obj)
             else:
                 for key, value in obj.items():
@@ -217,32 +225,32 @@ def _check_compatibility(item_compat: List[str], familia: str) -> bool:
 
     Handles variations like 'ISOROOF', 'ISOROOF 3G', 'ISODEC', 'ISODEC EPS', etc.
     Also handles 'UNIVERSAL' compatibility.
+
+    Uses prefix matching to avoid false positives (e.g., 'ISO' matching 'ISODEC').
     """
     if not item_compat:
         return False
 
     # Normalize familia for comparison
     familia_upper = familia.upper().strip()
+    # Normalize separators for consistent comparison
+    familia_normalized = familia_upper.replace("_", " ").replace("-", " ")
 
     for compat in item_compat:
         compat_upper = compat.upper().strip()
+        compat_normalized = compat_upper.replace("_", " ").replace("-", " ")
 
         # UNIVERSAL matches everything
         if compat_upper == "UNIVERSAL":
             return True
 
-        # Exact match
-        if compat_upper == familia_upper:
+        # Exact match (after normalization)
+        if compat_normalized == familia_normalized:
             return True
 
-        # Partial match (e.g., "ISOROOF" matches "ISOROOF 3G" or "ISOROOF_3G")
-        if compat_upper in familia_upper or familia_upper in compat_upper:
-            return True
-
-        # Handle underscore/space variations
-        compat_normalized = compat_upper.replace("_", " ").replace("-", " ")
-        familia_normalized = familia_upper.replace("_", " ").replace("-", " ")
-        if compat_normalized in familia_normalized or familia_normalized in compat_normalized:
+        # Prefix matching: one must start with the other
+        # e.g., "ISOROOF" matches "ISOROOF 3G" but not "ISO" matching "ISODEC"
+        if compat_normalized.startswith(familia_normalized) or familia_normalized.startswith(compat_normalized):
             return True
 
     return False

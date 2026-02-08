@@ -190,17 +190,11 @@ class TestBOMCalculatorIntegration:
             assert isoroof_gotero.get("sku") != isodec_gotero.get("sku"), \
                 "ISOROOF and ISODEC should have different goteros"
 
-            # Names should reflect the system
-            isoroof_name = isoroof_gotero.get("name", "").upper()
-            isodec_name = isodec_gotero.get("name", "").upper()
+            # Verify compatibility: each accessory must be compatible with its system
+            isoroof_compat = isoroof_gotero.get("compatibilidad", [])
+            isodec_compat = isodec_gotero.get("compatibilidad", [])
 
-            # ISOROOF gotero shouldn't say ISODEC and vice versa
-            if "ISODEC" not in isoroof_name and "ISOROOF" not in isodec_name:
-                # Names are generic, check compatibility instead
-                isoroof_compat = isoroof_gotero.get("compatibilidad", [])
-                isodec_compat = isodec_gotero.get("compatibilidad", [])
-
-                assert _check_compatibility(isoroof_compat, "ISOROOF"), \
-                    "ISOROOF gotero must be compatible with ISOROOF"
-                assert _check_compatibility(isodec_compat, "ISODEC"), \
-                    "ISODEC gotero must be compatible with ISODEC"
+            assert _check_compatibility(isoroof_compat, "ISOROOF"), \
+                "ISOROOF gotero must be compatible with ISOROOF"
+            assert _check_compatibility(isodec_compat, "ISODEC"), \
+                "ISODEC gotero must be compatible with ISODEC"
