@@ -129,7 +129,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate professional PDF quotation with mandatory BMC 1-page-first template blocks",
       "parameters": {
         "quotation_data": {
           "type": "object",
@@ -141,7 +141,25 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.generate_quotation_pdf",
+      "must_include_template": {
+        "logo_path_priority": "/mnt/data/Logo_BMC- PNG.png",
+        "header": "two-column [logo | centered title]",
+        "comments_block": "COMENTARIOS: with bullet list and per-line bold/red rules",
+        "transfer_footer_box": "boxed 3-row transfer table with gray first row",
+        "line_format_rules": [
+          "Entrega de 10 a 15 días, dependemos de producción. => bold",
+          "Oferta válida por 10 días a partir de la fecha. => red",
+          "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica). => bold+red"
+        ],
+        "page_fit_policy": "Try to fit to one page by shrinking only comments font/leading first",
+        "table_style": {
+          "header_bg": "#EDEDED",
+          "alt_row_bg": "#FAFAFA",
+          "numeric_alignment": "right",
+          "repeat_header": true
+        }
+      }
     },
     {
       "name": "lookup_product_fast",
