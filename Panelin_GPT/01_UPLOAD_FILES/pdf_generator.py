@@ -143,7 +143,7 @@ class QuotationDataFormatter:
         Returns:
             float: Calculated total
         """
-        unit_base = item.get("unit_base", "unidad").lower()
+        unit_base = str(item.get("unit_base") or "unidad").lower()
 
         # Use sale_sin_iva if available, fallback to unit_price_usd
         price = item.get("sale_sin_iva", item.get("unit_price_usd", 0))
