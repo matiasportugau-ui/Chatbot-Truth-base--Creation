@@ -42,7 +42,7 @@ Generate a PDF quotation when:
 Use Code Interpreter with this workflow:
 
 ```python
-from panelin_reports import generate_quotation_pdf
+from panelin_reports import generate_quotation_pdf, build_quote_pdf
 
 # 1. Prepare quotation data (from your calculations)
 quotation_data = {
@@ -56,11 +56,13 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
-            'length_m': [LENGTH],
+            'Thickness_mm': 50,
+            'Length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
-            'total_m2': [AREA]
+            'total_m2': [AREA],
+            'unit_base': 'm²'
         },
         # ... more products from your calculation
     ],
@@ -73,10 +75,17 @@ quotation_data = {
     'shipping_usd': 280.0
 }
 
-# 2. Generate PDF
+# 2. Generate PDF (logo auto-resolved)
 pdf_path = generate_quotation_pdf(
     quotation_data,
-    f'cotizacion_{client_name}_{date}.pdf'
+    f'cotizacion_{quotation_data["client_name"]}_{quotation_data.get("date", "2026-02-09")}.pdf'
+)
+
+# 2b. Alternative: explicit logo path
+pdf_path = build_quote_pdf(
+    quotation_data,
+    'cotizacion_output.pdf',
+    logo_path="/mnt/data/Logo_BMC- PNG.png"
 )
 
 # 3. Confirm generation
@@ -105,16 +114,21 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
+**Pricing Basis**:
+- **IMPORTANT**: All line item prices (`unit_price_usd`) should use **IVA-excluded prices** (`sale_sin_iva`)
+- The PDF generator will automatically add IVA 22% to the subtotal
+- For accessories from `accessories_catalog.json`, convert from IVA-included prices: `sale_sin_iva = precio_unit_iva_inc / 1.22`
+
 **Automatic Calculations**:
 - The PDF generator automatically calculates:
-  - Subtotal (based on `unit_base` logic - see below)
-  - IVA 22%
-  - Materials total
-  - Grand total (includes shipping)
+  - Subtotal (based on `unit_base` logic - see below, using IVA-excluded prices)
+  - IVA 22% (applied to subtotal)
+  - Materials total (subtotal + IVA)
+  - Grand total (materials total + shipping)
 
 ### 🧮 Unit Base Calculation Logic
 
-**CRITICAL**: Subtotal calculation varies by `unit_base`:
+**CRITICAL**: Subtotal calculation varies by `unit_base` (always use `sale_sin_iva` for line calculations):
 
 | `unit_base` | Formula | Example |
 |-------------|---------|---------|
@@ -123,9 +137,10 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
-- Calculating product totals
+- Calculating product totals (always with IVA-excluded prices)
 - Validating subtotals
 - Generating PDF line items
+- The PDF generator will add 22% IVA to the final subtotal
 
 ### Important Notes
 
@@ -181,19 +196,17 @@ Generando PDF profesional...
 ✅ Cotización PDF generada exitosamente.
 
 📄 El PDF incluye:
-• Logo y branding BMC Uruguay
-• Información completa del cliente
-• Detalle de todos los productos y accesorios
-• Cálculos con IVA 22%
-• Términos y condiciones estándar
-• Información bancaria para pago
+• Logo BMC Uruguay (Logo_BMC- PNG.png)
+• Título centrado con branding
+• Tabla de materiales con formato profesional
+• Sección COMENTARIOS con reglas de formato (negrita/rojo)
+• Datos bancarios en recuadro
+• Todo en 1 página
 
 Puede descargar el PDF usando el botón de descarga.
 ```
 
 ### Error Handling
-
-If PDF generation fails:
 
 ```python
 try:
@@ -220,12 +233,95 @@ Before generating PDF, verify:
 
 ---
 
+## Plantilla PDF BMC (Diseño y Formato)
+
+> **Actualizado**: 2026-02-09  
+> **Versión de diseño**: 2.0
+
+### A) Header / Branding
+
+- **Logo**: `Logo_BMC- PNG.png` (official BMC logo) at top-left.
+  - Logo path resolution order:
+    1. `/mnt/data/Logo_BMC- PNG.png`
+    2. `Logo_BMC- PNG.png` (current dir)
+    3. `panelin_reports/assets/bmc_logo.png`
+  - Height: 18mm, width auto (keep aspect ratio).
+- **Title**: Centered in a two-column header `[logo | title]`.
+  - Font: Helvetica-Bold, 14pt, color `#003366`.
+  - Dynamic text: `"COTIZACIÓN – {quote_description}"`.
+- Below header: date, location, company contact, autoportancia/apoyos in small 8pt gray text.
+
+### B) Typography / Page Fit
+
+- **Target: fit content in 1 page (A4)**.
+- **1-page-first rule**: if content risks overflowing, reduce ONLY the COMENTARIOS section font size and leading first. Do NOT change the materials table.
+  - Comment base font: **8.0–8.2 pt** (default 8.1).
+  - Comment leading: **9.3–9.6** (default 9.4).
+- Materials table: row font **8.5–8.7 pt** (default 8.6), header **9.0–9.2 pt** (default 9.1).
+- Page margins: **12mm left/right**, **10mm top**, **9mm bottom**.
+
+### C) Materials Table (Design Only)
+
+- **Header background**: `#EDEDED` (light gray).
+- **Grid lines**: thin (0.4pt), color `#CCCCCC`.
+- **Header bottom border**: 0.8pt, color `#003366`.
+- **Alternating row backgrounds**: white / `#FAFAFA`.
+- **Numeric columns** (Largos, Cantidades, Costo, Total): **right-aligned**.
+- **Product name column**: left-aligned.
+- `repeatRows=1` for header row on multi-page (even though target is 1 page).
+- **No changes to table data/columns/pricing logic**.
+
+### D) COMENTARIOS Block (After Table + Totals)
+
+- Section title: **"COMENTARIOS:"** in bold, Helvetica-Bold 10pt, blue `#003366`.
+- Comments displayed as **bullet list** with `•` prefix.
+- Font: smaller than table (see B above).
+- **Per-line formatting rules**:
+
+| Line contains | Style |
+|---|---|
+| `"Entrega de 10 a 15 días"` | **BOLD** |
+| `"Oferta válida por 10 días"` | **RED** (`#CC0000`) |
+| `"Incluye descuentos de Pago al Contado"` | **BOLD + RED** |
+| All other lines | Normal (black, regular weight) |
+
+- User-provided comments appear first, then standard template comments are appended (duplicates skipped).
+- YouTube URL (`https://youtu.be/Am4mZskFMgc`) rendered as plain text.
+
+### E) Footer: Bank Transfer Box (After Comments)
+
+- Small spacer, then a **boxed/ruled table** with:
+  - **Outer border** + **internal row lines** (0.5pt `#CCCCCC`).
+  - **Column divider** line between left and right columns.
+  - **First row**: light gray background (`#EDEDED`).
+- Font: **8.4pt**, Helvetica, black text.
+- **Exact content** (3 rows × 2 columns):
+
+| Left | Right |
+|------|-------|
+| Depósito Bancario | Titular: Metalog SAS – RUT: 120403430012 |
+| Caja de Ahorro - BROU. | Número de Cuenta Dólares : 110520638-00002 |
+| Por cualquier duda, consultar al 092 663 245. | Lea los Términos y Condiciones (blue + underlined) |
+
+- The "Lea los Términos y Condiciones" text is rendered in **blue (`#0066CC`) + underlined**.
+
+### F) Function Reference
+
+| Function | Purpose |
+|---|---|
+| `generate_quotation_pdf(data, output_path, logo_path=None)` | Main generator; logo auto-resolved |
+| `build_quote_pdf(data, output_path, logo_path="/mnt/data/Logo_BMC- PNG.png")` | Convenience alias with explicit logo default |
+| `BMCStyles.resolve_logo_path()` | Returns first existing logo path or None |
+
+---
+
 ## 🎨 PDF Features
 
 The generated PDF includes:
 
 ✅ **Header Section**:
-- BMC Uruguay logo (when available)
+- BMC Uruguay logo (Logo_BMC- PNG.png, 18mm height)
+- Centered title with product description
 - Company contact: email, website, phone
 - Date and location
 - Technical specs (autoportancia, apoyos)
@@ -234,6 +330,8 @@ The generated PDF includes:
 - Client name, address, phone
 
 ✅ **Products Table**:
+- Professional styling with alternating rows
+- Right-aligned numeric columns
 - Product name, length, quantity
 - Unit price (per m²)
 - Total price
@@ -241,10 +339,12 @@ The generated PDF includes:
 ✅ **Accessories Table**:
 - Profiles, gutters, etc.
 - Linear pricing
+- Same styling as products table
 
 ✅ **Fixings Table**:
 - Screws, sealants, etc.
 - Unit pricing
+- Same styling as products table
 
 ✅ **Totals Section**:
 - Subtotal
@@ -252,17 +352,19 @@ The generated PDF includes:
 - IVA 22%
 - Materials total
 - Shipping
-- Grand total
+- Grand total (highlighted)
 
-✅ **Terms & Conditions**:
-- Standard BMC Uruguay conditions
-- Payment terms
-- Production time
-- Warranty information
+✅ **COMENTARIOS Section**:
+- Bullet list format
+- Per-line bold/red formatting
+- Small font for 1-page fit
+- Standard + user comments
 
-✅ **Banking Information**:
-- BROU account details
-- RUT information
+✅ **Bank Transfer Box**:
+- Boxed/ruled table
+- Gray header row
+- Account details
+- Terms link in blue+underline
 
 ---
 
@@ -274,6 +376,7 @@ The generated PDF includes:
 - Skip accessories or fixings
 - Use prices not from official catalog
 - Generate PDF for incomplete quotations
+- Change BOM/pricing logic in the PDF generator
 
 ✅ **DO**:
 - Always calculate using KB formulas first
@@ -281,6 +384,9 @@ The generated PDF includes:
 - Validate autoportancia
 - Use official SKUs and prices
 - Provide complete client information
+- Use `Logo_BMC- PNG.png` as the official logo
+- Include COMENTARIOS block with formatting rules
+- Include bank transfer footer box
 
 ---
 
@@ -290,8 +396,8 @@ To test PDF generation (for development):
 
 ```python
 # Run test script
-from panelin_reports.test_pdf_generation import test_pdf_generation
-test_pdf_generation()
+from panelin_reports.test_new_pdf_design import test_new_design
+test_new_design()
 ```
 
 This generates sample PDFs in `panelin_reports/output/` for review.
@@ -299,5 +405,6 @@ This generates sample PDFs in `panelin_reports/output/` for review.
 ---
 
 **Integration Status**: ✅ Ready for production use  
-**Last Updated**: 2026-01-28  
+**Last Updated**: 2026-02-09  
+**Design Version**: 2.0  
 **Requires**: ReportLab library (already installed)
