@@ -177,19 +177,22 @@ class QuotationDataFormatter:
         """
         products_total = 0
         for item in products:
-            if item.get("total_usd") is None:
+            total_usd = item.get("total_usd")
+            if total_usd is None or total_usd == 0:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             products_total += item["total_usd"]
 
         accessories_total = 0
         for item in accessories:
-            if item.get("total_usd") is None:
+            total_usd = item.get("total_usd")
+            if total_usd is None or total_usd == 0:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             accessories_total += item["total_usd"]
 
         fixings_total = 0
         for item in fixings:
-            if item.get("total_usd") is None:
+            total_usd = item.get("total_usd")
+            if total_usd is None or total_usd == 0:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             fixings_total += item["total_usd"]
 
