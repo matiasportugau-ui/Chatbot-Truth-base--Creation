@@ -10,6 +10,96 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+**Updated: 2026-02-09 - New Official Template**
+
+### A) HEADER / BRANDING
+
+1. **Official BMC Logo** (top-left)
+   - Logo path: `/mnt/data/Logo_BMC- PNG.png` (fallback: `panelin_reports/assets/bmc_logo.png`)
+   - Height: ~18mm (auto width to maintain aspect ratio)
+   - No extra padding, vertically centered
+
+2. **Centered Title** (next to logo)
+   - Format: "COTIZACIÓN – ISODEC EPS 100 mm" (or dynamic product family)
+   - Style: Bold, centered alignment
+   - Layout: Two-column header [logo | title]
+
+### B) TYPOGRAPHY / PAGE FIT
+
+**1-Page-First Rule**: PDFs should fit on 1 page whenever possible.
+
+**Font Sizing Strategy**:
+- Materials table header: ~9.0–9.2 pt
+- Materials table rows: ~8.5–8.7 pt  
+- Comments section: 8.0–8.2 pt (base), leading ~9.3–9.6
+- Bank transfer footer: ~8.4 pt
+
+**If content risks overflowing**:
+- FIRST: Reduce comments section font size and leading
+- Keep materials table font sizes unchanged
+- Do NOT alter table structure
+
+**Margins**:
+- Top: ~10mm
+- Bottom: ~8–10mm  
+- Left/Right: ~12mm
+
+### C) MATERIALS TABLE (DESIGN ONLY)
+
+**Styling**:
+- Header background: light gray (#EDEDED)
+- Thin grid lines (0.5pt)
+- Alternating row backgrounds:
+  - Odd rows: white
+  - Even rows: very light gray (#FAFAFA)
+- Numeric columns (Unid/Cant/USD/Total): right-aligned
+- Product name column: left-aligned
+- Repeat header row if multi-page (though target is 1 page)
+
+### D) "COMENTARIOS:" BLOCK
+
+**Section Title**: "COMENTARIOS:" (bold)
+
+**Content**: Bullet list (•) with selective per-line formatting:
+
+1. **"Entrega de 10 a 15 días, dependemos de producción."** → **BOLD**
+2. **"Oferta válida por 10 días a partir de la fecha."** → **RED**
+3. **"Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)."** → **BOLD + RED**
+4. YouTube URL (https://youtu.be/Am4mZskFMgc) → plain text
+
+**Font**: Smaller than table (8.0–8.2 pt), may shrink further to fit page
+
+### E) FOOTER: BANK TRANSFER BOX
+
+**Placement**: After comments section with small spacer
+
+**Layout**: Boxed/ruled table with visible grid lines
+
+**First row** (light gray background):
+- Left: "Depósito Bancario"
+- Right: "Titular: Metalog SAS – RUT: 120403430012"
+
+**Second row**:
+- Left: "Caja de Ahorro - BROU."
+- Right: "Número de Cuenta Dólares : 110520638-00002"
+
+**Third row**:
+- Left: "Por cualquier duda, consultar al 092 663 245."
+- Right: "Lea los Términos y Condiciones" (blue + underlined)
+
+**Font**: ~8.4pt, tight padding
+
+**Styling**:
+- Outer border + internal row lines visible
+- First row has light gray background (#EDEDED)
+- Text alignment: left column left-aligned, right column right-aligned
+
+---
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
