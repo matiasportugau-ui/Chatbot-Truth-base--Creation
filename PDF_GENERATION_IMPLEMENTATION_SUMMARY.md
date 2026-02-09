@@ -1,8 +1,13 @@
 # PDF Generation Implementation Summary
 
 **Project**: BMC Uruguay Quotation PDF Generator  
-**Date**: 2026-01-28  
-**Status**: ✅ **COMPLETE & TESTED**
+**Date**: 2026-01-28 (Updated: 2026-02-09)  
+**Status**: ✅ **COMPLETE & TESTED (Template v2.0)**
+
+> **2026-02-09 Update**: New Cotización PDF template with BMC logo header,
+> styled tables (alternating rows, right-aligned numerics), COMENTARIOS section
+> with per-line bold/red formatting, bank transfer footer box, and 1-page-fit logic.
+> See `GPT_PDF_INSTRUCTIONS.md` → "Plantilla PDF BMC" section for full specification.
 
 ---
 
