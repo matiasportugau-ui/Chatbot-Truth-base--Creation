@@ -10,6 +10,13 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+**NEW TEMPLATE (2026-02-09)**: PDFs now use the standardized BMC cotización format with:
+- Header: BMC logo + centered title
+- Unified materials table (products, accessories, fixings)
+- COMENTARIOS section with per-line formatting (bold/red)
+- Bank transfer footer box with grid lines
+- 1-page-first optimization
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
@@ -220,31 +227,22 @@ Before generating PDF, verify:
 
 ---
 
-## 🎨 PDF Features
+## 🎨 PDF Features (NEW TEMPLATE)
 
 The generated PDF includes:
 
-✅ **Header Section**:
-- BMC Uruguay logo (when available)
-- Company contact: email, website, phone
-- Date and location
-- Technical specs (autoportancia, apoyos)
+✅ **Header Section (NEW)**:
+- BMC Uruguay logo (top-left, ~18mm height, auto aspect ratio)
+- Centered title: "COTIZACIÓN – [product description]"
+- Two-column layout: [logo | title]
 
-✅ **Client Information**:
-- Client name, address, phone
-
-✅ **Products Table**:
-- Product name, length, quantity
-- Unit price (per m²)
-- Total price
-
-✅ **Accessories Table**:
-- Profiles, gutters, etc.
-- Linear pricing
-
-✅ **Fixings Table**:
-- Screws, sealants, etc.
-- Unit pricing
+✅ **Materials Table (UNIFIED)**:
+- Single table combining products, accessories, and fixings
+- Columns: MATERIALES | Unid | Cant | USD | Total USD
+- Header: light gray background (#EDEDED)
+- Rows: alternating white / very light gray (#FAFAFA)
+- Numbers: right-aligned
+- Thin grid lines for clarity
 
 ✅ **Totals Section**:
 - Subtotal
@@ -254,15 +252,84 @@ The generated PDF includes:
 - Shipping
 - Grand total
 
-✅ **Terms & Conditions**:
-- Standard BMC Uruguay conditions
-- Payment terms
-- Production time
-- Warranty information
+✅ **COMENTARIOS Section (NEW)**:
+- Section title: "COMENTARIOS:" (bold)
+- Bullet list format (•)
+- Smaller font (8.0–8.2 pt, leading 9.3–9.6)
+- **Per-line formatting rules**:
+  - "Entrega de 10 a 15 días, dependemos de producción." → **BOLD**
+  - "Oferta válida por 10 días a partir de la fecha." → **RED**
+  - "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → **BOLD + RED**
+  - All other lines → normal
+- Includes YouTube URL as plain text
 
-✅ **Banking Information**:
-- BROU account details
-- RUT information
+✅ **Bank Transfer Footer (NEW)**:
+- Boxed table with grid/ruled frame
+- First row: light gray background
+- Content (EXACT):
+  - Row 1 Left: "Depósito Bancario" | Right: "Titular: Metalog SAS – RUT: 120403430012"
+  - Row 2 Left: "Caja de Ahorro - BROU." | Right: "Número de Cuenta Dólares : 110520638-00002"
+  - Row 3 Left: "Por cualquier duda, consultar al 092 663 245." | Right: "Lea los Términos y Condiciones" (blue + underlined)
+
+✅ **Layout Optimization**:
+- Target: 1 page whenever possible
+- Strategy: If content risks overflow, reduce ONLY comments font/leading first
+- Margins: 12mm left/right, 10mm top, 8-10mm bottom
+- Page size: A4
+
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+### A) HEADER / BRANDING
+1. Official BMC logo at top-left: `/workspace/panelin_reports/assets/bmc_logo.png`
+2. Centered title next to logo: "COTIZACIÓN – [ISODEC EPS 100 mm]" (or dynamic based on product)
+3. Two-column header layout: [logo | title]
+   - Logo height: ~18mm (auto width, keep aspect ratio)
+   - No extra padding; vertically centered
+
+### B) TYPOGRAPHY / PAGE FIT
+1. PDF should fit into 1 page whenever possible
+2. If content risks spilling: reduce ONLY comments section font size and leading first
+   - Base comment font: 8.0–8.2 pt
+   - Base leading: 9.3–9.6
+3. Materials table font: ~8.6 for rows, ~9.2 for header
+4. Margins: ~12mm left/right, ~10mm top, ~8–10mm bottom
+
+### C) MATERIALS TABLE (DESIGN ONLY)
+1. Unified table structure (products + accessories + fixings)
+2. Columns: MATERIALES | Unid | Cant | USD | Total USD
+3. Styling:
+   - Header background: light gray (#EDEDED)
+   - Thin grid lines
+   - Alternating row backgrounds: white / very light gray (#FAFAFA)
+   - Right-align numeric columns (Unid/Cant/USD/Total)
+4. Repeat header if multi-page
+
+### D) "COMENTARIOS:" BLOCK (AFTER TABLE)
+1. Section title: "COMENTARIOS:" in bold
+2. Comments as bullet list (•), smaller font
+3. Selective formatting per line:
+   - Line "Entrega de 10 a 15 días, dependemos de producción." → BOLD
+   - Line "Oferta válida por 10 días a partir de la fecha." → RED
+   - Line "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → BOLD + RED
+4. All other comment lines: normal
+5. Include YouTube URL as plain text
+
+### E) FOOTER: BANK TRANSFER BOX (AFTER COMMENTS)
+1. Small spacer, then boxed/ruled block
+2. Grid/box lines visible (outer border + internal row lines)
+3. First row background: light gray
+4. Content (exact text):
+   - Row 1: "Depósito Bancario" | "Titular: Metalog SAS – RUT: 120403430012"
+   - Row 2: "Caja de Ahorro - BROU." | "Número de Cuenta Dólares : 110520638-00002"
+   - Row 3: "Por cualquier duda, consultar al 092 663 245." | "Lea los Términos y Condiciones" (blue + underlined)
+5. Font: ~8.4pt, tight padding
+
+### F) 1-PAGE-FIRST RULE
+- Shrink comments font/leading before altering table layout
+- Start with 8.2pt/9.4 leading, can reduce to 7.8pt/9.0 if needed
+- Keep table font unchanged
 
 ---
 

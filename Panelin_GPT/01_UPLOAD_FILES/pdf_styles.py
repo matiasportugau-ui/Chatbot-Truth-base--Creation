@@ -23,35 +23,43 @@ class BMCStyles:
     PAGE_WIDTH = A4[0]
     PAGE_HEIGHT = A4[1]
 
-    # Margins
-    MARGIN_TOP = 15 * mm
-    MARGIN_BOTTOM = 15 * mm
-    MARGIN_LEFT = 15 * mm
-    MARGIN_RIGHT = 15 * mm
+    # Margins (NEW: tighter margins for 1-page fit)
+    MARGIN_TOP = 10 * mm
+    MARGIN_BOTTOM = 8 * mm
+    MARGIN_LEFT = 12 * mm
+    MARGIN_RIGHT = 12 * mm
 
-    # Colors - BMC Uruguay Brand (Updated from ODS Template)
-    BMC_BLUE = colors.HexColor("#0F6C94")  # BRAND_PRIMARY_COLOR
-    BMC_DARK_BLUE = colors.HexColor("#0C5472")  # BRAND_SECONDARY_COLOR
-    TABLE_HEADER_BG = colors.HexColor("#EAF4F8")  # BRAND_HEADER_BG
+    # Colors - BMC Uruguay Brand
+    BMC_BLUE = colors.HexColor("#003366")
+    BMC_LIGHT_BLUE = colors.HexColor("#0066CC")
+    TABLE_HEADER_BG = colors.HexColor("#EDEDED")  # NEW: lighter gray
+    TABLE_ROW_ALT_BG = colors.HexColor("#FAFAFA")  # NEW: very light gray for alternating rows
     TABLE_BORDER = colors.HexColor("#CCCCCC")
     TEXT_BLACK = colors.black
-    TEXT_GRAY = colors.HexColor("#666666")  # BRAND_TEXT_GRAY
+    TEXT_GRAY = colors.HexColor("#666666")
+    TEXT_RED = colors.HexColor("#CC0000")  # NEW: for special comments
     HIGHLIGHT_YELLOW = colors.HexColor("#FFF9E6")
 
     # Fonts
     FONT_NAME = "Helvetica"
     FONT_NAME_BOLD = "Helvetica-Bold"
 
-    FONT_SIZE_TITLE = 18
+    FONT_SIZE_TITLE = 14  # NEW: adjusted for header layout
     FONT_SIZE_SUBTITLE = 14
     FONT_SIZE_HEADER = 12
     FONT_SIZE_NORMAL = 10
+    FONT_SIZE_TABLE_HEADER = 9.2  # NEW: table header size
+    FONT_SIZE_TABLE_ROW = 8.6  # NEW: table row size
     FONT_SIZE_SMALL = 9
+    FONT_SIZE_COMMENTS = 8.2  # NEW: base comments size (can be reduced)
     FONT_SIZE_TINY = 8
 
-    # Logo
-    LOGO_WIDTH = 80 * mm
-    LOGO_HEIGHT = 30 * mm
+    # Leading (line spacing)
+    LEADING_COMMENTS = 9.4  # NEW: base comments leading (can be reduced)
+
+    # Logo (NEW: auto aspect ratio, ~18mm height)
+    LOGO_HEIGHT = 18 * mm
+    LOGO_WIDTH = None  # Auto-calculated to maintain aspect ratio
     # Fallback to local path if simple filename doesn't exist (useful for GPT environment)
     LOGO_PATH = (
         "bmc_logo.png"
@@ -108,28 +116,30 @@ class BMCStyles:
 
     @classmethod
     def get_products_table_style(cls):
-        """Table style for products section"""
+        """Table style for products section (NEW TEMPLATE)"""
         return TableStyle(
             [
                 # Header row
                 ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
-                ("TEXTCOLOR", (0, 0), (-1, 0), cls.BMC_BLUE),
+                ("TEXTCOLOR", (0, 0), (-1, 0), cls.TEXT_BLACK),
                 ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
-                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_TABLE_HEADER),
+                ("ALIGN", (0, 0), (0, 0), "LEFT"),  # First column left
+                ("ALIGN", (1, 0), (-1, 0), "RIGHT"),  # Other columns right
                 # Data rows
                 ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
-                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_SMALL),
+                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_TABLE_ROW),
                 ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Product name left-aligned
-                ("ALIGN", (1, 1), (-1, -1), "CENTER"),  # Numbers center-aligned
-                # Borders
+                ("ALIGN", (1, 1), (-1, -1), "RIGHT"),  # Numbers right-aligned
+                # Borders - thin grid lines
                 ("GRID", (0, 0), (-1, -1), 0.5, cls.TABLE_BORDER),
-                ("LINEBELOW", (0, 0), (-1, 0), 1, cls.BMC_BLUE),
                 # Padding
-                ("TOPPADDING", (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-                ("LEFTPADDING", (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                # Repeat header if multi-page
+                ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, cls.TABLE_ROW_ALT_BG]),
             ]
         )
 
@@ -171,6 +181,47 @@ class BMCStyles:
             leading=11,
             bulletFontName=cls.FONT_NAME,
             bulletFontSize=cls.FONT_SIZE_TINY,
+        )
+
+    @classmethod
+    def get_comments_style(cls, font_size=None, leading=None):
+        """Style for COMENTARIOS section (adjustable for 1-page fit)"""
+        fs = font_size if font_size is not None else cls.FONT_SIZE_COMMENTS
+        ld = leading if leading is not None else cls.LEADING_COMMENTS
+        return ParagraphStyle(
+            "BMCComments",
+            fontName=cls.FONT_NAME,
+            fontSize=fs,
+            textColor=cls.TEXT_BLACK,
+            leftIndent=12,
+            spaceAfter=2,
+            leading=ld,
+            bulletFontName=cls.FONT_NAME,
+            bulletFontSize=fs,
+            bulletIndent=6,
+        )
+
+    @classmethod
+    def get_bank_transfer_table_style(cls):
+        """Table style for bank transfer footer box"""
+        return TableStyle(
+            [
+                # First row background (light gray)
+                ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
+                # Font
+                ("FONTNAME", (0, 0), (-1, -1), cls.FONT_NAME),
+                ("FONTSIZE", (0, 0), (-1, -1), 8.4),
+                ("ALIGN", (0, 0), (0, -1), "LEFT"),
+                ("ALIGN", (1, 0), (1, -1), "LEFT"),
+                # Borders - visible grid
+                ("GRID", (0, 0), (-1, -1), 0.75, cls.TABLE_BORDER),
+                ("BOX", (0, 0), (-1, -1), 1.0, cls.TABLE_BORDER),
+                # Padding
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ]
         )
 
 
