@@ -106,6 +106,92 @@
       "Professional branded PDFs"
     ]
   },
+  "pdf_generation_requirements": {
+    "trigger": "cotizacion_formal_en_pdf",
+    "must_include_blocks": [
+      "header_logo_bmc_y_titulo_centrado",
+      "tabla_materiales_con_estilo_bmc",
+      "bloque_comentarios_con_vinetas_y_reglas_por_linea",
+      "bloque_transferencia_bancaria_en_tabla_boxed"
+    ],
+    "logo_path_priority": [
+      "/mnt/data/Logo_BMC- PNG.png",
+      "panelin_reports/assets/bmc_logo.png"
+    ],
+    "layout_rules": {
+      "page_size": "A4",
+      "margins_mm": {
+        "left": 12,
+        "right": 12,
+        "top": 10,
+        "bottom": "8-10"
+      },
+      "header_layout": "[logo | title]",
+      "logo_height_mm": 18,
+      "materials_table_style": {
+        "header_bg": "#EDEDED",
+        "alt_row_bg": "#FAFAFA",
+        "grid": "thin",
+        "repeat_header_on_new_page": true,
+        "numeric_columns_right_aligned": [
+          "Unid",
+          "Cant",
+          "USD",
+          "Total"
+        ],
+        "font_rows_pt": "8.5-8.7",
+        "font_header_pt": "9.0-9.2"
+      }
+    },
+    "comments_rules": {
+      "title": "COMENTARIOS:",
+      "bullet": "•",
+      "font_size_pt": "8.0-8.2",
+      "leading": "9.3-9.6",
+      "per_line_formatting": [
+        {
+          "line": "Entrega de 10 a 15 días, dependemos de producción.",
+          "style": [
+            "bold"
+          ]
+        },
+        {
+          "line": "Oferta válida por 10 días a partir de la fecha.",
+          "style": [
+            "red"
+          ]
+        },
+        {
+          "line": "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).",
+          "style": [
+            "bold",
+            "red"
+          ]
+        }
+      ],
+      "youtube_url_as_plain_text": true
+    },
+    "bank_transfer_footer_box": {
+      "first_row_bg": "#EDEDED",
+      "grid_lines": "outer_and_internal",
+      "font_size_pt": 8.4,
+      "rows": [
+        {
+          "left": "Depósito Bancario",
+          "right": "Titular: Metalog SAS – RUT: 120403430012"
+        },
+        {
+          "left": "Caja de Ahorro - BROU.",
+          "right": "Número de Cuenta Dólares : 110520638-00002"
+        },
+        {
+          "left": "Por cualquier duda, consultar al 092 663 245.",
+          "right": "Lea los Términos y Condiciones (blue + underlined)"
+        }
+      ]
+    },
+    "one_page_first_policy": "If overflow risk, shrink only comments font/leading first; do not alter materials table layout first."
+  },
   "actions": [
     {
       "name": "generate_quotation",
@@ -129,7 +215,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate professional PDF quotation with mandatory BMC template blocks (logo, comments, transfer footer, one-page-first comments shrink)",
       "parameters": {
         "quotation_data": {
           "type": "object",
@@ -141,7 +227,8 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.build_quote_pdf",
+      "must_follow": "pdf_generation_requirements"
     },
     {
       "name": "lookup_product_fast",
