@@ -109,6 +109,71 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
+## Plantilla PDF BMC (Diseño y Formato)
+
+Cuando el usuario pida una **cotización formal en PDF**, el documento debe respetar esta plantilla visual:
+
+### 1) Header / Branding (obligatorio)
+
+- Layout de dos columnas: **[logo | título]**.
+- Logo oficial obligatorio: `/mnt/data/Logo_BMC- PNG.png`.
+- Usar altura de logo aproximada **18 mm** (manteniendo proporción).
+- Título centrado en la segunda columna:
+  - Preferido: `COTIZACIÓN – ISODEC EPS 100 mm`
+  - Si hay título dinámico por familia/producto, mantener mismo estilo centrado.
+
+### 2) Página y tipografía (regla 1-page-first)
+
+- Formato: **A4**.
+- Márgenes objetivo: **12 mm** izquierda/derecha, **10 mm** arriba, **8-10 mm** abajo.
+- Objetivo: que el PDF quede en **1 página siempre que sea posible**.
+- Si hay riesgo de desborde:
+  1. Reducir primero **SOLO** la tipografía de **COMENTARIOS**.
+  2. Font comentarios: base **8.0-8.2 pt**.
+  3. Leading comentarios: **9.3-9.6**.
+- No modificar primero estructura/ancho de tabla de materiales.
+
+### 3) Tabla de materiales (diseño)
+
+- Mantener estructura de columnas existente.
+- Header con fondo gris claro `#EDEDED`.
+- Líneas de grilla finas.
+- Filas alternadas: blanco / `#FAFAFA`.
+- Alinear a la derecha columnas numéricas (Unid/Cant/USD/Total).
+- Repetir fila de encabezado en salto de página (`repeatRows=1`).
+
+### 4) Bloque COMENTARIOS (después de tabla)
+
+- Título: **`COMENTARIOS:`** (negrita).
+- Mostrar como lista con viñetas (`•`), tipografía más chica.
+- Reglas de formato por línea (exact match):
+  - `Entrega de 10 a 15 días, dependemos de producción.` → **NEGRITA**
+  - `Oferta válida por 10 días a partir de la fecha.` → **ROJO**
+  - `Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).` → **NEGRITA + ROJO**
+- Las demás líneas quedan normales (mismo tamaño chico).
+- Incluir URL de YouTube como texto plano (sin romper layout).
+
+### 5) Footer bancario en caja (después de comentarios)
+
+- Insertar bloque con borde exterior + líneas internas.
+- Primera fila con fondo gris claro.
+- Tipografía chica (~8.4 pt), padding compacto.
+- Contenido obligatorio exacto:
+  - Fila 1:
+    - Izquierda: `Depósito Bancario`
+    - Derecha: `Titular: Metalog SAS – RUT: 120403430012`
+  - Fila 2:
+    - Izquierda: `Caja de Ahorro - BROU.`
+    - Derecha: `Número de Cuenta Dólares : 110520638-00002`
+  - Fila 3:
+    - Izquierda: `Por cualquier duda, consultar al 092 663 245.`
+    - Derecha: `Lea los Términos y Condiciones` (azul + subrayado)
+
+### 6) Alcance
+
+- Estos cambios son **solo de diseño/formato PDF**.
+- No alterar lógica de BOM, pricing, cantidades ni reglas de cálculo.
+
 **Pricing Basis**:
 - **IMPORTANT**: All line item prices (`unit_price_usd`) should use **IVA-excluded prices** (`sale_sin_iva`)
 - The PDF generator will automatically add IVA 22% to the subtotal

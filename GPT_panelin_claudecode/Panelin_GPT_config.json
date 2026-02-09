@@ -106,6 +106,33 @@
       "Professional branded PDFs"
     ]
   },
+  "pdf_generation_requirements": {
+    "formal_pdf_trigger_examples": [
+      "cotización formal en PDF",
+      "genera PDF",
+      "cotización en PDF"
+    ],
+    "mandatory_blocks_for_formal_pdf": [
+      "header_logo_bmc",
+      "header_centered_title",
+      "materials_table_styled",
+      "comments_block_with_rules",
+      "transfer_footer_boxed"
+    ],
+    "official_logo_path": "/mnt/data/Logo_BMC- PNG.png",
+    "comment_format_rules": {
+      "bold": [
+        "Entrega de 10 a 15 días, dependemos de producción."
+      ],
+      "red": [
+        "Oferta válida por 10 días a partir de la fecha."
+      ],
+      "bold_red": [
+        "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)."
+      ]
+    },
+    "layout_rule": "1-page-first: reducir primero font/leading del bloque COMENTARIOS antes de tocar la tabla"
+  },
   "actions": [
     {
       "name": "generate_quotation",
@@ -129,7 +156,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate formal PDF quotation with mandatory BMC template blocks and 1-page-first layout",
       "parameters": {
         "quotation_data": {
           "type": "object",
@@ -141,7 +168,14 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.generate_quotation_pdf",
+      "template_requirements": {
+        "must_include_logo": "/mnt/data/Logo_BMC- PNG.png",
+        "must_include_comments_block": true,
+        "must_include_transfer_footer_box": true,
+        "must_apply_comment_line_styles": true,
+        "must_apply_one_page_first_rule": true
+      }
     },
     {
       "name": "lookup_product_fast",
