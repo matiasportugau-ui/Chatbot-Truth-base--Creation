@@ -23,7 +23,6 @@ from typing import Dict, List, Optional, Any
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
-from reportlab.pdfgen import canvas
 from reportlab.platypus import (
     Table,
     Paragraph,
