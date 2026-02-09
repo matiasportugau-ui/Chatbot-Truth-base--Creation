@@ -10,10 +10,83 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+### A) HEADER / BRANDING
+1. **Logo BMC**: Displayed at top-left corner (~18mm height, auto width)
+   - Path: `panelin_reports/assets/bmc_logo.png`
+   - Alternative: `Panelin_GPT/01_UPLOAD_FILES/bmc_logo.png`
+2. **Centered Title**: "COTIZACIÓN – ISODEC EPS 100 mm" (or dynamic product family)
+   - Layout: Two-column header [Logo | Centered Title]
+   - Font: Bold, 14pt, BMC Blue color
+   - Vertically centered alignment
+
+### B) TYPOGRAPHY / PAGE FIT
+1. **1-Page-First Rule**: PDF should fit into 1 page whenever possible
+2. **Font Size Hierarchy** (optimized for single-page fit):
+   - Table headers: 9.2pt
+   - Table rows: 8.6pt
+   - Comments section: 8.0–8.2pt (BASE target)
+   - Comments leading: 9.3–9.6
+   - Footer: 8.4pt
+3. **Margins**: 
+   - Top: 10mm
+   - Bottom: 8–10mm
+   - Left/Right: 12mm
+4. **Shrinking Strategy**: If content risks spilling to second page:
+   - FIRST: Reduce comments section font size and leading
+   - LAST RESORT: Adjust other sections (avoid changing table structure)
+
+### C) MATERIALS TABLE (DESIGN ONLY)
+1. **Table Structure**:
+   - Single combined table for products, accessories, and fixings
+   - Columns: Material/Descripción | Unid | Cant | USD | Total
+2. **Styling**:
+   - Header background: Light gray (#EDEDED)
+   - Alternating row backgrounds: White / Very light gray (#FAFAFA)
+   - Thin grid lines (0.5pt)
+   - Right-align numeric columns (Unid, Cant, USD, Total)
+   - Left-align description column
+3. **Repeat Header**: If multi-page (though target is 1 page)
+
+### D) "COMENTARIOS:" BLOCK (AFTER TABLE)
+1. **Section Title**: "COMENTARIOS:" in bold
+2. **Bullet List Format**: • prefix for each line
+3. **Per-Line Formatting Rules**:
+   - Line "Entrega de 10 a 15 días, dependemos de producción." → **BOLD**
+   - Line "Oferta válida por 10 días a partir de la fecha." → **RED**
+   - Line "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → **BOLD + RED**
+   - YouTube URL: Plain text, no formatting
+   - All other lines: Normal style (small font)
+4. **Font**: 8.0pt base, leading 9.3 (can adjust for fit)
+
+### E) FOOTER: BANK TRANSFER BOX (AFTER COMMENTS)
+1. **Boxed Grid Layout**: Visible outer border + internal row lines
+2. **First Row**: Light gray background (#EDEDED)
+3. **Content** (EXACT text with punctuation):
+
+   **Row 1:**
+   - Left: "Depósito Bancario"
+   - Right: "Titular: Metalog SAS – RUT: 120403430012"
+
+   **Row 2:**
+   - Left: "Caja de Ahorro - BROU."
+   - Right: "Número de Cuenta Dólares : 110520638-00002"
+
+   **Row 3:**
+   - Left: "Por cualquier duda, consultar al 092 663 245."
+   - Right: "Lea los Términos y Condiciones" (blue + underlined)
+
+4. **Font**: ~8.4pt, tight padding
+5. **Spacing**: Small spacer before box (4–6pt)
+
+---
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
-
 - Usar `Thickness_mm` para espesor
 - Usar `Length_m` para largo  
 - Usar `SKU`, `NAME`, `Tipo`, `Familia`, `unit_base`
@@ -27,7 +100,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 | `m²` | área_total × sale_sin_iva | 180 × $36.54 = $6,577.20 |
 
 **IMPORTANTE - SKU 6842 (Gotero Lateral 100mm)**:
-
 - `unit_base = unidad` ← Se vende por pieza
 - `Length_m = 3.0` ← Es informativo, NO se usa en cálculo
 - Cálculo correcto: `cantidad × $20.77` (NO multiplicar por 3.0)
@@ -35,7 +107,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### When to Use
 
 Generate a PDF quotation when:
-
 - User explicitly requests "genera PDF" or "cotización en PDF"
 - User wants a formal quotation document for client delivery
 - User asks for a downloadable quotation
@@ -59,12 +130,11 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
-            'Length_m': [LENGTH],
+            'length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
-            'total_m2': [AREA],
-            'unit_base': 'm2'
+            'total_m2': [AREA]
         },
         # ... more products from your calculation
     ],
@@ -90,7 +160,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 ### Data Requirements
 
 **Minimum Required**:
-
 - `client_name`: Client's name
 - `products`: At least one product with:
   - `name`: Product name
@@ -100,7 +169,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
   - `unit_base`: Unit of measurement (`"unidad"`, `"ml"`, `"m²"`)
 
 **Recommended**:
-
 - `client_address`: Client's address
 - `client_phone`: Client's phone
 - `quote_description`: Brief description of the quotation
@@ -108,12 +176,10 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `fixings`: Screws, sealants, etc.
 
 **Technical Fields** (use standardized nomenclature):
-
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
 **Automatic Calculations**:
-
 - The PDF generator automatically calculates:
   - Subtotal (based on `unit_base` logic - see below)
   - IVA 22%
@@ -131,7 +197,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
-
 - Calculating product totals
 - Validating subtotals
 - Generating PDF line items
@@ -217,7 +282,6 @@ except Exception as e:
 ### Quality Checklist
 
 Before generating PDF, verify:
-
 - [ ] Client name is provided
 - [ ] All product calculations use correct `unit_base` logic
 - [ ] Technical nomenclature is standardized (`Thickness_mm`, `Length_m`)
@@ -235,34 +299,28 @@ Before generating PDF, verify:
 The generated PDF includes:
 
 ✅ **Header Section**:
-
 - BMC Uruguay logo (when available)
 - Company contact: email, website, phone
 - Date and location
 - Technical specs (autoportancia, apoyos)
 
 ✅ **Client Information**:
-
 - Client name, address, phone
 
 ✅ **Products Table**:
-
 - Product name, length, quantity
 - Unit price (per m²)
 - Total price
 
 ✅ **Accessories Table**:
-
 - Profiles, gutters, etc.
 - Linear pricing
 
 ✅ **Fixings Table**:
-
 - Screws, sealants, etc.
 - Unit pricing
 
 ✅ **Totals Section**:
-
 - Subtotal
 - Total m² (facade and roof separately)
 - IVA 22%
@@ -271,14 +329,12 @@ The generated PDF includes:
 - Grand total
 
 ✅ **Terms & Conditions**:
-
 - Standard BMC Uruguay conditions
 - Payment terms
 - Production time
 - Warranty information
 
 ✅ **Banking Information**:
-
 - BROU account details
 - RUT information
 
@@ -287,7 +343,6 @@ The generated PDF includes:
 ## 🚨 Common Mistakes to Avoid
 
 ❌ **DON'T**:
-
 - Generate PDF without validating calculations
 - Use incorrect IVA rate (must be 22%)
 - Skip accessories or fixings
@@ -295,7 +350,6 @@ The generated PDF includes:
 - Generate PDF for incomplete quotations
 
 ✅ **DO**:
-
 - Always calculate using KB formulas first
 - Include all required items per formulas
 - Validate autoportancia

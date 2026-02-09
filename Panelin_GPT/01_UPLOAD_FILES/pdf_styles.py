@@ -23,41 +23,44 @@ class BMCStyles:
     PAGE_WIDTH = A4[0]
     PAGE_HEIGHT = A4[1]
 
-    # Margins
-    MARGIN_TOP = 15 * mm
-    MARGIN_BOTTOM = 15 * mm
-    MARGIN_LEFT = 15 * mm
-    MARGIN_RIGHT = 15 * mm
+    # Margins (Updated for 1-page-first optimization)
+    MARGIN_TOP = 10 * mm
+    MARGIN_BOTTOM = 8 * mm
+    MARGIN_LEFT = 12 * mm
+    MARGIN_RIGHT = 12 * mm
 
-    # Colors - BMC Uruguay Brand (Updated from ODS Template)
-    BMC_BLUE = colors.HexColor("#0F6C94")  # BRAND_PRIMARY_COLOR
-    BMC_DARK_BLUE = colors.HexColor("#0C5472")  # BRAND_SECONDARY_COLOR
-    TABLE_HEADER_BG = colors.HexColor("#EAF4F8")  # BRAND_HEADER_BG
+    # Colors - BMC Uruguay Brand
+    BMC_BLUE = colors.HexColor("#003366")
+    BMC_LIGHT_BLUE = colors.HexColor("#0066CC")
+    TABLE_HEADER_BG = colors.HexColor("#EDEDED")  # Light gray for table headers
+    TABLE_ROW_ALT_BG = colors.HexColor("#FAFAFA")  # Very light gray for alternating rows
     TABLE_BORDER = colors.HexColor("#CCCCCC")
     TEXT_BLACK = colors.black
-    TEXT_GRAY = colors.HexColor("#666666")  # BRAND_TEXT_GRAY
+    TEXT_GRAY = colors.HexColor("#666666")
+    TEXT_RED = colors.HexColor("#CC0000")  # Red for specific comment lines
     HIGHLIGHT_YELLOW = colors.HexColor("#FFF9E6")
 
-    # Fonts
+    # Fonts (Optimized for 1-page fit)
     FONT_NAME = "Helvetica"
     FONT_NAME_BOLD = "Helvetica-Bold"
 
-    FONT_SIZE_TITLE = 18
-    FONT_SIZE_SUBTITLE = 14
-    FONT_SIZE_HEADER = 12
+    FONT_SIZE_TITLE = 14  # Centered title in header
+    FONT_SIZE_SUBTITLE = 12
+    FONT_SIZE_HEADER = 9.2  # Table headers
+    FONT_SIZE_TABLE = 8.6  # Table rows
     FONT_SIZE_NORMAL = 10
     FONT_SIZE_SMALL = 9
-    FONT_SIZE_TINY = 8
+    FONT_SIZE_COMMENTS = 8.0  # Comments section (can shrink to 8.0-8.2)
+    FONT_SIZE_FOOTER = 8.4  # Bank transfer footer
+    FONT_SIZE_TINY = 7.5
 
-    # Logo
-    LOGO_WIDTH = 80 * mm
-    LOGO_HEIGHT = 30 * mm
-    # Fallback to local path if simple filename doesn't exist (useful for GPT environment)
-    LOGO_PATH = (
-        "bmc_logo.png"
-        if os.path.exists("bmc_logo.png")
-        else "panelin_reports/assets/bmc_logo.png"
-    )
+    # Leading (line spacing)
+    LEADING_COMMENTS = 9.3  # Can adjust to 9.3-9.6 for fit
+
+    # Logo (Official BMC logo)
+    LOGO_HEIGHT = 18 * mm  # ~18mm height, auto width for aspect ratio
+    # Use official BMC logo path
+    LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "bmc_logo.png")
 
     @classmethod
     def get_title_style(cls):
@@ -107,31 +110,122 @@ class BMCStyles:
         )
 
     @classmethod
-    def get_products_table_style(cls):
-        """Table style for products section"""
+    def get_comments_style(cls):
+        """Style for comments section (smaller font, optimized for 1-page fit)"""
+        return ParagraphStyle(
+            "BMCComments",
+            fontName=cls.FONT_NAME,
+            fontSize=cls.FONT_SIZE_COMMENTS,
+            textColor=cls.TEXT_BLACK,
+            spaceAfter=2,
+            leading=cls.LEADING_COMMENTS,
+            leftIndent=10,
+            bulletFontName=cls.FONT_NAME,
+            bulletFontSize=cls.FONT_SIZE_COMMENTS,
+        )
+
+    @classmethod
+    def get_comments_bold_style(cls):
+        """Style for BOLD comment lines"""
+        return ParagraphStyle(
+            "BMCCommentsBold",
+            fontName=cls.FONT_NAME_BOLD,
+            fontSize=cls.FONT_SIZE_COMMENTS,
+            textColor=cls.TEXT_BLACK,
+            spaceAfter=2,
+            leading=cls.LEADING_COMMENTS,
+            leftIndent=10,
+            bulletFontName=cls.FONT_NAME_BOLD,
+            bulletFontSize=cls.FONT_SIZE_COMMENTS,
+        )
+
+    @classmethod
+    def get_comments_red_style(cls):
+        """Style for RED comment lines"""
+        return ParagraphStyle(
+            "BMCCommentsRed",
+            fontName=cls.FONT_NAME,
+            fontSize=cls.FONT_SIZE_COMMENTS,
+            textColor=cls.TEXT_RED,
+            spaceAfter=2,
+            leading=cls.LEADING_COMMENTS,
+            leftIndent=10,
+            bulletFontName=cls.FONT_NAME,
+            bulletFontSize=cls.FONT_SIZE_COMMENTS,
+        )
+
+    @classmethod
+    def get_comments_bold_red_style(cls):
+        """Style for BOLD + RED comment lines"""
+        return ParagraphStyle(
+            "BMCCommentsBoldRed",
+            fontName=cls.FONT_NAME_BOLD,
+            fontSize=cls.FONT_SIZE_COMMENTS,
+            textColor=cls.TEXT_RED,
+            spaceAfter=2,
+            leading=cls.LEADING_COMMENTS,
+            leftIndent=10,
+            bulletFontName=cls.FONT_NAME_BOLD,
+            bulletFontSize=cls.FONT_SIZE_COMMENTS,
+        )
+
+    @classmethod
+    def get_footer_box_style(cls):
+        """Table style for bank transfer footer box with gray header row"""
         return TableStyle(
             [
-                # Header row
+                # First row background (light gray)
                 ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
-                ("TEXTCOLOR", (0, 0), (-1, 0), cls.BMC_BLUE),
-                ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
-                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 0), (-1, 0), "CENTER"),
-                # Data rows
-                ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
-                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Product name left-aligned
-                ("ALIGN", (1, 1), (-1, -1), "CENTER"),  # Numbers center-aligned
-                # Borders
-                ("GRID", (0, 0), (-1, -1), 0.5, cls.TABLE_BORDER),
-                ("LINEBELOW", (0, 0), (-1, 0), 1, cls.BMC_BLUE),
-                # Padding
-                ("TOPPADDING", (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-                ("LEFTPADDING", (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                # Grid/box lines visible
+                ("GRID", (0, 0), (-1, -1), 1, cls.TABLE_BORDER),
+                ("BOX", (0, 0), (-1, -1), 1.5, cls.TEXT_BLACK),
+                # Font
+                ("FONTNAME", (0, 0), (-1, -1), cls.FONT_NAME),
+                ("FONTSIZE", (0, 0), (-1, -1), cls.FONT_SIZE_FOOTER),
+                # Alignment
+                ("ALIGN", (0, 0), (-1, -1), "LEFT"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                # Padding (tight)
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
             ]
         )
+
+    @classmethod
+    def get_products_table_style(cls, num_rows=None):
+        """Table style for materials section with alternating row backgrounds"""
+        # Build base style
+        style_commands = [
+            # Header row
+            ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
+            ("TEXTCOLOR", (0, 0), (-1, 0), cls.TEXT_BLACK),
+            ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
+            ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_HEADER),
+            ("ALIGN", (0, 0), (0, 0), "LEFT"),  # First column left
+            ("ALIGN", (1, 0), (-1, 0), "RIGHT"),  # Numeric columns right
+            # Data rows
+            ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
+            ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_TABLE),
+            ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Description/Product name left-aligned
+            ("ALIGN", (1, 1), (-1, -1), "RIGHT"),  # All numeric columns right-aligned
+            # Thin grid lines
+            ("GRID", (0, 0), (-1, -1), 0.5, cls.TABLE_BORDER),
+            # Padding
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+        ]
+        
+        # Add alternating row backgrounds (every other row after header)
+        # Only if num_rows is provided
+        if num_rows:
+            for i in range(2, num_rows, 2):  # Even rows (1-indexed, skip header at 0)
+                style_commands.append(("BACKGROUND", (0, i), (-1, i), cls.TABLE_ROW_ALT_BG))
+        
+        return TableStyle(style_commands)
 
     @classmethod
     def get_totals_table_style(cls):
