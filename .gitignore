@@ -96,7 +96,7 @@ logs/
 
 # Project specific
 node_modules/
-panelin_reports/output/*.pdf
+panelin_reports/output/
 .kb_update_cache/
 .files_organizer/
 .corrections_backup/
