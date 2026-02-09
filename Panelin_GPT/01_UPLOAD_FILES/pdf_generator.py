@@ -721,13 +721,6 @@ class BMCQuotationPDF:
         ]
 
         # Use Paragraphs for row 3 right cell (blue+underlined)
-        small_style = ParagraphStyle(
-            "TransferSmall",
-            fontName=BMCStyles.FONT_NAME,
-            fontSize=BMCStyles.FONT_SIZE_SMALL,
-            textColor=BMCStyles.TEXT_BLACK,
-            leading=BMCStyles.FONT_SIZE_SMALL + 2,
-        )
         link_style = ParagraphStyle(
             "TransferLink",
             fontName=BMCStyles.FONT_NAME,
