@@ -10,6 +10,63 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+### Plantilla PDF BMC (Diseño y Formato)
+
+Para cualquier **cotización formal en PDF**, aplica obligatoriamente esta plantilla:
+
+1. **Header / Branding**
+   - Usar logo oficial BMC en: `/mnt/data/Logo_BMC- PNG.png` (si no está disponible, fallback al logo legacy local).
+   - Encabezado de dos columnas: `[logo | título centrado]`.
+   - Título en estilo formal centrado: `COTIZACIÓN – ...` (usar título dinámico si corresponde).
+   - Altura del logo aproximada: **18 mm** con relación de aspecto preservada.
+
+2. **Regla de ajuste a 1 página (1-page-first)**
+   - Objetivo: que la cotización quede en 1 página cuando sea posible.
+   - Si hay riesgo de overflow, reducir **solo COMENTARIOS** primero.
+   - Prioridad de ajuste:
+     - `fontSize` comentarios: ~8.2 → 8.0 → 7.8 → 7.6
+     - `leading` comentarios: ~9.5 → 9.3 → 9.1 → 8.9
+   - No modificar primero estructura o tipografía de tabla de materiales.
+
+3. **Tabla de materiales (diseño)**
+   - Mantener estructura y columnas de materiales.
+   - Header con fondo gris claro `#EDEDED`.
+   - Grilla fina visible.
+   - Filas alternadas: blanco / `#FAFAFA`.
+   - Columnas numéricas alineadas a la derecha (Unid/Cant/USD/Total).
+   - Repetir header en cada página (`repeatRows=1`) si hubiera múltiples páginas.
+   - Tamaños de referencia:
+     - Header tabla: ~9.0–9.2 pt
+     - Filas tabla: ~8.5–8.7 pt
+
+4. **Bloque `COMENTARIOS:`**
+   - Debe ir después de la(s) tabla(s) de materiales.
+   - Título: `COMENTARIOS:` en negrita.
+   - Lista con viñetas `•` y fuente chica.
+   - Formato selectivo por línea:
+     - `Entrega de 10 a 15 días, dependemos de producción.` → **NEGRITA**
+     - `Oferta válida por 10 días a partir de la fecha.` → **ROJO**
+     - `Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).` → **NEGRITA + ROJO**
+   - Mantener URL de YouTube como texto plano: `https://youtu.be/Am4mZskFMgc`.
+
+5. **Footer de transferencia bancaria (box/grid)**
+   - Debe ir después de `COMENTARIOS:`.
+   - Tabla enmarcada con borde externo + líneas internas.
+   - Primera fila con fondo gris claro.
+   - Texto exacto:
+     - Fila 1: `Depósito Bancario` | `Titular: Metalog SAS – RUT: 120403430012`
+     - Fila 2: `Caja de Ahorro - BROU.` | `Número de Cuenta Dólares : 110520638-00002`
+     - Fila 3: `Por cualquier duda, consultar al 092 663 245.` | `Lea los Términos y Condiciones`
+   - En la celda derecha de fila 3: texto azul y subrayado.
+   - Fuente compacta aprox. 8.4 pt y padding ajustado.
+
+6. **Página y márgenes**
+   - Tamaño de página: **A4**.
+   - Márgenes aproximados:
+     - Izquierda/Derecha: 12 mm
+     - Superior: 10 mm
+     - Inferior: 8–10 mm
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:

@@ -3,34 +3,38 @@
 BMC Uruguay Quotation PDF Generator
 ====================================
 
-Generates professional quotation PDFs matching the exact structure
-and branding of BMC Uruguay's standard quotation template.
-
-Based on: Cotización 01042025 BASE - Isopanel xx mm - Isodec EPS xx mm -desc- WA.ods
+Generates quotation PDFs with the BMC formal template:
+- Two-column header with official logo + centered title
+- Styled materials tables
+- COMENTARIOS block with per-line formatting rules
+- Bank transfer boxed footer
 """
 
-import os
+import re
 from datetime import datetime
+from io import BytesIO
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
+from xml.sax.saxutils import escape
 
-from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, Paragraph, Spacer, Image, PageBreak
-from reportlab.platypus import SimpleDocTemplate, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table
+from reportlab.platypus import TableStyle
 
 from .pdf_styles import BMCStyles, QuotationConstants
 
 
 class QuotationDataFormatter:
-    """Formats raw quotation data into PDF-ready structure"""
+    """Formats raw quotation data into PDF-ready structure."""
 
     @staticmethod
     def format_for_pdf(raw_data: Dict) -> Dict:
         """
-        Transform raw quotation data into structured PDF format
+        Transform raw quotation data into structured PDF format.
 
         Args:
             raw_data: Dictionary containing quotation information from KB
@@ -38,25 +42,21 @@ class QuotationDataFormatter:
         Returns:
             Dictionary formatted for PDF generation
         """
-        # Extract and format client information
         client_info = {
             "name": raw_data.get("client_name", "Cliente"),
             "address": raw_data.get("client_address", ""),
             "phone": raw_data.get("client_phone", ""),
         }
 
-        # Extract products
         products = raw_data.get("products", [])
         accessories = raw_data.get("accessories", [])
         fixings = raw_data.get("fixings", [])
 
-        # Calculate totals
         totals = QuotationDataFormatter.calculate_totals(
             products, accessories, fixings, raw_data.get("shipping_usd")
         )
 
-        # Format complete data structure
-        formatted = {
+        return {
             "date": raw_data.get("date", datetime.now().strftime("%Y-%m-%d")),
             "location": raw_data.get("location", QuotationConstants.DEFAULT_LOCATION),
             "quote_title": raw_data.get("quote_title", "Cotización"),
@@ -74,47 +74,29 @@ class QuotationDataFormatter:
             "conditions": QuotationConstants.get_standard_conditions(),
         }
 
-        return formatted
-
     @staticmethod
     def calculate_item_total(item: Dict) -> float:
         """
-        Calculate item total based on unit_base
+        Calculate item total based on unit_base.
 
         Logic (2026-01-28 correction):
-        - unit_base = 'unidad': quantity × sale_sin_iva
-        - unit_base = 'ml': quantity × Length_m × sale_sin_iva
-        - unit_base = 'm²': total_m2 × sale_sin_iva
-
-        Args:
-            item: Dict with quantity, unit_base, sale_sin_iva, Length_m (optional)
-
-        Returns:
-            float: Calculated total
+        - unit_base = 'unidad': quantity x sale_sin_iva
+        - unit_base = 'ml': quantity x Length_m x sale_sin_iva
+        - unit_base = 'm²': total_m2 x sale_sin_iva
         """
-        unit_base = item.get("unit_base", "unidad").lower()
-
-        # Use sale_sin_iva if available, fallback to unit_price_usd
+        unit_base = str(item.get("unit_base", "unidad")).lower()
         price = item.get("sale_sin_iva", item.get("unit_price_usd", 0))
 
         if unit_base == "unidad":
-            # Direct quantity
             return item.get("quantity", 0) * price
-
-        elif unit_base == "ml":
-            # Linear meters: pieces × length per piece
+        if unit_base == "ml":
             quantity = item.get("quantity", 0)
             length_m = item.get("Length_m", item.get("length_m", 0))
             return quantity * length_m * price
-
-        elif unit_base == "m²" or unit_base == "m2":
-            # Square meters: total area
+        if unit_base in ("m²", "m2"):
             total_m2 = item.get("total_m2", 0)
             return total_m2 * price
-
-        else:
-            # Fallback to quantity × price
-            return item.get("quantity", 0) * price
+        return item.get("quantity", 0) * price
 
     @staticmethod
     def calculate_totals(
@@ -126,22 +108,8 @@ class QuotationDataFormatter:
         """
         Calculate all financial totals for the quotation.
 
-        LEDGER: Item totals are sin IVA (from sale_sin_iva / unit_price_usd).
-        subtotal = sum of items; IVA = subtotal × rate; materials = subtotal + IVA.
-
-        Args:
-            products: List of product items
-            accessories: List of accessory items
-            fixings: List of fixing items
-            shipping_usd: Shipping cost (defaults to standard)
-
-        Returns:
-            Dictionary with all calculated totals
+        NOTE: Existing pricing/BOM logic is intentionally preserved.
         """
-        # Calculate subtotal from all items
-        # If total_usd is provided, use it; otherwise calculate based on unit_base
-        # We also ensure total_usd is populated in the item for display purposes
-
         products_total = 0
         for item in products:
             if item.get("total_usd") is None:
@@ -160,32 +128,22 @@ class QuotationDataFormatter:
                 item["total_usd"] = QuotationDataFormatter.calculate_item_total(item)
             fixings_total += item["total_usd"]
 
-        # Total from all items (calculated without IVA)
         subtotal = products_total + accessories_total + fixings_total
-
-        # Calculate IVA from the subtotal
         iva = subtotal * QuotationConstants.IVA_RATE
-
-        # Materials total is subtotal + IVA
         materials_total = subtotal + iva
 
-        # Shipping
         shipping = (
             shipping_usd
             if shipping_usd is not None
             else QuotationConstants.DEFAULT_SHIPPING_USD
         )
-
-        # Grand total
         grand_total = materials_total + shipping
 
-        # Calculate total m² for facade and roof
         total_m2_facade = sum(
             item.get("total_m2", 0)
             for item in products
             if "Fachada" in item.get("name", "")
         )
-
         total_m2_roof = sum(
             item.get("total_m2", 0)
             for item in products
@@ -205,52 +163,62 @@ class QuotationDataFormatter:
 
     @staticmethod
     def format_currency(amount: float) -> str:
-        """Format currency as USD with proper formatting"""
+        """Format currency as USD with proper formatting."""
         return f"${amount:,.2f}"
 
     @staticmethod
     def format_date(date_str: str) -> str:
-        """Format date string consistently"""
+        """Format date string consistently."""
         try:
             date_obj = datetime.strptime(date_str, "%Y-%m-%d")
             return date_obj.strftime("%d/%m/%Y")
-        except:
+        except Exception:
             return date_str
+
+
+class _PageCountCanvas(canvas.Canvas):
+    """Small canvas helper to capture generated page count."""
+
+    latest_page_count = 0
+
+    def save(self):
+        _PageCountCanvas.latest_page_count = max(1, self._pageNumber)
+        super().save()
 
 
 class BMCQuotationPDF:
     """
     Main PDF generator for BMC Uruguay quotations.
-    Replicates exact structure from ODS template.
+
+    Applies the BMC layout template while preserving quotation calculations.
     """
 
-    def __init__(self, output_path: str):
-        """
-        Initialize PDF generator
+    COMMENT_BOLD_LINE = "Entrega de 10 a 15 días, dependemos de producción."
+    COMMENT_RED_LINE = "Oferta válida por 10 días a partir de la fecha."
+    COMMENT_BOLD_RED_LINE = (
+        "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). "
+        "Saldo del 40 % (previo a retiro de fábrica)."
+    )
 
-        Args:
-            output_path: Path where PDF will be saved
-        """
+    COMMENT_SIZE_VARIANTS = (
+        (8.2, 9.5),
+        (8.0, 9.3),
+        (7.8, 9.1),
+        (7.6, 8.9),
+    )
+
+    def __init__(self, output_path: str, logo_path: Optional[str] = None):
         self.output_path = output_path
-        self.styles = BMCStyles()
-        self.constants = QuotationConstants()
-
-        # Ensure output directory exists
+        self.logo_path = BMCStyles.resolve_logo_path(logo_path)
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
-    def generate(self, quotation_data: Dict) -> str:
-        """
-        Generate complete quotation PDF
+    @property
+    def _usable_width(self) -> float:
+        return BMCStyles.PAGE_WIDTH - BMCStyles.MARGIN_LEFT - BMCStyles.MARGIN_RIGHT
 
-        Args:
-            quotation_data: Formatted quotation data dictionary
-
-        Returns:
-            Path to generated PDF file
-        """
-        # Create PDF document
-        doc = SimpleDocTemplate(
-            self.output_path,
+    def _create_document(self, target) -> SimpleDocTemplate:
+        return SimpleDocTemplate(
+            target,
             pagesize=BMCStyles.PAGE_SIZE,
             topMargin=BMCStyles.MARGIN_TOP,
             bottomMargin=BMCStyles.MARGIN_BOTTOM,
@@ -258,244 +226,284 @@ class BMCQuotationPDF:
             rightMargin=BMCStyles.MARGIN_RIGHT,
         )
 
-        # Build document elements
-        story = []
+    def _build_document(
+        self, target, quotation_data: Dict, comment_font_size: float, comment_leading: float
+    ) -> int:
+        _PageCountCanvas.latest_page_count = 0
+        doc = self._create_document(target)
+        story = self._build_story(quotation_data, comment_font_size, comment_leading)
+        doc.build(story, canvasmaker=_PageCountCanvas)
+        return _PageCountCanvas.latest_page_count
 
-        # Header section
-        story.extend(self._build_header(quotation_data))
-        story.append(Spacer(1, 12))
+    def generate(self, quotation_data: Dict) -> str:
+        """
+        Generate complete quotation PDF.
 
-        # Title and client info
-        story.extend(self._build_title_section(quotation_data))
-        story.append(Spacer(1, 12))
+        1-page-first strategy:
+        - Try to fit content into one page by reducing comment font and leading first.
+        - Keep tables unchanged while trying to fit.
+        """
+        selected_size, selected_leading = self.COMMENT_SIZE_VARIANTS[0]
 
-        # Products table
-        if quotation_data.get("products"):
-            story.extend(self._build_products_table(quotation_data["products"]))
-            story.append(Spacer(1, 12))
+        for font_size, leading in self.COMMENT_SIZE_VARIANTS:
+            temp_buffer = BytesIO()
+            page_count = self._build_document(
+                temp_buffer, quotation_data, font_size, leading
+            )
+            selected_size, selected_leading = font_size, leading
+            if page_count <= 1:
+                break
 
-        # Accessories table
-        if quotation_data.get("accessories"):
-            story.extend(self._build_accessories_table(quotation_data["accessories"]))
-            story.append(Spacer(1, 12))
-
-        # Fixings table
-        if quotation_data.get("fixings"):
-            story.extend(self._build_fixings_table(quotation_data["fixings"]))
-            story.append(Spacer(1, 12))
-
-        # Totals section
-        story.extend(self._build_totals(quotation_data["totals"]))
-        story.append(Spacer(1, 12))
-
-        # Comments section
-        if quotation_data.get("comments"):
-            story.extend(self._build_comments(quotation_data["comments"]))
-            story.append(Spacer(1, 6))
-
-        # Conditions section
-        story.extend(self._build_conditions(quotation_data["conditions"]))
-        story.append(Spacer(1, 12))
-
-        # Banking information
-        story.extend(self._build_banking_info())
-
-        # Build PDF
-        doc.build(story)
-
+        self._build_document(
+            self.output_path, quotation_data, selected_size, selected_leading
+        )
         return self.output_path
 
+    def _build_story(
+        self, data: Dict, comment_font_size: float, comment_leading: float
+    ) -> List:
+        story = []
+
+        story.extend(self._build_header(data))
+        story.append(Spacer(1, 4))
+
+        story.extend(self._build_title_section(data))
+        story.append(Spacer(1, 4))
+
+        if data.get("products"):
+            story.extend(self._build_products_table(data["products"]))
+            story.append(Spacer(1, 4))
+
+        if data.get("accessories"):
+            story.extend(self._build_accessories_table(data["accessories"]))
+            story.append(Spacer(1, 4))
+
+        if data.get("fixings"):
+            story.extend(self._build_fixings_table(data["fixings"]))
+            story.append(Spacer(1, 4))
+
+        story.extend(self._build_totals(data["totals"]))
+        story.append(Spacer(1, 4))
+
+        story.extend(
+            self._build_comments(data.get("comments", []), comment_font_size, comment_leading)
+        )
+        story.append(Spacer(1, 3))
+
+        story.extend(self._build_banking_info())
+        return story
+
+    def _compose_header_title(self, data: Dict) -> str:
+        quote_title = str(data.get("quote_title", "Cotización")).upper()
+        quote_description = str(data.get("quote_description", "")).strip()
+        if quote_description:
+            return f"{quote_title} – {quote_description}"
+        return quote_title
+
     def _build_header(self, data: Dict) -> List:
-        """Build header section with logo and company info"""
+        """Build two-column header [logo | centered title]."""
         elements = []
 
-        # TODO: Add logo when available
-        # if os.path.exists(BMCStyles.LOGO_PATH):
-        #     logo = Image(BMCStyles.LOGO_PATH, width=BMCStyles.LOGO_WIDTH, height=BMCStyles.LOGO_HEIGHT)
-        #     elements.append(logo)
+        logo_flowable = ""
+        logo_column_width = 30 * mm
+        if self.logo_path:
+            try:
+                img_width_px, img_height_px = ImageReader(self.logo_path).getSize()
+                logo_width = BMCStyles.LOGO_HEIGHT * (img_width_px / float(img_height_px))
+                logo_flowable = Image(
+                    self.logo_path, width=logo_width, height=BMCStyles.LOGO_HEIGHT
+                )
+                logo_flowable.hAlign = "LEFT"
+                logo_column_width = max(24 * mm, min(55 * mm, logo_width + 1 * mm))
+            except Exception:
+                logo_flowable = ""
 
-        # Company contact information
-        styles = getSampleStyleSheet()
-        contact_style = BMCStyles.get_small_style()
+        title_text = escape(self._compose_header_title(data))
+        title = Paragraph(title_text, BMCStyles.get_header_title_style())
 
-        elements.append(Paragraph(QuotationConstants.COMPANY_EMAIL, contact_style))
-        elements.append(Paragraph(QuotationConstants.COMPANY_WEBSITE, contact_style))
-        elements.append(Paragraph(QuotationConstants.COMPANY_PHONE, contact_style))
-
-        # Date and location
-        elements.append(Spacer(1, 6))
-        elements.append(
-            Paragraph(
-                f"Fecha: {QuotationDataFormatter.format_date(data.get('date', ''))}",
-                contact_style,
+        header_table = Table(
+            [[logo_flowable, title]],
+            colWidths=[logo_column_width, self._usable_width - logo_column_width],
+        )
+        header_table.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("ALIGN", (0, 0), (0, 0), "LEFT"),
+                    ("ALIGN", (1, 0), (1, 0), "CENTER"),
+                    ("TOPPADDING", (0, 0), (-1, -1), 0),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ]
             )
         )
-        elements.append(Paragraph(data.get("location", ""), contact_style))
+        elements.append(header_table)
 
-        # Technical specs (autoportancia, apoyos)
-        specs = data.get("technical_specs", {})
-        if specs:
-            elements.append(
-                Paragraph(
-                    f"Autoportancia: {specs.get('autoportancia', 0)} m", contact_style
-                )
-            )
-            elements.append(
-                Paragraph(f"Apoyos: {specs.get('apoyos', 0)}", contact_style)
-            )
+        metadata_parts = [
+            f"Fecha: {QuotationDataFormatter.format_date(data.get('date', ''))}",
+            data.get("location", ""),
+        ]
+        metadata_text = " | ".join([part for part in metadata_parts if part])
+        if metadata_text:
+            elements.append(Spacer(1, 1))
+            elements.append(Paragraph(escape(metadata_text), BMCStyles.get_small_style()))
 
         return elements
 
     def _build_title_section(self, data: Dict) -> List:
-        """Build title and client information section"""
+        """Build client and technical info section."""
         elements = []
-
-        # Main title
-        title_style = BMCStyles.get_title_style()
-        title_text = f"{data.get('quote_title', 'Cotización')}: {data.get('quote_description', '')}"
-        elements.append(Paragraph(title_text, title_style))
-
-        # Client information
         client = data.get("client", {})
+        specs = data.get("technical_specs", {})
         normal_style = BMCStyles.get_normal_style()
 
-        elements.append(Spacer(1, 12))
         elements.append(
-            Paragraph(f"<b>Cliente:</b> {client.get('name', '')}", normal_style)
+            Paragraph(
+                f"<b>Cliente:</b> {escape(str(client.get('name', '')))}",
+                normal_style,
+            )
         )
-        elements.append(
-            Paragraph(f"<b>Dirección:</b> {client.get('address', '')}", normal_style)
-        )
-        elements.append(
-            Paragraph(f"<b>Tel/cel:</b> {client.get('phone', '')}", normal_style)
-        )
+        if client.get("address"):
+            elements.append(
+                Paragraph(
+                    f"<b>Dirección:</b> {escape(str(client.get('address', '')))}",
+                    normal_style,
+                )
+            )
+        if client.get("phone"):
+            elements.append(
+                Paragraph(
+                    f"<b>Tel/cel:</b> {escape(str(client.get('phone', '')))}",
+                    normal_style,
+                )
+            )
 
+        if specs:
+            specs_text = (
+                f"<b>Autoportancia:</b> {escape(str(specs.get('autoportancia', '')))} m"
+                f" &nbsp; | &nbsp; <b>Apoyos:</b> {escape(str(specs.get('apoyos', '')))}"
+            )
+            elements.append(Paragraph(specs_text, normal_style))
+
+        return elements
+
+    def _build_materials_table(
+        self,
+        title: Optional[str],
+        header: List[str],
+        rows: List[List[str]],
+        col_widths: List[float],
+        numeric_columns: List[int],
+    ) -> List:
+        elements = []
+        if title:
+            elements.append(Paragraph(escape(title), BMCStyles.get_section_label_style()))
+
+        table_data = [header] + rows
+        table = Table(table_data, colWidths=col_widths, repeatRows=1)
+        table.setStyle(
+            BMCStyles.get_materials_table_style(
+                numeric_columns=numeric_columns, total_rows=len(table_data)
+            )
+        )
+        elements.append(table)
         return elements
 
     def _build_products_table(self, products: List[Dict]) -> List:
-        """Build products table"""
-        elements = []
-
-        # Table header
-        header = [
-            "Producto",
-            "Largos (m)",
-            "Cantidades",
-            "Costo m² (USD)",
-            "Costo Total (USD)",
-        ]
-
-        # Table data
-        data = [header]
+        """Build primary materials table."""
+        header = ["Material", "Largo (m)", "Cant.", "USD", "Total USD"]
+        rows = []
         for product in products:
-            # Ensure correct Length_m and total_usd calculation
             length = product.get("Length_m", product.get("length_m", ""))
             total_usd = product.get("total_usd")
-            if total_usd is None or total_usd == 0:
+            if total_usd in (None, 0):
                 total_usd = QuotationDataFormatter.calculate_item_total(product)
 
-            row = [
-                product.get("name", ""),
-                str(length),
-                str(product.get("quantity", "")),
-                QuotationDataFormatter.format_currency(
-                    product.get("unit_price_usd", 0)
-                ),
-                QuotationDataFormatter.format_currency(total_usd),
-            ]
-            data.append(row)
+            unit_price = product.get("unit_price_usd", product.get("sale_sin_iva", 0))
+            rows.append(
+                [
+                    str(product.get("name", "")),
+                    str(length),
+                    str(product.get("quantity", "")),
+                    QuotationDataFormatter.format_currency(unit_price),
+                    QuotationDataFormatter.format_currency(total_usd),
+                ]
+            )
 
-        # Create table
-        table = Table(data, colWidths=[180, 60, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
-
-        elements.append(table)
-        return elements
+        w = self._usable_width
+        col_widths = [0.44 * w, 0.14 * w, 0.10 * w, 0.14 * w, 0.18 * w]
+        return self._build_materials_table(
+            title=None,
+            header=header,
+            rows=rows,
+            col_widths=col_widths,
+            numeric_columns=[1, 2, 3, 4],
+        )
 
     def _build_accessories_table(self, accessories: List[Dict]) -> List:
-        """Build accessories/profiles table"""
-        elements = []
-
-        # Section header
-        header_style = BMCStyles.get_header_style()
-        elements.append(Paragraph("Accesorios", header_style))
-
-        # Table structure (similar to products)
-        header = [
-            "Producto",
-            "Largo (m)",
-            "Cantidades",
-            "Costo lineal (USD)",
-            "Costo Total (USD)",
-        ]
-        data = [header]
-
+        """Build accessories table."""
+        header = ["Accesorio", "Largo (m)", "Cant.", "USD", "Total USD"]
+        rows = []
         for item in accessories:
-            # Ensure correct Length_m and total_usd calculation
             length = item.get("Length_m", item.get("length_m", ""))
             total_usd = item.get("total_usd")
-            if total_usd is None or total_usd == 0:
+            if total_usd in (None, 0):
                 total_usd = QuotationDataFormatter.calculate_item_total(item)
 
-            row = [
-                item.get("name", ""),
-                str(length),
-                str(item.get("quantity", "")),
-                QuotationDataFormatter.format_currency(item.get("unit_price_usd", 0)),
-                QuotationDataFormatter.format_currency(total_usd),
-            ]
-            data.append(row)
+            unit_price = item.get("unit_price_usd", item.get("sale_sin_iva", 0))
+            rows.append(
+                [
+                    str(item.get("name", "")),
+                    str(length),
+                    str(item.get("quantity", "")),
+                    QuotationDataFormatter.format_currency(unit_price),
+                    QuotationDataFormatter.format_currency(total_usd),
+                ]
+            )
 
-        table = Table(data, colWidths=[180, 60, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
-
-        elements.append(table)
-        return elements
+        w = self._usable_width
+        col_widths = [0.44 * w, 0.14 * w, 0.10 * w, 0.14 * w, 0.18 * w]
+        return self._build_materials_table(
+            title="ACCESORIOS",
+            header=header,
+            rows=rows,
+            col_widths=col_widths,
+            numeric_columns=[1, 2, 3, 4],
+        )
 
     def _build_fixings_table(self, fixings: List[Dict]) -> List:
-        """Build fixings/fijaciones table"""
-        elements = []
-
-        # Section header
-        header_style = BMCStyles.get_header_style()
-        elements.append(Paragraph("Fijaciones", header_style))
-
-        # Table structure
-        header = [
-            "Producto",
-            "Especificación",
-            "Cantidades",
-            "Costo unit. (USD)",
-            "Costo Total (USD)",
-        ]
-        data = [header]
-
+        """Build fixings/fijaciones table."""
+        header = ["Fijación", "Especificación", "Cant.", "USD", "Total USD"]
+        rows = []
         for item in fixings:
-            # Bug 2 Fix: Ensure total_usd is calculated if missing
             total_usd = item.get("total_usd")
-            if total_usd is None or total_usd == 0:
+            if total_usd in (None, 0):
                 total_usd = QuotationDataFormatter.calculate_item_total(item)
 
-            row = [
-                item.get("name", ""),
-                item.get("specification", ""),
-                str(item.get("quantity", "")),
-                QuotationDataFormatter.format_currency(item.get("unit_price_usd", 0)),
-                QuotationDataFormatter.format_currency(total_usd),
-            ]
-            data.append(row)
+            unit_price = item.get("unit_price_usd", item.get("sale_sin_iva", 0))
+            rows.append(
+                [
+                    str(item.get("name", "")),
+                    str(item.get("specification", "")),
+                    str(item.get("quantity", "")),
+                    QuotationDataFormatter.format_currency(unit_price),
+                    QuotationDataFormatter.format_currency(total_usd),
+                ]
+            )
 
-        table = Table(data, colWidths=[140, 80, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
-
-        elements.append(table)
-        return elements
+        w = self._usable_width
+        col_widths = [0.35 * w, 0.23 * w, 0.10 * w, 0.14 * w, 0.18 * w]
+        return self._build_materials_table(
+            title="FIJACIONES",
+            header=header,
+            rows=rows,
+            col_widths=col_widths,
+            numeric_columns=[2, 3, 4],
+        )
 
     def _build_totals(self, totals: Dict) -> List:
-        """Build totals section"""
-        elements = []
-
-        # Format totals data
+        """Build totals section."""
         data = [
             ["Sub-Total:", QuotationDataFormatter.format_currency(totals["subtotal"])],
             [f"Total m² Fachada:", f"{totals['total_m2_facade']:.2f}"],
@@ -515,90 +523,156 @@ class BMCQuotationPDF:
             ],
         ]
 
-        # Create table
-        table = Table(data, colWidths=[200, 120])
+        w = self._usable_width
+        table = Table(data, colWidths=[0.68 * w, 0.32 * w])
         table.setStyle(BMCStyles.get_totals_table_style())
+        return [table]
 
-        elements.append(table)
-        return elements
+    @staticmethod
+    def _normalize_comment(text: str) -> str:
+        cleaned = str(text or "").strip()
+        cleaned = re.sub(r"^[\*\-\u2022]\s*", "", cleaned)
+        cleaned = re.sub(r"\s+", " ", cleaned)
+        return cleaned.strip().lower()
 
-    def _build_comments(self, comments: List[str]) -> List:
-        """Build comments section"""
-        elements = []
+    def _collect_comments(self, comments: List[str]) -> List[str]:
+        """Collect comments while ensuring required template text remains available."""
+        source_comments = comments or QuotationConstants.get_standard_conditions()
+        cleaned_comments = []
+        seen = set()
 
-        header_style = BMCStyles.get_header_style()
-        elements.append(Paragraph("Comentarios", header_style))
+        for line in source_comments:
+            clean_line = str(line or "").strip()
+            if not clean_line:
+                continue
+            clean_line = re.sub(r"^[\*\-\u2022]\s*", "", clean_line).strip()
+            normalized = self._normalize_comment(clean_line)
+            if normalized in seen:
+                continue
+            seen.add(normalized)
+            cleaned_comments.append(clean_line)
 
-        small_style = BMCStyles.get_small_style()
-        for comment in comments:
-            elements.append(Paragraph(comment, small_style))
+        if not any(
+            QuotationConstants.SPM_SYSTEM_VIDEO in line for line in cleaned_comments
+        ):
+            cleaned_comments.append(QuotationConstants.SPM_SYSTEM_VIDEO)
 
-        return elements
+        return cleaned_comments
 
-    def _build_conditions(self, conditions: List[str]) -> List:
-        """Build terms and conditions section"""
-        elements = []
+    def _comment_style_for(
+        self, comment: str, font_size: float, leading: float
+    ) -> ParagraphStyle:
+        normalized = self._normalize_comment(comment)
 
-        conditions_style = BMCStyles.get_conditions_style()
+        bold = False
+        text_color = BMCStyles.TEXT_BLACK
 
-        for condition in conditions:
-            elements.append(Paragraph(condition, conditions_style))
+        if normalized == self._normalize_comment(self.COMMENT_BOLD_RED_LINE):
+            bold = True
+            text_color = BMCStyles.EMPHASIS_RED
+        elif normalized == self._normalize_comment(self.COMMENT_BOLD_LINE):
+            bold = True
+        elif normalized == self._normalize_comment(self.COMMENT_RED_LINE):
+            text_color = BMCStyles.EMPHASIS_RED
+
+        return BMCStyles.get_comment_style(
+            font_size=font_size,
+            leading=leading,
+            bold=bold,
+            text_color=text_color,
+        )
+
+    def _build_comments(
+        self, comments: List[str], comment_font_size: float, comment_leading: float
+    ) -> List:
+        """Build COMENTARIOS block with bullet lines and selective formatting."""
+        elements = [Paragraph("COMENTARIOS:", BMCStyles.get_section_label_style())]
+
+        for comment in self._collect_comments(comments):
+            style = self._comment_style_for(comment, comment_font_size, comment_leading)
+            elements.append(Paragraph(f"&bull; {escape(comment)}", style))
 
         return elements
 
     def _build_banking_info(self) -> List:
-        """Build banking information section"""
-        elements = []
-
-        small_style = BMCStyles.get_small_style()
-
-        elements.append(Spacer(1, 12))
-        elements.append(Paragraph("<b>Depósito Bancario</b>", small_style))
-        elements.append(
-            Paragraph(
-                f"Titular: {QuotationConstants.BANK_ACCOUNT_HOLDER} - RUT: {QuotationConstants.BANK_RUT}",
-                small_style,
-            )
+        """Build boxed transfer footer block after comments."""
+        base_footer_style = ParagraphStyle(
+            "BankFooterBase",
+            fontName=BMCStyles.FONT_NAME,
+            fontSize=BMCStyles.FONT_SIZE_FOOTER,
+            leading=9.4,
+            textColor=BMCStyles.TEXT_BLACK,
+            spaceAfter=0,
+            spaceBefore=0,
         )
-        elements.append(
-            Paragraph(
-                f"{QuotationConstants.BANK_ACCOUNT_TYPE} - {QuotationConstants.BANK_NAME}",
-                small_style,
-            )
+        bold_footer_style = ParagraphStyle(
+            "BankFooterBold",
+            parent=base_footer_style,
+            fontName=BMCStyles.FONT_NAME_BOLD,
         )
-        elements.append(
-            Paragraph(
-                f"Número de Cuenta Dólares: {QuotationConstants.BANK_ACCOUNT_USD}",
-                small_style,
-            )
+        link_footer_style = ParagraphStyle(
+            "BankFooterLink",
+            parent=base_footer_style,
+            textColor=BMCStyles.LINK_BLUE,
         )
 
-        return elements
+        rows = [
+            [
+                Paragraph("Depósito Bancario", bold_footer_style),
+                Paragraph(
+                    "Titular: Metalog SAS – RUT: 120403430012",
+                    base_footer_style,
+                ),
+            ],
+            [
+                Paragraph("Caja de Ahorro - BROU.", base_footer_style),
+                Paragraph(
+                    "Número de Cuenta Dólares : 110520638-00002",
+                    base_footer_style,
+                ),
+            ],
+            [
+                Paragraph(
+                    "Por cualquier duda, consultar al 092 663 245.",
+                    base_footer_style,
+                ),
+                Paragraph(
+                    "<u>Lea los Términos y Condiciones</u>",
+                    link_footer_style,
+                ),
+            ],
+        ]
+
+        w = self._usable_width
+        table = Table(rows, colWidths=[0.42 * w, 0.58 * w])
+        table.setStyle(BMCStyles.get_transfer_footer_table_style())
+        return [table]
 
 
-# Convenience function for quick PDF generation
-def generate_quotation_pdf(quotation_data: Dict, output_path: str) -> str:
+def build_quote_pdf(
+    data: Dict,
+    output_path: str,
+    logo_path: str = "/mnt/data/Logo_BMC- PNG.png",
+) -> str:
     """
-    Generate a BMC Uruguay quotation PDF
+    Build a quotation PDF using the BMC layout template.
 
     Args:
-        quotation_data: Raw quotation data (will be formatted automatically)
-        output_path: Path where PDF should be saved
-
-    Returns:
-        Path to generated PDF file
-
-    Example:
-        >>> data = {
-        ...     'client_name': 'Juan Pérez',
-        ...     'client_address': 'Av. Principal 123',
-        ...     'products': [...]
-        ... }
-        >>> pdf_path = generate_quotation_pdf(data, 'cotizacion_001.pdf')
+        data: Raw quotation payload
+        output_path: PDF output path
+        logo_path: Preferred BMC logo path (official default)
     """
-    # Format data for PDF
-    formatted_data = QuotationDataFormatter.format_for_pdf(quotation_data)
-
-    # Generate PDF
-    generator = BMCQuotationPDF(output_path)
+    formatted_data = QuotationDataFormatter.format_for_pdf(data)
+    generator = BMCQuotationPDF(output_path, logo_path=logo_path)
     return generator.generate(formatted_data)
+
+
+def generate_quotation_pdf(
+    quotation_data: Dict,
+    output_path: str,
+    logo_path: str = "/mnt/data/Logo_BMC- PNG.png",
+) -> str:
+    """
+    Backward-compatible API to generate quotation PDFs.
+    """
+    return build_quote_pdf(quotation_data, output_path, logo_path=logo_path)
