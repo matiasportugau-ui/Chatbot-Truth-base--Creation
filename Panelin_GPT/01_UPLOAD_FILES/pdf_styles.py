@@ -5,6 +5,14 @@ PDF Styles Configuration
 
 Centralized style definitions for BMC Uruguay quotation PDFs.
 Ensures consistent branding and layout across all generated documents.
+
+Design update (2026-02-09):
+- New BMC logo (Logo_BMC- PNG.png)
+- Two-column header [logo | centered title]
+- Materials table: #EDEDED header, alternating #FFF/#FAFAFA rows, right-align numerics
+- COMENTARIOS block: bullet list, per-line bold/red support, 8.0-8.2pt
+- Bank transfer footer: boxed/ruled table with gray first row
+- 1-page-first rule: shrink comments before anything else
 """
 
 from reportlab.lib import colors
@@ -23,52 +31,76 @@ class BMCStyles:
     PAGE_WIDTH = A4[0]
     PAGE_HEIGHT = A4[1]
 
-    # Margins
-    MARGIN_TOP = 15 * mm
-    MARGIN_BOTTOM = 15 * mm
-    MARGIN_LEFT = 15 * mm
-    MARGIN_RIGHT = 15 * mm
+    # Margins (updated for tighter 1-page fit)
+    MARGIN_TOP = 10 * mm
+    MARGIN_BOTTOM = 9 * mm
+    MARGIN_LEFT = 12 * mm
+    MARGIN_RIGHT = 12 * mm
 
-    # Colors - BMC Uruguay Brand (Updated from ODS Template)
-    BMC_BLUE = colors.HexColor("#0F6C94")  # BRAND_PRIMARY_COLOR
-    BMC_DARK_BLUE = colors.HexColor("#0C5472")  # BRAND_SECONDARY_COLOR
-    TABLE_HEADER_BG = colors.HexColor("#EAF4F8")  # BRAND_HEADER_BG
+    # Colors - BMC Uruguay Brand
+    BMC_BLUE = colors.HexColor("#003366")
+    BMC_LIGHT_BLUE = colors.HexColor("#0066CC")
+    BMC_RED = colors.HexColor("#CC0000")
+    TABLE_HEADER_BG = colors.HexColor("#EDEDED")
+    TABLE_ALT_ROW_BG = colors.HexColor("#FAFAFA")
     TABLE_BORDER = colors.HexColor("#CCCCCC")
+    BANK_HEADER_BG = colors.HexColor("#EDEDED")
     TEXT_BLACK = colors.black
-    TEXT_GRAY = colors.HexColor("#666666")  # BRAND_TEXT_GRAY
+    TEXT_GRAY = colors.HexColor("#666666")
     HIGHLIGHT_YELLOW = colors.HexColor("#FFF9E6")
 
     # Fonts
     FONT_NAME = "Helvetica"
     FONT_NAME_BOLD = "Helvetica-Bold"
 
-    FONT_SIZE_TITLE = 18
-    FONT_SIZE_SUBTITLE = 14
-    FONT_SIZE_HEADER = 12
-    FONT_SIZE_NORMAL = 10
-    FONT_SIZE_SMALL = 9
+    FONT_SIZE_TITLE = 14
+    FONT_SIZE_SUBTITLE = 12
+    FONT_SIZE_HEADER = 10
+    FONT_SIZE_NORMAL = 9
+    FONT_SIZE_SMALL = 8.5
     FONT_SIZE_TINY = 8
 
-    # Logo
-    LOGO_WIDTH = 80 * mm
-    LOGO_HEIGHT = 30 * mm
-    # Fallback to local path if simple filename doesn't exist (useful for GPT environment)
-    LOGO_PATH = (
-        "bmc_logo.png"
-        if os.path.exists("bmc_logo.png")
-        else "panelin_reports/assets/bmc_logo.png"
-    )
+    # Table-specific font sizes (matching spec)
+    TABLE_HEADER_FONT_SIZE = 9.1  # ~9.0-9.2
+    TABLE_ROW_FONT_SIZE = 8.6     # ~8.5-8.7
+
+    # Comments font sizes (base; may be shrunk for 1-page fit)
+    COMMENT_FONT_SIZE = 8.1       # ~8.0-8.2
+    COMMENT_LEADING = 9.4         # ~9.3-9.6
+
+    # Bank transfer footer font
+    BANK_FONT_SIZE = 8.4
+
+    # Logo – try multiple paths in priority order
+    LOGO_HEIGHT = 18 * mm
+    LOGO_CANDIDATES = [
+        "/mnt/data/Logo_BMC- PNG.png",
+        "Logo_BMC- PNG.png",
+        "panelin_reports/assets/bmc_logo.png",
+        os.path.join(os.path.dirname(__file__), "assets", "bmc_logo.png"),
+    ]
 
     @classmethod
+    def resolve_logo_path(cls):
+        """Return the first logo path that exists on disk, or None."""
+        for candidate in cls.LOGO_CANDIDATES:
+            if os.path.isfile(candidate):
+                return candidate
+        return None
+
+    # ── Title Style (centred, used inside header table) ──────────────
+    @classmethod
     def get_title_style(cls):
-        """Style for main quotation title"""
+        """Style for main quotation title (centered in header)"""
         return ParagraphStyle(
             "BMCTitle",
             fontName=cls.FONT_NAME_BOLD,
             fontSize=cls.FONT_SIZE_TITLE,
             textColor=cls.BMC_BLUE,
-            spaceAfter=12,
-            alignment=0,  # Left aligned
+            spaceAfter=0,
+            spaceBefore=0,
+            alignment=1,  # CENTER
+            leading=cls.FONT_SIZE_TITLE + 4,
         )
 
     @classmethod
@@ -79,8 +111,8 @@ class BMCStyles:
             fontName=cls.FONT_NAME_BOLD,
             fontSize=cls.FONT_SIZE_HEADER,
             textColor=cls.BMC_BLUE,
-            spaceAfter=6,
-            spaceBefore=12,
+            spaceAfter=4,
+            spaceBefore=6,
         )
 
     @classmethod
@@ -91,7 +123,7 @@ class BMCStyles:
             fontName=cls.FONT_NAME,
             fontSize=cls.FONT_SIZE_NORMAL,
             textColor=cls.TEXT_BLACK,
-            spaceAfter=6,
+            spaceAfter=4,
         )
 
     @classmethod
@@ -102,36 +134,106 @@ class BMCStyles:
             fontName=cls.FONT_NAME,
             fontSize=cls.FONT_SIZE_TINY,
             textColor=cls.TEXT_GRAY,
-            spaceAfter=3,
+            spaceAfter=2,
             leading=10,
         )
 
+    # ── Comment styles ───────────────────────────────────────────────
     @classmethod
-    def get_products_table_style(cls):
-        """Table style for products section"""
-        return TableStyle(
-            [
-                # Header row
-                ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
-                ("TEXTCOLOR", (0, 0), (-1, 0), cls.BMC_BLUE),
-                ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
-                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 0), (-1, 0), "CENTER"),
-                # Data rows
-                ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
-                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Product name left-aligned
-                ("ALIGN", (1, 1), (-1, -1), "CENTER"),  # Numbers center-aligned
-                # Borders
-                ("GRID", (0, 0), (-1, -1), 0.5, cls.TABLE_BORDER),
-                ("LINEBELOW", (0, 0), (-1, 0), 1, cls.BMC_BLUE),
-                # Padding
-                ("TOPPADDING", (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-                ("LEFTPADDING", (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
-            ]
+    def get_comment_normal_style(cls, font_size=None, leading=None):
+        """Style for a normal comment bullet line."""
+        fs = font_size or cls.COMMENT_FONT_SIZE
+        ld = leading or cls.COMMENT_LEADING
+        return ParagraphStyle(
+            "CommentNormal",
+            fontName=cls.FONT_NAME,
+            fontSize=fs,
+            textColor=cls.TEXT_BLACK,
+            spaceAfter=1,
+            leading=ld,
         )
+
+    @classmethod
+    def get_comment_bold_style(cls, font_size=None, leading=None):
+        """Style for a bold comment bullet line."""
+        fs = font_size or cls.COMMENT_FONT_SIZE
+        ld = leading or cls.COMMENT_LEADING
+        return ParagraphStyle(
+            "CommentBold",
+            fontName=cls.FONT_NAME_BOLD,
+            fontSize=fs,
+            textColor=cls.TEXT_BLACK,
+            spaceAfter=1,
+            leading=ld,
+        )
+
+    @classmethod
+    def get_comment_red_style(cls, font_size=None, leading=None):
+        """Style for a red comment bullet line."""
+        fs = font_size or cls.COMMENT_FONT_SIZE
+        ld = leading or cls.COMMENT_LEADING
+        return ParagraphStyle(
+            "CommentRed",
+            fontName=cls.FONT_NAME,
+            fontSize=fs,
+            textColor=cls.BMC_RED,
+            spaceAfter=1,
+            leading=ld,
+        )
+
+    @classmethod
+    def get_comment_bold_red_style(cls, font_size=None, leading=None):
+        """Style for a bold + red comment bullet line."""
+        fs = font_size or cls.COMMENT_FONT_SIZE
+        ld = leading or cls.COMMENT_LEADING
+        return ParagraphStyle(
+            "CommentBoldRed",
+            fontName=cls.FONT_NAME_BOLD,
+            fontSize=fs,
+            textColor=cls.BMC_RED,
+            spaceAfter=1,
+            leading=ld,
+        )
+
+    # ── Products / Materials Table ──────────────────────────────────
+    @classmethod
+    def get_products_table_style(cls, num_data_rows=0):
+        """
+        Table style for products / accessories / fixings sections.
+        Includes alternating row backgrounds and right-aligned numeric columns.
+        """
+        commands = [
+            # Header row
+            ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
+            ("TEXTCOLOR", (0, 0), (-1, 0), cls.BMC_BLUE),
+            ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
+            ("FONTSIZE", (0, 0), (-1, 0), cls.TABLE_HEADER_FONT_SIZE),
+            ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+            # Data rows font
+            ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
+            ("FONTSIZE", (0, 1), (-1, -1), cls.TABLE_ROW_FONT_SIZE),
+            ("ALIGN", (0, 1), (0, -1), "LEFT"),   # product name left
+            # Right-align numeric columns (Unid / Cant / USD / Total — cols 1+)
+            ("ALIGN", (1, 1), (-1, -1), "RIGHT"),
+            # Thin grid lines
+            ("GRID", (0, 0), (-1, -1), 0.4, cls.TABLE_BORDER),
+            ("LINEBELOW", (0, 0), (-1, 0), 0.8, cls.BMC_BLUE),
+            # Padding (tight for 1-page)
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ]
+
+        # Alternating row backgrounds (white / #FAFAFA)
+        for i in range(1, num_data_rows + 1):
+            if i % 2 == 0:
+                commands.append(
+                    ("BACKGROUND", (0, i), (-1, i), cls.TABLE_ALT_ROW_BG)
+                )
+
+        return TableStyle(commands)
 
     @classmethod
     def get_totals_table_style(cls):
@@ -152,9 +254,35 @@ class BMCStyles:
                 ("LINEABOVE", (0, 0), (-1, 0), 1, cls.TABLE_BORDER),
                 ("LINEABOVE", (0, -1), (-1, -1), 2, cls.BMC_BLUE),
                 # Padding
-                ("TOPPADDING", (0, 0), (-1, -1), 4),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+            ]
+        )
+
+    # ── Bank Transfer Footer Table ──────────────────────────────────
+    @classmethod
+    def get_bank_table_style(cls):
+        """Table style for the bank transfer footer box."""
+        return TableStyle(
+            [
+                # Outer border + internal row lines
+                ("BOX", (0, 0), (-1, -1), 0.8, cls.TABLE_BORDER),
+                ("LINEBELOW", (0, 0), (-1, 0), 0.5, cls.TABLE_BORDER),
+                ("LINEBELOW", (0, 1), (-1, 1), 0.5, cls.TABLE_BORDER),
+                ("LINEBEFORE", (1, 0), (1, -1), 0.5, cls.TABLE_BORDER),
+                # First row background light gray
+                ("BACKGROUND", (0, 0), (-1, 0), cls.BANK_HEADER_BG),
+                # Font
+                ("FONTNAME", (0, 0), (-1, -1), cls.FONT_NAME),
+                ("FONTSIZE", (0, 0), (-1, -1), cls.BANK_FONT_SIZE),
+                ("TEXTCOLOR", (0, 0), (-1, -1), cls.TEXT_BLACK),
+                # Padding
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
             ]
         )
 
@@ -167,8 +295,8 @@ class BMCStyles:
             fontSize=cls.FONT_SIZE_TINY,
             textColor=cls.TEXT_GRAY,
             leftIndent=10,
-            spaceAfter=3,
-            leading=11,
+            spaceAfter=2,
+            leading=10,
             bulletFontName=cls.FONT_NAME,
             bulletFontSize=cls.FONT_SIZE_TINY,
         )
@@ -213,6 +341,88 @@ class QuotationConstants:
 
     # Terms & Conditions link
     TERMS_CONDITIONS_URL = "https://bmcuruguay.com.uy/terminos-y-condiciones"
+
+    # ── Standard comment lines with formatting hints ─────────────────
+    # Format: (text, style_key)
+    #   style_key ∈ {"normal", "bold", "red", "bold_red"}
+    STANDARD_COMMENTS = [
+        (
+            f"Ancho útil paneles de Fachada = {1.14} m de Cubierta = {1.12} m. "
+            f"Pendiente mínima {7.0}%.",
+            "normal",
+        ),
+        (
+            "Para saber más del sistema constructivo SPM haga click en "
+            "https://youtu.be/Am4mZskFMgc",
+            "normal",
+        ),
+        (
+            "Entrega de 10 a 15 días, dependemos de producción.",
+            "bold",
+        ),
+        (
+            "Oferta válida por 10 días a partir de la fecha.",
+            "red",
+        ),
+        (
+            "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). "
+            "Saldo del 40 % (previo a retiro de fábrica).",
+            "bold_red",
+        ),
+        (
+            "Con tarjeta de crédito y en cuotas, sería en $ y a través de "
+            "Mercado Pago con un recargo de 11,9% (comisión MP).",
+            "normal",
+        ),
+        (
+            "Retiro sin cargo en Planta Industrial de Bromyros S.A. "
+            "(Colonia Nicolich / CANELONES)",
+            "normal",
+        ),
+        (
+            "BMC no asume responsabilidad por fallas producidas por no respetar "
+            "la autoportancia sugerida.",
+            "normal",
+        ),
+        (
+            "No incluye descarga del material. Se requieren 2 personas.",
+            "normal",
+        ),
+        (
+            "Opcional: Costo descarga $1500 + IVA / H. Únicamente en ciudad "
+            "de Maldonado.",
+            "normal",
+        ),
+        (
+            "Al aceptar esta cotización confirma haber revisado el contenido de "
+            "la misma en cuanto a medidas, cantidades, colores, valores y tipo "
+            "de producto.",
+            "normal",
+        ),
+        (
+            "Paneles de cubierta engrafados. Alquiler de engrafadora U$S 30 + "
+            "Iva por día.",
+            "normal",
+        ),
+        (
+            "Nuestro asesoramiento es una guía, en ningún caso sustituye el "
+            "trabajo profesional de Arq. o Ing.",
+            "normal",
+        ),
+        (
+            "Al momento de recibir el material corroborar el estado del mismo. "
+            "Una vez recibido, no aceptamos devolución.",
+            "normal",
+        ),
+    ]
+
+    # ── Per-line formatting rules for automatic matching ────────────
+    # Key phrases → style_key for the COMENTARIOS section
+    COMMENT_FORMAT_RULES = {
+        "Entrega de 10 a 15 días": "bold",
+        "Oferta válida por 10 días": "red",
+        "Incluye descuentos de Pago al Contado": "bold_red",
+    }
 
     @classmethod
     def get_standard_conditions(cls):
