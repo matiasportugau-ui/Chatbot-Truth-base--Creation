@@ -10,6 +10,50 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+### Plantilla PDF BMC (Diseño y Formato)
+
+Para cualquier solicitud de **"cotización formal en PDF"**, aplicar obligatoriamente esta plantilla:
+
+1. **Header / Branding**
+   - Logo oficial: `/mnt/data/Logo_BMC- PNG.png` (usar este primero; solo fallback al logo viejo si no existe).
+   - Encabezado en 2 columnas: `[logo | título centrado]`.
+   - Altura objetivo del logo: ~18 mm (manteniendo proporción).
+   - Título centrado con estilo formal: `COTIZACIÓN – ...` (dinámico si corresponde).
+
+2. **Página y tipografía (1-page-first)**
+   - Tamaño: **A4**.
+   - Márgenes objetivo: ~12 mm izquierda/derecha, ~10 mm arriba, ~8–10 mm abajo.
+   - Si hay riesgo de pasar a 2 páginas: **reducir solo fuente/interlineado de comentarios primero**.
+   - Rango de comentarios: fuente ~8.0–8.2 pt, leading ~9.3–9.6 (y bajar gradualmente si sigue excedido).
+   - Tabla de materiales: filas ~8.5–8.7 pt, cabecera ~9.0–9.2 pt.
+
+3. **Tabla de materiales (solo diseño)**
+   - Mantener estructura/columnas de materiales.
+   - Cabecera con fondo gris claro `#EDEDED`.
+   - Bordes de grilla finos.
+   - Filas alternadas blanco / gris muy claro `#FAFAFA`.
+   - Alinear a la derecha columnas numéricas (`Unid`, `Cant`, `USD`, `Total`).
+   - Repetir cabecera en salto de página (`repeatRows=1`).
+
+4. **Bloque "COMENTARIOS:"**
+   - Ubicación: inmediatamente después de la tabla de materiales.
+   - Render como lista con viñetas `•`.
+   - Estilo base pequeño (según regla de 1-page-first).
+   - Reglas de formato por línea:
+     - `Entrega de 10 a 15 días, dependemos de producción.` → **negrita**
+     - `Oferta válida por 10 días a partir de la fecha.` → **rojo**
+     - `Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).` → **negrita + rojo**
+   - El enlace de YouTube debe quedar como texto plano (sin romper layout).
+
+5. **Footer bancario boxed (después de comentarios)**
+   - Dibujar bloque con borde exterior + líneas internas.
+   - Primera fila con fondo gris claro.
+   - Texto exacto:
+     - Fila 1: `Depósito Bancario` | `Titular: Metalog SAS – RUT: 120403430012`
+     - Fila 2: `Caja de Ahorro - BROU.` | `Número de Cuenta Dólares : 110520638-00002`
+     - Fila 3: `Por cualquier duda, consultar al 092 663 245.` | `Lea los Términos y Condiciones` (azul + subrayado)
+   - Tipografía chica (~8.4 pt), padding compacto.
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:

@@ -577,6 +577,26 @@ class BMCQuotationPDF:
 
 
 # Convenience function for quick PDF generation
+def build_quote_pdf(
+    data: Dict, output_path: str, logo_path: str = "/mnt/data/Logo_BMC- PNG.png"
+) -> str:
+    """
+    Build quotation PDF using upload-package generator.
+    The canonical generator (if present) overrides this implementation below.
+    """
+    formatted_data = (
+        data
+        if "totals" in data and "client" in data
+        else QuotationDataFormatter.format_for_pdf(data)
+    )
+    try:
+        BMCStyles.LOGO_PATH = logo_path
+    except Exception:
+        pass
+    generator = BMCQuotationPDF(output_path)
+    return generator.generate(formatted_data)
+
+
 def generate_quotation_pdf(quotation_data: Dict, output_path: str) -> str:
     """
     Generate a BMC Uruguay quotation PDF
@@ -596,9 +616,25 @@ def generate_quotation_pdf(quotation_data: Dict, output_path: str) -> str:
         ... }
         >>> pdf_path = generate_quotation_pdf(data, 'cotizacion_001.pdf')
     """
-    # Format data for PDF
-    formatted_data = QuotationDataFormatter.format_for_pdf(quotation_data)
+    return build_quote_pdf(quotation_data, output_path)
 
-    # Generate PDF
-    generator = BMCQuotationPDF(output_path)
-    return generator.generate(formatted_data)
+
+# Keep upload package behavior in sync with canonical generator when available.
+try:
+    import importlib.util
+
+    _canonical_path = Path(__file__).resolve().parents[1] / "pdf_generator.py"
+    _spec = importlib.util.spec_from_file_location(
+        "_panelin_reports_pdf_generator", _canonical_path
+    )
+    if _spec and _spec.loader:
+        _canonical_module = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_canonical_module)
+
+        QuotationDataFormatter = _canonical_module.QuotationDataFormatter
+        BMCQuotationPDF = _canonical_module.BMCQuotationPDF
+        build_quote_pdf = _canonical_module.build_quote_pdf
+        generate_quotation_pdf = _canonical_module.generate_quotation_pdf
+except Exception:
+    # Standalone upload package still works with local implementation above.
+    pass
