@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-print("Loading pdf_generator (v2.0 - BMC template)...")
+if __name__ == "__main__":
+    print("Loading pdf_generator (v2.0 - BMC template)...")
 """
 BMC Uruguay Quotation PDF Generator
 ====================================
