@@ -10,6 +10,69 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+### NEW TEMPLATE DESIGN (2026-02-09)
+
+The PDF generator now implements a refined template with the following components:
+
+#### A) HEADER / BRANDING
+- **Logo**: Official BMC logo at top-left (`/mnt/data/Logo_BMC- PNG.png` or `panelin_reports/assets/bmc_logo.png`)
+  - Height: ~18mm (auto width, maintains aspect ratio)
+  - Vertically centered in header
+- **Title**: Centered next to logo
+  - Format: "COTIZACIÓN – [Product Family]" (e.g., "COTIZACIÓN – ISODEC EPS 100 mm")
+  - Font: Bold, 14pt
+  - Layout: Two-column header [logo | title]
+
+#### B) TYPOGRAPHY / PAGE FIT
+- **1-Page-First Rule**: PDF should fit into 1 page whenever possible
+  - If content risks spilling: reduce ONLY the comments section font size and leading first
+  - Do NOT change table layout first
+- **Font Sizes**:
+  - Comment base: 8.0–8.2 pt, leading 9.3–9.6
+  - Table rows: 8.5–8.7 pt
+  - Table header: 9.0–9.2 pt
+- **Margins**: ~12mm left/right, ~10mm top, ~8–10mm bottom
+
+#### C) MATERIALS TABLE (DESIGN)
+- **Header**: Light gray background (#EDEDED)
+- **Grid**: Thin grid lines
+- **Rows**: Alternating white / very light gray (#FAFAFA)
+- **Alignment**: 
+  - Product names: left-aligned
+  - Numeric columns (Unid/Cant, Cantidad, USD, Total USD): right-aligned
+- **Repeat header**: If multi-page (though target is 1 page)
+
+#### D) "COMENTARIOS:" BLOCK
+- **Section title**: "COMENTARIOS:" in bold
+- **Format**: Bullet list (•), smaller font (see B)
+- **Per-line formatting rules**:
+  - "Entrega de 10 a 15 días, dependemos de producción." → **BOLD**
+  - "Oferta válida por 10 días a partir de la fecha." → **RED**
+  - "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → **BOLD + RED**
+  - Other lines: normal
+- **YouTube URL**: Included as plain text (does not break layout)
+
+#### E) FOOTER: BANK TRANSFER BOX
+- **Location**: After comments list, with small spacer
+- **Style**: Boxed/ruled block with grid lines (outer border + internal row lines)
+- **Structure**:
+  - Row 1 (gray background):
+    - Left: "Depósito Bancario"
+    - Right: "Titular: Metalog SAS – RUT: 120403430012"
+  - Row 2:
+    - Left: "Caja de Ahorro - BROU."
+    - Right: "Número de Cuenta Dólares : 110520638-00002"
+  - Row 3:
+    - Left: "Por cualquier duda, consultar al 092 663 245."
+    - Right: "Lea los Términos y Condiciones" (blue + underlined)
+- **Font**: Small (~8.4pt), tight padding
+
+---
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
