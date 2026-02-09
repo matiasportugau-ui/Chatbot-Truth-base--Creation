@@ -33,7 +33,6 @@ from reportlab.platypus import (
     Image,
     SimpleDocTemplate,
     TableStyle,
-    KeepTogether,
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
