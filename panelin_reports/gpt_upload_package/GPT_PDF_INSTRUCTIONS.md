@@ -13,7 +13,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
-
 - Usar `Thickness_mm` para espesor
 - Usar `Length_m` para largo  
 - Usar `SKU`, `NAME`, `Tipo`, `Familia`, `unit_base`
@@ -27,7 +26,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 | `m²` | área_total × sale_sin_iva | 180 × $36.54 = $6,577.20 |
 
 **IMPORTANTE - SKU 6842 (Gotero Lateral 100mm)**:
-
 - `unit_base = unidad` ← Se vende por pieza
 - `Length_m = 3.0` ← Es informativo, NO se usa en cálculo
 - Cálculo correcto: `cantidad × $20.77` (NO multiplicar por 3.0)
@@ -35,7 +33,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### When to Use
 
 Generate a PDF quotation when:
-
 - User explicitly requests "genera PDF" or "cotización en PDF"
 - User wants a formal quotation document for client delivery
 - User asks for a downloadable quotation
@@ -59,12 +56,13 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
+            'Thickness_mm': 50,
             'Length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
             'total_m2': [AREA],
-            'unit_base': 'm2'
+            'unit_base': 'm²'
         },
         # ... more products from your calculation
     ],
@@ -78,6 +76,8 @@ quotation_data = {
 }
 
 # 2. Generate PDF
+client_name = quotation_data["client_name"]
+date = quotation_data.get("date", "2026-02-07")
 pdf_path = generate_quotation_pdf(
     quotation_data,
     f'cotizacion_{client_name}_{date}.pdf'
@@ -90,7 +90,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 ### Data Requirements
 
 **Minimum Required**:
-
 - `client_name`: Client's name
 - `products`: At least one product with:
   - `name`: Product name
@@ -100,7 +99,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
   - `unit_base`: Unit of measurement (`"unidad"`, `"ml"`, `"m²"`)
 
 **Recommended**:
-
 - `client_address`: Client's address
 - `client_phone`: Client's phone
 - `quote_description`: Brief description of the quotation
@@ -108,21 +106,24 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `fixings`: Screws, sealants, etc.
 
 **Technical Fields** (use standardized nomenclature):
-
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
-**Automatic Calculations**:
+**Pricing Basis**:
+- **IMPORTANT**: All line item prices (`unit_price_usd`) should use **IVA-excluded prices** (`sale_sin_iva`)
+- The PDF generator will automatically add IVA 22% to the subtotal
+- For accessories from `accessories_catalog.json`, convert from IVA-included prices: `sale_sin_iva = precio_unit_iva_inc / 1.22`
 
+**Automatic Calculations**:
 - The PDF generator automatically calculates:
-  - Subtotal (based on `unit_base` logic - see below)
-  - IVA 22%
-  - Materials total
-  - Grand total (includes shipping)
+  - Subtotal (based on `unit_base` logic - see below, using IVA-excluded prices)
+  - IVA 22% (applied to subtotal)
+  - Materials total (subtotal + IVA)
+  - Grand total (materials total + shipping)
 
 ### 🧮 Unit Base Calculation Logic
 
-**CRITICAL**: Subtotal calculation varies by `unit_base`:
+**CRITICAL**: Subtotal calculation varies by `unit_base` (always use `sale_sin_iva` for line calculations):
 
 | `unit_base` | Formula | Example |
 |-------------|---------|---------|
@@ -131,10 +132,10 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
-
-- Calculating product totals
+- Calculating product totals (always with IVA-excluded prices)
 - Validating subtotals
 - Generating PDF line items
+- The PDF generator will add 22% IVA to the final subtotal
 
 ### Important Notes
 
@@ -217,7 +218,6 @@ except Exception as e:
 ### Quality Checklist
 
 Before generating PDF, verify:
-
 - [ ] Client name is provided
 - [ ] All product calculations use correct `unit_base` logic
 - [ ] Technical nomenclature is standardized (`Thickness_mm`, `Length_m`)
@@ -235,34 +235,28 @@ Before generating PDF, verify:
 The generated PDF includes:
 
 ✅ **Header Section**:
-
 - BMC Uruguay logo (when available)
 - Company contact: email, website, phone
 - Date and location
 - Technical specs (autoportancia, apoyos)
 
 ✅ **Client Information**:
-
 - Client name, address, phone
 
 ✅ **Products Table**:
-
 - Product name, length, quantity
 - Unit price (per m²)
 - Total price
 
 ✅ **Accessories Table**:
-
 - Profiles, gutters, etc.
 - Linear pricing
 
 ✅ **Fixings Table**:
-
 - Screws, sealants, etc.
 - Unit pricing
 
 ✅ **Totals Section**:
-
 - Subtotal
 - Total m² (facade and roof separately)
 - IVA 22%
@@ -271,14 +265,12 @@ The generated PDF includes:
 - Grand total
 
 ✅ **Terms & Conditions**:
-
 - Standard BMC Uruguay conditions
 - Payment terms
 - Production time
 - Warranty information
 
 ✅ **Banking Information**:
-
 - BROU account details
 - RUT information
 
@@ -287,7 +279,6 @@ The generated PDF includes:
 ## 🚨 Common Mistakes to Avoid
 
 ❌ **DON'T**:
-
 - Generate PDF without validating calculations
 - Use incorrect IVA rate (must be 22%)
 - Skip accessories or fixings
@@ -295,7 +286,6 @@ The generated PDF includes:
 - Generate PDF for incomplete quotations
 
 ✅ **DO**:
-
 - Always calculate using KB formulas first
 - Include all required items per formulas
 - Validate autoportancia
@@ -319,5 +309,99 @@ This generates sample PDFs in `panelin_reports/output/` for review.
 ---
 
 **Integration Status**: ✅ Ready for production use  
-**Last Updated**: 2026-01-28  
+**Last Updated**: 2026-02-09  
 **Requires**: ReportLab library (already installed)
+
+---
+
+## Plantilla PDF BMC (Diseño y Formato)
+
+> Actualizado 2026-02-09. Esta sección documenta el diseño visual/formato de la plantilla
+> de cotización PDF profesional de BMC Uruguay.
+
+### Logo y Header
+
+- **Logo oficial**: `/mnt/data/Logo_BMC- PNG.png` (fallback: `panelin_reports/assets/bmc_logo.png`)
+- **Layout header**: 2 columnas → `[Logo (izquierda) | Título centrado (derecha)]`
+- **Altura logo**: ~18 mm, ancho auto (mantiene aspect ratio), máx ~55 mm ancho
+- **Título**: `COTIZACIÓN – {descripción_producto}` en negrita, centrado, color `#003366`
+- **Fuente título**: Helvetica-Bold 14 pt
+- **Sin padding extra**; alineado verticalmente al centro
+
+### Estilo de Tablas (Materiales)
+
+- **Header row**: fondo `#EDEDED`, fuente Helvetica-Bold ~9.1 pt, centrado
+- **Filas de datos**: fuente Helvetica ~8.6 pt
+- **Filas alternantes**: blanco / `#FAFAFA` (muy gris claro)
+- **Columnas numéricas** (Unid/Cant/USD/Total): **alineadas a la derecha**
+- **Columna producto** (primera): alineada a la izquierda
+- **Líneas de grilla**: delgadas (0.4 pt), color `#D0D0D0`
+- **Línea debajo del header**: 0.8 pt, color `#CCCCCC`
+- **Padding**: 2.5 pt top/bottom, 5 pt left/right (compacto)
+- **repeatRows=1**: si la tabla se extiende a múltiples páginas, repetir header
+
+### Bloque COMENTARIOS (después de la tabla)
+
+- **Título de sección**: "COMENTARIOS:" en negrita
+- **Lista con viñetas** (•), fuente más pequeña que la tabla
+- **Fuente base**: ~8.0–8.2 pt, leading ~9.3–9.6
+- **Reglas de formato por línea**:
+
+| Texto (contiene)                                                   | Formato           |
+|--------------------------------------------------------------------|--------------------|
+| "Entrega de 10 a 15 días, dependemos de producción."              | **BOLD**           |
+| "Oferta válida por 10 días a partir de la fecha."                  | **RED**            |
+| "Incluye descuentos de Pago al Contado. Seña del 60%..."          | **BOLD + RED**     |
+| Cualquier otra línea                                               | Normal (negro)     |
+
+- URLs (ej. YouTube) se incluyen como texto plano sin romper el layout
+
+### Footer: Bloque de Transferencia Bancaria
+
+Después de los comentarios, insertar un bloque con cuadrícula/bordes:
+
+- **Grid/box lines visibles**: borde exterior (1 pt) + líneas internas entre filas (0.5 pt)
+- **Primera fila**: fondo gris claro (`#EDEDED`)
+- **Fuente**: ~8.4 pt, primera fila en negrita
+
+| Izquierda                                            | Derecha                                                     |
+|------------------------------------------------------|-------------------------------------------------------------|
+| **Depósito Bancario**                                | **Titular: Metalog SAS – RUT: 120403430012**               |
+| Caja de Ahorro - BROU.                               | Número de Cuenta Dólares : 110520638-00002                  |
+| Por cualquier duda, consultar al 092 663 245.        | <u style="color:blue">Lea los Términos y Condiciones</u>   |
+
+- Tercera fila, celda derecha: texto en **azul + subrayado** (`#1155CC`)
+
+### Regla "1 página primero"
+
+1. El PDF debe caber en **1 página** siempre que sea posible.
+2. Si el contenido desborda:
+   - **Primero** reducir fuente y leading de la sección COMENTARIOS (hasta ~6.8 pt / 7.8 leading)
+   - **Nunca** cambiar tamaño de fuente o layout de las tablas de materiales
+3. Intentos progresivos: `(8.1, 9.5) → (7.6, 8.8) → (7.2, 8.3) → (6.8, 7.8)`
+4. Si aun así no cabe, se permite multi-página (con header de tabla repetido)
+
+### Márgenes
+
+- **Izquierda/Derecha**: ~12 mm
+- **Superior**: ~10 mm
+- **Inferior**: ~9 mm
+
+### Función de entrada canónica
+
+```python
+from panelin_reports import build_quote_pdf
+
+pdf_path = build_quote_pdf(
+    data=quotation_data,
+    output_path="cotizacion_cliente.pdf",
+    logo_path="/mnt/data/Logo_BMC- PNG.png"
+)
+```
+
+`build_quote_pdf` resuelve el logo automáticamente (prueba la ruta explícita, luego fallbacks)
+y delega a `generate_quotation_pdf`.
+
+---
+
+**Última actualización de plantilla**: 2026-02-09
