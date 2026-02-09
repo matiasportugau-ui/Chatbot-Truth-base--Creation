@@ -13,7 +13,6 @@ with the new template (2026-02-09):
 """
 
 import sys
-import os
 from pathlib import Path
 from datetime import datetime
 
