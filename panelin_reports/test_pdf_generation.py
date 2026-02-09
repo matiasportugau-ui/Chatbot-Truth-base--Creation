@@ -25,7 +25,7 @@ from panelin_reports.pdf_generator import (
     generate_quotation_pdf,
     build_quote_pdf,
 )
-from panelin_reports.pdf_styles import BMCStyles, QuotationConstants
+from panelin_reports.pdf_styles import BMCStyles
 
 
 def create_sample_quotation_data():
