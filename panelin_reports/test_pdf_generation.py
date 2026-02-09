@@ -130,6 +130,17 @@ def create_sample_quotation_data():
         "comments": [
             "Proyecto: Ampliación galpón industrial",
             "Nota: Incluye todos los accesorios necesarios para instalación completa",
+            # Template lines (validate bold/red formatting rules)
+            "Entrega de 10 a 15 días, dependemos de producción.",
+            "Oferta válida por 10 días a partir de la fecha.",
+            "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).",
+            # YouTube URL must render as plain text
+            "Para saber más del sistema constructivo SPM haga click en https://youtu.be/Am4mZskFMgc",
+            # Extra lines to exercise 1-page-first shrinking
+            "Condición adicional 1: texto de prueba para estresar el layout.",
+            "Condición adicional 2: texto de prueba para estresar el layout.",
+            "Condición adicional 3: texto de prueba para estresar el layout.",
+            "Condición adicional 4: texto de prueba para estresar el layout.",
         ],
     }
 
@@ -169,7 +180,21 @@ def test_pdf_generation():
     output_path = output_dir / f"cotizacion_test_{timestamp}.pdf"
 
     try:
-        pdf_path = generate_quotation_pdf(sample_data, str(output_path))
+        # Optional: create a placeholder logo for local testing
+        logo_path = output_dir / "test_logo.png"
+        try:
+            from PIL import Image as PILImage, ImageDraw
+
+            img = PILImage.new("RGBA", (600, 240), (255, 255, 255, 0))
+            draw = ImageDraw.Draw(img)
+            draw.rectangle([10, 10, 590, 230], outline=(0, 0, 0, 255), width=6)
+            draw.text((40, 80), "BMC", fill=(0, 0, 0, 255))
+            img.save(logo_path)
+            pdf_path = generate_quotation_pdf(
+                sample_data, str(output_path), logo_path=str(logo_path)
+            )
+        except Exception:
+            pdf_path = generate_quotation_pdf(sample_data, str(output_path))
         print(f"   ✅ PDF generated successfully!")
         print(f"   📄 Location: {pdf_path}")
         print()

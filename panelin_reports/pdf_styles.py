@@ -24,15 +24,17 @@ class BMCStyles:
     PAGE_HEIGHT = A4[1]
 
     # Margins
-    MARGIN_TOP = 15 * mm
-    MARGIN_BOTTOM = 15 * mm
-    MARGIN_LEFT = 15 * mm
-    MARGIN_RIGHT = 15 * mm
+    # BMC "Cotización" template (tight, 1-page-first)
+    MARGIN_TOP = 10 * mm
+    MARGIN_BOTTOM = 9 * mm
+    MARGIN_LEFT = 12 * mm
+    MARGIN_RIGHT = 12 * mm
 
     # Colors - BMC Uruguay Brand
     BMC_BLUE = colors.HexColor("#003366")
     BMC_LIGHT_BLUE = colors.HexColor("#0066CC")
-    TABLE_HEADER_BG = colors.HexColor("#E8E8E8")
+    TABLE_HEADER_BG = colors.HexColor("#EDEDED")
+    TABLE_ROW_ALT_BG = colors.HexColor("#FAFAFA")
     TABLE_BORDER = colors.HexColor("#CCCCCC")
     TEXT_BLACK = colors.black
     TEXT_GRAY = colors.HexColor("#666666")
@@ -48,6 +50,13 @@ class BMCStyles:
     FONT_SIZE_NORMAL = 10
     FONT_SIZE_SMALL = 9
     FONT_SIZE_TINY = 8
+
+    # Template-specific sizes
+    FONT_SIZE_TABLE_HEADER = 9.1
+    FONT_SIZE_TABLE_BODY = 8.6
+    FONT_SIZE_COMMENTS = 8.1
+    LEADING_COMMENTS = 9.45
+    FONT_SIZE_FOOTER = 8.4
 
     # Logo
     LOGO_WIDTH = 80 * mm
@@ -113,23 +122,29 @@ class BMCStyles:
             [
                 # Header row
                 ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
-                ("TEXTCOLOR", (0, 0), (-1, 0), cls.BMC_BLUE),
+                ("TEXTCOLOR", (0, 0), (-1, 0), cls.TEXT_BLACK),
                 ("FONTNAME", (0, 0), (-1, 0), cls.FONT_NAME_BOLD),
-                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_SMALL),
+                ("FONTSIZE", (0, 0), (-1, 0), cls.FONT_SIZE_TABLE_HEADER),
                 ("ALIGN", (0, 0), (-1, 0), "CENTER"),
                 # Data rows
                 ("FONTNAME", (0, 1), (-1, -1), cls.FONT_NAME),
-                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_SMALL),
-                ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Product name left-aligned
-                ("ALIGN", (1, 1), (-1, -1), "CENTER"),  # Numbers center-aligned
+                ("FONTSIZE", (0, 1), (-1, -1), cls.FONT_SIZE_TABLE_BODY),
+                ("ALIGN", (0, 1), (0, -1), "LEFT"),  # Description left
+                ("ALIGN", (1, 1), (-1, -1), "RIGHT"),  # Numeric columns right
                 # Borders
-                ("GRID", (0, 0), (-1, -1), 0.5, cls.TABLE_BORDER),
-                ("LINEBELOW", (0, 0), (-1, 0), 1, cls.BMC_BLUE),
+                ("GRID", (0, 0), (-1, -1), 0.25, cls.TABLE_BORDER),
                 # Padding
-                ("TOPPADDING", (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-                ("LEFTPADDING", (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("LEFTPADDING", (0, 0), (-1, -1), 4),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                # Alternating rows
+                (
+                    "ROWBACKGROUNDS",
+                    (0, 1),
+                    (-1, -1),
+                    [colors.white, cls.TABLE_ROW_ALT_BG],
+                ),
             ]
         )
 

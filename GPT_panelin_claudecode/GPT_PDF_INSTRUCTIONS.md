@@ -10,6 +10,59 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+### Plantilla PDF BMC (Diseño y Formato)
+
+**Objetivo**: toda “cotización formal en PDF” debe respetar esta plantilla fija (solo diseño/formato; no cambia lógica de BOM/precios).
+
+**A4 + márgenes**:
+- A4 vertical.
+- Márgenes objetivo: ~12mm izquierda/derecha, ~10mm arriba, ~8–10mm abajo.
+
+**Header / Branding (2 columnas)**:
+- Columna izquierda: **logo oficial** en `/mnt/data/Logo_BMC- PNG.png` (altura ~18mm, ancho auto, mantener aspecto).
+- Columna derecha: **título centrado** estilo “COTIZACIÓN – …” (usar descripción dinámica si existe), alineado verticalmente al centro con el logo.
+- Sin padding extra (tabla de 1 fila, 2 columnas).
+
+**Tabla de materiales (diseño)**:
+- Mantener estructura/columnas existentes.
+- Estilo:
+  - Encabezado con fondo gris claro `#EDEDED`
+  - Líneas finas de grilla
+  - Filas alternadas blanco / gris muy claro `#FAFAFA`
+  - Columnas numéricas alineadas a la derecha (Unid/Cant/USD/Total)
+  - Repetir encabezado si hay más de 1 página (aunque el objetivo es 1 página)
+- Tipografía:
+  - Filas ~8.5–8.7 pt
+  - Encabezado ~9.0–9.2 pt
+
+**COMENTARIOS (después de la tabla)**:
+- Título: **“COMENTARIOS:”** en negrita.
+- Lista con viñetas “•”.
+- Tipografía (más chica que la tabla):
+  - Base: ~8.0–8.2 pt
+  - Leading: ~9.3–9.6
+- Formateo selectivo por línea (match exacto):
+  - “Entrega de 10 a 15 días, dependemos de producción.” → **NEGRITA**
+  - “Oferta válida por 10 días a partir de la fecha.” → **ROJO**
+  - “Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).” → **NEGRITA + ROJO**
+- El link de YouTube debe mostrarse como **texto plano** (no romper el layout).
+
+**Footer: Transferencia bancaria (caja con grilla)**:
+- Va **después** de comentarios, con un pequeño espacio.
+- Bloque en tabla (3 filas × 2 columnas):
+  - Borde exterior + líneas internas visibles
+  - Primera fila con fondo gris claro
+  - Tipografía chica (~8.4 pt), padding ajustado
+- Texto exacto:
+  - Fila 1: “Depósito Bancario” | “Titular: Metalog SAS – RUT: 120403430012”
+  - Fila 2: “Caja de Ahorro - BROU.” | “Número de Cuenta Dólares : 110520638-00002”
+  - Fila 3: “Por cualquier duda, consultar al 092 663 245.” | “Lea los Términos y Condiciones” (azul + subrayado)
+
+**Regla “1-page-first” (CRÍTICO)**:
+- Intentar que el PDF quede en **1 página** siempre que sea posible.
+- Si hay riesgo de overflow, **reducir SOLO** el tamaño/leading de **COMENTARIOS** primero.
+- NO achicar ni reestructurar la tabla de materiales como primera medida.
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:

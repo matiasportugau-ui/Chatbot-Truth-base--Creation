@@ -141,7 +141,44 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.generate_quotation_pdf",
+      "template_requirements": {
+        "template_name": "Plantilla PDF BMC (Diseño y Formato)",
+        "logo_path_official": "/mnt/data/Logo_BMC- PNG.png",
+        "mandatory_blocks_in_order": [
+          "Header: logo (izq) + título centrado (der)",
+          "Tabla de materiales (sin cambiar estructura/columnas)",
+          "COMENTARIOS: (lista con viñetas; reglas bold/rojo por línea)",
+          "Footer: caja de Depósito Bancario con grilla (3x2) + 'Lea los Términos y Condiciones' azul subrayado"
+        ],
+        "table_style": {
+          "header_background": "#EDEDED",
+          "row_alternation": "#FAFAFA",
+          "grid_lines": "thin",
+          "numeric_columns_alignment": "right",
+          "repeat_header_on_multipage": true
+        },
+        "comments_rules": {
+          "font_size_pt_target": "8.0–8.2",
+          "leading_pt_target": "9.3–9.6",
+          "formatting_by_exact_line": [
+            {
+              "text": "Entrega de 10 a 15 días, dependemos de producción.",
+              "style": ["bold"]
+            },
+            {
+              "text": "Oferta válida por 10 días a partir de la fecha.",
+              "style": ["red"]
+            },
+            {
+              "text": "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica).",
+              "style": ["bold", "red"]
+            }
+          ],
+          "youtube_url_as_plain_text": true
+        },
+        "one_page_first_rule": "Si el contenido desborda: achicar SOLO COMENTARIOS (font/leading) antes de tocar la tabla."
+      }
     },
     {
       "name": "lookup_product_fast",

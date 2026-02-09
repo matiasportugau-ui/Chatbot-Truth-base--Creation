@@ -17,7 +17,12 @@ from .report_generator import ReportGenerator
 from .report_templates import ReportTemplate, TemplateType
 from .report_scheduler import ReportScheduler
 from .report_distributor import ReportDistributor
-from .pdf_generator import BMCQuotationPDF, QuotationDataFormatter, generate_quotation_pdf
+from .pdf_generator import (
+    BMCQuotationPDF,
+    QuotationDataFormatter,
+    generate_quotation_pdf,
+    build_quote_pdf,
+)
 from .pdf_styles import BMCStyles, QuotationConstants
 
 __all__ = [
@@ -29,6 +34,7 @@ __all__ = [
     "BMCQuotationPDF",
     "QuotationDataFormatter",
     "generate_quotation_pdf",
+    "build_quote_pdf",
     "BMCStyles",
     "QuotationConstants",
 ]
