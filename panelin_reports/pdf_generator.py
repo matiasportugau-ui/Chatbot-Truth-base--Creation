@@ -469,6 +469,25 @@ class BMCQuotationPDF:
             elements.append(
                 Paragraph(f"Apoyos: {specs.get('apoyos', 0)}", contact_style)
             )
+            
+            # Dynamic title or default
+            title_text = data.get("quote_description", "ISODEC EPS 100 mm")
+            title_para = Paragraph(f"<b>COTIZACIÓN – {title_text}</b>", title_style)
+            
+            # Create 2-column header table
+            header_table_data = [[logo, title_para]]
+            header_table = Table(header_table_data, colWidths=[logo_width + 10*mm, None])
+            header_table.setStyle(TableStyle([
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (0, 0), "LEFT"),
+                ("ALIGN", (1, 0), (1, 0), "CENTER"),
+            ]))
+            elements.append(header_table)
+        else:
+            # Fallback: just title
+            title_style = BMCStyles.get_title_style()
+            title_text = data.get("quote_description", "ISODEC EPS 100 mm")
+            elements.append(Paragraph(f"COTIZACIÓN – {title_text}", title_style))
 
         # Client
         client = data.get("client", {})

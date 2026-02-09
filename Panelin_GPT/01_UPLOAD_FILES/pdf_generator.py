@@ -206,6 +206,7 @@ class QuotationDataFormatter:
             else QuotationConstants.DEFAULT_SHIPPING_USD
         )
 
+        # Grand total
         grand_total = materials_total + shipping
 
         total_m2_facade = sum(
@@ -494,6 +495,7 @@ class BMCQuotationPDF:
                 )
             )
 
+        elements.append(table)
         return elements
 
     # ── C) MATERIALS TABLES ─────────────────────────────────────
@@ -728,6 +730,40 @@ class BMCQuotationPDF:
             textColor=BMCStyles.BMC_LINK_BLUE,
             leading=BMCStyles.FONT_SIZE_SMALL + 2,
         )
+        elements.append(Paragraph("<b>COMENTARIOS:</b>", header_style))
+
+        # Get comment style (adjustable for 1-page fit)
+        comment_style = BMCStyles.get_comments_style(font_size=font_size, leading=leading)
+
+        # Format each comment with special rules
+        for comment in comments:
+            formatted_comment = self._format_comment_line(comment)
+            # Add bullet
+            bullet_text = f"• {formatted_comment}"
+            elements.append(Paragraph(bullet_text, comment_style))
+
+        return elements
+
+    def _format_comment_line(self, comment: str) -> str:
+        """Apply per-line formatting rules for comments"""
+        # Rule 1: "Entrega de 10 a 15 días..." -> BOLD
+        if "Entrega de 10 a 15 días" in comment or "dependemos de producción" in comment.lower():
+            return f"<b>{comment}</b>"
+        
+        # Rule 2: "Oferta válida por 10 días..." -> RED
+        if "Oferta válida por 10 días" in comment or "oferta válida" in comment.lower():
+            return f'<font color="#CC0000">{comment}</font>'
+        
+        # Rule 3: "Incluye descuentos de Pago al Contado..." -> BOLD + RED
+        if "Incluye descuentos de Pago al Contado" in comment or ("Seña del 60%" in comment and "Saldo del 40" in comment):
+            return f'<b><font color="#CC0000">{comment}</font></b>'
+        
+        # Default: normal
+        return comment
+
+    def _build_conditions(self, conditions: List[str]) -> List:
+        """Build terms and conditions section"""
+        elements = []
 
         # Replace row 3 right cell with Paragraph
         data[2][1] = Paragraph(terms_text, link_style)

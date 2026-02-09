@@ -47,6 +47,7 @@ class BMCStyles:
     TABLE_GRID = colors.HexColor("#D0D0D0")
     TEXT_BLACK = colors.black
     TEXT_GRAY = colors.HexColor("#666666")
+    TEXT_RED = colors.HexColor("#CC0000")  # NEW: for special comments
     HIGHLIGHT_YELLOW = colors.HexColor("#FFF9E6")
     TRANSFER_HEADER_BG = colors.HexColor("#EDEDED")
 
@@ -301,6 +302,47 @@ class BMCStyles:
             leading=11,
             bulletFontName=cls.FONT_NAME,
             bulletFontSize=cls.FONT_SIZE_TINY,
+        )
+
+    @classmethod
+    def get_comments_style(cls, font_size=None, leading=None):
+        """Style for COMENTARIOS section (adjustable for 1-page fit)"""
+        fs = font_size if font_size is not None else cls.FONT_SIZE_COMMENTS
+        ld = leading if leading is not None else cls.LEADING_COMMENTS
+        return ParagraphStyle(
+            "BMCComments",
+            fontName=cls.FONT_NAME,
+            fontSize=fs,
+            textColor=cls.TEXT_BLACK,
+            leftIndent=12,
+            spaceAfter=2,
+            leading=ld,
+            bulletFontName=cls.FONT_NAME,
+            bulletFontSize=fs,
+            bulletIndent=6,
+        )
+
+    @classmethod
+    def get_bank_transfer_table_style(cls):
+        """Table style for bank transfer footer box"""
+        return TableStyle(
+            [
+                # First row background (light gray)
+                ("BACKGROUND", (0, 0), (-1, 0), cls.TABLE_HEADER_BG),
+                # Font
+                ("FONTNAME", (0, 0), (-1, -1), cls.FONT_NAME),
+                ("FONTSIZE", (0, 0), (-1, -1), 8.4),
+                ("ALIGN", (0, 0), (0, -1), "LEFT"),
+                ("ALIGN", (1, 0), (1, -1), "LEFT"),
+                # Borders - visible grid
+                ("GRID", (0, 0), (-1, -1), 0.75, cls.TABLE_BORDER),
+                ("BOX", (0, 0), (-1, -1), 1.0, cls.TABLE_BORDER),
+                # Padding
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ]
         )
 
 

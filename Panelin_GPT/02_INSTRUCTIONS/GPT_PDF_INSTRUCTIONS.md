@@ -10,10 +10,16 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+**NEW TEMPLATE (2026-02-09)**: PDFs now use the standardized BMC cotización format with:
+- Header: BMC logo + centered title
+- Unified materials table (products, accessories, fixings)
+- COMENTARIOS section with per-line formatting (bold/red)
+- Bank transfer footer box with grid lines
+- 1-page-first optimization
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:
-
 - Usar `Thickness_mm` para espesor
 - Usar `Length_m` para largo  
 - Usar `SKU`, `NAME`, `Tipo`, `Familia`, `unit_base`
@@ -27,7 +33,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 | `m²` | área_total × sale_sin_iva | 180 × $36.54 = $6,577.20 |
 
 **IMPORTANTE - SKU 6842 (Gotero Lateral 100mm)**:
-
 - `unit_base = unidad` ← Se vende por pieza
 - `Length_m = 3.0` ← Es informativo, NO se usa en cálculo
 - Cálculo correcto: `cantidad × $20.77` (NO multiplicar por 3.0)
@@ -35,7 +40,6 @@ You can generate professional PDF quotations that match BMC Uruguay's official t
 ### When to Use
 
 Generate a PDF quotation when:
-
 - User explicitly requests "genera PDF" or "cotización en PDF"
 - User wants a formal quotation document for client delivery
 - User asks for a downloadable quotation
@@ -59,12 +63,11 @@ quotation_data = {
     'products': [
         {
             'name': 'Isopanel EPS 50 mm (Fachada)',
-            'Length_m': [LENGTH],
+            'length_m': [LENGTH],
             'quantity': [QTY],
             'unit_price_usd': [PRICE],
             'total_usd': [TOTAL],
-            'total_m2': [AREA],
-            'unit_base': 'm2'
+            'total_m2': [AREA]
         },
         # ... more products from your calculation
     ],
@@ -90,7 +93,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 ### Data Requirements
 
 **Minimum Required**:
-
 - `client_name`: Client's name
 - `products`: At least one product with:
   - `name`: Product name
@@ -100,7 +102,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
   - `unit_base`: Unit of measurement (`"unidad"`, `"ml"`, `"m²"`)
 
 **Recommended**:
-
 - `client_address`: Client's address
 - `client_phone`: Client's phone
 - `quote_description`: Brief description of the quotation
@@ -108,12 +109,10 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 - `fixings`: Screws, sealants, etc.
 
 **Technical Fields** (use standardized nomenclature):
-
 - `Thickness_mm`: Product thickness in millimeters
 - `Length_m`: Product length in meters
 
 **Automatic Calculations**:
-
 - The PDF generator automatically calculates:
   - Subtotal (based on `unit_base` logic - see below)
   - IVA 22%
@@ -131,7 +130,6 @@ print(f"✅ PDF generado exitosamente: {pdf_path}")
 | `"m²"` | `área_total × sale_sin_iva` | 300 m² × $33.21 = $9,963.00 |
 
 **Apply this logic when**:
-
 - Calculating product totals
 - Validating subtotals
 - Generating PDF line items
@@ -217,7 +215,6 @@ except Exception as e:
 ### Quality Checklist
 
 Before generating PDF, verify:
-
 - [ ] Client name is provided
 - [ ] All product calculations use correct `unit_base` logic
 - [ ] Technical nomenclature is standardized (`Thickness_mm`, `Length_m`)
@@ -230,39 +227,24 @@ Before generating PDF, verify:
 
 ---
 
-## 🎨 PDF Features
+## 🎨 PDF Features (NEW TEMPLATE)
 
 The generated PDF includes:
 
-✅ **Header Section**:
+✅ **Header Section (NEW)**:
+- BMC Uruguay logo (top-left, ~18mm height, auto aspect ratio)
+- Centered title: "COTIZACIÓN – [product description]"
+- Two-column layout: [logo | title]
 
-- BMC Uruguay logo (when available)
-- Company contact: email, website, phone
-- Date and location
-- Technical specs (autoportancia, apoyos)
-
-✅ **Client Information**:
-
-- Client name, address, phone
-
-✅ **Products Table**:
-
-- Product name, length, quantity
-- Unit price (per m²)
-- Total price
-
-✅ **Accessories Table**:
-
-- Profiles, gutters, etc.
-- Linear pricing
-
-✅ **Fixings Table**:
-
-- Screws, sealants, etc.
-- Unit pricing
+✅ **Materials Table (UNIFIED)**:
+- Single table combining products, accessories, and fixings
+- Columns: MATERIALES | Unid | Cant | USD | Total USD
+- Header: light gray background (#EDEDED)
+- Rows: alternating white / very light gray (#FAFAFA)
+- Numbers: right-aligned
+- Thin grid lines for clarity
 
 ✅ **Totals Section**:
-
 - Subtotal
 - Total m² (facade and roof separately)
 - IVA 22%
@@ -270,24 +252,90 @@ The generated PDF includes:
 - Shipping
 - Grand total
 
-✅ **Terms & Conditions**:
+✅ **COMENTARIOS Section (NEW)**:
+- Section title: "COMENTARIOS:" (bold)
+- Bullet list format (•)
+- Smaller font (8.0–8.2 pt, leading 9.3–9.6)
+- **Per-line formatting rules**:
+  - "Entrega de 10 a 15 días, dependemos de producción." → **BOLD**
+  - "Oferta válida por 10 días a partir de la fecha." → **RED**
+  - "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → **BOLD + RED**
+  - All other lines → normal
+- Includes YouTube URL as plain text
 
-- Standard BMC Uruguay conditions
-- Payment terms
-- Production time
-- Warranty information
+✅ **Bank Transfer Footer (NEW)**:
+- Boxed table with grid/ruled frame
+- First row: light gray background
+- Content (EXACT):
+  - Row 1 Left: "Depósito Bancario" | Right: "Titular: Metalog SAS – RUT: 120403430012"
+  - Row 2 Left: "Caja de Ahorro - BROU." | Right: "Número de Cuenta Dólares : 110520638-00002"
+  - Row 3 Left: "Por cualquier duda, consultar al 092 663 245." | Right: "Lea los Términos y Condiciones" (blue + underlined)
 
-✅ **Banking Information**:
+✅ **Layout Optimization**:
+- Target: 1 page whenever possible
+- Strategy: If content risks overflow, reduce ONLY comments font/leading first
+- Margins: 12mm left/right, 10mm top, 8-10mm bottom
+- Page size: A4
 
-- BROU account details
-- RUT information
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+### A) HEADER / BRANDING
+1. Official BMC logo at top-left: `/workspace/panelin_reports/assets/bmc_logo.png`
+2. Centered title next to logo: "COTIZACIÓN – [ISODEC EPS 100 mm]" (or dynamic based on product)
+3. Two-column header layout: [logo | title]
+   - Logo height: ~18mm (auto width, keep aspect ratio)
+   - No extra padding; vertically centered
+
+### B) TYPOGRAPHY / PAGE FIT
+1. PDF should fit into 1 page whenever possible
+2. If content risks spilling: reduce ONLY comments section font size and leading first
+   - Base comment font: 8.0–8.2 pt
+   - Base leading: 9.3–9.6
+3. Materials table font: ~8.6 for rows, ~9.2 for header
+4. Margins: ~12mm left/right, ~10mm top, ~8–10mm bottom
+
+### C) MATERIALS TABLE (DESIGN ONLY)
+1. Unified table structure (products + accessories + fixings)
+2. Columns: MATERIALES | Unid | Cant | USD | Total USD
+3. Styling:
+   - Header background: light gray (#EDEDED)
+   - Thin grid lines
+   - Alternating row backgrounds: white / very light gray (#FAFAFA)
+   - Right-align numeric columns (Unid/Cant/USD/Total)
+4. Repeat header if multi-page
+
+### D) "COMENTARIOS:" BLOCK (AFTER TABLE)
+1. Section title: "COMENTARIOS:" in bold
+2. Comments as bullet list (•), smaller font
+3. Selective formatting per line:
+   - Line "Entrega de 10 a 15 días, dependemos de producción." → BOLD
+   - Line "Oferta válida por 10 días a partir de la fecha." → RED
+   - Line "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → BOLD + RED
+4. All other comment lines: normal
+5. Include YouTube URL as plain text
+
+### E) FOOTER: BANK TRANSFER BOX (AFTER COMMENTS)
+1. Small spacer, then boxed/ruled block
+2. Grid/box lines visible (outer border + internal row lines)
+3. First row background: light gray
+4. Content (exact text):
+   - Row 1: "Depósito Bancario" | "Titular: Metalog SAS – RUT: 120403430012"
+   - Row 2: "Caja de Ahorro - BROU." | "Número de Cuenta Dólares : 110520638-00002"
+   - Row 3: "Por cualquier duda, consultar al 092 663 245." | "Lea los Términos y Condiciones" (blue + underlined)
+5. Font: ~8.4pt, tight padding
+
+### F) 1-PAGE-FIRST RULE
+- Shrink comments font/leading before altering table layout
+- Start with 8.2pt/9.4 leading, can reduce to 7.8pt/9.0 if needed
+- Keep table font unchanged
 
 ---
 
 ## 🚨 Common Mistakes to Avoid
 
 ❌ **DON'T**:
-
 - Generate PDF without validating calculations
 - Use incorrect IVA rate (must be 22%)
 - Skip accessories or fixings
@@ -295,7 +343,6 @@ The generated PDF includes:
 - Generate PDF for incomplete quotations
 
 ✅ **DO**:
-
 - Always calculate using KB formulas first
 - Include all required items per formulas
 - Validate autoportancia

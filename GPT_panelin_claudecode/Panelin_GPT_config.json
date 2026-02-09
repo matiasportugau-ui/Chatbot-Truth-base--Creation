@@ -145,7 +145,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate professional PDF quotation with BMC Uruguay branding (NEW TEMPLATE 2026-02-09)",
       "parameters": {
         "quotation_data": {
           "type": "object",
