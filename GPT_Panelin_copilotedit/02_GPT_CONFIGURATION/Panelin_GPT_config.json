@@ -99,7 +99,7 @@
     "audio_transcription": false,
     "audio_analysis_requires_text": true,
     "audio_transcription_note": "No puede transcribir archivos de audio. Solicitar al usuario que proporcione transcripción en texto.",
-      "pdf_generation": true,
+    "pdf_generation": true,
     "pdf_generation_library": "reportlab",
     "pdf_templates": [
       "BMC Uruguay quotation template (v2.0 - 2026-02-09)",
