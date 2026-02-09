@@ -32,7 +32,7 @@ from reportlab.platypus import (
     SimpleDocTemplate,
     TableStyle,
 )
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle
 
 from pdf_styles import BMCStyles, QuotationConstants
 
