@@ -10,6 +10,93 @@
 
 You can generate professional PDF quotations that match BMC Uruguay's official template exactly.
 
+---
+
+## 🎨 Plantilla PDF BMC (Diseño y Formato)
+
+### A) HEADER / BRANDING
+1. **Logo BMC**: Displayed at top-left corner (~18mm height, auto width)
+   - Path: `panelin_reports/assets/bmc_logo.png`
+   - Alternative: `Panelin_GPT/01_UPLOAD_FILES/bmc_logo.png`
+2. **Centered Title**: "COTIZACIÓN – ISODEC EPS 100 mm" (or dynamic product family)
+   - Layout: Two-column header [Logo | Centered Title]
+   - Font: Bold, 14pt, BMC Blue color
+   - Vertically centered alignment
+
+### B) TYPOGRAPHY / PAGE FIT
+1. **1-Page-First Rule**: PDF should fit into 1 page whenever possible
+2. **Font Size Hierarchy** (optimized for single-page fit):
+   - Table headers: 9.2pt
+   - Table rows: 8.6pt
+   - Comments section: 8.0–8.2pt (BASE target)
+   - Comments leading: 9.3–9.6
+   - Footer: 8.4pt
+3. **Margins**: 
+   - Top: 10mm
+   - Bottom: 8–10mm
+   - Left/Right: 12mm
+4. **Shrinking Strategy**: If content risks spilling to second page:
+   - FIRST: Reduce comments section font size and leading
+   - LAST RESORT: Adjust other sections (avoid changing table structure)
+
+### C) MATERIALS TABLE (DESIGN ONLY)
+1. **Table Structure**:
+   - Single combined table for products, accessories, and fixings
+   - Columns: Material/Descripción | Unid | Cant | USD | Total
+2. **Styling**:
+   - Header background: Light gray (#EDEDED)
+   - Alternating row backgrounds: White / Very light gray (#FAFAFA)
+   - Thin grid lines (0.5pt)
+   - Right-align numeric columns (Unid, Cant, USD, Total)
+   - Left-align description column
+3. **Repeat Header**: If multi-page (though target is 1 page)
+
+### D) "COMENTARIOS:" BLOCK (AFTER TABLE)
+1. **Section Title**: "COMENTARIOS:" in bold
+2. **Bullet List Format**: • prefix for each line
+3. **Per-Line Formatting Rules**:
+   - Line "Entrega de 10 a 15 días, dependemos de producción." → **BOLD**
+   - Line "Oferta válida por 10 días a partir de la fecha." → **RED**
+   - Line "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)." → **BOLD + RED**
+   - YouTube URL: Plain text, no formatting
+   - All other lines: Normal style (small font)
+4. **Font**: 8.0pt base, leading 9.3 (can adjust for fit)
+
+### E) FOOTER: BANK TRANSFER BOX (AFTER COMMENTS)
+1. **Boxed Grid Layout**: Visible outer border + internal row lines
+2. **First Row**: Light gray background (#EDEDED)
+3. **Content** (EXACT text with punctuation):
+
+   **Row 1:**
+   - Left: "Depósito Bancario"
+   - Right: "Titular: Metalog SAS – RUT: 120403430012"
+
+   **Row 2:**
+   - Left: "Caja de Ahorro - BROU."
+   - Right: "Número de Cuenta Dólares : 110520638-00002"
+
+   **Row 3:**
+   - Left: "Por cualquier duda, consultar al 092 663 245."
+   - Right: "Lea los Términos y Condiciones" (blue + underlined)
+
+4. **Font**: ~8.4pt, tight padding
+5. **Spacing**: Small spacer before box (4–6pt)
+
+### F) IMPLEMENTATION NOTES
+1. **Logo Path**: Uses `/workspace/panelin_reports/assets/bmc_logo.png` (or GPT upload package variant)
+2. **Template Function**: `build_quote_pdf(data, output_path, logo_path)`
+3. **Comments Renderer**: Supports per-line style selection (bold, red, bold+red)
+4. **Bank Footer Table**: Grid-style table with box lines + gray first row
+5. **Page Size**: A4, margins as specified above
+6. **Validation**: Generate sample PDF to confirm:
+   - Header logo + centered title
+   - Table styled correctly
+   - Comments small + bold/red rules respected
+   - Footer bank transfer box appears after comments
+   - PDF does not overflow (1-page fit)
+
+---
+
 ### 🚨 REGLAS CRÍTICAS (LEDGER 2026-01-28)
 
 **Nomenclatura técnica**:

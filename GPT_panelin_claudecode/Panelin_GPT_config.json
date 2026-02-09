@@ -129,7 +129,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate professional PDF quotation with BMC Uruguay branding using new template design",
       "parameters": {
         "quotation_data": {
           "type": "object",
@@ -141,7 +141,22 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.generate_quotation_pdf",
+      "template_features": [
+        "BMC logo in header (18mm height)",
+        "Centered title next to logo",
+        "Single materials table with alternating row backgrounds",
+        "Comments section with per-line formatting (bold/red)",
+        "Bank transfer footer box with grid lines",
+        "1-page-first optimization (shrink comments before table)",
+        "Optimized margins (12mm L/R, 10mm T, 8mm B)",
+        "Font sizes optimized for single page fit"
+      ],
+      "formatting_rules": {
+        "comments_bold": "Entrega de 10 a 15 días, dependemos de producción.",
+        "comments_red": "Oferta válida por 10 días a partir de la fecha.",
+        "comments_bold_red": "Incluye descuentos de Pago al Contado. Seña del 60% (al confirmar). Saldo del 40 % (previo a retiro de fábrica)."
+      }
     },
     {
       "name": "lookup_product_fast",
