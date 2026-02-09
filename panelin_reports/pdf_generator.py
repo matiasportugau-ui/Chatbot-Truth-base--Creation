@@ -16,10 +16,11 @@ from typing import Dict, List, Optional, Any
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
+from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, Paragraph, Spacer, Image, PageBreak
 from reportlab.platypus import SimpleDocTemplate, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 from .pdf_styles import BMCStyles, QuotationConstants
 
@@ -286,18 +287,13 @@ class BMCQuotationPDF:
 
         # Totals section
         story.extend(self._build_totals(quotation_data["totals"]))
-        story.append(Spacer(1, 12))
+        story.append(Spacer(1, 8))
 
-        # Comments section
-        if quotation_data.get("comments"):
-            story.extend(self._build_comments(quotation_data["comments"]))
-            story.append(Spacer(1, 6))
+        # Comments section (new template: always include formatted comments)
+        story.extend(self._build_comments())
+        story.append(Spacer(1, 4))
 
-        # Conditions section
-        story.extend(self._build_conditions(quotation_data["conditions"]))
-        story.append(Spacer(1, 12))
-
-        # Banking information
+        # Banking information footer box (replaces old conditions section)
         story.extend(self._build_banking_info())
 
         # Build PDF
@@ -306,43 +302,63 @@ class BMCQuotationPDF:
         return self.output_path
 
     def _build_header(self, data: Dict) -> List:
-        """Build header section with logo and company info"""
+        """Build header section with logo and centered title (2026-02-09 template)"""
         elements = []
 
-        # TODO: Add logo when available
-        # if os.path.exists(BMCStyles.LOGO_PATH):
-        #     logo = Image(BMCStyles.LOGO_PATH, width=BMCStyles.LOGO_WIDTH, height=BMCStyles.LOGO_HEIGHT)
-        #     elements.append(logo)
-
-        # Company contact information
-        styles = getSampleStyleSheet()
-        contact_style = BMCStyles.get_small_style()
-
-        elements.append(Paragraph(QuotationConstants.COMPANY_EMAIL, contact_style))
-        elements.append(Paragraph(QuotationConstants.COMPANY_WEBSITE, contact_style))
-        elements.append(Paragraph(QuotationConstants.COMPANY_PHONE, contact_style))
-
-        # Date and location
-        elements.append(Spacer(1, 6))
-        elements.append(
-            Paragraph(
-                f"Fecha: {QuotationDataFormatter.format_date(data.get('date', ''))}",
-                contact_style,
+        # Header: Two-column layout [logo | centered title]
+        header_data = []
+        
+        # Check if logo exists
+        if os.path.exists(BMCStyles.LOGO_PATH):
+            # Logo on the left with fixed height, auto width to maintain aspect ratio
+            logo = Image(BMCStyles.LOGO_PATH, height=BMCStyles.LOGO_HEIGHT)
+            logo.hAlign = 'LEFT'
+            
+            # Title on the right (centered)
+            title_text = data.get('quote_description', 'COTIZACIÓN – ISODEC EPS 100 mm')
+            if not title_text.startswith('COTIZACIÓN'):
+                title_text = f"COTIZACIÓN – {title_text}"
+            
+            title_style = ParagraphStyle(
+                'HeaderTitle',
+                fontName=BMCStyles.FONT_NAME_BOLD,
+                fontSize=BMCStyles.FONT_SIZE_TITLE,
+                textColor=BMCStyles.TEXT_BLACK,
+                alignment=1,  # Center aligned
+                leading=BMCStyles.FONT_SIZE_TITLE * 1.2,
             )
-        )
-        elements.append(Paragraph(data.get("location", ""), contact_style))
-
-        # Technical specs (autoportancia, apoyos)
-        specs = data.get("technical_specs", {})
-        if specs:
-            elements.append(
-                Paragraph(
-                    f"Autoportancia: {specs.get('autoportancia', 0)} m", contact_style
-                )
+            title_para = Paragraph(title_text, title_style)
+            
+            # Create two-column header table
+            header_table = Table(
+                [[logo, title_para]],
+                colWidths=[80 * mm, None]  # Logo ~80mm, rest for title
             )
-            elements.append(
-                Paragraph(f"Apoyos: {specs.get('apoyos', 0)}", contact_style)
+            header_table.setStyle(TableStyle([
+                ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+                ('ALIGN', (1, 0), (1, 0), 'CENTER'),
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                ('LEFTPADDING', (0, 0), (-1, -1), 0),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+                ('TOPPADDING', (0, 0), (-1, -1), 0),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+            ]))
+            elements.append(header_table)
+        else:
+            # Fallback: just centered title if logo not found
+            title_text = data.get('quote_description', 'COTIZACIÓN – ISODEC EPS 100 mm')
+            if not title_text.startswith('COTIZACIÓN'):
+                title_text = f"COTIZACIÓN – {title_text}"
+            
+            title_style = ParagraphStyle(
+                'HeaderTitleNoLogo',
+                fontName=BMCStyles.FONT_NAME_BOLD,
+                fontSize=BMCStyles.FONT_SIZE_TITLE,
+                textColor=BMCStyles.TEXT_BLACK,
+                alignment=1,
+                leading=BMCStyles.FONT_SIZE_TITLE * 1.2,
             )
+            elements.append(Paragraph(title_text, title_style))
 
         return elements
 
@@ -405,9 +421,11 @@ class BMCQuotationPDF:
             ]
             data.append(row)
 
-        # Create table
+        # Create table with alternating row backgrounds
         table = Table(data, colWidths=[180, 60, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
+        style = BMCStyles.get_products_table_style()
+        style = BMCStyles.apply_alternating_rows(style, len(data))
+        table.setStyle(style)
 
         elements.append(table)
         return elements
@@ -447,7 +465,9 @@ class BMCQuotationPDF:
             data.append(row)
 
         table = Table(data, colWidths=[180, 60, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
+        style = BMCStyles.get_products_table_style()
+        style = BMCStyles.apply_alternating_rows(style, len(data))
+        table.setStyle(style)
 
         elements.append(table)
         return elements
@@ -486,7 +506,9 @@ class BMCQuotationPDF:
             data.append(row)
 
         table = Table(data, colWidths=[140, 80, 60, 80, 100])
-        table.setStyle(BMCStyles.get_products_table_style())
+        style = BMCStyles.get_products_table_style()
+        style = BMCStyles.apply_alternating_rows(style, len(data))
+        table.setStyle(style)
 
         elements.append(table)
         return elements
@@ -522,16 +544,45 @@ class BMCQuotationPDF:
         elements.append(table)
         return elements
 
-    def _build_comments(self, comments: List[str]) -> List:
-        """Build comments section"""
+    def _build_comments(self, comments: List[str] = None, font_size=None, leading=None) -> List:
+        """Build comments section with selective formatting (2026-02-09 template)
+        
+        Args:
+            comments: Optional list of custom comments (if None, uses formatted defaults)
+            font_size: Optional font size override for page fitting
+            leading: Optional leading override for page fitting
+        """
         elements = []
 
-        header_style = BMCStyles.get_header_style()
-        elements.append(Paragraph("Comentarios", header_style))
+        # Section title "COMENTARIOS:" in bold
+        header_style = ParagraphStyle(
+            'CommentsHeader',
+            fontName=BMCStyles.FONT_NAME_BOLD,
+            fontSize=BMCStyles.FONT_SIZE_NORMAL,
+            textColor=BMCStyles.TEXT_BLACK,
+            spaceAfter=4,
+        )
+        elements.append(Paragraph("COMENTARIOS:", header_style))
 
-        small_style = BMCStyles.get_small_style()
-        for comment in comments:
-            elements.append(Paragraph(comment, small_style))
+        # Use formatted comments with selective styling
+        formatted_comments = QuotationConstants.get_formatted_comments()
+        
+        for text, bold, red, is_url in formatted_comments:
+            # Create style for this comment line
+            style = BMCStyles.get_comments_style(
+                bold=bold, 
+                red=red, 
+                font_size=font_size, 
+                leading=leading
+            )
+            
+            # Format text with bullet if not URL
+            if is_url:
+                formatted_text = text
+            else:
+                formatted_text = f"• {text}"
+            
+            elements.append(Paragraph(formatted_text, style))
 
         return elements
 
@@ -547,31 +598,59 @@ class BMCQuotationPDF:
         return elements
 
     def _build_banking_info(self) -> List:
-        """Build banking information section"""
+        """Build banking information footer box (2026-02-09 template)
+        
+        Creates a boxed/ruled block with bank transfer information matching reference image
+        """
         elements = []
 
-        small_style = BMCStyles.get_small_style()
-
-        elements.append(Spacer(1, 12))
-        elements.append(Paragraph("<b>Depósito Bancario</b>", small_style))
-        elements.append(
-            Paragraph(
-                f"Titular: {QuotationConstants.BANK_ACCOUNT_HOLDER} - RUT: {QuotationConstants.BANK_RUT}",
-                small_style,
-            )
+        elements.append(Spacer(1, 6))
+        
+        # Create Terms & Conditions link style (blue + underlined)
+        terms_style = ParagraphStyle(
+            'TermsLink',
+            fontName=BMCStyles.FONT_NAME,
+            fontSize=BMCStyles.FONT_SIZE_TINY,
+            textColor=colors.blue,
+            underline=True,
         )
-        elements.append(
-            Paragraph(
-                f"{QuotationConstants.BANK_ACCOUNT_TYPE} - {QuotationConstants.BANK_NAME}",
-                small_style,
-            )
-        )
-        elements.append(
-            Paragraph(
-                f"Número de Cuenta Dólares: {QuotationConstants.BANK_ACCOUNT_USD}",
-                small_style,
-            )
-        )
+        
+        # Bank transfer table data with exact text from requirements
+        data = [
+            # Row 1: Light gray background
+            [
+                Paragraph("Depósito Bancario", 
+                         ParagraphStyle('BankLeft', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY)),
+                Paragraph(f"Titular: {QuotationConstants.BANK_ACCOUNT_HOLDER} – RUT: {QuotationConstants.BANK_RUT}",
+                         ParagraphStyle('BankRight', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY))
+            ],
+            # Row 2
+            [
+                Paragraph(f"{QuotationConstants.BANK_ACCOUNT_TYPE} - {QuotationConstants.BANK_NAME}.",
+                         ParagraphStyle('BankLeft2', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY)),
+                Paragraph(f"Número de Cuenta Dólares : {QuotationConstants.BANK_ACCOUNT_USD}",
+                         ParagraphStyle('BankRight2', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY))
+            ],
+            # Row 3
+            [
+                Paragraph(f"Por cualquier duda, consultar al {QuotationConstants.CONTACT_PHONE}.",
+                         ParagraphStyle('BankLeft3', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY)),
+                Paragraph('<u><font color="blue">Lea los Términos y Condiciones</font></u>',
+                         ParagraphStyle('BankRight3', fontName=BMCStyles.FONT_NAME, 
+                                       fontSize=BMCStyles.FONT_SIZE_TINY))
+            ],
+        ]
+        
+        # Create table with tight padding
+        bank_table = Table(data, colWidths=[190, 290])
+        bank_table.setStyle(BMCStyles.get_bank_transfer_table_style())
+        
+        elements.append(bank_table)
 
         return elements
 

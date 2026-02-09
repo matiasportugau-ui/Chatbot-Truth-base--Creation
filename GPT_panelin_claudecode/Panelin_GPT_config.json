@@ -102,9 +102,18 @@
     "pdf_generation": true,
     "pdf_generation_library": "reportlab",
     "pdf_templates": [
-      "BMC Uruguay quotation template",
-      "Professional branded PDFs"
-    ]
+      "BMC Uruguay quotation template (2026-02-09)",
+      "Professional branded PDFs with logo and formatting"
+    ],
+    "pdf_template_requirements": {
+      "logo": "/mnt/data/Logo_BMC- PNG.png (or fallback: panelin_reports/assets/bmc_logo.png)",
+      "header": "Two-column layout with logo + centered title",
+      "comments_section": "COMENTARIOS: block with per-line formatting (bold/red)",
+      "bank_transfer_footer": "Boxed grid with bank transfer information",
+      "page_fit_strategy": "1-page-first: shrink comments font/leading before altering table",
+      "table_styling": "Alternating row backgrounds, right-aligned numeric columns",
+      "margins": "12mm left/right, 10mm top, 8-10mm bottom"
+    }
   },
   "actions": [
     {
@@ -129,7 +138,7 @@
     },
     {
       "name": "generate_pdf_quotation",
-      "description": "Generate professional PDF quotation with BMC Uruguay branding",
+      "description": "Generate professional PDF quotation with BMC Uruguay branding (2026-02-09 template). Includes: logo header, materials table with alternating rows, COMENTARIOS block with per-line formatting (bold/red), and bank transfer footer box. Follows 1-page-first rule.",
       "parameters": {
         "quotation_data": {
           "type": "object",
@@ -141,7 +150,15 @@
         }
       },
       "requires": "code_interpreter",
-      "library": "panelin_reports.generate_quotation_pdf"
+      "library": "panelin_reports.generate_quotation_pdf",
+      "template_version": "2026-02-09",
+      "template_features": [
+        "BMC logo header with centered title",
+        "Alternating row table styling",
+        "COMENTARIOS section with selective bold/red formatting",
+        "Bank transfer footer box with grid lines",
+        "1-page-first optimization"
+      ]
     },
     {
       "name": "lookup_product_fast",
