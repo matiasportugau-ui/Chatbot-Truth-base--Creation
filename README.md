@@ -48,7 +48,21 @@ Nivel 1 es la fuente maestra y siempre tiene prioridad:
 - [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md) — detalle de variables de entorno.
 - [`SECURITY.md`](SECURITY.md) — políticas de seguridad y manejo de credenciales.
 
+## GitHub Copilot Setup
+
+This repository is configured for [GitHub Copilot coding agent](https://docs.github.com/en/copilot/tutorials/coding-agent):
+- **Repository instructions**: `.github/copilot-instructions.md` - Comprehensive coding guidelines
+- **Path-specific instructions**: `.github/instructions/` - Language and file-type specific guidance
+  - `python.instructions.md` - Python coding standards (Decimal for financials, type hints, testing)
+  - `json.instructions.md` - JSON file guidelines (knowledge base hierarchy, pricing data)
+  - `test.instructions.md` - Testing patterns and pytest conventions
+- **Custom agents**: `.github/agents/` - Specialized agents for specific tasks
+  - `readme-specialist.md` - Documentation and README improvements
+
+See [`.github/COPILOT_SETUP.md`](.github/COPILOT_SETUP.md) for details on the Copilot configuration.
+
 ## Contribuciones
 - Los cambios en archivos protegidos (por ejemplo, `*.json`, `/config/`, `/panelin_core/`, `/gpt_configs/`, `.github/`) requieren revisión según `CODEOWNERS`.
 - Mantén el uso de `Decimal` para cálculos financieros y respeta la jerarquía de la KB en toda la documentación.
 - Preferir PRs pequeños y bien descritos; incluye enlaces a las guías relevantes cuando añadas nueva documentación.
+- **GitHub Copilot**: Si usas Copilot, las instrucciones en `.github/` te ayudarán a seguir los estándares del repositorio automáticamente.

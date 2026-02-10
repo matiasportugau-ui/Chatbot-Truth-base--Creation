@@ -2,6 +2,14 @@
 
 This repository contains the Panelin/BMC chatbot system for construction panel quotations and technical assistance. Follow these guidelines when contributing code.
 
+> **Note**: This repository uses both repository-wide and path-specific instructions:
+> - This file (`.github/copilot-instructions.md`) applies to all files
+> - Path-specific instructions in `.github/instructions/` apply to specific file types:
+>   - `python.instructions.md` - All Python files (`**/*.py`)
+>   - `json.instructions.md` - All JSON files (`**/*.json`)
+>   - `test.instructions.md` - All test files (`**/test_*.py`)
+> - Custom agents in `.github/agents/` provide specialized assistance for specific tasks
+
 ## 📋 Repository Overview
 
 **Purpose**: AI-powered chatbot system for BMC Uruguay (construction panel supplier) providing:
