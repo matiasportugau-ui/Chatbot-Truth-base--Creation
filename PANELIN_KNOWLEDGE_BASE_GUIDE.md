@@ -1,80 +1,118 @@
 # Panelin - Guía Completa de Knowledge Base
-**Versión:** 2.1 Ultimate  
-**Fecha:** 2026-02-06
-
-**Doc canónico (merge):** `KNOWLEDGE_ANALYSIS_PLAN_MERGED.md` (knowledge + analysis + plan)
+**Versión:** 3.0
+**Fecha:** 2026-02-07
+**KB Version:** 7.0
 
 ---
 
-## 📚 Estructura de Knowledge Base
+## Estructura de Knowledge Base
 
 Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base, su propósito, prioridad y cómo deben usarse.
 
 ---
 
-## 🎯 Jerarquía de Archivos (Orden de Prioridad)
+## Jerarquía de Archivos (Orden de Prioridad)
 
-### NIVEL 1 - MASTER (Fuente de Verdad Absoluta) ⭐
+### NIVEL 1 - MASTER (Fuente de Verdad Absoluta)
 
-**Propósito**: Única fuente autorizada para precios, fórmulas y especificaciones técnicas.
+**Propósito**: Fuente autorizada para precios de paneles, fórmulas y especificaciones técnicas.
 
-#### Archivo:
-- **`BMC_Base_Conocimiento_GPT-2.json`** ⭐ (PRIMARIO - OBLIGATORIO)
+#### Archivos:
+- **`BMC_Base_Conocimiento_GPT-2.json`** (PRIMARIO - OBLIGATORIO)
+- **`bromyros_pricing_master.json`** (base completa de productos BROMYROS)
 
 **Contenido:**
-- Productos completos (ISODEC, ISOPANEL, ISOROOF, ISOWALL, HM_RUBBER)
+- Productos completos (ISODEC, ISOPANEL, ISOROOF, ISOWALL, ISOFRIG, HM_RUBBER)
 - Precios validados de Shopify
-- Fórmulas de cotización exactas
+- Fórmulas de cotización exactas (incluyendo v6: tortugas_pvc, arandelas_carrocero, fijaciones_perfileria)
 - Especificaciones técnicas (autoportancia, coeficientes térmicos, resistencia térmica)
 - Reglas de negocio
 - Correcciones técnicas validadas
+- Precios de referencia rápida para accesorios principales
 
 **Cuándo usar:**
-- **SIEMPRE** para precios
+- **SIEMPRE** para precios de paneles
 - **SIEMPRE** para fórmulas de cálculo
 - **SIEMPRE** para especificaciones técnicas
 - **SIEMPRE** para validación de autoportancia
 
-**Regla de oro**: Si hay conflicto con otros archivos, este gana.
+**Regla de oro**: Si hay conflicto con otros archivos, Nivel 1 gana.
 
 ---
 
-### NIVEL 1B - ACCESORIOS (BOM Pricing)
+### NIVEL 1.2 - ACCESORIOS (Precios reales)
 
-**Propósito**: Catálogo de accesorios y terminaciones con precio unitario y unidades normalizadas.
+**Propósito**: Catálogo completo de accesorios con precios IVA incluido.
 
 #### Archivo:
-- **`accessories_catalog.json`**
+- **`accessories_catalog.json`** (70+ ítems con precios reales)
 
-**Contenido**:
-- SKU, nombre y unidad (`ml`, `unid`, `kit`)
-- Precio unitario con IVA incluido
-- Largo estándar (para perfiles)
-- Reglas de corte/solape y desperdicio
-- Compatibilidad por familia y uso
+**Contenido:**
+- Goteros frontales y laterales por espesor
+- Babetas (adosar, empotrar, laterales)
+- Cumbreras, canalones, perfiles U
+- Fijaciones (varillas, tuercas, tacos, arandelas, tortugas PVC)
+- Selladores (silicona, cinta butilo)
+- Índices por SKU, tipo, compatibilidad y uso
 
 **Cuándo usar:**
-- Para cotizar **accesorios** y **terminaciones**
-- Para valorizar BOM con desglose por ítem
+- Para obtener precios unitarios de accesorios en cotizaciones
+- Para seleccionar el accesorio correcto según espesor y sistema
+- Para consultar disponibilidad por proveedor (BROMYROS, MONTFRIO, BECAM)
 
 ---
 
-### NIVEL 1C - BOM RULES (Paramétricas por sistema)
+### NIVEL 1.3 - REGLAS BOM (Bill of Materials)
 
-**Propósito**: Reglas determinísticas de BOM por sistema (techo/pared/etc).
+**Propósito**: Reglas paramétricas para calcular cantidades de accesorios por sistema constructivo.
 
 #### Archivo:
-- **`bom_rules.json`**
+- **`bom_rules.json`** (6 sistemas constructivos)
 
-**Contenido**:
-- Fórmulas paramétricas (paneles, perfiles, fijaciones, sellos)
-- Redondeos estándar
-- Reglas de corte/solape
-- Tabla de autoportancia (lookup)
+**Contenido:**
+- Fórmulas parametrizadas por sistema (techo_isoroof_3g, techo_isodec_eps, techo_isodec_pir, pared_isopanel_eps, pared_isowall_pir, pared_isofrig_pir)
+- Tabla de autoportancia unificada
+- Mapeo de SKU por espesor
+- Kits de fijación detallados (metal, hormigón, madera)
+- Ejemplo de cálculo completo paso a paso
 
 **Cuándo usar:**
-- Para **calcular cantidades** de accesorios y perfiles
-- Para integrar autoportancia al cálculo
+- Para determinar qué accesorios necesita cada sistema
+- Para calcular cantidades usando fórmulas paramétricas
+- Para validar autoportancia (tabla unificada)
+- Para seleccionar kit de fijación según tipo de estructura
+
+---
+
+### NIVEL 1.5 - PRICING OPTIMIZADO
+
+**Propósito**: Búsquedas rápidas de precios por SKU, familia o tipo.
+
+#### Archivo:
+- **`bromyros_pricing_gpt_optimized.json`**
+
+**Contenido:**
+- Índice optimizado de productos BROMYROS
+- Búsqueda por SKU, familia, subfamilia
+
+**Cuándo usar:**
+- Para lookups rápidos cuando se conoce el SKU
+- Ver `GPT_INSTRUCTIONS_PRICING.md` para instrucciones detalladas de uso
+
+---
+
+### NIVEL 1.6 - CATÁLOGO (Descripciones e imágenes)
+
+**Propósito**: Información de productos para presentación al cliente.
+
+#### Archivos:
+- **`shopify_catalog_v1.json`** (descripciones, variantes, imágenes)
+- **`shopify_catalog_index_v1.csv`** (índice para búsquedas rápidas via Code Interpreter)
+
+**Cuándo usar:**
+- Para descripciones de productos
+- Para imágenes de referencia
+- **NO usar para precios** (usar Nivel 1 para precios)
 
 ---
 
@@ -108,14 +146,13 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 
 **Contenido:**
 - Snapshot público de la web
-- Precios actualizados
+- Precios actualizados (como texto de referencia)
 - Estado de stock
 - Catálogo web
 
 **Cuándo usar:**
 - Verificar precios actualizados (pero validar contra Nivel 1)
 - Consultar estado de stock
-- Refresh en tiempo real
 - **Siempre verificar contra Nivel 1** antes de usar
 
 ---
@@ -127,91 +164,104 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 #### Archivos:
 
 1. **`panelin_context_consolidacion_sin_backend.md`**
-   - **Propósito**: SOP completo de consolidación, checkpoints y gestión de contexto
-   - **Contenido**:
-     - Comandos: `/estado`, `/checkpoint`, `/consolidar`
-     - Estructura del Ledger incremental
-     - Gestión de riesgo de contexto
-     - Formatos de exportación
-     - Reglas operativas consolidadas
-   - **Cuándo usar**: Para entender y ejecutar comandos SOP
+   - SOP completo de consolidación, checkpoints y gestión de contexto
+   - Comandos: `/estado`, `/checkpoint`, `/consolidar`
 
-2. **`Aleros.rtf`** o **`Aleros -2.rtf`**
-   - **Propósito**: Reglas técnicas específicas de voladizos y aleros
-   - **Contenido**: Cálculos de voladizos, fórmulas de span efectivo
-   - **Cuándo usar**: Para consultas sobre aleros y voladizos
-   - **Nota**: Si OpenAI no acepta .rtf, convertir a .txt o .md primero
+2. **`Aleros -2.rtf`**
+   - Reglas técnicas específicas de voladizos y aleros
+   - Nota: Si OpenAI no acepta .rtf, convertir a .txt o .md primero
 
-3. **`panelin_truth_bmcuruguay_catalog_v2_index.csv`**
-   - **Propósito**: Índice de productos para búsquedas rápidas
-   - **Contenido**: Claves de productos, URLs Shopify, estado de stock
-   - **Cuándo usar**: Via Code Interpreter para operaciones batch o búsquedas indexadas
+3. **`PANELIN_QUOTATION_PROCESS.md`**
+   - Proceso de cotización en 5 fases obligatorias
+
+4. **`PANELIN_TRAINING_GUIDE.md`**
+   - Guía de entrenamiento y evaluación de ventas
+
+5. **`GPT_INSTRUCTIONS_PRICING.md`**
+   - Instrucciones de lookup rápido de precios BROMYROS
+
+6. **`GPT_PDF_INSTRUCTIONS.md`**
+   - Instrucciones para generación de PDFs profesionales
+
+7. **`GPT_OPTIMIZATION_ANALYSIS.md`**
+   - Análisis de configuración y plan de mejoras
 
 ---
 
-## 📋 Lista Completa de Archivos Necesarios
+## Lista Completa de Archivos Necesarios
 
 ### Archivos Obligatorios (Nivel 1):
-- [ ] `BMC_Base_Conocimiento_GPT-2.json` ⭐ (PRIMARIO - OBLIGATORIO)
-- [ ] `accessories_catalog.json`
-- [ ] `bom_rules.json`
+- [ ] `BMC_Base_Conocimiento_GPT-2.json` (PRIMARIO)
+- [ ] `bromyros_pricing_master.json` (BROMYROS completo)
 
-### Archivos Recomendados (Nivel 2):
+### Archivos de Accesorios y BOM (Nivel 1.2-1.3):
+- [ ] `accessories_catalog.json` (70+ accesorios con precios)
+- [ ] `bom_rules.json` (reglas BOM paramétricas)
+
+### Archivos de Pricing y Catálogo (Nivel 1.5-1.6):
+- [ ] `bromyros_pricing_gpt_optimized.json` (lookup rápido)
+- [ ] `shopify_catalog_v1.json` (descripciones e imágenes)
+- [ ] `shopify_catalog_index_v1.csv` (índice CSV)
+
+### Archivos de Validación (Nivel 2):
 - [ ] `BMC_Base_Unificada_v4.json`
 
-### Archivos Recomendados (Nivel 3):
+### Archivos Dinámicos (Nivel 3):
 - [ ] `panelin_truth_bmcuruguay_web_only_v2.json`
 
 ### Archivos de Soporte (Nivel 4):
 - [ ] `panelin_context_consolidacion_sin_backend.md`
-- [ ] `Aleros.rtf` o `Aleros -2.rtf` (convertir a .txt/.md si es necesario)
-- [ ] `panelin_truth_bmcuruguay_catalog_v2_index.csv`
-
-### Archivos Opcionales:
-- [ ] `BMC_Catalogo_Completo_Shopify (1).json` (si está disponible)
+- [ ] `Aleros -2.rtf`
+- [ ] `PANELIN_QUOTATION_PROCESS.md`
+- [ ] `PANELIN_TRAINING_GUIDE.md`
+- [ ] `GPT_INSTRUCTIONS_PRICING.md`
+- [ ] `GPT_PDF_INSTRUCTIONS.md`
+- [ ] `GPT_OPTIMIZATION_ANALYSIS.md`
 
 ---
 
-## 🔍 Cómo Usar Cada Archivo
+## Cómo Usar Cada Archivo
 
-### Para Precios:
+### Para Precios de Paneles:
 1. **PRIMERO**: Consultar `BMC_Base_Conocimiento_GPT-2.json`
 2. **SEGUNDO**: Verificar en `panelin_truth_bmcuruguay_web_only_v2.json` si hay actualización
 3. **NUNCA**: Usar `BMC_Base_Unificada_v4.json` como fuente primaria
 
-### Para Fórmulas:
-1. **SIEMPRE**: Usar fórmulas de `formulas_cotizacion` en `BMC_Base_Conocimiento_GPT-2.json`
-2. **NUNCA**: Inventar o modificar fórmulas
+### Para Precios de Accesorios:
+1. **PRIMERO**: Consultar `accessories_catalog.json` para el precio exacto del ítem
+2. **SEGUNDO**: Usar `BMC_Base_Conocimiento_GPT-2.json` → `precios_accesorios_referencia` para precios rápidos de referencia
+3. **SIEMPRE**: Seleccionar el accesorio correcto según espesor y sistema (ver `bom_rules.json`)
 
-### Para BOM y Accesorios:
-1. **CANTIDADES**: Usar reglas de `bom_rules.json`
-2. **PRECIOS**: Usar `accessories_catalog.json`
-3. **UNIDADES**: Normalizar a `m2`, `ml`, `unid`, `kit`
+### Para Fórmulas y BOM:
+1. **FÓRMULAS**: Usar `formulas_cotizacion` en `BMC_Base_Conocimiento_GPT-2.json`
+2. **BOM PARAMÉTRICO**: Usar `bom_rules.json` para cantidades por sistema constructivo
+3. **NUNCA**: Inventar o modificar fórmulas
 
 ### Para Validación Técnica (Autoportancia):
-1. **SIEMPRE**: Consultar autoportancia en `BMC_Base_Conocimiento_GPT-2.json`
-2. **VALIDAR**: Luz del cliente vs autoportancia del panel
-3. **SI NO CUMPLE**: Sugerir espesor mayor o apoyo adicional
+1. **PRIMERO**: Consultar `bom_rules.json` → `autoportancia.tablas`
+2. **TAMBIÉN**: `BMC_Base_Conocimiento_GPT-2.json` → `products` → `espesores` → `autoportancia`
+3. **VALIDAR**: Luz del cliente vs autoportancia del panel
+4. **SI NO CUMPLE**: Sugerir espesor mayor o apoyo adicional
 
 ### Para Comandos SOP:
 1. **CONSULTAR**: `panelin_context_consolidacion_sin_backend.md` para estructura completa
 2. **EJECUTAR**: Comandos según especificación en ese archivo
 
 ### Para Reglas Técnicas Específicas:
-1. **ALEROS**: Consultar `Aleros.rtf` o `Aleros -2.rtf`
+1. **ALEROS**: Consultar `Aleros -2.rtf`
 2. **WORKFLOWS**: Consultar `panelin_context_consolidacion_sin_backend.md`
 
 ---
 
-## ⚠️ Reglas Críticas
+## Reglas Críticas
 
 ### Regla #1: Source of Truth
 - **Nivel 1 siempre gana** en caso de conflicto
-- **Nunca inventar datos** que no estén en Nivel 1
-- **Si no está en Nivel 1**, decir "No tengo esa información"
+- **Nunca inventar datos** que no estén en KB
+- **Si no está en KB**, decir "No tengo esa información"
 
 ### Regla #2: Prioridad de Consulta
-1. Consultar Nivel 1 primero
+1. Consultar Nivel 1 primero (paneles) o Nivel 1.2 (accesorios)
 2. Si no está, verificar Nivel 2 (pero reportar)
 3. Si no está, verificar Nivel 3 (pero validar contra Nivel 1)
 4. Si no está, consultar Nivel 4 para contexto
@@ -229,14 +279,14 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
 
 ---
 
-## 📊 Estructura de Datos Esperada
+## Estructura de Datos Esperada
 
 ### En `BMC_Base_Conocimiento_GPT-2.json`:
 ```json
 {
   "meta": {
-    "version": "5.0-Unified",
-    "fecha": "2026-01-16"
+    "version": "6.0-Unified",
+    "fecha": "2026-01-27"
   },
   "products": {
     "ISODEC_EPS": {
@@ -252,52 +302,22 @@ Esta guía describe todos los archivos que Panelin necesita en su Knowledge Base
   },
   "formulas_cotizacion": {
     "calculo_apoyos": "ROUNDUP((LARGO / AUTOPORTANCIA) + 1)",
-    "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))"
+    "puntos_fijacion_techo": "ROUNDUP(((CANTIDAD * APOYOS) * 2) + (LARGO * 2 / 2.5))",
+    "tortugas_pvc": "PUNTOS * 1",
+    "arandelas_carrocero": "PUNTOS * 1",
+    "fijaciones_perfileria": "ROUNDUP(METROS_LINEALES_TOTALES / 0.30)"
   },
-  "formulas_ahorro_energetico": {
-    "diferencia_resistencia_termica": "RESISTENCIA_MAYOR - RESISTENCIA_MENOR"
-  }
-}
-```
-
-### En `accessories_catalog.json`:
-*(Ejemplo de estructura; reemplazar con precios reales)*
-```json
-{
-  "items": [
-    {
-      "sku": "PERF-BABETA-LAT-0.5-GP-B",
-      "name": "Babeta lateral 0.5 GP Blanco",
-      "unidad": "ml",
-      "largo_std_m": 3.0,
-      "precio_unit_iva_inc": 0.0,
-      "terminaciones": [{"color": "Blanco", "recargo_percent": 0}],
-      "reglas_corte": {"solape_ml": 0.05, "desperdicio_percent": 3},
-      "compatibilidad": {"familia": "ISODEC", "uso": "techo"}
-    }
-  ]
-}
-```
-
-### En `bom_rules.json`:
-*(Ejemplo de estructura; adaptar a reglas reales)*
-```json
-{
-  "techo_isodec": {
-    "panels_needed": "ceil(ancho / ancho_util)",
-    "babeta_lateral_ml": "2 * largo",
-    "frente_inferior_ml": "ancho",
-    "encuentro_muro_ml": "ancho",
-    "fijaciones_unid": "panels_needed * fij_per_panel",
-    "remaches_unid": "round_up(babeta_total_ml / paso_remache_ml)",
-    "silicona_tubos": "ceil(perimetro_expuesto_ml / rendimiento_tubo_ml)"
+  "precios_accesorios_referencia": {
+    "varilla_3_8": 3.81,
+    "tuerca_3_8": 0.15,
+    "taco_3_8": 1.17
   }
 }
 ```
 
 ---
 
-## 🔄 Proceso de Actualización
+## Proceso de Actualización
 
 Cuando se actualiza un archivo en Knowledge Base:
 
@@ -309,28 +329,34 @@ Cuando se actualiza un archivo en Knowledge Base:
 
 ---
 
-## ✅ Checklist de Verificación
+## Checklist de Verificación
 
 Antes de considerar la Knowledge Base completa:
 
 - [ ] `BMC_Base_Conocimiento_GPT-2.json` está subido (Nivel 1)
-- [ ] `accessories_catalog.json` está subido (Nivel 1B)
-- [ ] `bom_rules.json` está subido (Nivel 1C)
+- [ ] `bromyros_pricing_master.json` está subido (Nivel 1)
+- [ ] `accessories_catalog.json` está subido (Nivel 1.2)
+- [ ] `bom_rules.json` está subido (Nivel 1.3)
+- [ ] `bromyros_pricing_gpt_optimized.json` está subido (Nivel 1.5)
+- [ ] `shopify_catalog_v1.json` está subido (Nivel 1.6)
+- [ ] `shopify_catalog_index_v1.csv` está subido (Nivel 1.6)
 - [ ] `BMC_Base_Unificada_v4.json` está subido (Nivel 2)
 - [ ] `panelin_truth_bmcuruguay_web_only_v2.json` está subido (Nivel 3)
 - [ ] `panelin_context_consolidacion_sin_backend.md` está subido (Nivel 4)
-- [ ] `Aleros.rtf` o equivalente está subido (Nivel 4)
+- [ ] `Aleros -2.rtf` o equivalente está subido (Nivel 4)
+- [ ] Todos los archivos de soporte MD están subidos (Nivel 4)
 - [ ] Instrucciones del sistema referencian correctamente la jerarquía
-- [ ] Panelin lee correctamente Nivel 1 para precios
+- [ ] Panelin lee correctamente Nivel 1 para precios de paneles
+- [ ] Panelin lee correctamente Nivel 1.2 para precios de accesorios
 - [ ] Panelin usa correctamente las fórmulas del JSON
 - [ ] Panelin detecta y reporta conflictos correctamente
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Problema: Panelin no lee el archivo correcto
-**Solución**: 
+**Solución**:
 - Verificar que `BMC_Base_Conocimiento_GPT-2.json` esté subido primero
 - Reforzar en instrucciones: "SIEMPRE leer BMC_Base_Conocimiento_GPT-2.json primero"
 
@@ -346,7 +372,19 @@ Antes de considerar la Knowledge Base completa:
 - Agregar ejemplo en instrucciones
 - Probar con caso conocido y comparar resultado
 
+### Problema: Precios de accesorios incorrectos
+**Solución**:
+- Verificar que `accessories_catalog.json` esté subido
+- Confirmar que el GPT consulta este archivo para accesorios (no solo `precios_accesorios_referencia`)
+- Probar: "¿Cuánto cuesta una varilla roscada 3/8?"
+
+### Problema: BOM incompleto
+**Solución**:
+- Verificar que `bom_rules.json` esté subido
+- Confirmar que el GPT selecciona el sistema correcto (techo_isodec_eps, pared_isopanel_eps, etc.)
+- Probar con cotización completa y verificar que incluya todos los accesorios
+
 ---
 
-**Última actualización**: 2026-02-06  
-**Versión**: 2.1 Ultimate
+**Última actualización**: 2026-02-07
+**Versión**: 3.0 (KB v7.0)

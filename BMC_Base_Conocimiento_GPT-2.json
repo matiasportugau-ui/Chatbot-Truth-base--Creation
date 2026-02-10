@@ -337,11 +337,14 @@
     }
   },
   "precios_accesorios_referencia": {
-    "varilla_3_8": 19.9,
-    "tuerca_3_8": 2.0,
-    "taco_3_8": 8.7,
-    "silicona_pomo": 11.89,
-    "gotero_frontal_isodec": 23.88
+    "_nota": "Precios de referencia rápida. Para el catálogo completo con 70+ ítems, consultar accessories_catalog.json",
+    "varilla_3_8": 3.81,
+    "tuerca_3_8": 0.15,
+    "taco_3_8": 1.17,
+    "silicona_pomo": 11.58,
+    "gotero_frontal_isodec_100mm": 19.12,
+    "arandela_carrocero_3_8": 2.05,
+    "tortuga_pvc_blanca": 1.55
   },
   "reglas_negocio": {
     "iva": 0.22,

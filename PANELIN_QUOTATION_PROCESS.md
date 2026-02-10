@@ -1,6 +1,6 @@
 # Panelin - Proceso Completo de Cotización
-**Versión:** 2.0  
-**Fecha:** 2026-01-20  
+**Versión:** 3.0
+**Fecha:** 2026-02-07
 **Para:** Knowledge Base de Panelin
 
 ---

@@ -65,7 +65,7 @@
 
 ### 2.1 `accessories_catalog.json` (NUEVO)
 
-**Ubicación**: `panelin/data/accessories_catalog.json`
+**Ubicación**: `accessories_catalog.json`
 
 **Contenido**: Catálogo completo de accesorios con precios reales extraídos de `normalized_full.csv`:
 
@@ -90,7 +90,7 @@
 
 ### 2.2 `bom_rules.json` (NUEVO)
 
-**Ubicación**: `panelin/data/bom_rules.json`
+**Ubicación**: `bom_rules.json`
 
 **Contenido**: Reglas paramétricas por sistema constructivo:
 
@@ -101,7 +101,7 @@
 | `techo_isodec_pir` | Techo pesado PIR | ISODEC PIR 50-120mm |
 | `pared_isopanel_eps` | Pared/fachada | ISOPANEL EPS 50-250mm |
 | `pared_isowall_pir` | Pared ignífuga | ISOWALL PIR 50-80mm |
-| `camara_frigorifica_isofrig` | Cámaras | ISOFRIG PIR 40-150mm |
+| `pared_isofrig_pir` | Cámaras | ISOFRIG PIR 40-150mm |
 
 **Por cada sistema incluye**:
 1. Fórmulas parametrizadas (con variables y sub-fórmulas)
@@ -221,8 +221,8 @@ ISOWALL_80mm  → luz_max: 5.0m
 
 | Archivo | Acción | Descripción |
 |---------|--------|-------------|
-| `panelin/data/accessories_catalog.json` | NUEVO | Catálogo de accesorios con precios reales |
-| `panelin/data/bom_rules.json` | NUEVO | Reglas BOM parametrizadas por sistema |
+| `accessories_catalog.json` | NUEVO | Catálogo de accesorios con precios reales |
+| `bom_rules.json` | NUEVO | Reglas BOM parametrizadas por sistema |
 | `GPT_OPTIMIZATION_ANALYSIS.md` | NUEVO | Este documento de análisis |
 | `gpt_configs/Panelin_Asistente_Integral_BMC_config_v2.0.json` | ACTUALIZADO | Referencia a nuevos catálogos |
 
