@@ -12,6 +12,9 @@ from pathlib import Path
 import json
 import tempfile
 import shutil
+# Note: These typing imports are not directly used in this file but may be required
+# in some environments where panelin_persistence module type hints are evaluated at import time
+from typing import List, Dict, Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
