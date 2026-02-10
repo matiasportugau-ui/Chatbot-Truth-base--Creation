@@ -23,14 +23,19 @@ from panelin.models.schemas import ProductSpec
 # Default KB path
 DEFAULT_KB_PATH = Path(__file__).parent.parent / "data" / "panelin_truth_bmcuruguay.json"
 
+# Module-level cache for knowledge base
+_KB_CACHE: Optional[Dict[str, Any]] = None
+_KB_PATH_CACHE: Optional[Path] = None
 
-def _load_knowledge_base(kb_path: Optional[Path] = None) -> Dict[str, Any]:
-    """Carga la base de conocimiento desde JSON."""
-    path = kb_path or DEFAULT_KB_PATH
+
+def _get_kb_path() -> Path:
+    """Find and cache the knowledge base path."""
+    global _KB_PATH_CACHE
+    if _KB_PATH_CACHE is not None:
+        return _KB_PATH_CACHE
     
-    # Try multiple possible paths
     possible_paths = [
-        path,
+        DEFAULT_KB_PATH,
         Path(__file__).parent.parent / "panelin_truth_bmcuruguay.json",
         Path(__file__).parent.parent.parent / "panelin_truth_bmcuruguay.json",
         Path(__file__).parent.parent / "data" / "panelin_truth_bmcuruguay.json",
@@ -38,10 +43,31 @@ def _load_knowledge_base(kb_path: Optional[Path] = None) -> Dict[str, Any]:
     
     for p in possible_paths:
         if p.exists():
-            with open(p, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            _KB_PATH_CACHE = p
+            return p
     
     raise FileNotFoundError(f"Knowledge base not found. Tried: {possible_paths}")
+
+
+def _load_knowledge_base(kb_path: Optional[Path] = None) -> Dict[str, Any]:
+    """Carga la base de conocimiento desde JSON con caching."""
+    global _KB_CACHE
+    
+    # Use cache for default path
+    if kb_path is None:
+        if _KB_CACHE is not None:
+            return _KB_CACHE
+        path = _get_kb_path()
+        with open(path, 'r', encoding='utf-8') as f:
+            _KB_CACHE = json.load(f)
+        return _KB_CACHE
+    
+    # Custom path - load directly without cache
+    if kb_path.exists():
+        with open(kb_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    
+    raise FileNotFoundError(f"Knowledge base not found at: {kb_path}")
 
 
 def lookup_product_specs(

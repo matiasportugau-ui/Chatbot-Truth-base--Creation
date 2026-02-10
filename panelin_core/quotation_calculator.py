@@ -19,12 +19,26 @@ class QuotationResult(TypedDict):
 # Path to the Single Source of Truth
 KB_PATH = os.path.join(os.path.dirname(__file__), 'knowledge_base', 'panelin_truth_bmcuruguay.json')
 
+# Module-level cache for catalog
+_CATALOG_CACHE: Optional[Dict[str, Any]] = None
+
+# Pre-defined Decimal constants for repeated use
+DECIMAL_100 = Decimal('100')
+DECIMAL_PLACES = Decimal('0.01')
+
+
 def _load_catalog() -> Dict[str, Any]:
+    """Load catalog with caching to avoid repeated file I/O."""
+    global _CATALOG_CACHE
+    if _CATALOG_CACHE is not None:
+        return _CATALOG_CACHE
+    
     if not os.path.exists(KB_PATH):
         raise FileNotFoundError(f"Knowledge Base not found at {KB_PATH}")
     
     with open(KB_PATH, 'r') as f:
-        return json.load(f)
+        _CATALOG_CACHE = json.load(f)
+    return _CATALOG_CACHE
 
 def calculate_panel_quote(
     panel_type: str,      # "Isopanel", "Isodec", "Isoroof", "Isowall"
@@ -145,10 +159,10 @@ def calculate_panel_quote(
     if total_area < min_order:
          warnings.append(f"Area total {total_area}m2 es menor al mínimo de compra {min_order}m2")
 
-    unit_price = (area_per_unit * d_price).quantize(Decimal('0.01'), ROUND_HALF_UP)
-    subtotal = (unit_price * d_qty).quantize(Decimal('0.01'), ROUND_HALF_UP)
+    unit_price = (area_per_unit * d_price).quantize(DECIMAL_PLACES, ROUND_HALF_UP)
+    subtotal = (unit_price * d_qty).quantize(DECIMAL_PLACES, ROUND_HALF_UP)
     
-    discount_amount = (subtotal * d_discount_pct / Decimal('100')).quantize(Decimal('0.01'), ROUND_HALF_UP)
+    discount_amount = (subtotal * d_discount_pct / DECIMAL_100).quantize(DECIMAL_PLACES, ROUND_HALF_UP)
     total = subtotal - discount_amount
     
     return QuotationResult(

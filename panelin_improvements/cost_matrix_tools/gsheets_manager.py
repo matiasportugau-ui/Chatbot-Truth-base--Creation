@@ -4,9 +4,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import gspread
-from google.oauth2.service_account import Credentials
-
 from .redesign_tool import CostMatrixRedesigner
 
 # Preferred auth (matches tests + modern google-auth)
