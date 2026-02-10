@@ -2,25 +2,25 @@
   "timestamp": "2026-01-20T02:54:35.380379",
   "knowledge_base_analysis": {
     "timestamp": "2026-01-20T02:54:35.378276",
-    "knowledge_base_path": "Files ",
+    "knowledge_base_path": "Files",
     "files_found": [
       {
         "name": "BMC_Base_Conocimiento_GPT.json",
-        "path": "Files /BMC_Base_Conocimiento_GPT.json",
+        "path": "Files/BMC_Base_Conocimiento_GPT.json",
         "exists": false,
         "level": 1,
         "role": "master"
       },
       {
         "name": "BMC_Base_Conocimiento_GPT-2.json",
-        "path": "Files /BMC_Base_Conocimiento_GPT-2.json",
+        "path": "Files/BMC_Base_Conocimiento_GPT-2.json",
         "exists": false,
         "level": 1,
         "role": "master"
       },
       {
         "name": "BMC_Base_Unificada_v4.json",
-        "path": "Files /BMC_Base_Unificada_v4.json",
+        "path": "Files/BMC_Base_Unificada_v4.json",
         "size": 9080,
         "exists": true,
         "level": 2,
@@ -28,7 +28,7 @@
       },
       {
         "name": "panelin_truth_bmcuruguay_web_only_v2.json",
-        "path": "Files /panelin_truth_bmcuruguay_web_only_v2.json",
+        "path": "Files/panelin_truth_bmcuruguay_web_only_v2.json",
         "size": 6528,
         "exists": true,
         "level": 3,
@@ -36,7 +36,7 @@
       },
       {
         "name": "Aleros -2.rtf",
-        "path": "Files /Aleros -2.rtf",
+        "path": "Files/Aleros -2.rtf",
         "size": 2250,
         "exists": true,
         "level": 4,
@@ -44,7 +44,7 @@
       },
       {
         "name": "panelin_truth_bmcuruguay_catalog_v2_index.csv",
-        "path": "Files /panelin_truth_bmcuruguay_catalog_v2_index.csv",
+        "path": "Files/panelin_truth_bmcuruguay_catalog_v2_index.csv",
         "size": 1231,
         "exists": true,
         "level": 4,
@@ -148,10 +148,10 @@
   "validation_results": {
     "level_1_files": [],
     "level_2_files": [
-      "Files /BMC_Base_Unificada_v4.json"
+      "Files/BMC_Base_Unificada_v4.json"
     ],
     "level_3_files": [
-      "Files /panelin_truth_bmcuruguay_web_only_v2.json"
+      "Files/panelin_truth_bmcuruguay_web_only_v2.json"
     ],
     "validation_errors": [
       "CRITICAL: Level 1 file missing: BMC_Base_Conocimiento_GPT.json",

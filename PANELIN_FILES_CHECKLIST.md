@@ -23,7 +23,7 @@ Checklist completo de todos los archivos necesarios para configurar Panelin.
 
 #### Recomendados:
 - [ ] **`BMC_Base_Unificada_v4.json`**
-  - Ubicación: `Files /BMC_Base_Unificada_v4.json`
+  - Ubicación: `Files/BMC_Base_Unificada_v4.json`
   - Propósito: Validación cruzada y detección de inconsistencias
   - Prioridad: Alta
   - Contenido: Productos validados contra 31 presupuestos reales
@@ -34,7 +34,7 @@ Checklist completo de todos los archivos necesarios para configurar Panelin.
 
 #### Recomendados:
 - [ ] **`panelin_truth_bmcuruguay_web_only_v2.json`**
-  - Ubicación: `panelin_truth_bmcuruguay_web_only_v2.json` o `Files /panelin_truth_bmcuruguay_web_only_v2.json`
+  - Ubicación: `panelin_truth_bmcuruguay_web_only_v2.json` o `Files/panelin_truth_bmcuruguay_web_only_v2.json`
   - Propósito: Verificación de precios actualizados y estado de stock
   - Prioridad: Alta
   - Contenido: Snapshot público de la web, precios actualizados
@@ -51,14 +51,14 @@ Checklist completo de todos los archivos necesarios para configurar Panelin.
   - Contenido: Comandos SOP, estructura Ledger, gestión de contexto
 
 - [ ] **`Aleros.rtf`** o **`Aleros -2.rtf`**
-  - Ubicación: `Files /Aleros -2.rtf`
+  - Ubicación: `Files/Aleros -2.rtf`
   - Propósito: Reglas técnicas específicas de voladizos y aleros
   - Prioridad: Media
   - Contenido: Cálculos de voladizos, fórmulas de span efectivo
   - **Nota**: Si OpenAI no acepta .rtf, convertir a .txt o .md primero
 
 - [ ] **`panelin_truth_bmcuruguay_catalog_v2_index.csv`**
-  - Ubicación: `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`
+  - Ubicación: `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`
   - Propósito: Índice de productos para búsquedas rápidas
   - Prioridad: Media
   - Contenido: Claves de productos, URLs Shopify, estado de stock
@@ -145,11 +145,11 @@ Estos archivos son para referencia, NO se suben al GPT:
 - `panelin_context_consolidacion_sin_backend.md`
 - `BMC_Catalogo_Completo_Shopify (1).json`
 
-### Archivos en `Files /`:
-- `Files /BMC_Base_Unificada_v4.json`
-- `Files /Aleros -2.rtf`
-- `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`
-- `Files /panelin_truth_bmcuruguay_web_only_v2.json` (puede estar aquí también)
+### Archivos en `Files/`:
+- `Files/BMC_Base_Unificada_v4.json`
+- `Files/Aleros -2.rtf`
+- `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`
+- `Files/panelin_truth_bmcuruguay_web_only_v2.json` (puede estar aquí también)
 
 ---
 
