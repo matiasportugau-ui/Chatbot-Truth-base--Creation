@@ -6,21 +6,22 @@ This directory contains versioned GPT configuration snapshots for the Panelin ch
 
 ```
 gpt_configs/
-├── PanelinV3.2/              # Archived: Pre-PDF template improvements
+├── PanelinV3.2/              # Archived: BOM + Autoportancia (pre-PDF)
 │   ├── VERSION.md
-│   ├── Panelin_Asistente_Integral_BMC_config.json
-│   ├── Panelin_Asistente_Integral_BMC_config_v2.0.json
+│   ├── INSTRUCCIONES_PANELIN_V3.2_ACTUAL.txt  ← Actual V3.2 instructions (11 sections)
+│   ├── Panelin_Asistente_Integral_BMC_config*.json
 │   ├── KB_Indexing_Expert_Agent_config.json
 │   ├── Panelin Knowledge Base Assistant_config.json
-│   ├── INSTRUCCIONES_PANELIN*.txt (6 variants)
+│   ├── INSTRUCCIONES_PANELIN*.txt (6 legacy variants)
 │   ├── kb_analysis_report.json
 │   └── validation_fix_report.json
 │
-├── PanelinV3.3/              # Current: Enhanced PDF generation
+├── PanelinV3.3/              # Current: BOM + Autoportancia + PDF Profesional
 │   ├── VERSION.md
-│   ├── Panelin_GPT_config.json
+│   ├── Panelin_GPT_config.json              ← Full config JSON
+│   ├── INSTRUCCIONES_PANELIN_V3.3.txt       ← Copy-paste ready (12 sections)
 │   └── instructions/
-│       ├── GPT_PDF_INSTRUCTIONS.md
+│       ├── GPT_PDF_INSTRUCTIONS.md           ← PDF workflow (v2.1)
 │       ├── GPT_INSTRUCTIONS_PRICING.md
 │       ├── GPT_OPTIMIZATION_ANALYSIS.md
 │       ├── PANELIN_KNOWLEDGE_BASE_GUIDE.md
@@ -32,10 +33,10 @@ gpt_configs/
 
 ## Version History
 
-| Version | Date | Instructions | Key Features |
-|---------|------|-------------|--------------|
-| **V3.2** | 2026-02-06 | v2.3 Canonical | Quotations, BOM, Accessories, Shopify Catalog, BROMYROS Pricing |
-| **V3.3** | 2026-02-10 | v2.5 Canonical | Enhanced PDF (template v2.1, pre-validation, error handling) |
+| Version | Date | Sections | Key Features |
+|---------|------|----------|--------------|
+| **V3.2** | 2026-02-07 | 11 | BOM Completa, Autoportancia V3.1, 4 KB levels, `/cotizar`, `/autoportancia` |
+| **V3.3** | 2026-02-10 | 12 | + PDF Profesional (branding BMC, `/pdf`, unit_base, pre-validation), expanded KB to 8 levels |
 
 ## How to Use
 
@@ -43,8 +44,10 @@ gpt_configs/
 
 1. Navigate to the **latest version folder** (currently `PanelinV3.3/`)
 2. Read the `VERSION.md` for upload instructions
-3. Copy the `instructions` field from `Panelin_GPT_config.json` into GPT system prompt
-4. Upload all files from `instructions/` as knowledge base documents
+3. Copy content from `INSTRUCCIONES_PANELIN_V3.3.txt` into GPT system prompt
+4. Upload all KB files listed in `deployment.files_to_upload` from `Panelin_GPT_config.json`
+5. Upload `Logo_BMC- PNG.png` for PDF header
+6. Enable capabilities: Code Interpreter (critical), Canvas, Web Browsing, Image Generation
 
 ### Creating a New Version
 
@@ -53,8 +56,10 @@ When making significant changes to GPT configuration:
 1. Create a new folder: `PanelinV3.X/`
 2. Copy files from the previous version
 3. Apply modifications
-4. Create a `VERSION.md` documenting changes
-5. Update this README with the new version entry
+4. Create `INSTRUCCIONES_PANELIN_V3.X.txt` (copy-paste ready)
+5. Create `Panelin_GPT_config.json` (full config with metadata)
+6. Create a `VERSION.md` documenting changes from previous version
+7. Update this README with the new version entry
 
 ### Reverting to a Previous Version
 
