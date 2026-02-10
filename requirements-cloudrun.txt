@@ -1,7 +1,7 @@
 # Cloud Run API - pinned for reproducible builds
 # Only what panelin_agent_v2.api and config need at runtime.
 fastapi==0.115.6
-uvicorn[standard]==0.32.1
+uvicorn[standard]==0.40.0
 python-multipart==0.0.17
 python-dotenv==1.0.1
 pydantic==2.10.3
