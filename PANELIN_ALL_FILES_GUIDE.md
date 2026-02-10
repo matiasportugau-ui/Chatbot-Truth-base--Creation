@@ -157,7 +157,7 @@
 ---
 
 ### BMC_Base_Unificada_v4.json
-**Ubicación**: `Files /BMC_Base_Unificada_v4.json`  
+**Ubicación**: `Files/BMC_Base_Unificada_v4.json`  
 **Nivel**: 2 - VALIDACIÓN  
 **Prioridad**: Alta  
 **Propósito**: Validación cruzada y detección de inconsistencias  
@@ -179,7 +179,7 @@
 ---
 
 ### Aleros.rtf o Aleros -2.rtf
-**Ubicación**: `Files /Aleros -2.rtf`  
+**Ubicación**: `Files/Aleros -2.rtf`  
 **Nivel**: 4 - SOPORTE  
 **Prioridad**: Media  
 **Propósito**: Reglas técnicas específicas de voladizos y aleros  
@@ -190,7 +190,7 @@
 ---
 
 ### panelin_truth_bmcuruguay_catalog_v2_index.csv
-**Ubicación**: `Files /panelin_truth_bmcuruguay_catalog_v2_index.csv`  
+**Ubicación**: `Files/panelin_truth_bmcuruguay_catalog_v2_index.csv`  
 **Nivel**: 4 - SOPORTE  
 **Prioridad**: Media  
 **Propósito**: Índice de productos para búsquedas rápidas  
