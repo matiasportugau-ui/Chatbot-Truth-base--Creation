@@ -46,6 +46,9 @@ Nivel 1 es la fuente maestra y siempre tiene prioridad:
 - [`PANELIN_SETUP_COMPLETE.md`](PANELIN_SETUP_COMPLETE.md) — pasos completos de configuración del asistente.
 - [`QUICK_START_CONFIG.md`](QUICK_START_CONFIG.md) — configuración rápida de entorno y datos.
 - [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md) — detalle de variables de entorno.
+- [`docs/UI_DESIGN_GUIDE.md`](docs/UI_DESIGN_GUIDE.md) — guía completa de diseño de interfaz de usuario.
+- [`docs/UI_QUICK_REFERENCE.md`](docs/UI_QUICK_REFERENCE.md) — referencia rápida para componentes UI.
+- [`docs/UI_COMPONENT_LIBRARY.md`](docs/UI_COMPONENT_LIBRARY.md) — biblioteca visual de componentes.
 - [`SECURITY.md`](SECURITY.md) — políticas de seguridad y manejo de credenciales.
 
 ## Contribuciones
