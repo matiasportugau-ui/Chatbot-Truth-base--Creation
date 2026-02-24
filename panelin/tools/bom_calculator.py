@@ -7,6 +7,12 @@ completo con todos los accesorios, fijaciones y perfilería valorizados.
 PRINCIPIO FUNDAMENTAL: El LLM NUNCA calcula - solo extrae parámetros.
 Toda la aritmética financiera ocurre aquí con tipo Decimal para precisión garantizada.
 
+NEW IN V3.1:
+- Autoportancia (span/load) validation using exact technical specifications
+- Validates 4 product families, ~15 thickness configurations
+- Intelligent recommendations when limits exceeded
+- Optional validation parameter (non-breaking enhancement)
+
 Funciones principales:
 1. calculate_full_quote() - Cotización completa con BOM
 2. validate_autoportancia() - Validación de luz vs autoportancia
@@ -98,6 +104,7 @@ def validate_autoportancia(
     producto_base: str,
     kb_path: Optional[Path] = None,
     bom_rules_path: Optional[Path] = None,
+    safety_margin: float = 0.0,
 ) -> AutoportanciaResult:
     """
     Valida si un panel cumple con autoportancia para la luz dada.
@@ -108,9 +115,21 @@ def validate_autoportancia(
         producto_base: ID del producto (ej: ISODEC_EPS)
         kb_path: Path a la KB principal
         bom_rules_path: Path a las reglas BOM
+        safety_margin: Safety factor as decimal fraction (0.0-1.0). Default 0.0 uses 100% 
+                      of technical specs. Example: 0.15 applies 15% margin, using 85% of 
+                      specs (5.5m becomes 4.675m safe limit)
 
     Returns:
         AutoportanciaResult con cumple/no cumple y recomendación
+        
+    Example:
+        >>> result = validate_autoportancia(
+        ...     espesor_mm=100,
+        ...     luz_m=5.0,
+        ...     producto_base='ISODEC_EPS'
+        ... )
+        >>> print(result['cumple'])  # True
+        >>> print(result['autoportancia_m'])  # 5.5 (exact technical spec)
     """
     kb = _load_json(kb_path or DEFAULT_KB_PATH)
     bom_rules = _load_json(bom_rules_path or BOM_RULES_PATH)
@@ -140,8 +159,17 @@ def validate_autoportancia(
             recomendacion=f"No se encontró dato de autoportancia para {producto_base} {espesor_mm}mm. Consultar con ingeniería.",
         )
 
-    cumple = luz_m <= autoportancia_m
-    margen = ((autoportancia_m - luz_m) / autoportancia_m) * 100 if autoportancia_m > 0 else 0
+    # Apply safety margin to get the maximum safe span
+    # safety_margin = 0.15 means we use 85% of the technical spec (5.5m -> 4.675m)
+    # safety_margin = 0.0 means we use 100% of the technical spec (5.5m -> 5.5m)
+    luz_max_m = autoportancia_m  # Technical specification value
+    span_max_safe_m = luz_max_m * (1.0 - safety_margin)  # Apply safety margin
+    
+    cumple = luz_m <= span_max_safe_m
+    # Calculate margin used as percentage of rated capacity
+    margin_used_pct = (luz_m / luz_max_m) * 100 if luz_max_m > 0 else 0
+    # Calculate safety margin available
+    margen = ((span_max_safe_m - luz_m) / span_max_safe_m) * 100 if span_max_safe_m > 0 else 0
 
     recomendacion = None
     if not cumple:
@@ -149,21 +177,22 @@ def validate_autoportancia(
         all_espesores = sorted(espesores.keys(), key=lambda x: int(x))
         for esp in all_espesores:
             esp_auto = espesores[esp].get("autoportancia")
-            if esp_auto and luz_m <= esp_auto:
+            if esp_auto and luz_m <= esp_auto * (1.0 - safety_margin):
                 recomendacion = (
-                    f"El espesor {espesor_mm}mm (autoportancia {autoportancia_m}m) NO cubre la luz de {luz_m}m. "
-                    f"Recomendación: usar {esp}mm (autoportancia {esp_auto}m) o agregar apoyo intermedio."
+                    f"El espesor {espesor_mm}mm (maximum {luz_max_m:.1f}m per technical specifications) NO cubre la luz de {luz_m}m. "
+                    f"Recomendación: usar {esp}mm (maximum {esp_auto}m) o agregar apoyo intermedio."
                 )
                 break
         if not recomendacion:
             recomendacion = (
-                f"El espesor {espesor_mm}mm (autoportancia {autoportancia_m}m) NO cubre la luz de {luz_m}m. "
+                f"El espesor {espesor_mm}mm (maximum {luz_max_m:.1f}m per technical specifications) NO cubre la luz de {luz_m}m. "
                 f"Se requiere apoyo intermedio adicional."
             )
-    elif margen < 15:
+    else:
+        # Success message
         recomendacion = (
-            f"Cumple pero con margen ajustado ({margen:.0f}%). "
-            f"Considerar espesor mayor para mayor seguridad."
+            f"✓ Span validation PASSED: {luz_m:.1f}m ≤ {span_max_safe_m:.1f}m technical limit "
+            f"(using {margin_used_pct:.1f}% of rated capacity)"
         )
 
     return AutoportanciaResult(
@@ -388,6 +417,7 @@ def calculate_full_quote(
         producto_base=product_id,
         kb_path=kb_path or DEFAULT_KB_PATH,
         bom_rules_path=bom_rules_path or BOM_RULES_PATH,
+        safety_margin=0.0,
     )
 
     # Calculate supports (apoyos)
