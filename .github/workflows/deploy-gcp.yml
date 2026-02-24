@@ -1,0 +1,62 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Deploy to GCP Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  GCP_REGION: us-central1
+  SERVICE_NAME: panelin-api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - id: 'auth'
+      name: 'Authenticate to GCP'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+        service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: 'Configure Docker for Artifact Registry'
+      run: |-
+        gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
+
+    - name: 'Build and push Docker image'
+      run: |-
+        IMAGE="${{ env.GCP_REGION }}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/panelin/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+        docker build -t "${IMAGE}" .
+        docker push "${IMAGE}"
+
+    - name: 'Deploy to Cloud Run'
+      run: |-
+        IMAGE="${{ env.GCP_REGION }}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/panelin/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+        gcloud run deploy ${{ env.SERVICE_NAME }} \
+          --image "${IMAGE}" \
+          --region ${{ env.GCP_REGION }} \
+          --platform managed \
+          --memory 512Mi \
+          --cpu 1 \
+          --timeout 300 \
+          --concurrency 80 \
+          --min-instances 0 \
+          --max-instances 10 \
+          --no-allow-unauthenticated
