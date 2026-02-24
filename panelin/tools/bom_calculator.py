@@ -17,7 +17,9 @@ import json
 import math
 import hashlib
 import uuid
+import unicodedata
 from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+from functools import lru_cache
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 from datetime import datetime
@@ -31,6 +33,7 @@ from panelin.models.schemas import (
 
 # Constants
 DECIMAL_PLACES = Decimal('0.01')
+DECIMAL_100 = Decimal('100')  # Pre-defined for repeated use
 DATA_DIR = Path(__file__).parent.parent / "data"
 # Primary KB with espesores/autoportancia structure
 _PRIMARY_KB = Path(__file__).parent.parent.parent / "BMC_Base_Conocimiento_GPT-2.json"
@@ -38,6 +41,16 @@ _FALLBACK_KB = DATA_DIR / "panelin_truth_bmcuruguay.json"
 DEFAULT_KB_PATH = _PRIMARY_KB if _PRIMARY_KB.exists() else _FALLBACK_KB
 ACCESSORIES_PATH = DATA_DIR / "accessories_catalog.json"
 BOM_RULES_PATH = DATA_DIR / "bom_rules.json"
+
+# Module-level caches
+_JSON_CACHE: Dict[str, Dict[str, Any]] = {}
+_ACCESSORIES_FLAT_CACHE: Optional[List[Dict[str, Any]]] = None
+
+
+@lru_cache(maxsize=256)
+def _strip_accents(s: str) -> str:
+    """Strip accents from string for fuzzy matching. Cached for repeated calls."""
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
 
 
 def _to_decimal(value) -> Decimal:
@@ -56,10 +69,16 @@ def _round_currency(value: Decimal) -> Decimal:
 
 
 def _load_json(path: Path) -> Dict[str, Any]:
-    """Carga un archivo JSON, trying multiple paths."""
+    """Carga un archivo JSON con caching."""
+    cache_key = str(path)
+    if cache_key in _JSON_CACHE:
+        return _JSON_CACHE[cache_key]
+    
     if path.exists():
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            _JSON_CACHE[cache_key] = data
+            return data
 
     # Try alternate locations
     alt_paths = [
@@ -70,9 +89,36 @@ def _load_json(path: Path) -> Dict[str, Any]:
     for alt in alt_paths:
         if alt.exists():
             with open(alt, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                _JSON_CACHE[str(alt)] = data
+                return data
 
     raise FileNotFoundError(f"File not found: {path} (also tried {alt_paths})")
+
+
+def _get_flat_accessories(accessories_path: Optional[Path] = None) -> List[Dict[str, Any]]:
+    """Get flattened list of all accessories with caching."""
+    global _ACCESSORIES_FLAT_CACHE
+    
+    # Determine if we should use cache (only for default path)
+    use_cache = accessories_path is None or (
+        accessories_path.resolve() == ACCESSORIES_PATH.resolve()
+    )
+    
+    if use_cache and _ACCESSORIES_FLAT_CACHE is not None:
+        return _ACCESSORIES_FLAT_CACHE
+    
+    acc_catalog = _load_json(accessories_path or ACCESSORIES_PATH)
+    all_items = []
+    for section_key in ['perfileria_goterones', 'babetas', 'canalones', 'cumbreras',
+                        'perfiles_u', 'perfiles_especiales', 'fijaciones',
+                        'selladores', 'accesorios_varios', 'montantes']:
+        all_items.extend(acc_catalog.get(section_key, []))
+    
+    if use_cache:
+        _ACCESSORIES_FLAT_CACHE = all_items
+    
+    return all_items
 
 
 def _generate_checksum(data: Dict[str, Any]) -> str:
@@ -193,15 +239,8 @@ def lookup_accessory_price(
 
     Returns dict with sku, name, precio_unit_iva_inc, largo_std_m, unidad
     """
-    acc_catalog = _load_json(accessories_path or ACCESSORIES_PATH)
-
-    # Build a flat list of all accessories
-    all_items = []
-    for section_key in ['perfileria_goterones', 'babetas', 'canalones', 'cumbreras',
-                        'perfiles_u', 'perfiles_especiales', 'fijaciones',
-                        'selladores', 'accesorios_varios', 'montantes']:
-        for item in acc_catalog.get(section_key, []):
-            all_items.append(item)
+    # Use cached flattened list for performance
+    all_items = _get_flat_accessories(accessories_path)
 
     # Strategy 1: Exact SKU match
     if sku:
@@ -237,11 +276,7 @@ def lookup_accessory_price(
             return item
 
     # Strategy 5: Match by name/sku containing the tipo keyword and family compatibility
-    # Normalize accents for matching
-    import unicodedata
-    def _strip_accents(s: str) -> str:
-        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
-
+    # Uses module-level _strip_accents for performance
     tipo_norm = _strip_accents(tipo.lower())
     for item in all_items:
         item_name_norm = _strip_accents(item.get("name", "").lower())
