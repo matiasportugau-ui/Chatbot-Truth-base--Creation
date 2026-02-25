@@ -127,6 +127,14 @@
 
 ---
 
+### 9. **Arquitectura_Optima_GPT_Cotizacion_2025.md**
+**Propósito**: Arquitectura 2025 para cotizaciones con agente único y tools deterministas  
+**Cuándo usar**: Para planificar migración desde multi-agente y definir stack 2025  
+**Contenido**:
+- Principio "LLM orquesta, código calcula"
+- Comparativa de modelos y frameworks 2025
+- Arquitectura híbrida con LangGraph 1.0
+- Estrategia de sync Shopify y tests de precisión
 ### 9. **Arquitectura_Optima_Agentes_Cotizacion_2025.md**
 **Proposito**: Arquitectura 2025 single-agent determinista para cotizaciones  
 **Cuando usar**: Para planificar migracion y decisiones de stack  
@@ -214,6 +222,7 @@
 | Checklist_Verificacion_GPT_Configurado.md | ⭐⭐ | | ⭐⭐⭐ | ⭐ |
 | Guia_Crear_GPT_OpenAI_Panelin.md | ⭐⭐ | | ⭐ | |
 | Arquitectura_Ideal_GPT_Panelin.md | ⭐ | | ⭐ | ⭐⭐⭐ |
+| Arquitectura_Optima_GPT_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 | Arquitectura_Optima_Agentes_Cotizacion_2025.md | ⭐ | | ⭐ | ⭐⭐⭐ |
 
 **Leyenda**: ⭐⭐⭐ = Muy útil | ⭐⭐ = Útil | ⭐ = Referencia
@@ -288,6 +297,6 @@
 
 ---
 
-**Última actualización**: 2026-01-20  
+**Última actualización**: 2026-01-28  
 **Versión**: 2.0 Ultimate  
 **Mantenedor**: AI Configuration System
