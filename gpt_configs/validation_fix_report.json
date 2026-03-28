@@ -3,10 +3,10 @@
   "validation_results": {
     "level_1_files": [],
     "level_2_files": [
-      "Files /BMC_Base_Unificada_v4.json"
+      "Files/BMC_Base_Unificada_v4.json"
     ],
     "level_3_files": [
-      "Files /panelin_truth_bmcuruguay_web_only_v2.json"
+      "Files/panelin_truth_bmcuruguay_web_only_v2.json"
     ],
     "validation_errors": [
       "CRITICAL: Level 1 file missing: BMC_Base_Conocimiento_GPT.json",
