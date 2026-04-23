@@ -53,20 +53,20 @@ ARCHIVOS ESENCIALES PARA CONFIGURAR PANELIN
 ⭐ KNOWLEDGE BASE - RECOMENDADOS:
 ---------------------------------
 6. BMC_Base_Unificada_v4.json
-   - Ubicación: Files /BMC_Base_Unificada_v4.json
+   - Ubicación: Files/BMC_Base_Unificada_v4.json
    - Nivel 2 - Validación
 
 7. panelin_truth_bmcuruguay_web_only_v2.json
-   - Ubicación: Raíz o Files /
+   - Ubicación: Raíz o Files/
    - Nivel 3 - Dinámico
 
 8. Aleros.rtf o Aleros -2.rtf
-   - Ubicación: Files /Aleros -2.rtf
+   - Ubicación: Files/Aleros -2.rtf
    - Nivel 4 - Soporte
    - Nota: Convertir a .txt/.md si OpenAI no acepta .rtf
 
 9. panelin_truth_bmcuruguay_catalog_v2_index.csv
-   - Ubicación: Files /panelin_truth_bmcuruguay_catalog_v2_index.csv
+   - Ubicación: Files/panelin_truth_bmcuruguay_catalog_v2_index.csv
    - Nivel 4 - Soporte
 
 
@@ -146,12 +146,12 @@ RAÍZ DEL PROYECTO:
 ./RESUMEN_EJERCICIO_PANELIN.md
 ./RESUMEN_EJERCICIO_COTIZACION_COMPLETA.md
 
-CARPETA Files /:
+CARPETA Files/:
 ---------------
-./Files /BMC_Base_Unificada_v4.json
-./Files /Aleros -2.rtf
-./Files /panelin_truth_bmcuruguay_catalog_v2_index.csv
-./Files /panelin_truth_bmcuruguay_web_only_v2.json
+./Files/BMC_Base_Unificada_v4.json
+./Files/Aleros -2.rtf
+./Files/panelin_truth_bmcuruguay_catalog_v2_index.csv
+./Files/panelin_truth_bmcuruguay_web_only_v2.json
 
 CARPETA gpt_configs/:
 --------------------
@@ -184,7 +184,7 @@ KB NIVEL 1 (MASTER):
 - BMC_Base_Conocimiento_GPT-2.json ⭐
 
 KB NIVEL 2 (VALIDACIÓN):
-- Files /BMC_Base_Unificada_v4.json
+- Files/BMC_Base_Unificada_v4.json
 
 KB NIVEL 3 (DINÁMICO):
 - panelin_truth_bmcuruguay_web_only_v2.json
@@ -194,8 +194,8 @@ KB NIVEL 4 (SOPORTE):
 - PANELIN_QUOTATION_PROCESS.md
 - PANELIN_TRAINING_GUIDE.md
 - panelin_context_consolidacion_sin_backend.md
-- Files /Aleros -2.rtf (convertir si es necesario)
-- Files /panelin_truth_bmcuruguay_catalog_v2_index.csv
+- Files/Aleros -2.rtf (convertir si es necesario)
+- Files/panelin_truth_bmcuruguay_catalog_v2_index.csv
 
 GUÍAS:
 - PANELIN_FULL_CONFIGURATION.md ⭐
@@ -214,10 +214,10 @@ ORDEN DE PRIORIDAD PARA SUBIR A KB
 3. PANELIN_QUOTATION_PROCESS.md
 4. PANELIN_TRAINING_GUIDE.md
 5. panelin_context_consolidacion_sin_backend.md
-6. Files /BMC_Base_Unificada_v4.json
+6. Files/BMC_Base_Unificada_v4.json
 7. panelin_truth_bmcuruguay_web_only_v2.json
-8. Files /Aleros -2.rtf (o convertido)
-9. Files /panelin_truth_bmcuruguay_catalog_v2_index.csv
+8. Files/Aleros -2.rtf (o convertido)
+9. Files/panelin_truth_bmcuruguay_catalog_v2_index.csv
 
 
 ================================================================================

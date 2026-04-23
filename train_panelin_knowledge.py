@@ -34,7 +34,7 @@ MASTER_TRUTH = "panelin_truth_bmcuruguay_web_only_v2.json"
 CONFLICTING_FILES = [
     "BMC_Base_Conocimiento_GPT-2.json",  # ❌ LEAK: Old GPT-2 text base
     "BMC_Catalogo_Completo_Shopify (1).json",  # ❌ LEAK: Unprocessed export
-    "Files /BMC_Base_Unificada_v4.json",  # ❌ LEAK: Version conflict (note: "Files " has space)
+    "Files/BMC_Base_Unificada_v4.json",  # ❌ LEAK: Version conflict
 ]
 
 # Paths

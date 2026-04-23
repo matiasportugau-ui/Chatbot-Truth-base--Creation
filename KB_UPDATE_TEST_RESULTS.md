@@ -152,14 +152,14 @@ crontab -e
 ### Knowledge Base Files Detected
 - ✅ `BMC_Base_Unificada_v4.json` (Level 2) - Needs update
 - ✅ `panelin_truth_bmcuruguay_web_only_v2.json` (Level 3) - Needs update
-- ⚠️ `BMC_Base_Conocimiento_GPT.json` (Level 1) - Not found in "Files " directory
-- ⚠️ `BMC_Base_Conocimiento_GPT-2.json` (Level 1) - Found in root, not in "Files " directory
+- ⚠️ `BMC_Base_Conocimiento_GPT.json` (Level 1) - Not found in `Files/` directory
+- ⚠️ `BMC_Base_Conocimiento_GPT-2.json` (Level 1) - Found in root, not in `Files/` directory
 
 ### Recommendations
 
-1. **Move Level 1 files to "Files " directory:**
+1. **Move Level 1 files to `Files/` directory:**
    ```bash
-   mv BMC_Base_Conocimiento_GPT-2.json "Files /"
+   mv BMC_Base_Conocimiento_GPT-2.json "Files/"
    # If BMC_Base_Conocimiento_GPT.json exists, move it too
    ```
 
