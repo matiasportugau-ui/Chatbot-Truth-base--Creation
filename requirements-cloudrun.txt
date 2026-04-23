@@ -2,7 +2,7 @@
 # Only what panelin_agent_v2.api and config need at runtime.
 fastapi==0.115.6
 uvicorn[standard]==0.32.1
-python-multipart==0.0.17
+python-multipart==0.0.22
 python-dotenv==1.0.1
 pydantic==2.10.3
 keyring==25.2.0
