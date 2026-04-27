@@ -14,9 +14,15 @@ This repository has Copilot instructions that help the AI coding agent understan
 ## 📍 Location
 
 Copilot instructions are stored in:
-- **`.github/copilot-instructions.md`** - Main instructions file
+- **`.github/copilot-instructions.md`** - Main instructions file (repository-wide)
+- **`.github/instructions/`** - Path-specific instructions directory:
+  - `python.instructions.md` - Python-specific guidelines (applies to `**/*.py`)
+  - `json.instructions.md` - JSON file guidelines (applies to `**/*.json`)
+  - `test.instructions.md` - Test file guidelines (applies to `**/test_*.py`)
+- **`.github/agents/`** - Custom agent definitions:
+  - `readme-specialist.md` - Specialized agent for documentation
 
-This follows [GitHub's recommended location](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results) for repository-specific Copilot instructions.
+This follows [GitHub's recommended structure](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions) for repository-specific Copilot instructions.
 
 ## 🎯 What the Instructions Cover
 
@@ -37,6 +43,10 @@ This follows [GitHub's recommended location](https://docs.github.com/en/copilot/
 - Calculator variants (`panelin.tools` vs `panelin_core`)
 - Knowledge base hierarchy (4 levels)
 - Testing structure
+- Path-specific guidelines for:
+  - Python files (Decimal usage, type hints, error handling)
+  - JSON files (knowledge base hierarchy, price formatting)
+  - Test files (pytest patterns, fixtures, parametrization)
 
 ### 4. **Domain Knowledge**
 - BMC Uruguay business context
@@ -66,10 +76,16 @@ This follows [GitHub's recommended location](https://docs.github.com/en/copilot/
 
 When working with GitHub Copilot in this repository:
 
-1. **Copilot will automatically read** `.github/copilot-instructions.md`
+1. **Copilot will automatically read**:
+   - `.github/copilot-instructions.md` for all files
+   - Path-specific instructions based on file type:
+     - Python files get `python.instructions.md` guidance
+     - JSON files get `json.instructions.md` guidance
+     - Test files get `test.instructions.md` guidance
 2. **Follow the coding standards** outlined in the instructions
 3. **Use the examples** provided for common patterns
 4. **Respect the boundaries** defined in CODEOWNERS
+5. **Leverage custom agents** for specialized tasks (e.g., README improvements)
 
 ## 🔧 For Contributors
 
