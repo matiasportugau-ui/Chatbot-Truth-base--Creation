@@ -53,7 +53,56 @@ gcloud secrets add-iam-policy-binding WOLF_API_KEY \
 
 ## Deploy
 
-### Option A: Cloud Build (CI/CD)
+### Option A: GitHub Actions with OIDC (recommended)
+
+The repository includes a GitHub Actions workflow (`.github/workflows/deploy-gcp.yml`) that
+uses **OpenID Connect (OIDC)** with Workload Identity Federation so no long-lived service
+account keys need to be stored as GitHub secrets.
+
+#### One-time GCP setup for OIDC
+
+1. **Create a Workload Identity Pool:**
+
+   ```bash
+   gcloud iam workload-identity-pools create "github-pool" \
+     --location="global" \
+     --display-name="GitHub Actions Pool"
+   ```
+
+2. **Create a Workload Identity Provider:**
+
+   ```bash
+   gcloud iam workload-identity-pools providers create-oidc "github-provider" \
+     --location="global" \
+     --workload-identity-pool="github-pool" \
+     --display-name="GitHub Provider" \
+     --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository" \
+     --attribute-condition="assertion.repository == 'matiasportugau-ui/Chatbot-Truth-base--Creation'" \
+     --issuer-uri="https://token.actions.githubusercontent.com"
+   ```
+
+3. **Grant the service account access via Workload Identity:**
+
+   ```bash
+   PROJECT_ID=$(gcloud config get-value project)
+   SA_EMAIL="panelin-runner@${PROJECT_ID}.iam.gserviceaccount.com"
+   PROJECT_NUMBER=$(gcloud projects describe ${PROJECT_ID} --format='value(projectNumber)')
+
+   gcloud iam service-accounts add-iam-policy-binding ${SA_EMAIL} \
+     --role="roles/iam.workloadIdentityUser" \
+     --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-pool/attribute.repository/matiasportugau-ui/Chatbot-Truth-base--Creation"
+   ```
+
+4. **Add two GitHub repository secrets:**
+   - `GCP_WORKLOAD_IDENTITY_PROVIDER`: The full provider path, e.g.
+     `projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/github-pool/providers/github-provider`
+   - `GCP_SERVICE_ACCOUNT`: The service account email, e.g.
+     `panelin-runner@<PROJECT_ID>.iam.gserviceaccount.com`
+
+After setup, every push to `main` triggers the workflow which authenticates via OIDC, builds the
+Docker image, pushes it to Artifact Registry, and deploys to Cloud Run — all without long-lived keys.
+
+### Option B: Cloud Build (CI/CD)
 
 From repo root:
 
@@ -67,9 +116,9 @@ This builds the image, runs tests, pushes to Artifact Registry, and deploys to C
 - `--service-account panelin-runner@PROJECT_ID.iam.gserviceaccount.com`
 - `--set-secrets "WOLF_API_KEY=WOLF_API_KEY:latest"`
 
-Edit `cloudbuild.yaml` and add those args to the `gcloud run deploy` step, or use Option B for the first deploy.
+Edit `cloudbuild.yaml` and add those args to the `gcloud run deploy` step, or use Option C for the first deploy.
 
-### Option B: Manual first deploy (with secrets)
+### Option C: Manual first deploy (with secrets)
 
 From repo root:
 
@@ -90,7 +139,7 @@ gcloud run deploy panelin-api \
 
 For public access (e.g. health only), use `--allow-unauthenticated` instead of `--no-allow-unauthenticated`.
 
-### Option C: Deploy from existing image
+### Option D: Deploy from existing image
 
 If you already built and pushed the image:
 
